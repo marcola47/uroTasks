@@ -1,0 +1,14 @@
+{
+  "name": "task_manager",
+  "version": "1.0.0",
+  "description": "task manager app similar to trello",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "marcola47",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
