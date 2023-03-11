@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;900&display=swap');
+
+* {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out;}
+html, input, button {font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif;}
+body {overflow-x: hidden;}
+a {text-decoration: none; color: #fff;}
+input {font-size: inherit;}
+ul {list-style: none;}
+
+:root
+{
+  --bg-blue-dark: #16191d;
+  --bg-blue-light: #212935;
+
+  --hl-blue-dark:  #4b99cc;
+  --hl-blue-light: #55ade8;
+
+  --hl-red-dark: #c91818;
+  --hl-red-light: #ff0000;
+
+  --hl-green-dark: #18d284;
+  --hl-green-light: #00ff94;
+
+  --menu-width: 400px;
+  --menu-width-translate: -400px;
+}
+
+.highlight
+{color: var(--hl-blue-light);}
+
+.app
+{
+  position: relative;
+
+  height: 100dvh;
+  width: 100dvw;
+
+  background-color: var(--bg-blue-dark);
+}
+
+/***************************************************************/
+/*** burguer-menu ***/
+.burguer-menu
+{
+  display: flex;
+  flex-direction: column;
+  
+  position: fixed;
+
+  height: 100dvh;
+  width: var(--menu-width);
+  
+  padding: 32px;
+
+  color: #fff;
+  box-shadow: 0px 0px 30px #2a363d86;
+  background-color: var(--bg-blue-light);
+
+  transform-origin: left;
+}
+
+.burguer-menu-is-hidden
+{
+  transform: translateX(var(--menu-width-translate));
+}
+
+.menu-header
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 32px;
+}
+
+.menu-header-burguer-btn
+{
+  font-size: 2.3rem;
+  cursor: pointer;
+}
+
+.menu-header .app-logo:hover 
+{filter: drop-shadow(0px 0px 1px var(--hl-blue-light))}
+
+.menu-header .menu-header-burguer-btn:hover > svg 
+{filter: drop-shadow(0px 0px 1px #fff);}
+
+.menu-upper
+{
+  margin-bottom: 24px;
+
+  font-size: 1.2rem;
+}
+
+.menu-upper-item
+{
+  margin-bottom: 16px;
+  padding: 0px 0px 8px 2px;
+
+  border-bottom: 2px solid var(--hl-blue-light);
+}
+
+.menu-upper-item a
+{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.menu-upper-item:hover
+{text-shadow: 0px 0px 3px #fff;} 
+
+.menu-projects
+{
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  row-gap: 16px;
+}
+
+.menu-projects-header
+{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+.menu-projects-header .fa-chevron-down
+{font-size: 1rem;}
+
+.menu-projects-header:hover
+{filter: drop-shadow(0px 0px 1px #fff);}
+
+.menu-projects-add
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
+
+.menu-projects-add:hover > svg
+{filter: drop-shadow(0px 0px 1px #fff);}
+
+.menu-projects-list
+{
+  grid-column: 1 / 3;
+  grid-row: 2;
+  max-height: 512px;
+  
+  opacity: 0;
+
+  font-size: 0.9rem;
+  overflow-y: auto;
+}
+
+.menu-projects-list-item
+{
+  display: flex;
+  justify-content: space-between;
+
+  padding-block: 12px;
+}
+
+.menu-projects-list-item .item-name
+{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  color: #cecece;
+}
+
+.menu-projects-list-item .total-tasks
+{
+  padding: 1px 8px;
+  border-radius: 3px;
+
+  background: var(--bg-blue-dark);
+}
+
+.menu-projects-list-shown
+{opacity: 1;}
+
+.chevron-rotate
+{transform: rotate(-180deg);}
+
+.menu-user
+{
+  display: grid;
+  grid-template-columns: 2fr 12fr 2fr;
+  gap: 16px;
+
+  margin-top: auto;
+  padding-top: 16px;
+
+  border-top: 3px solid #334150;
+  border-radius: 2px;
+}
+
+.menu-user-pic img
+{
+  width: 48px;
+  border-radius: 5px;
+}
+
+.menu-user-name
+{
+  display: flex;
+  align-items: center;
+
+  font-size: 1.4rem;
+}
+
+.menu-user-signout
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.menu-user-signout:hover
+{filter: drop-shadow(0px 0px 1px #fff);}
+
+/***************************************************************/
+/*** dashboard ***/
+.dashboard
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  position: absolute;
+  left: var(--menu-width);
+
+  min-height: 100dvh;
+  width: calc(100% - var(--menu-width));
+
+  padding: 24px;
+
+  color: #fff;
+}
+
+.move-dashboard
+{
+  width: 100%;
+  left: 0;
+}
+
+.dashboard-burguer-btn
+{
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  
+  opacity: 0;
+  color: #fff;
+
+  font-size: 2rem;
+  pointer-events: none;
+}
+
+.dashboard-burguer-btn:hover > svg 
+{filter: drop-shadow(0px 0px 1px #fff);}
+
+.show-dashboard-burguer-btn
+{
+  opacity: 1;
+  z-index: 3;
+
+  cursor: pointer;
+  pointer-events: initial;
+}
+
+/***************************************************************/
+/*** remove menu and dashboard dependence ***/
+@media screen and (max-width: 1336px) 
+{
+  .burguer-menu
+  {
+    position: absolute;
+    z-index: 2;
+  }  
+
+  .dashboard
+  {
+    position: inherit;
+    width: 100%;
+    left: 0;
+  }
+}
