@@ -1,8 +1,8 @@
 # MERN Task Manager 
 
 ## Instructions
-1. Open 2 terminals, one on the client folder and the other on the server folder
-2. `npm install` -> install dependencies on both client and server folders
+1. Open 2 terminals, one on the client folder and the other on the server folder;
+2. `npm install` -> install dependencies on both client and server folders.
 
 Server commands:
 1. `npm run dev` -> start nodemon server.
