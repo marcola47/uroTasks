@@ -18,26 +18,29 @@ export default function GetProjectData()
     let color = projectColorRef.current.value;
     if (name === '' || color === '') return;
 
-    const newProject = {id: v4(), name: name, color: color, todo: [], doing: [], done: []};
+    const newProject = {id: v4(), active: false, name: name, color: color, todo: [], doing: [], done: []};
+
+    if (projects.length === 0)
+      newProject.active = true;
+      
     const newProjects = [...projects, newProject];
-
     setProjects(newProjects);
-    console.log(`project ${newProject.name} with color ${newProject.color} created`);
-
     showProjectCreator();
 
     projectNameRef.current.value = '';
     projectColorRef.current.value = '';
+
+    console.log(`project ${newProject.name} with color ${newProject.color} created and it is ${(newProject.active) ? 'active' : 'inactive'}`);
   }
 
   return (
     <div className="projects-creator-background" id="projects-creator-background">
-      <div className='btn-close' onClick={showProjectCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
-
       <div className="projects-creator">
         <h2 className="creator-title">CREATE PROJECT <FontAwesomeIcon icon={faBarsProgress}/> </h2>
-        <input className="creator-input" id="input-name" ref={projectNameRef} type="text" placeholder="Name of the project"/>
-        <input className="creator-input" id="input-color" ref={projectColorRef} type="text" placeholder="Color (#f0f0f0)"/>
+        <div className='btn-close' onClick={showProjectCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
+
+        <input className="creator-input" id="input-1" ref={projectNameRef} type="text" placeholder="Name of the project"/>
+        <input className="creator-input" id="input-2" ref={projectColorRef} type="text" placeholder="Color (#f0f0f0)"/>
         <button className="creator-btn" onClick={createProject}>CONFIRM</button>
       </div>
     </div>

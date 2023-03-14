@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './css/common.css';
 
 import Menu from './components/menu';
-import ProjectsCreator from './components/menu-projects-creator';
 import Dashboard from './components/dashboard';
 import ProjectSeeds from './project-seeds';
 
@@ -19,13 +18,21 @@ export default function App()
   function toggleMenu()
   {
     const btnElement = document.getElementById('dashboard-burguer-btn');
-    if (btnElement) btnElement.classList.toggle('show-dashboard-burguer-btn');
+    btnElement.classList.toggle('show-dashboard-burguer-btn');
 
     const menuElement = document.getElementById('menu');
-    if (menuElement) menuElement.classList.toggle('menu-hidden');
+    menuElement.classList.toggle('menu-hidden');
 
     const dashboardElement = document.getElementById('dashboard');
-    if (dashboardElement) dashboardElement.classList.toggle('move-dashboard');
+    dashboardElement.classList.toggle('move-dashboard');
+
+    const searchbarElement = document.getElementById('dashboard-searchbar');
+    
+    if (!menuElement.classList.contains('menu-hidden'))
+      searchbarElement.classList.add('searchbar-when-menu-shown');
+
+    else
+      searchbarElement.classList.remove('searchbar-when-menu-shown');
   }
 
   function showProjectCreator()
@@ -39,7 +46,6 @@ export default function App()
       <div className='dashboard-burguer-btn' id="dashboard-burguer-btn" onClick={toggleMenu}><FontAwesomeIcon icon={faBars}/></div>
       
       <ProjectsContext.Provider value={{projects, setProjects, showProjectCreator}}>
-        <ProjectsCreator/>
         <Menu onClick={toggleMenu}/>
         <Dashboard/>
       </ProjectsContext.Provider>

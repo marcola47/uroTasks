@@ -2,13 +2,16 @@ import { useContext } from "react";
 import { ProjectsContext } from "../app";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  } from '@fortawesome/free-solid-svg-icons';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjectsItem({ tasksItem })
 {
   const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
 
   return (
-    <li className="tasks-list-item">{tasksItem.text}</li>
+    <li className="tasks-list-item">
+      <div className="list-item-text">{tasksItem.text}</div>
+      <div className="list-item-options"><FontAwesomeIcon icon={faPencil}/></div>
+    </li>
   )
 }
