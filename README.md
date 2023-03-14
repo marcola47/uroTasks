@@ -5,11 +5,11 @@
 2. `npm install` -> install dependencies on both client and server folders
 
 Server commands:
-  `npm run dev` -> start nodemon server.
+`npm run dev` -> start nodemon server.
 
 Client commands:
-  `npm start` -> run React project;
-  `npm build` -> build the project for production.
+`npm start` -> run React project;
+`npm build` -> build the project for production.
 
 ## What is it?
 * Basically a  slightly dumbed down Trello clone. 
