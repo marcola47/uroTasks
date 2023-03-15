@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ShowProjectCreatorContext } from '../app';
 
-import ProjectsList from './projects-list';
+import ProjectsList from './projects/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faGear, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -26,9 +26,9 @@ export default function BurguerMenu({ onClick })
         <div className='btn-close' onClick={onClick}><FontAwesomeIcon icon={faXmark}/></div>
       </div>
       
-      <ul className='menu-upper'>
+      {/*<ul className='menu-upper'>
         <li className='menu-upper-item'><a href='/'><FontAwesomeIcon icon={faGear}/>Settings</a></li>
-      </ul>
+      </ul>*/}
 
       <div className='menu-projects'>
         <h2 className='menu-projects-header' onClick={toggleProjects}>Projects <FontAwesomeIcon icon={faChevronUp}/></h2>

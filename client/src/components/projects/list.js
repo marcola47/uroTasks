@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { ProjectsContext } from '../app';
+import { ProjectsContext } from '../../app';
 
-import ProjectsItem from './projects-list-item';
+import ProjectsItem from '../projects/list-item';
 
 function ProjectsItemsList({ projects })
 {

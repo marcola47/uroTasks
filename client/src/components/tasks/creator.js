@@ -1,6 +1,6 @@
 import { useContext, useRef } from 'react';
-import { ActiveProjectContext } from "../app";
-import { ShowTaskCreatorContext } from './dashboard';
+import { ActiveProjectContext } from "../../app";
+import { ShowTaskCreatorContext } from '../dashboard';
 import { v4 } from 'uuid';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

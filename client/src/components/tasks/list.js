@@ -1,4 +1,4 @@
-import TasksItem from './tasks-list-item';
+import TasksItem from './list-item';
 
 function TasksItemsList({ tasks })
 {

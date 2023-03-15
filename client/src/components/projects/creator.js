@@ -1,5 +1,5 @@
 import { useContext, useRef } from 'react';
-import { ProjectsContext, ShowProjectCreatorContext } from "../app";
+import { ProjectsContext, ShowProjectCreatorContext } from "../../app";
 
 import { v4 } from 'uuid';
 

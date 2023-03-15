@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { ProjectsContext, ActiveProjectContext, ToggleMenuContext } from "../app";
+import { ProjectsContext, ActiveProjectContext, ToggleMenuContext } from "../../app";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
