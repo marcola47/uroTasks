@@ -37,7 +37,7 @@ export default function GetProjectData()
 
   return (
     <div className="projects-creator-background" id="projects-creator-background">
-      <div className="projects-creator">
+      <div className="projects-creator" id="projects-creator">
         <h2 className="creator-title">CREATE PROJECT <FontAwesomeIcon icon={faBarsProgress}/> </h2>
         <div className='btn-close' onClick={showProjectCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
 

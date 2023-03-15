@@ -13,7 +13,6 @@ export const ProjectsContext = React.createContext();
 export const ActiveProjectContext = React.createContext();
 
 export const ShowProjectCreatorContext = React.createContext();
-export const ShowTaskCreatorContext = React.createContext();
 
 export default function App() 
 {
@@ -42,15 +41,13 @@ export default function App()
 
   function showProjectCreator()
   {
-    const projectCreatorElement = document.getElementById('projects-creator-background');
-    projectCreatorElement.classList.toggle('projects-creator-shown')       
+    const projectCreatorElement = document.getElementById('projects-creator');
+    projectCreatorElement.classList.toggle('projects-creator-shown')
+
+    const projectCreatorBackgroundElement = document.getElementById('projects-creator-background');
+    projectCreatorBackgroundElement.classList.toggle('projects-creator-background-shown')       
   }
 
-  function showTaskCreator()
-  {
-    const taskCreatorElement = document.getElementById('tasks-creator-background');
-    taskCreatorElement.classList.toggle('tasks-creator-shown')       
-  }
 
   return (
     <div className="app" id='app'>
@@ -60,10 +57,7 @@ export default function App()
         <ProjectsContext.Provider value={{ projects, setProjects}}>
           <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
             <Menu onClick={toggleMenu}/>
-            
-            <ShowTaskCreatorContext.Provider value={showTaskCreator}>
-              <Dashboard/>
-            </ShowTaskCreatorContext.Provider>
+            <Dashboard/>
           </ActiveProjectContext.Provider>
         </ProjectsContext.Provider>
       </ShowProjectCreatorContext.Provider>

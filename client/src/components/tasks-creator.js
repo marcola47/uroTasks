@@ -1,5 +1,6 @@
 import { useContext, useRef } from 'react';
-import { ActiveProjectContext, ShowTaskCreatorContext } from "../app";
+import { ActiveProjectContext } from "../app";
+import { ShowTaskCreatorContext } from './dashboard';
 import { v4 } from 'uuid';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +41,7 @@ export default function GetTaskData()
 
   return (
     <div className="tasks-creator-background" id="tasks-creator-background">
-      <div className="tasks-creator">
+      <div className="tasks-creator" id="tasks-creator">
         <h2 className="creator-title">CREATE TASK <FontAwesomeIcon icon={faBarsProgress}/> </h2>
         <div className='btn-close' onClick={showTaskCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
 

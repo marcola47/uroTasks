@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { ProjectsContext, ActiveProjectContext, ShowTaskCreatorContext } from "../app";
+import React, { useContext } from "react";
+import { ProjectsContext, ActiveProjectContext } from "../app";
 
 import ProjectsCreator from './projects-creator';
 import TasksList from './tasks-list';
@@ -8,12 +8,21 @@ import TasksCreator from './tasks-creator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowDownWideShort, faMagnifyingGlass, faEllipsisVertical, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+export const ShowTaskCreatorContext = React.createContext();
+
 export default function Dashboard()
 {
   const {projects, setProjects} = useContext(ProjectsContext);
   const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
-  const showTaskCreator = useContext(ShowTaskCreatorContext);
 
+  function showTaskCreator()
+  {
+    const taskCreatorElement = document.getElementById('tasks-creator');
+    taskCreatorElement.classList.toggle('tasks-creator-shown')
+
+    const taskCreatorBackgroundElement = document.getElementById('tasks-creator-background');
+    taskCreatorBackgroundElement.classList.toggle('tasks-creator-background-shown')     
+  }
 
   function deleteProject()
   {
@@ -73,9 +82,12 @@ export default function Dashboard()
 
   return (
     <div className="dashboard" id="dashboard">
-      <TasksCreator/>
-      <ProjectsCreator/>
+      <ShowTaskCreatorContext.Provider value={showTaskCreator}>
+        <TasksCreator/>
+      </ShowTaskCreatorContext.Provider>
       
+      <ProjectsCreator/>
+    
       <div className="dashboard-searchbar searchbar-when-menu-shown" id="dashboard-searchbar">
         <FontAwesomeIcon icon={faMagnifyingGlass}/>
         <input type="text" placeholder="Seach tasks, tags or projects"/>
