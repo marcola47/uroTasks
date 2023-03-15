@@ -48,7 +48,7 @@ export default function Dashboard()
         <>
           <div className="dashboard-upper">
             <h1 className="dashboard-upper-title" id="dashboard-project-title">{activeProject.name}</h1>
-            <div className="upper-controls-filter"><FontAwesomeIcon icon={faArrowDownWideShort}/></div>
+            <div className="upper-controls-sort"><FontAwesomeIcon icon={faArrowDownWideShort}/></div>
             <div className="upper-controls-delete_project" onClick={deleteProject}><FontAwesomeIcon icon={faTrashCan}/></div>
             <div className="upper-controls-add_task" onClick={showTaskCreator}><FontAwesomeIcon icon={faPlus}/></div>
           </div>

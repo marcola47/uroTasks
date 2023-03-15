@@ -14,7 +14,7 @@
 
 * {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out;}
 html, input, button, select {font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif;}
-body {overflow-x: hidden;}
+body {overflow-x: hidden; background-color: var(--bg-blue-dark);}
 a {text-decoration: none;}
 ul {list-style: none;}
 
@@ -187,7 +187,7 @@ ul {list-style: none;}
 .menu-projects-list-item
 {
   display: grid;
-  grid-template-columns: 9fr 1fr;
+  grid-template-columns: minmax(0px, 296px) auto;
 
   padding: 12px 0px 12px 16px;
   border-radius: var(--container-border-rad);
@@ -203,8 +203,6 @@ ul {list-style: none;}
   display: flex;
   align-items: center;
   gap: 16px;
-
-  width: 275px;
 
   color: #cecece;
 }
@@ -365,7 +363,7 @@ ul {list-style: none;}
   text-overflow: ellipsis;
 }
 
-.upper-controls-filter
+.upper-controls-sort
 {
   padding: 12px;
   border: 2px solid #fff;
@@ -375,13 +373,13 @@ ul {list-style: none;}
   user-select: none;
 }
 
-.upper-controls-filter:hover
+.upper-controls-sort:hover
 {
   color: var(--bg-blue-light);
   background-color: #fff;
 }
 
-.upper-controls-filter .fa-arrow-down-wide-short
+.upper-controls-sort .fa-arrow-down-wide-short
 {transition: all 0s ease-in-out;}
 
 .upper-controls-add_task
@@ -536,7 +534,7 @@ ul {list-style: none;}
 .tasks-creator
 {
   display: grid;
-  grid-template-columns: 320px 80px 32px;
+  grid-template-columns: minmax(0px, 320px) minmax(0px, 80px) minmax(0px, 32px);
   grid-template-rows: repeat(3, auto);
   gap: 8px;
 
@@ -657,7 +655,7 @@ option
   .searchbar-when-menu-shown
   {
     left: 24px;
-    width: calc(100% - 49px) !important;
+    width: calc(100% - 49px);
   }
 
 }
@@ -685,4 +683,33 @@ option
 {
   .dashboard-tasks
   {grid-template-columns: 1fr;}
+}
+
+@media screen and (max-width: 600px)
+{
+  .dashboard-upper
+  {
+    grid-template-columns: 1fr 1fr 1fr 10fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .dashboard-upper-title
+  {
+    grid-column: 1 / 5;
+  }
+
+  .upper-controls-sort,
+  .upper-controls-add_task,
+  .upper-controls-delete_project
+  {
+    grid-row: 1;
+  }
+}
+
+@media screen and (max-width: 420px) 
+{
+  .menu
+  {
+    width: 100%;
+  }
 }

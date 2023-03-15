@@ -10,8 +10,8 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 // I'll often pull unused variables from this context, but it's better than setting up 3 different contexts.
 export const ProjectsContext = React.createContext();
+export const ToggleMenuContext = React.createContext();
 export const ActiveProjectContext = React.createContext();
-
 export const ShowProjectCreatorContext = React.createContext();
 
 export default function App() 
@@ -56,8 +56,12 @@ export default function App()
       <ShowProjectCreatorContext.Provider value={showProjectCreator}>
         <ProjectsContext.Provider value={{ projects, setProjects}}>
           <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
-            <Menu onClick={toggleMenu}/>
-            <Dashboard/>
+            <ToggleMenuContext.Provider value={toggleMenu}>
+              
+              <Menu onClick={toggleMenu}/>
+              <Dashboard/>
+
+            </ToggleMenuContext.Provider>
           </ActiveProjectContext.Provider>
         </ProjectsContext.Provider>
       </ShowProjectCreatorContext.Provider>

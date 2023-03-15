@@ -1,12 +1,12 @@
 import { useEffect, useContext } from "react";
-import { ProjectsContext } from "../app";
-import { ActiveProjectContext } from "../app";
+import { ProjectsContext, ActiveProjectContext, ToggleMenuContext } from "../app";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjectsItem({ projectsItem })
 {
+  const toggleMenu = useContext(ToggleMenuContext);
   const {projects, setProjects} = useContext(ProjectsContext);
   const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
 
@@ -23,7 +23,9 @@ export default function ProjectsItem({ projectsItem })
     })
 
     setProjects(placeholderProjects);
-
+    
+    if (window.innerWidth <= 724)
+      toggleMenu();
   }
 
   useEffect(() => {setActiveProject(projects.filter(project => project.active === true)[0]);}
