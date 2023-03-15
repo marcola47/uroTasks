@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { ProjectsContext, ActiveProjectContext } from "../app";
 
-import ProjectCreator from './dashboard/project-creator';
-import TaskCreator from './dashboard/task-creator';
+import ProjectCreator from './dashboard/creator-project';
+import TaskCreator from './dashboard/creator-task';
 
 import Tasks from './dashboard/tasks';
 import Searchbar from './dashboard/searchbar';
