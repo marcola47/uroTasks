@@ -7,8 +7,8 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 export default function ProjectsItem({ projectsItem })
 {
   const toggleMenu = useContext(ToggleMenuContext);
-  const {projects, setProjects} = useContext(ProjectsContext);
-  const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
+  const { projects, setProjects } = useContext(ProjectsContext);
+  const { activeProject, setActiveProject } = useContext(ActiveProjectContext);
 
   function activateProject()
   {
@@ -17,7 +17,7 @@ export default function ProjectsItem({ projectsItem })
     const placeholderProjects = projects.map(project => 
     {
       if (project.id === projectsItem.id && project.active === false)
-        return {...project, active: true }
+        return { ...project, active: true }
 
       return project;
     })
@@ -28,17 +28,17 @@ export default function ProjectsItem({ projectsItem })
       toggleMenu();
   }
 
-  useEffect(() => {setActiveProject(projects.filter(project => project.active === true)[0]);}
+  useEffect(() => {setActiveProject(projects.filter(project => project.active === true)[0])}
   , [projects, setActiveProject])
 
   return (
-    <li className='menu-projects-list-item' onClick={activateProject}>
+    <li className='menu-projects-list-item' onClick={ activateProject }>
       <div className='item-data'>
-        <span style={{color: projectsItem.color}}><FontAwesomeIcon icon={faSquare}/></span> 
-        <div className='item-name'>{projectsItem.name}</div>
+        <span style={{ color: projectsItem.color }}><FontAwesomeIcon icon={ faSquare }/></span> 
+        <div className='item-name'>{ projectsItem.name }</div>
       </div> 
   
-      <div className='total-tasks'>{projectsItem.todo.length + projectsItem.doing.length}</div>
+      <div className='total-tasks'>{ projectsItem.todo.length + projectsItem.doing.length }</div>
     </li>
   )
 }

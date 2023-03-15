@@ -1,6 +1,5 @@
 import { useContext, useRef } from 'react';
-import { ActiveProjectContext } from "../../app";
-import { ShowTaskCreatorContext } from '../dashboard';
+import { ActiveProjectContext, ShowTaskCreatorContext } from "../../app";
 import { v4 } from 'uuid';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,26 +11,18 @@ export default function GetTaskData()
   const showTaskCreator = useContext(ShowTaskCreatorContext);
   
   const taskTextRef = useRef();
-  const taskLocationRef = useRef();
+  const taskTypeRef = useRef();
 
   function createTask()
   {
     let text = taskTextRef.current.value;
-    let location = taskLocationRef.current.value;
+    let type = taskTypeRef.current.value;
     if (text === '') return;
 
     const activeProjectCopy = { ...activeProject };
-    const newTask = {id: v4(), text: text};
+    const newTask = { id: v4(), text: text };
 
-    if (location === 'todo')
-      activeProjectCopy.todo.push(newTask)
-      
-    else if (location === 'doing')
-      activeProjectCopy.doing.push(newTask);
-      
-
-    else if (location === 'done')
-      activeProjectCopy.done.push(newTask);
+    activeProjectCopy[type].push(newTask)
 
     setActiveProject(activeProjectCopy);
     showTaskCreator();
@@ -42,18 +33,18 @@ export default function GetTaskData()
   return (
     <div className="tasks-creator-background" id="tasks-creator-background">
       <div className="tasks-creator" id="tasks-creator">
-        <h2 className="creator-title">CREATE TASK <FontAwesomeIcon icon={faBarsProgress}/> </h2>
-        <div className='btn-close' onClick={showTaskCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
+        <h2 className="creator-title">CREATE TASK <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
+        <div className='btn-close' onClick={ showTaskCreator }> <FontAwesomeIcon icon={ faXmark }/> </div>
 
-        <input className="creator-input" id="input-1" ref={taskTextRef} type="text" placeholder="Name of the task"/>
+        <input className="creator-input" id="input-1" ref={ taskTextRef } type="text" placeholder="Name of the task"/>
         <div id="input-2" type="text" placeholder="Color (#f0f0f0)">
-          <select name='location' className="creator-input" defaultValue={"todo"} ref={taskLocationRef}>
+          <select name='location' className="creator-input" defaultValue={"todo"} ref={ taskTypeRef }>
             <option value="todo">To-do</option>
             <option value="doing">Doing</option>
             <option value="done">Done</option>
           </select>
         </div>
-        <button className="creator-btn" onClick={createTask}>CONFIRM</button>
+        <button className="creator-btn" onClick={ createTask }>CONFIRM</button>
       </div>
     </div>
   )

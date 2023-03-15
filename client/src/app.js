@@ -1,17 +1,23 @@
+/** dependencies **/
 import React, { useState } from 'react';
 import './css/common.css';
 
+/** components **/
 import Menu from './components/menu';
 import Dashboard from './components/dashboard';
 import ProjectSeeds from './project-seeds';
 
+/** font-awesome **/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-// I'll often pull unused variables from this context, but it's better than setting up 3 different contexts.
-export const ProjectsContext = React.createContext();
+/** contexts **/
 export const ToggleMenuContext = React.createContext();
+
+export const ProjectsContext = React.createContext();
 export const ActiveProjectContext = React.createContext();
+
+export const ShowTaskCreatorContext = React.createContext();
 export const ShowProjectCreatorContext = React.createContext();
 
 export default function App() 
@@ -45,26 +51,35 @@ export default function App()
     projectCreatorElement.classList.toggle('projects-creator-shown')
 
     const projectCreatorBackgroundElement = document.getElementById('projects-creator-background');
-    projectCreatorBackgroundElement.classList.toggle('projects-creator-background-shown')       
+    projectCreatorBackgroundElement.classList.toggle('tasks-creator-background-shown')     
   }
 
+  function showTaskCreator()
+  {
+    const taskCreatorElement = document.getElementById('tasks-creator');
+    taskCreatorElement.classList.toggle('tasks-creator-shown')
+
+    const taskCreatorBackgroundElement = document.getElementById('tasks-creator-background');
+    taskCreatorBackgroundElement.classList.toggle('tasks-creator-background-shown')     
+  }
 
   return (
     <div className="app" id='app'>
       <div className='dashboard-burguer-btn' id="dashboard-burguer-btn" onClick={toggleMenu}><FontAwesomeIcon icon={faBars}/></div>
       
-      <ShowProjectCreatorContext.Provider value={showProjectCreator}>
-        <ProjectsContext.Provider value={{ projects, setProjects}}>
-          <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
-            <ToggleMenuContext.Provider value={toggleMenu}>
-              
-              <Menu onClick={toggleMenu}/>
-              <Dashboard/>
-
-            </ToggleMenuContext.Provider>
-          </ActiveProjectContext.Provider>
+      <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
+        <ProjectsContext.Provider value={{ projects, setProjects }}>
+          <ToggleMenuContext.Provider value={ toggleMenu }>
+            <ShowTaskCreatorContext.Provider value={ showTaskCreator }>
+              <ShowProjectCreatorContext.Provider value={ showProjectCreator }>
+                <Menu/>
+                <Dashboard/>
+              </ShowProjectCreatorContext.Provider>
+            </ShowTaskCreatorContext.Provider>
+          </ToggleMenuContext.Provider>
         </ProjectsContext.Provider>
-      </ShowProjectCreatorContext.Provider>
+      </ActiveProjectContext.Provider>
+
     </div>
   );
 }
