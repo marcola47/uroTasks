@@ -1,5 +1,6 @@
 import { useContext, useRef } from 'react';
-import { ProjectsContext } from "../app";
+import { ProjectsContext, ShowProjectCreatorContext } from "../app";
+
 import { v4 } from 'uuid';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +8,8 @@ import { faXmark, faBarsProgress } from "@fortawesome/free-solid-svg-icons";
 
 export default function GetProjectData()
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const {projects, setProjects } = useContext(ProjectsContext);
+  const showProjectCreator = useContext(ShowProjectCreatorContext);
   
   const projectNameRef = useRef();
   const projectColorRef = useRef();

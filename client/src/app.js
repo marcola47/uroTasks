@@ -10,10 +10,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 // I'll often pull unused variables from this context, but it's better than setting up 3 different contexts.
 export const ProjectsContext = React.createContext();
+export const ActiveProjectContext = React.createContext();
+
+export const ShowProjectCreatorContext = React.createContext();
+export const ShowTaskCreatorContext = React.createContext();
 
 export default function App() 
 {
   const [projects, setProjects] = useState(ProjectSeeds);
+  const [activeProject, setActiveProject] = useState(projects[0]);
 
   function toggleMenu()
   {
@@ -41,14 +46,27 @@ export default function App()
     projectCreatorElement.classList.toggle('projects-creator-shown')       
   }
 
+  function showTaskCreator()
+  {
+    const taskCreatorElement = document.getElementById('tasks-creator-background');
+    taskCreatorElement.classList.toggle('tasks-creator-shown')       
+  }
+
   return (
     <div className="app" id='app'>
       <div className='dashboard-burguer-btn' id="dashboard-burguer-btn" onClick={toggleMenu}><FontAwesomeIcon icon={faBars}/></div>
       
-      <ProjectsContext.Provider value={{projects, setProjects, showProjectCreator}}>
-        <Menu onClick={toggleMenu}/>
-        <Dashboard/>
-      </ProjectsContext.Provider>
+      <ShowProjectCreatorContext.Provider value={showProjectCreator}>
+        <ProjectsContext.Provider value={{ projects, setProjects}}>
+          <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
+            <Menu onClick={toggleMenu}/>
+            
+            <ShowTaskCreatorContext.Provider value={showTaskCreator}>
+              <Dashboard/>
+            </ShowTaskCreatorContext.Provider>
+          </ActiveProjectContext.Provider>
+        </ProjectsContext.Provider>
+      </ShowProjectCreatorContext.Provider>
     </div>
   );
 }

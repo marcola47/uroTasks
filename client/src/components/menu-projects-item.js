@@ -1,12 +1,14 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { ProjectsContext } from "../app";
+import { ActiveProjectContext } from "../app";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjectsItem({ projectsItem })
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const {projects, setProjects} = useContext(ProjectsContext);
+  const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
 
   function activateProject()
   {
@@ -21,7 +23,11 @@ export default function ProjectsItem({ projectsItem })
     })
 
     setProjects(placeholderProjects);
+
   }
+
+  useEffect(() => {setActiveProject(projects.filter(project => project.active === true)[0]);}
+  , [projects, setActiveProject])
 
   return (
     <li className='menu-projects-list-item' onClick={activateProject}>
@@ -30,7 +36,7 @@ export default function ProjectsItem({ projectsItem })
         <div className='item-name'>{projectsItem.name}</div>
       </div> 
   
-      <div className='total-tasks'>{projectsItem.doing.length}</div>
+      <div className='total-tasks'>{projectsItem.todo.length + projectsItem.doing.length}</div>
     </li>
   )
 }

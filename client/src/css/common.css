@@ -152,7 +152,7 @@ ul {list-style: none;}
   user-select: none;
 }
 
-.menu-projects-header .fa-chevron-down
+.menu-projects-header .fa-chevron-up
 {font-size: 1rem;}
 
 .menu-projects-header:hover
@@ -230,7 +230,7 @@ ul {list-style: none;}
 {opacity: 0;}
 
 .chevron-rotate 
-{transform: rotate(-180deg);}
+{transform: rotate(180deg);}
 
 .menu-user
 {
@@ -381,7 +381,7 @@ ul {list-style: none;}
   background-color: #fff;
 }
 
-.upper-controls-filter .fa-filter
+.upper-controls-filter .fa-arrow-down-wide-short
 {transition: all 0s ease-in-out;}
 
 .upper-controls-add_task
@@ -434,6 +434,7 @@ ul {list-style: none;}
 
   width: 1400px;
   max-width: 100%;
+  
 }
 
 .dashboard-tasks h2
@@ -450,6 +451,8 @@ ul {list-style: none;}
   grid-template-columns: minmax(0, 100%) auto;
   grid-template-rows: auto minmax(0, 100%);
   
+  height: fit-content;
+
   padding: 16px;
   border-radius: var(--container-border-rad);
 

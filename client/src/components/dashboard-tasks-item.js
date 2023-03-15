@@ -6,7 +6,7 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjectsItem({ tasksItem })
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const {projects, setProjects} = useContext(ProjectsContext);
 
   return (
     <li className="tasks-list-item">

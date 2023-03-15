@@ -1,19 +1,19 @@
 import { useContext } from 'react';
-import { ProjectsContext } from '../app';
+import { ShowProjectCreatorContext } from '../app';
 
 import ProjectsList from './menu-projects-list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faGear, faChevronDown, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faGear, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function BurguerMenu({ onClick })
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const showProjectCreator = useContext(ShowProjectCreatorContext);
 
   function toggleProjects()
   {
-    const chevronElement = document.querySelectorAll('.fa-chevron-down');
-    chevronElement[0].classList.toggle('chevron-rotate');
+    const chevronElement = document.querySelectorAll('.fa-chevron-up')[0];
+    chevronElement.classList.toggle('chevron-rotate');
 
     const projectsListElement = document.getElementById('menu-projects-list');
     projectsListElement.classList.toggle('menu-projects-list-hidden')
@@ -31,7 +31,7 @@ export default function BurguerMenu({ onClick })
       </ul>
 
       <div className='menu-projects'>
-        <h2 className='menu-projects-header' onClick={toggleProjects}>Projects <FontAwesomeIcon icon={faChevronDown}/></h2>
+        <h2 className='menu-projects-header' onClick={toggleProjects}>Projects <FontAwesomeIcon icon={faChevronUp}/></h2>
         <div className='menu-projects-add' onClick={showProjectCreator}><FontAwesomeIcon icon={faPlus}/></div>
         
         <ProjectsList />

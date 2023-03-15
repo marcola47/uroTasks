@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import TasksItem from './dashboard-tasks-item';
 
 function TasksItemsList({ tasks })

@@ -1,24 +1,19 @@
 import { useContext } from "react";
-import { ProjectsContext } from "../app";
+import { ProjectsContext, ActiveProjectContext, ShowTaskCreatorContext } from "../app";
 
 import ProjectsCreator from './menu-projects-creator';
 import TasksList from './dashboard-tasks-list';
 import TasksCreator from './dashboard-tasks-creator';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFilter, faMagnifyingGlass, faEllipsisVertical, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faArrowDownWideShort, faMagnifyingGlass, faEllipsisVertical, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export default function Dashboard()
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const {projects, setProjects} = useContext(ProjectsContext);
+  const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
+  const showTaskCreator = useContext(ShowTaskCreatorContext);
 
-  const activeProject = projects.filter(project => project.active === true)[0];
-
-  function showTaskCreator()
-  {
-    const taskCreatorElement = document.getElementById('tasks-creator-background');
-    taskCreatorElement.classList.toggle('tasks-creator-shown')       
-  }
 
   function deleteProject()
   {
@@ -44,9 +39,9 @@ export default function Dashboard()
         <>
           <div className="dashboard-upper">
             <h1 className="dashboard-upper-title" id="dashboard-project-title">{activeProject.name}</h1>
-            <div className="upper-controls-filter"><FontAwesomeIcon icon={faFilter}/> Filter</div>
-            <div className="upper-controls-add_task" onClick={showTaskCreator}><FontAwesomeIcon icon={faPlus}/> Add task</div>
-            <div className="upper-controls-delete_project" onClick={deleteProject}><FontAwesomeIcon icon={faTrashCan}/> Delete Project</div>
+            <div className="upper-controls-filter"><FontAwesomeIcon icon={faArrowDownWideShort}/></div>
+            <div className="upper-controls-delete_project" onClick={deleteProject}><FontAwesomeIcon icon={faTrashCan}/></div>
+            <div className="upper-controls-add_task" onClick={showTaskCreator}><FontAwesomeIcon icon={faPlus}/></div>
           </div>
 
           <div className="dashboard-tasks" id="dashboard-tasks">
@@ -78,7 +73,7 @@ export default function Dashboard()
 
   return (
     <div className="dashboard" id="dashboard">
-      <TasksCreator activeProject={activeProject} showTaskCreator={showTaskCreator}/>
+      <TasksCreator/>
       <ProjectsCreator/>
       
       <div className="dashboard-searchbar searchbar-when-menu-shown" id="dashboard-searchbar">

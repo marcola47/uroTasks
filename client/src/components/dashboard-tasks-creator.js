@@ -1,20 +1,41 @@
 import { useContext, useRef } from 'react';
-import { ProjectsContext } from "../app";
+import { ActiveProjectContext, ShowTaskCreatorContext } from "../app";
 import { v4 } from 'uuid';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faBarsProgress } from "@fortawesome/free-solid-svg-icons";
 
-export default function GetTaskData({ activeProject, showTaskCreator })
+export default function GetTaskData()
 {
-  const {projects, setProjects, showProjectCreator} = useContext(ProjectsContext);
+  const {activeProject, setActiveProject} = useContext(ActiveProjectContext);
+  const showTaskCreator = useContext(ShowTaskCreatorContext);
   
-  const taskNameRef = useRef();
+  const taskTextRef = useRef();
+  const taskLocationRef = useRef();
 
   function createTask()
   {
-    let name = taskNameRef.current.value;
-    if (name === '') return;
+    let text = taskTextRef.current.value;
+    let location = taskLocationRef.current.value;
+    if (text === '') return;
+
+    const activeProjectCopy = { ...activeProject };
+    const newTask = {id: v4(), text: text};
+
+    if (location === 'todo')
+      activeProjectCopy.todo.push(newTask)
+      
+    else if (location === 'doing')
+      activeProjectCopy.doing.push(newTask);
+      
+
+    else if (location === 'done')
+      activeProjectCopy.done.push(newTask);
+
+    setActiveProject(activeProjectCopy);
+    showTaskCreator();
+
+    taskTextRef.current.value = '';
   }
 
   return (
@@ -23,9 +44,9 @@ export default function GetTaskData({ activeProject, showTaskCreator })
         <h2 className="creator-title">CREATE TASK <FontAwesomeIcon icon={faBarsProgress}/> </h2>
         <div className='btn-close' onClick={showTaskCreator}> <FontAwesomeIcon icon={faXmark}/> </div>
 
-        <input className="creator-input" id="input-1" ref={taskNameRef} type="text" placeholder="Name of the task"/>
-        <div id="input-2" ref={taskNameRef} type="text" placeholder="Color (#f0f0f0)">
-          <select name='location' className="creator-input" defaultValue={"todo"}>
+        <input className="creator-input" id="input-1" ref={taskTextRef} type="text" placeholder="Name of the task"/>
+        <div id="input-2" type="text" placeholder="Color (#f0f0f0)">
+          <select name='location' className="creator-input" defaultValue={"todo"} ref={taskLocationRef}>
             <option value="todo">To-do</option>
             <option value="doing">Doing</option>
             <option value="done">Done</option>
