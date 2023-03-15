@@ -1,4 +1,4 @@
-import TasksItem from './dashboard-tasks-item';
+import TasksItem from './tasks-list-item';
 
 function TasksItemsList({ tasks })
 {

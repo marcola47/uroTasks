@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ShowProjectCreatorContext } from '../app';
 
-import ProjectsList from './menu-projects-list';
+import ProjectsList from './projects-list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faGear, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';

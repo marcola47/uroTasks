@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { ProjectsContext, ActiveProjectContext, ShowTaskCreatorContext } from "../app";
 
-import ProjectsCreator from './menu-projects-creator';
-import TasksList from './dashboard-tasks-list';
-import TasksCreator from './dashboard-tasks-creator';
+import ProjectsCreator from './projects-creator';
+import TasksList from './tasks-list';
+import TasksCreator from './tasks-creator';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowDownWideShort, faMagnifyingGlass, faEllipsisVertical, faTrashCan } from '@fortawesome/free-solid-svg-icons';

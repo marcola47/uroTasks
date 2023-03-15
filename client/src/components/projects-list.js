@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ProjectsContext } from '../app';
 
-import ProjectsItem from './menu-projects-item';
+import ProjectsItem from './projects-list-item';
 
 function ProjectsItemsList({ projects })
 {
