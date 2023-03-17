@@ -346,6 +346,7 @@ ul {list-style: none;}
   align-items: end;
   gap: 8px;
 
+  position: relative;
   width: 1400px;
   max-width: 100%;
 
@@ -358,9 +359,48 @@ ul {list-style: none;}
 
 .dashboard-upper-title
 {
+  display: flex;
+
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+
+.taskbar-title-text
+{
+  margin-left: 8px;
+}
+
+.dashboard-upper-title .title-color
+{
+  cursor: pointer;
+}
+
+.dashboard-upper-title .chrome-picker
+{  
+  position: absolute;
+  top: 64px;
+  left: 0;
+
+  z-index: 1;
+}
+
+.color-picker-background
+{
+  position: absolute;
+  width: 100dvw;
+  height: 87dvh;
+    
+  z-index: 1;
+}
+
+.dashboard-upper-title input
+{
+  color: inherit;
+  background-color: inherit;
+
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .upper-controls-sort
@@ -696,6 +736,11 @@ option
   .dashboard-upper-title
   {
     grid-column: 1 / 5;
+  }
+
+  .dashboard-upper-title .color-picker
+  {
+    top: 120px;
   }
 
   .upper-controls-sort,

@@ -4,7 +4,7 @@ import { ShowProjectCreatorContext, ToggleMenuContext } from '../app';
 import ProjectsList from './projects/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faGear, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, /*faGear,*/ faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function BurguerMenu()
 {

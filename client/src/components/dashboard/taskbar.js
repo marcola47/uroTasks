@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import { ProjectsContext, ShowTaskCreatorContext } from "../../app";
 
+import TaskbarTitle from './taskbar-title';
+import TaskbarProjectColor from './taskbar-color';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowDownWideShort, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,6 +16,7 @@ export default function UpperSection({ activeProject })
   {
     let placeholderProjects;
 
+    // if that is the last project, just set the projects to and empty array
     if (projects.length > 1)
     {
       placeholderProjects = projects.filter(project => project.id !== activeProject.id);
@@ -27,7 +31,11 @@ export default function UpperSection({ activeProject })
 
   return (
     <div className="dashboard-upper">
-      <h1 className="dashboard-upper-title" id="dashboard-project-title">{ activeProject.name }</h1>
+      <h1 className="dashboard-upper-title" id="dashboard-project-title">
+        <TaskbarProjectColor/>
+        <TaskbarTitle value={ activeProject.name }/>
+      </h1>
+      
       <div className="upper-controls-sort"><FontAwesomeIcon icon={ faArrowDownWideShort }/></div>
       <div className="upper-controls-delete_project" onClick={ deleteProject }><FontAwesomeIcon icon={ faTrashCan }/></div>
       <div className="upper-controls-add_task" onClick={ showTaskCreator }><FontAwesomeIcon icon={ faPlus }/></div>

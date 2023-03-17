@@ -6,7 +6,7 @@ import TaskCreator from './dashboard/creator-task';
 
 import Tasks from './dashboard/tasks';
 import Searchbar from './dashboard/searchbar';
-import UpperSection from './dashboard/upper-section';
+import UpperSection from './dashboard/taskbar';
 
 export default function Dashboard()
 {
