@@ -65,7 +65,7 @@ export default function ColumnContainer({ taskType })
       <div className="add-task-container">
         {
           editing ? (<input autoFocus type="text" ref={taskTextRef} value={inputValue} onChange={handleInputChange} onBlur={handleSave} onKeyDown={handleKeyDown} />)
-                  : (<button onClick={ () => {setEditing(true)} } className="btn-add-task"><FontAwesomeIcon icon={faPlus}/> Add task</button>)
+                  : (<button onClick={ () => {setEditing(true)} } className="btn-add-task"><FontAwesomeIcon icon={faPlus}/><span> Add task</span></button>)
         }
       </div>
     </div>
