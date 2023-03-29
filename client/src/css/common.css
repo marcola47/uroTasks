@@ -541,13 +541,14 @@ ul {list-style: none;}
 
 .list-item-options:hover
 {
-  background-color: var(--hl-blue-light);
+  background-color: var(--hl-blue-dark);
 }
 
 .list-item-text, .list-item-options
 {
   padding: 12px;
-  border-radius: var(--container-sub-border-rad);
+  border-top-right-radius: var(--container-sub-border-rad);
+  border-bottom-right-radius: var(--container-sub-border-rad);
 }
 
 .add-task-container
