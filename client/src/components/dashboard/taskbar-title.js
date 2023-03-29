@@ -9,10 +9,10 @@ export default function ItemText({ value })
   const [inputValue, setInputValue] = useState(value);
   
   const { projects, setProjects } = useContext(ProjectsContext);
-  const { activeProject, setActiveProject } = useContext(ActiveProjectContext);
+  const { activeProject } = useContext(ActiveProjectContext);
 
   function handleNameChange(newName) 
-  {
+  { 
     const placeholderProjects = projects.map(project => 
       {
         if (project.id === activeProject.id)

@@ -1,11 +1,11 @@
 /** dependencies **/
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import './css/common.css';
 
 /** components **/
 import Menu from './components/menu';
 import Dashboard from './components/dashboard';
-import ProjectSeeds from './project-seeds';
+import ProjectSeeds from './components/utility/project-seeds';
 
 /** font-awesome **/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,10 +20,32 @@ export const ActiveProjectContext = React.createContext();
 export const ShowTaskCreatorContext = React.createContext();
 export const ShowProjectCreatorContext = React.createContext();
 
+export const ReducerContext = React.createContext();
+
+function reducerUI(state, action)
+{
+  switch (action.type)
+  {
+    case 'searchbarSpaced':
+      return { ...state, isSearchbarSpaced: true }
+    
+    case 'searchbarNotSpaced':
+      return { ...state, isSearchbarSpaced: false }
+    
+    default:
+      return state;
+  }
+}
+
 export default function App() 
 {
   const [projects, setProjects] = useState(ProjectSeeds);
   const [activeProject, setActiveProject] = useState(projects[0]);
+
+  const [state_ui, dispatch_ui] = useReducer(reducerUI, 
+  {
+    isSearchbarSpaced: false
+  });
 
   function toggleMenu()
   {
@@ -35,14 +57,12 @@ export default function App()
 
     const dashboardElement = document.getElementById('dashboard');
     dashboardElement.classList.toggle('move-dashboard');
-
-    const searchbarElement = document.getElementById('dashboard-searchbar');
     
-    if (!menuElement.classList.contains('menu-hidden'))
-      searchbarElement.classList.add('searchbar-when-menu-shown');
-
+    if (menuElement.classList.contains('menu-hidden'))
+      dispatch_ui({ type: 'searchbarSpaced' });  
+    
     else
-      searchbarElement.classList.remove('searchbar-when-menu-shown');
+     dispatch_ui({ type: 'searchbarNotSpaced' });  
   }
 
   function showProjectCreator()
@@ -72,14 +92,15 @@ export default function App()
           <ToggleMenuContext.Provider value={ toggleMenu }>
             <ShowTaskCreatorContext.Provider value={ showTaskCreator }>
               <ShowProjectCreatorContext.Provider value={ showProjectCreator }>
-                <Menu/>
-                <Dashboard/>
+                <ReducerContext.Provider value={{ state_ui, dispatch_ui }}>
+                  <Menu/>
+                  <Dashboard/>
+                </ReducerContext.Provider>
               </ShowProjectCreatorContext.Provider>
             </ShowTaskCreatorContext.Provider>
           </ToggleMenuContext.Provider>
         </ProjectsContext.Provider>
       </ActiveProjectContext.Provider>
-
     </div>
   );
 }

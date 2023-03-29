@@ -10,7 +10,7 @@ function ProjectsItemsList({ projects })
 
 export default function ProjectsList()
 {
-  const { projects, setProjects } = useContext(ProjectsContext);
+  const { projects } = useContext(ProjectsContext);
 
   return (
     <ul className='menu-projects-list' id='menu-projects-list'>

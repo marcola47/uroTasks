@@ -4,7 +4,7 @@ import { ShowProjectCreatorContext, ToggleMenuContext } from '../app';
 import ProjectsList from './projects/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, /*faGear,*/ faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function BurguerMenu()
 {
@@ -26,10 +26,6 @@ export default function BurguerMenu()
         <h1 className='app-logo'><a href='/'><span className='highlight'>uro</span><span className="normal">Tasks</span></a></h1>
         <div className='btn-close' onClick={ toggleMenu }><FontAwesomeIcon icon={ faXmark }/></div>
       </div>
-      
-      {/*<ul className='menu-upper'>
-        <li className='menu-upper-item'><a href='/'><FontAwesomeIcon icon={faGear}/>Settings</a></li>
-      </ul>*/}
 
       <div className='menu-projects'>
         <h2 className='menu-projects-header' onClick={ toggleProjects }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
