@@ -1,17 +1,15 @@
 import React, { useContext } from "react";
-import { ProjectsContext, ActiveProjectContext } from "../app";
-
-import ProjectCreator from './dashboard/creator-project';
-import TaskCreator from './dashboard/creator-task';
+import { ProjectsContext } from "../app";
 
 import Tasks from './dashboard/tasks';
 import Searchbar from './dashboard/searchbar';
 import UpperSection from './dashboard/taskbar';
+import ProjectCreator from './dashboard/creator-project';
 
 export default function Dashboard()
 {
-  const { projects, setProjects } = useContext(ProjectsContext);
-  const { activeProject, setActiveProject } = useContext(ActiveProjectContext);
+
+  const { projects } = useContext(ProjectsContext);
 
   function DashboardContent()
   {
@@ -20,8 +18,8 @@ export default function Dashboard()
       return (
         <>
           <Searchbar/>
-          <UpperSection activeProject={ activeProject }/>
-          <Tasks activeProject={ activeProject }/>
+          <UpperSection/>
+          <Tasks/>
         </>
       )
     }
@@ -32,7 +30,6 @@ export default function Dashboard()
 
   return (
     <div className="dashboard" id="dashboard">
-      <TaskCreator/>
       <ProjectCreator/>
       <DashboardContent/>
     </div>

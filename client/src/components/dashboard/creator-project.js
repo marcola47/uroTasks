@@ -1,24 +1,26 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ProjectsContext, ShowProjectCreatorContext } from "../../app";
 
 import { v4 } from 'uuid';
+import { ChromePicker } from 'react-color';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faBarsProgress } from "@fortawesome/free-solid-svg-icons";
 
 export default function GetProjectData()
 {
+  const projectNameRef = useRef();
+  
   const { projects, setProjects } = useContext(ProjectsContext);
   const showProjectCreator = useContext(ShowProjectCreatorContext);
-  
-  const projectNameRef = useRef();
-  const projectColorRef = useRef();
+
+  const [color, setColor] = useState('#0FE19E');
+  const [pickerActive, setPickerActive] = useState(false);
 
   function createProject()
   {
     let name = projectNameRef.current.value;
-    let color = projectColorRef.current.value;
-    if (name === '' || color === '') return;
+    if (name === '') return;
 
     const newProject = { id: v4(), active: false, name: name, color: color, todo: [], doing: [], done: [] };
 
@@ -30,7 +32,27 @@ export default function GetProjectData()
     showProjectCreator();
 
     projectNameRef.current.value = '';
-    projectColorRef.current.value = '';
+  }
+
+  function toggleColorPicker()
+  {
+    setPickerActive(!pickerActive);
+  }
+
+  function ColorPicker()
+  {
+    return (
+      <div>
+        <div onClick={ toggleColorPicker } className='color-picker-background'/>
+        <ChromePicker color={ color } onChangeComplete={ (color) => {setColor(color.hex)} }/> 
+      </div>
+    )
+  }
+
+  function ColorInput()
+  {
+    const colorStyle = {backgroundColor: color, color: color, borderRadius: "3px",};
+    return <div className='input-color' style={colorStyle}>.</div>
   }
 
   return (
@@ -40,7 +62,9 @@ export default function GetProjectData()
         <div className='btn-close' onClick={ showProjectCreator }> <FontAwesomeIcon icon={ faXmark }/> </div>
 
         <input className="creator-input" id="input-1" ref={ projectNameRef } type="text" placeholder="Name of the project"/>
-        <input className="creator-input" id="input-2" ref={ projectColorRef } type="text" placeholder="Color (#f0f0f0)"/>
+        <button className="creator-input" id="input-2" onClick={toggleColorPicker}><ColorInput/></button>
+        {pickerActive ? <ColorPicker/> : null}
+        
         <button className="creator-btn" onClick={ createProject }>CONFIRM</button>
       </div>
     </div>

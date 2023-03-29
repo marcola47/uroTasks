@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ProjectsContext, ShowTaskCreatorContext } from "../../app";
+import { ProjectsContext, ActiveProjectContext, ShowTaskCreatorContext } from "../../app";
 
 import TaskbarTitle from './taskbar-title';
 import TaskbarProjectColor from './taskbar-color';
@@ -7,8 +7,9 @@ import TaskbarProjectColor from './taskbar-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowDownWideShort, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export default function UpperSection({ activeProject })
+export default function UpperSection()
 {
+  const { activeProject } = useContext(ActiveProjectContext);
   const { projects, setProjects } = useContext(ProjectsContext);
   const showTaskCreator = useContext(ShowTaskCreatorContext);
 
@@ -36,9 +37,17 @@ export default function UpperSection({ activeProject })
         <TaskbarTitle value={ activeProject.name }/>
       </h1>
       
-      <div className="upper-controls-sort"><FontAwesomeIcon icon={ faArrowDownWideShort }/></div>
-      <div className="upper-controls-delete_project" onClick={ deleteProject }><FontAwesomeIcon icon={ faTrashCan }/></div>
-      <div className="upper-controls-add_task" onClick={ showTaskCreator }><FontAwesomeIcon icon={ faPlus }/></div>
+      <div className="upper-controls-sort">
+        <FontAwesomeIcon icon={ faArrowDownWideShort }/>
+        <span className='controls-big'> Sort</span>
+        <span className='controls-small'></span>
+      </div>
+
+      <div className="upper-controls-delete_project" onClick={ deleteProject }>
+        <FontAwesomeIcon icon={ faTrashCan }/> 
+        <span className='controls-big'> Delete</span>
+        <span className='controls-small'></span>
+      </div>
     </div>
   )
 }
