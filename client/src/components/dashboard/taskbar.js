@@ -1,17 +1,16 @@
 import { useContext } from 'react';
-import { ProjectsContext, ActiveProjectContext, ShowTaskCreatorContext } from "../../app";
+import { ProjectsContext, ActiveProjectContext } from "../../app";
 
 import TaskbarTitle from './taskbar-title';
 import TaskbarProjectColor from './taskbar-color';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faArrowDownWideShort, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export default function UpperSection()
 {
   const { activeProject } = useContext(ActiveProjectContext);
   const { projects, setProjects } = useContext(ProjectsContext);
-  const showTaskCreator = useContext(ShowTaskCreatorContext);
 
   function deleteProject()
   {

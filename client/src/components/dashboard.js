@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { ProjectsContext } from "../app";
+import { ProjectsContext, UIReducerContext } from "../app";
 
 import Tasks from './dashboard/tasks';
 import Searchbar from './dashboard/searchbar';
 import UpperSection from './dashboard/taskbar';
-import ProjectCreator from './dashboard/creator-project';
+import ProjectCreator from './projects/creator';
 
 export default function Dashboard()
 {
-
   const { projects } = useContext(ProjectsContext);
+  const { state_ui } = useContext(UIReducerContext);
 
   function DashboardContent()
   {
@@ -29,7 +29,7 @@ export default function Dashboard()
   }
 
   return (
-    <div className="dashboard" id="dashboard">
+    <div className={`dashboard ${state_ui.isDashboardMoved ? 'move-dashboard' : ''}`} id="dashboard">
       <ProjectCreator/>
       <DashboardContent/>
     </div>

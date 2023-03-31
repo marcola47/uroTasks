@@ -37,7 +37,7 @@ ul {list-style: none;}
   --menu-width-translate: -400px;
 
   --container-border-rad: 5px;
-  --container-sub-border-rad: 3px;
+  --container-sub-border-rad: 4px;
 }
 
 .highlight
@@ -85,7 +85,7 @@ ul {list-style: none;}
   box-shadow: 0px 0px 15px #2a363d5b;
   background-color: var(--bg-blue-mid);
 
-  z-index: 2;
+  z-index: 3;
 
   transform-origin: left;
 }
@@ -592,8 +592,7 @@ ul {list-style: none;}
 .btn-add-task .fa-plus
 {transition: all 0s ease-in-out;}
 
-.projects-creator-background,
-.tasks-creator-background
+.projects-creator-background
 {
   display: flex;
   justify-content: center;
@@ -601,25 +600,26 @@ ul {list-style: none;}
 
   position: absolute;
   inset: 0;
-  opacity: 0;
 
   height: 100%;
   width: 100%;
 
-  background-color: #16191dc0;
-
-  z-index: -1;
+  background-color: #16191dcb;
 }
 
-.projects-creator-background-shown,
-.tasks-creator-background-shown
+.bg-shown
 {
   opacity: 1;
   z-index: 3;
 }
 
-.projects-creator,
-.tasks-creator
+.bg-hidden
+{
+  opacity: 0;
+  z-index: -1;
+}
+
+.projects-creator
 {
   display: grid;
   grid-template-columns: minmax(0px, 320px) minmax(0px, 80px) minmax(0px, 32px);
@@ -631,13 +631,13 @@ ul {list-style: none;}
 
   color: white;
   background-color: var(--bg-blue-light);
-
-  transform: scale(0.85);
 }
 
-.projects-creator-shown,
-.tasks-creator-shown
+.shown
 {transform: scale(1);}
+
+.hidden
+{transform: scale(0.85);}
 
 .btn-close
 {
@@ -727,25 +727,16 @@ option
   position: absolute;
   left: 24px;
   top: 24px;
+  z-index: 3;
   
-  opacity: 0;
   color: #fff;
 
   font-size: 2rem;
-  pointer-events: none;
+  cursor: pointer;
 }
 
 .dashboard-burguer-btn:hover > svg
 {filter: drop-shadow(0px 0px 1px #fff);}
-
-.show-dashboard-burguer-btn
-{
-  opacity: 1;
-  z-index: 3;
-
-  cursor: pointer;
-  pointer-events: initial;
-}
 
 /***************************************************************/
 /*** 4. mobile ***/
@@ -821,4 +812,3 @@ option
     width: 100%;
   }
 }
-

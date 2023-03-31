@@ -12,29 +12,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 /** contexts **/
-export const ToggleMenuContext = React.createContext();
-
 export const ProjectsContext = React.createContext();
 export const ActiveProjectContext = React.createContext();
 
-export const ShowTaskCreatorContext = React.createContext();
-export const ShowProjectCreatorContext = React.createContext();
-
-export const ReducerContext = React.createContext();
+export const UIReducerContext = React.createContext();
+export const ProjectsReducerContext = React.createContext();
 
 function reducerUI(state, action)
 {
   switch (action.type)
   {
-    case 'searchbarSpaced':
-      return { ...state, isSearchbarSpaced: true }
+    case 'menuHidden'     : return { ...state, isMenuHidden     : !state.isMenuHidden      };
+    case 'dashboardMoved' : return { ...state, isDashboardMoved : !state.isDashboardMoved  };
+    case 'searchbarSpaced': return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+
+    case 'projectCreatorShown': return { ...state, isProjectCreatorShown: !state.isProjectCreatorShown };
     
-    case 'searchbarNotSpaced':
-      return { ...state, isSearchbarSpaced: false }
-    
-    default:
-      return state;
+    default: return state;
   }
+}
+
+function reducerProjects(state, action)
+{
+
 }
 
 export default function App() 
@@ -44,43 +44,17 @@ export default function App()
 
   const [state_ui, dispatch_ui] = useReducer(reducerUI, 
   {
-    isSearchbarSpaced: false
+    isMenuHidden: false,
+    isDashboardMoved: false,
+    isSearchbarSpaced: false,
+    isProjectCreatorShown: false
   });
 
   function toggleMenu()
-  {
-    const btnElement = document.getElementById('dashboard-burguer-btn');
-    btnElement.classList.toggle('show-dashboard-burguer-btn');
-
-    const menuElement = document.getElementById('menu');
-    menuElement.classList.toggle('menu-hidden');
-
-    const dashboardElement = document.getElementById('dashboard');
-    dashboardElement.classList.toggle('move-dashboard');
-    
-    if (menuElement.classList.contains('menu-hidden'))
-      dispatch_ui({ type: 'searchbarSpaced' });  
-    
-    else
-     dispatch_ui({ type: 'searchbarNotSpaced' });  
-  }
-
-  function showProjectCreator()
-  {
-    const projectCreatorElement = document.getElementById('projects-creator');
-    projectCreatorElement.classList.toggle('projects-creator-shown')
-
-    const projectCreatorBackgroundElement = document.getElementById('projects-creator-background');
-    projectCreatorBackgroundElement.classList.toggle('tasks-creator-background-shown')     
-  }
-
-  function showTaskCreator()
-  {
-    const taskCreatorElement = document.getElementById('tasks-creator');
-    taskCreatorElement.classList.toggle('tasks-creator-shown')
-
-    const taskCreatorBackgroundElement = document.getElementById('tasks-creator-background');
-    taskCreatorBackgroundElement.classList.toggle('tasks-creator-background-shown')     
+  { 
+    dispatch_ui({ type: 'menuHidden'      });
+    dispatch_ui({ type: 'dashboardMoved'  });
+    dispatch_ui({ type: 'searchbarSpaced' });  
   }
 
   return (
@@ -89,16 +63,10 @@ export default function App()
       
       <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
         <ProjectsContext.Provider value={{ projects, setProjects }}>
-          <ToggleMenuContext.Provider value={ toggleMenu }>
-            <ShowTaskCreatorContext.Provider value={ showTaskCreator }>
-              <ShowProjectCreatorContext.Provider value={ showProjectCreator }>
-                <ReducerContext.Provider value={{ state_ui, dispatch_ui }}>
-                  <Menu/>
-                  <Dashboard/>
-                </ReducerContext.Provider>
-              </ShowProjectCreatorContext.Provider>
-            </ShowTaskCreatorContext.Provider>
-          </ToggleMenuContext.Provider>
+          <UIReducerContext.Provider value={{ state_ui, dispatch_ui }}>
+            <Menu/>
+            <Dashboard/>
+          </UIReducerContext.Provider>
         </ProjectsContext.Provider>
       </ActiveProjectContext.Provider>
     </div>

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import { ReducerContext } from '../../app';
+import { UIReducerContext } from '../../app';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function Searchbar()
 {
-  const { state_ui } = useContext(ReducerContext);
+  const { state_ui } = useContext(UIReducerContext);
 
   return (
     <>

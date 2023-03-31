@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ShowProjectCreatorContext, ToggleMenuContext } from '../app';
+import { UIReducerContext } from '../app';
 
 import ProjectsList from './projects/list';
 
@@ -8,8 +8,14 @@ import { faXmark, faChevronUp, faPlus, faRightFromBracket } from '@fortawesome/f
 
 export default function BurguerMenu()
 {
-  const showProjectCreator = useContext(ShowProjectCreatorContext);
-  const toggleMenu = useContext(ToggleMenuContext);
+  const { state_ui, dispatch_ui } = useContext(UIReducerContext);
+
+  function toggleMenu()
+  { 
+    dispatch_ui({ type: 'menuHidden'      });
+    dispatch_ui({ type: 'dashboardMoved'  });
+    dispatch_ui({ type: 'searchbarSpaced' });  
+  }
 
   function toggleProjects()
   {
@@ -21,7 +27,7 @@ export default function BurguerMenu()
   }
 
   return (
-    <div className='menu' id='menu'>
+    <div className={`menu ${state_ui.isMenuHidden ? 'menu-hidden' : ''}`} id='menu'>
       <div className='menu-header'>
         <h1 className='app-logo'><a href='/'><span className='highlight'>uro</span><span className="normal">Tasks</span></a></h1>
         <div className='btn-close' onClick={ toggleMenu }><FontAwesomeIcon icon={ faXmark }/></div>
@@ -29,7 +35,7 @@ export default function BurguerMenu()
 
       <div className='menu-projects'>
         <h2 className='menu-projects-header' onClick={ toggleProjects }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
-        <div className='menu-projects-add' onClick={ showProjectCreator }><FontAwesomeIcon icon={ faPlus }/></div>
+        <div className='menu-projects-add' onClick={ () => {dispatch_ui({ type: 'projectCreatorShown' })} }><FontAwesomeIcon icon={ faPlus }/></div>
         
         <ProjectsList />
       </div>

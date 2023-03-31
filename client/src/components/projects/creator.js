@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { ProjectsContext, ShowProjectCreatorContext } from "../../app";
+import { ProjectsContext, UIReducerContext } from "../../app";
 
 import { v4 } from 'uuid';
 import { ChromePicker } from 'react-color';
@@ -12,7 +12,7 @@ export default function GetProjectData()
   const projectNameRef = useRef();
   
   const { projects, setProjects } = useContext(ProjectsContext);
-  const showProjectCreator = useContext(ShowProjectCreatorContext);
+  const { state_ui, dispatch_ui } = useContext(UIReducerContext);
 
   const [color, setColor] = useState('#0FE19E');
   const [pickerActive, setPickerActive] = useState(false);
@@ -22,15 +22,15 @@ export default function GetProjectData()
     let name = projectNameRef.current.value;
     if (name === '') return;
 
-    const newProject = { id: v4(), active: false, name: name, color: color, todo: [], doing: [], done: [] };
+    const newProject = { id: v4(), active: false, name: name, color: color, todo: [], doing: [], done: []};
 
     if (projects.length === 0)
       newProject.active = true;
       
     const newProjects = [...projects, newProject];
     setProjects(newProjects);
-    showProjectCreator();
-
+    
+    dispatch_ui({ type: 'projectCreatorShown' });
     projectNameRef.current.value = '';
   }
 
@@ -56,10 +56,10 @@ export default function GetProjectData()
   }
 
   return (
-    <div className="projects-creator-background" id="projects-creator-background">
-      <div className="projects-creator" id="projects-creator">
+    <div className={`projects-creator-background ${state_ui.isProjectCreatorShown ? 'bg-shown' : 'bg-hidden'}`}>
+      <div className={`projects-creator ${state_ui.isProjectCreatorShown ? 'shown' : 'hidden'}`}>
         <h2 className="creator-title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
-        <div className='btn-close' onClick={ showProjectCreator }> <FontAwesomeIcon icon={ faXmark }/> </div>
+        <div className='btn-close' onClick={ () => {dispatch_ui({ type: 'projectCreatorShown' })} }> <FontAwesomeIcon icon={ faXmark }/> </div>
 
         <input className="creator-input" id="input-1" ref={ projectNameRef } type="text" placeholder="Name of the project"/>
         <button className="creator-input" id="input-2" onClick={toggleColorPicker}><ColorInput/></button>
