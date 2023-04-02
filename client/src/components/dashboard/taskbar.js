@@ -16,7 +16,6 @@ export default function UpperSection()
   {
     let placeholderProjects;
 
-    // if that is the last project, just set the projects to and empty array
     if (projects.length > 1)
     {
       placeholderProjects = projects.filter(project => project.id !== activeProject.id);

@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { ProjectsContext, UIReducerContext } from "../../app";
+import { ProjectsContext, ReducerContext } from "../../app";
 
 import { v4 } from 'uuid';
 import { ChromePicker } from 'react-color';
@@ -7,12 +7,12 @@ import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faBarsProgress } from "@fortawesome/free-solid-svg-icons";
 
-export default function GetProjectData()
+export default function ProjCreator()
 {
   const projectNameRef = useRef();
   
   const { projects, setProjects } = useContext(ProjectsContext);
-  const { state_ui, dispatch_ui } = useContext(UIReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
 
   const [color, setColor] = useState('#0FE19E');
   const [pickerActive, setPickerActive] = useState(false);
@@ -30,7 +30,7 @@ export default function GetProjectData()
     const newProjects = [...projects, newProject];
     setProjects(newProjects);
     
-    dispatch_ui({ type: 'projectCreatorShown' });
+    dispatch({ type: 'projCreatorShown' });
     projectNameRef.current.value = '';
   }
 
@@ -56,10 +56,10 @@ export default function GetProjectData()
   }
 
   return (
-    <div className={`projects-creator-background ${state_ui.isProjectCreatorShown ? 'bg-shown' : 'bg-hidden'}`}>
-      <div className={`projects-creator ${state_ui.isProjectCreatorShown ? 'shown' : 'hidden'}`}>
+    <div className={`projects-creator-background ${state.isProjCreatorShown ? 'bg-shown' : 'bg-hidden'}`}>
+      <div className={`projects-creator ${state.isProjCreatorShown ? 'shown' : 'hidden'}`}>
         <h2 className="creator-title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
-        <div className='btn-close' onClick={ () => {dispatch_ui({ type: 'projectCreatorShown' })} }> <FontAwesomeIcon icon={ faXmark }/> </div>
+        <div className='btn-close' onClick={ () => {dispatch({ type: 'projCreatorShown' })} }> <FontAwesomeIcon icon={ faXmark }/> </div>
 
         <input className="creator-input" id="input-1" ref={ projectNameRef } type="text" placeholder="Name of the project"/>
         <button className="creator-input" id="input-2" onClick={toggleColorPicker}><ColorInput/></button>
