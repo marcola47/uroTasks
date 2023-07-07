@@ -2,7 +2,7 @@
 ![preview](https://github.com/elc1090/project3-urotasks/assets/78169543/ef674720-4f38-433f-b05a-3842e4576ebf)
 
 #### Description
-Task manager inspired by Trello and Clickup
+Task manager inspired by Trello and Click Up, combining what each of them do best in a simple to use and straightforward product.
 
 #### Deploy
 [Deploy link](https://urotasks.onrender.com/)
@@ -19,5 +19,5 @@ Task manager inspired by Trello and Clickup
 - MongoDBAtlas
 
 #### Credits
-- https://fontawesome.com/start
-- https://casesandberg.github.io/react-color/
+- [Fontawesome](https://fontawesome.com/start)
+- [React Color](https://casesandberg.github.io/react-color/)
