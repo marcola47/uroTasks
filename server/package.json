@@ -1,6 +1,6 @@
 {
-  "name": "task_manager",
-  "version": "1.0.0",
+  "name": "urotasks",
+  "version": "0.5.0",
   "description": "task manager app similar to trello",
   "main": "server.js",
   "type": "module",
