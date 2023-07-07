@@ -1,0 +1,87 @@
+$bg-blue-dark: hsl(215, 29%, 7%);
+$bg-blue-mid: hsl(215, 29%, 15%);
+$bg-blue-light: hsl(215, 29%, 23%);
+$bg-overlay: #000000aa;
+
+$white-dark: hsl(0, 0%, 86%);
+$white-light: hsl(0, 0%, 100%);
+
+$grey-dark: #999;
+$grey-light: #b8b8b8;
+
+$blue-dark:  hsl(204, 56%, 55%);
+$blue-light: hsl(204, 76%, 62%);
+
+$purple-dark: hsl(261, 61%, 63%);
+$purple-light: hsl(261, 90%, 73%);
+
+$crimson-dark: hsl(352, 98%, 48%);
+$crimson-light: hsl(352, 98%, 58%);
+
+$red-dark: hsl(0, 80%, 51%);
+$red-light: hsl(0, 100%, 58%);
+
+$green-dark: hsl(155, 71%, 46%);
+$green-light: hsl(155, 100%, 57%);
+
+$menu-w: 420px;
+$menu-w-inv: $menu-w * -1;
+
+$br-big: 6px;
+$br-small: 3px;
+
+@mixin glow-content
+{ filter: drop-shadow(0px 0px 1px $white-light); }
+
+@mixin glow-bg
+{ box-shadow: 0px 0px 20px #ffffff0a; }
+
+@mixin gradient
+{ background: linear-gradient(270deg, rgba(255, 255, 255, 0) 5%, rgba(52, 122, 170, 0.50) 100%); }
+
+
+@keyframes fade_in 
+{
+  from { opacity: 0; }
+  to   { opacity: 1; }  
+}
+
+@keyframes fade_out 
+{
+  from { opacity: 1; }
+  to   { opacity: 0; }  
+}
+
+@keyframes rotate_cw
+{
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes rotate_ccw
+{
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg);   }
+}
+
+@mixin anim_fade_in
+{ animation: fade_in 0.15s forwards ease-in-out; }
+
+@mixin anim_fade_out
+{ animation: fade_out 0.15s forwards ease-in-out; }
+
+@mixin anim_rotate_cw
+{ animation: rotate_cw 2s infinite; }
+
+@mixin anim_rotate_ccw
+{ animation: rotate_ccw 2s infinite; }
+
+@mixin transition-open
+{ 
+  transition-property: opacity, z-index;
+  transition-duration: 0.15s, 0s; 
+  transition-delay: 0s, 0.15s; 
+}
+
+@mixin transition-close
+{ transition: opacity 0.15s 0.05s ease-in-out; }

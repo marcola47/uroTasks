@@ -1,0 +1,32 @@
+@import '../../../css/_variables.scss'; 
+
+.menu
+{
+  display: flex;
+  flex-direction: column;
+  
+  position: fixed;  
+  z-index: 10;
+  
+  width: $menu-w; 
+  height: 100dvh;
+  padding: 32px;
+  
+  color: #fff;
+  background-color: $bg-blue-mid;
+  
+  transform-origin: left;
+  @include glow-bg;
+
+  &--hidden
+  {
+    transform: translateX($menu-w-inv);
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 420px) 
+{
+  .menu
+  { width: 100%; }
+}

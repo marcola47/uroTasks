@@ -1,0 +1,71 @@
+@import '../../../../../css/_variables.scss';
+
+.task
+{  
+  position: relative;
+  width: 100%;
+  padding: 12px;
+  border-radius: $br-small;
+
+  background-color: $bg-blue-light;
+
+  cursor: pointer;
+
+  &__position
+  {
+    position: absolute;
+    left: 4px;
+    top: 2px;
+
+    color: #aaaaaa;
+
+    font-size: 0.6rem;
+  }
+
+  &__text
+  {
+    word-break: break-all;
+    white-space: pre-wrap
+  }
+
+  &:hover > &__options
+  { opacity: 1; }
+
+  &__options
+  {
+    opacity: 0; 
+    z-index: 5;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 42px;
+    height: 42px;
+    border-radius: $br-small;
+
+    background-color: $bg-blue-light;
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+    user-select: none;
+
+    &:hover
+    { 
+      color: $bg-blue-light;
+      background-color: #fff;
+    }
+
+    &__icon
+    { 
+      display: grid;
+      place-items: center;
+    
+      width: 42px; 
+      height: 42px;
+    }
+
+    & > *
+    { transition: all 0s 0s ease-in-out; }
+  }
+}

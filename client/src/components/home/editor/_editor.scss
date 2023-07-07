@@ -1,0 +1,194 @@
+@import '../../../css/variables';
+
+.editable__bg
+{
+  z-index: -100;
+  opacity: 0;
+
+  position: absolute;
+  inset: 0;
+
+  background-color: $bg-overlay;
+  
+  transition-property: opacity, z-index;
+  transition-duration: 0.15s, 0s; 
+  transition-delay: 0s, 0.15s; 
+
+
+  &--shown
+  { 
+    opacity: 1; 
+    z-index: 99;
+    @include transition-close;
+  }
+}
+
+.editable
+{
+  z-index: -100;
+  opacity: 0;
+
+  position: absolute;
+  height: fit-content;
+  border-radius: $br-small;
+
+  color: #fff;
+  background-color: $bg-blue-light;
+
+  @include transition-open;
+
+  &--shown
+  { 
+    opacity: 1; 
+    z-index: 100;
+    @include transition-close;
+  }
+
+  textarea
+  {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: -4px;
+    border-radius: $br-small;
+
+    color: inherit;
+    background-color: inherit;
+  
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .options
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    position: absolute;
+    top: 0px;
+    right: -46px;
+
+    cursor: default;
+    user-select: none;
+
+    .option
+    {
+      opacity: 1; 
+      z-index: 5;
+
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: $br-small; 
+
+      color: $bg-blue-dark;
+      background-color: $white-dark;
+
+      font-size: 1.2rem;
+
+      cursor: pointer;
+      pointer-events: all;
+      user-select: none;
+
+      &:hover
+      { background-color: #fff; }
+
+      &--position
+      { 
+        &--up
+        { border-radius: $br-small $br-small 0 0; }
+
+        &--down
+        {
+          margin-top: -4px;
+          border-radius: 0 0 $br-small $br-small;
+        }
+      }
+
+      &--remove
+      { 
+        color: #fff;
+        background-color: $red-dark; 
+
+        &:hover 
+        { background-color: lighten($red-dark, 5%); }
+      }
+
+      &__icon
+      { 
+        display: grid;
+        place-items: center;
+      
+        width: 42px; 
+        height: 42px;
+      }
+    }
+
+    &__select
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      
+      opacity: 0;
+
+      position: absolute;
+      top: 92px;
+      left: -112px;
+      
+      padding: 8px;
+      border: 2px solid $white-dark;
+      border-radius: $br-big;
+
+      background-color: $bg-blue-mid;
+
+      font-size: 1.2rem;
+      font-weight: 400;
+
+      pointer-events: none;
+      cursor: default;
+
+      &--shown
+      {
+        opacity: 1;
+        pointer-events: initial;
+        cursor: pointer;
+      }
+
+      & > *
+      {
+        width: 88px;
+        height: 40px;
+      }
+    }
+
+    &__location
+    { 
+      display: grid;
+      place-items: center;
+
+      border-radius: $br-small;
+
+      color: $bg-blue-dark;
+      background-color: $white-dark;
+
+      &--selected, &:hover
+      { background-color: #fff; }
+    }
+
+    &__submit
+    {
+      left: 0px;
+      border-radius: $br-small;
+
+      color: #fff;
+      background-color: $blue-dark;
+
+      font-size: inherit;
+      cursor: pointer;
+
+      &:hover
+      { background-color: $blue-light; }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+@import '../../../../css/variables';
+
+.searchbar
+{
+  position: relative;
+
+  width: 1400px;
+  max-width: 100%;
+
+  margin-bottom: 48px;
+  border-radius: $br-big;
+
+  background-color: $bg-blue-light;
+
+  @include glow-bg;
+
+  .fa-magnifying-glass
+  {
+    position: absolute;
+    top: 25%;
+    left: 16px;
+
+    font-size: 1.3rem;
+    margin-right: 12px;
+  }
+
+  input
+  {
+    width: 96%;
+    padding: 12px 12px 12px 48px;
+    border-radius: $br-big;
+
+    color: #fff;
+    background-color: inherit;
+
+    &::placeholder
+    { color: #afaeae; }
+  }
+}
+
+@media screen and (max-width: 1542px)
+{
+  .searchbar
+  {
+    position: absolute;
+    left: 72px;
+    top: 22px;
+    
+    width: calc(100% - 96px);  
+  }
+}
+
+@media screen and (min-width: 1337px) and (max-width: 1542px)
+{
+  .searchbar--menu-shown
+  {
+    left: 24px;
+    width: calc(100% - 49px);
+  }
+}

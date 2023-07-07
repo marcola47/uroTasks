@@ -1,22 +1,33 @@
-# MERN Task Manager 
+# UroTasks
+![preview](https://github.com/elc1090/project3-urotasks/assets/78169543/ef674720-4f38-433f-b05a-3842e4576ebf)
 
-## Instructions
-1. Open 2 terminals, one on the client folder and the other on the server folder;
-2. `npm install` -> install dependencies on both client and server folders.
+#### Descrição
+Task manager inspirado no Trello só que mais focado e mais organizado
 
-Server commands:
-1. `npm run dev` -> start nodemon server.
+#### Deploy
+[Link do deploy](https://urotasks.onrender.com/)
 
-Client commands:
-1. `npm start` -> run React project;
-2. `npm build` -> build the project for production.
+#### Desenvolvedor(es)
+- Marcos Eduardo Mori Kaminski
+- Ana Clara Boniatti Bordin
 
-## What is it?
-* Basically a  slightly dumbed down Trello clone. 
+#### Tecnologias
+- Node.js (v16.19.1)
+- React (v18.2.0)
+- MongoDB (v6.0.5)
+- SASS (v1.63.3)
 
-## Observations:
-* For now, I'm only doing the front-end and making it function properly, when I'm satisfied, I'll start working on the back-end.
+#### Ambiente de desenvolvimento
+- VSCode
+- MongoDBCompass
+- MongoDBAtlas
 
-* By no means this is professional sofware, only for practicing purposes, as there are much better software for this out there.
+#### Créditos
+- https://fontawesome.com/start
+- https://casesandberg.github.io/react-color/
 
-* This is basically my first 'big' project using React and Node, the others I made were simple lists and the classic calculator. So, I guess there is a lot to learn from this, especially considering this is my first real tackle at full stack development.
+#### Bastidores
+Foi um projeto muito bom pra aprender a usar react hooks e saber como manejar state num geral, usar algumas coisas como react color foram bem mais complicadas do que esperado, mesmo sendo relativamente simples de usar. MongoDB/noSQL foi a melhor criação do ser humano, incluseive o MongoDBCompass e o MongoDBAtlas, duas ferramentas sensacionais e fáceis de usar. Num geral, foi muito legal desenvolver este projeto.
+
+---
+Projeto entregue para a disciplina de [Desenvolvimento de Software para a Web](http://github.com/andreainfufsm/elc1090-2023a) em 2023a

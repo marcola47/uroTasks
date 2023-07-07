@@ -1,0 +1,10 @@
+for (let i = 0; i < projects.length; i++)
+{
+  let activeTasks = 0;
+
+  for (let j = 0; j < projects[i].tasks.length; j++)
+    if (projects[i].tasks[j].type === 'todo' || projects[i].tasks[j].type === 'doing')
+      activeTasks++;
+
+  projects[i].set('activeTasks', activeTasks);
+}

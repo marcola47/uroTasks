@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;900&display=swap');
+@import './_variables.scss';
+@import './_imports.scss';
+
+/***************************************************************************************************************/
+/* global styles */
+*
+{ margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out; }
+
+
+html, input, button 
+{ font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif; }
+
+body 
+{ background-color: $bg-blue-dark }
+
+a 
+{ text-decoration: none; color: #fff; }
+
+ul 
+{ list-style: none; }
+
+button
+{ cursor: pointer; }
+
+textarea 
+{ resize: none; }
+
+::-webkit-scrollbar   
+{ width: 0px; }
+
+/***************************************************************************************************************/
+/* app */
+.app
+{
+  opacity: 1;
+
+  position: relative;
+
+  height: 100dvh;
+  width: 100dvw;
+
+  overflow-x: hidden;
+
+  animation: ease-in-out 1s forwards fade_in;
+}
+
+/***************************************************************************************************************/
+/* utils */
+.loading
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  color: #fff;
+
+  img
+  { 
+    width: 240px;
+    @include anim_rotate_cw; 
+  }
+}
+
+.btn--glow
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  
+  color: #fff;
+
+  font-size: 2.3rem;
+  cursor: pointer;
+
+  &:hover > svg
+  { @include glow-content }
+}
+
+@media screen and (max-width: 1336px) 
+{
+  html
+  { font-size: 14px; }
+}

@@ -1,0 +1,46 @@
+@import '../../../../css/_variables.scss';
+
+.user
+{
+  display: grid;
+  grid-template-columns: 12fr 2fr;
+
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 3px solid #334150;
+  border-radius: $br-small;
+
+  .user__data
+  {
+    display: flex;
+    align-items: center;  
+    gap: 16px;
+
+    .user__img
+    {
+      width: 48px;
+      border-radius: $br-big;
+    }
+      
+    .user__name
+    {
+      display: flex;
+      align-items: center;
+    
+      font-size: 1.4rem;
+    }
+  }
+
+  .user__signout
+  {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    &:hover
+    { @include glow-content }
+  }
+}

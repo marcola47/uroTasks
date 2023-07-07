@@ -1,0 +1,65 @@
+@import '../../../css/_variables.scss';
+
+.dashboard
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  
+  position: absolute;
+  left: $menu-w;
+
+  min-height: 100dvh;
+  width: calc(100% - $menu-w);  
+  padding: 24px;
+
+  color: #fff;
+  background-color: $bg-blue-dark;
+
+  animation: ease-in-out 1s forwards fade-in;
+
+  &--moved
+  {
+    width: 100%;
+    left: 0;
+  }
+
+  &__burger
+  {
+    position: absolute;
+    left: 24px;
+    top: 26px;
+    z-index: 3;
+    
+    color: #fff;
+
+    font-size: 2rem;
+    cursor: pointer;
+
+    &:hover > svg
+    { filter: drop-shadow(0px 0px 1px #fff); }
+  }
+}
+/* media queries */
+@media screen and (max-width: 1542px)
+{
+  .dashboard
+  { padding-top: 96px; } 
+}
+
+@media screen and (max-width: 1336px) 
+{
+  .dashboard
+  {
+    position: inherit;
+    width: 100%;
+    left: 0;
+
+    &__burger
+    {
+      position: absolute;
+      z-index: 2;
+    }  
+  }
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "9e831f3b-afba-40e4-8504-78a824967a20",
+    "name": "WORK",
+    "color": "#7b4b94",
+    "tasks":
+    [
+      "e7fca16b-240d-40b9-bce0-7f92cf72f630",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f631",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f632",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f633",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f634",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f635"
+    ],
+    "users": 
+    [
+      "1d33e9a5-697b-4d80-b2fb-d854fb2f7fa2"
+    ]
+  },
+
+  {
+    "id": "54bcaf79-88bd-4829-b424-a67ff998049e",
+    "name": "COLLEGE",
+    "color": "#7d82b8",
+    "tasks":
+    [
+      "e7fca16b-240d-40b9-bce0-7f92cf72f640",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f641",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f642",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f643",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f644",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f645"
+    ],
+    "users": 
+    [
+      "1d33e9a5-697b-4d80-b2fb-d854fb2f7fa2"
+    ]
+  },
+  
+  {
+    "id": "75586c9f-682d-4912-b37f-be1bdd6deee9",
+    "name": "MUSIC PRODUCTION",
+    "color": "#b7e3cc",
+    "tasks":
+    [
+      "e7fca16b-240d-40b9-bce0-7f92cf72f650",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f651",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f652",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f653",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f654",
+      "e7fca16b-240d-40b9-bce0-7f92cf72f655"
+    ],
+    "users": 
+    [
+      "1d33e9a5-697b-4d80-b2fb-d854fb2f7fa2"
+    ]
+  }
+]

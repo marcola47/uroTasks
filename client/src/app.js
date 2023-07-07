@@ -1,67 +1,105 @@
 /** dependencies **/
-import React, { useState, useReducer } from 'react';
-import './css/common.css';
+import React, { useState, useEffect, useReducer } from 'react';
+import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-/** components **/
-import Menu from './components/menu';
-import Dashboard from './components/dashboard';
-import ProjectSeeds from './components/utility/project-seeds';
+import './css/app.css';
 
-/** font-awesome **/
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import NotFoundPage from './pages/404'
+import HomePage from './pages/home'
+import LoginPage from './pages/login'
+import RegisterPage from './pages/register'
+import SettingsPage from './pages/settings'
 
-/** contexts **/
+export const UserContext = React.createContext();
 export const ProjectsContext = React.createContext();
-export const ActiveProjectContext = React.createContext();
-export const ReducerContext = React.createContext();
 
+export const FlagsContext = React.createContext();
+export const ReducerContext = React.createContext();
 
 export default function App() 
 {
-  const [projects, setProjects] = useState(ProjectSeeds);
-  const [activeProject, setActiveProject] = useState(projects[0]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  function reducer(state, action)
+  const [loading, setLoading] = useState(false);
+  const [fetchTasks, setFetchTasks] = useState(true);
+
+  const [user, setUser] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [activeProject, setActiveProject] = useState(null);
+
+  useEffect(() => 
   {
-    switch (action.type)
+    if (user !== null && user.activeProject !== '0' && projects.length > 0)
     {
-      case 'menuHidden'      : return { ...state, isMenuHidden      : !state.isMenuHidden       };
-      case 'dashboardMoved'  : return { ...state, isDashboardMoved  : !state.isDashboardMoved   };
-      case 'searchbarSpaced' : return { ...state, isSearchbarSpaced : !state.isSearchbarSpaced  };
-      case 'projCreatorShown': return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
-      
-      default: return state;
+      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+
+      activeProjectIndex !== -1 
+      ? setActiveProject(projects[activeProjectIndex]) 
+      : setActiveProject(null);
     }
-  }
+
+    else
+      setActiveProject(null);
+  }, [user, projects]);
+
+  useEffect(() => 
+  {
+    if (user === null && location.pathname !== '/register')
+      navigate('/login')
+
+    else if (user !== null && projects.length === 0)
+    {
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
+      .then(res => setProjects(res.data))
+      .catch(err => console.log(err))
+    }
+  }, [user])
 
   const [state, dispatch] = useReducer(reducer, 
   {
     isMenuHidden: false,
     isDashboardMoved: false,
     isSearchbarSpaced: false,
-    isProjCreatorShown: false
+    isProjCreatorShown: false,
+    isConfirmationShown: false
   });
+      
+  function reducer(state, action)
+  {
+    switch (action.type)
+    {
+      // ui
+      case 'menuHidden': return { ...state, isMenuHidden: !state.isMenuHidden };
+      case 'dashboardMoved': return { ...state, isDashboardMoved: !state.isDashboardMoved };
+      case 'searchbarSpaced': return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+      case 'projCreatorShown': return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
+      case 'confirmationShown': return { ...state, isConfirmationShown: !state.isConfirmationShown };
 
-  function toggleMenu()
-  { 
-    dispatch({ type: 'menuHidden'      });
-    dispatch({ type: 'dashboardMoved'  });
-    dispatch({ type: 'searchbarSpaced' });  
+      default: return state;
+    }
   }
 
   return (
     <div className="app" id='app'>
-      <div className='dashboard-burguer-btn' id="dashboard-burguer-btn" onClick={toggleMenu}><FontAwesomeIcon icon={faBars}/></div>
-      
-      <ActiveProjectContext.Provider value={{ activeProject, setActiveProject }}>
-        <ProjectsContext.Provider value={{ projects, setProjects }}>
+      <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
+        <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
-            <Menu/>
-            <Dashboard/>
+            <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
+              <Routes>
+                <Route exact path='/' element={ <HomePage/> }/>
+                <Route path='/login' element={ <LoginPage/> }/>
+                <Route path='/register' element={ <RegisterPage/> }/>
+                <Route path='/settings' element={ <SettingsPage/> }/>
+      
+                <Route path='/404' element={ <NotFoundPage/> }/>
+                <Route path='*' element={ <useNavigate to='/404'/> }/>
+              </Routes>
+            </FlagsContext.Provider>
           </ReducerContext.Provider>
-        </ProjectsContext.Provider>
-      </ActiveProjectContext.Provider>
+        </UserContext.Provider>
+      </ProjectsContext.Provider>
     </div>
   );
 }

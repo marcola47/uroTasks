@@ -1,0 +1,129 @@
+@import '../../../css/_variables.scss';
+
+.proj-creator__bg
+{
+  z-index: -99;
+  opacity: 0;
+
+  position: fixed;
+  inset: 0;
+
+  background-color: $bg-overlay;
+
+  @include transition-open;
+
+  pointer-events: none;
+
+  &--shown
+  { 
+    z-index: 99;
+    opacity: 1;
+
+    @include transition-close;
+    pointer-events: initial;
+
+  }
+}
+
+.proj-creator
+{
+  display: grid;
+  grid-template-columns: minmax(0px, 360px) minmax(0px, 32px);
+  grid-template-rows: repeat(3, auto);
+  column-gap: 8px;
+
+  z-index: -99;
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  min-width: 320px;
+  padding: 16px;
+  border-radius: $br-big;
+
+  color: white;
+  background-color: $bg-blue-light;
+
+  @include transition-open;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  
+  &--shown
+  { 
+    opacity: 1;
+    z-index: 99;
+
+    @include transition-close;
+    pointer-events: initial;
+  }
+
+  &__title
+  {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 12px;
+  }
+
+  .btn--glow
+  { margin-bottom: 12px; }
+
+  &__input
+  {
+    padding: 8px;
+    border-radius: $br-small;
+  }
+
+  #input-2
+  {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .chrome-picker__bg
+  {
+    z-index: 1;
+
+    position: absolute;
+    inset: 0;
+
+    width: 100vw;
+    height: 60vh;
+  }
+
+  .chrome-picker
+  {
+    position: absolute;
+    top: 104px;
+    right: 16px;
+    z-index: 2;
+  }
+
+  &__submit
+  {
+    grid-column: span 2;
+
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: $br-small;
+
+    background-color: $green-dark;
+
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover
+    { background-color: $green-light; }
+  }
+}
+
+@media screen and (max-width: 480px) 
+{
+  .proj-creator
+  {
+    width: 90%;
+  }
+}

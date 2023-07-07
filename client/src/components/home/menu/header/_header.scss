@@ -1,0 +1,23 @@
+@import '../../../../css/_variables.scss';
+
+.menu__header
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 32px;
+}
+
+.menu__logo
+{
+  &:hover
+  { @include glow-content }
+
+  img
+  {
+    max-width: 192px;
+    margin-bottom: -12px;
+
+  }
+}
