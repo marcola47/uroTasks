@@ -135,19 +135,7 @@ router.post('/task-delete', async (req, res) =>
 
 /********************************************************************************************/
 /*** user routes ***/
-router.post('/user-login', async (req, res) => 
-{
-  const userEmail = req.body[0];
-  const userPassword = req.body[1];
-
-  const user = await userController.login(userEmail, userPassword);
-
-  if (user !== null)
-    res.status(200).send(user);
-    
-  else
-    res.status(400).send('Invalid email or password, make sure to type them correctly!');
-});
+router.post('/user-login', userController.login);
 
 router.post('/user-create', async (req, res) => 
 {

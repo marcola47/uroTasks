@@ -4,15 +4,26 @@ import User from '../models/User.js'
 const userController = {};
 
 /*****************************************************************************************************************/
-userController.login = async (userEmail, userPassword) => 
+userController.login = async (req, res) => 
 {
+  const userEmail = req.body[0];
+  const userPassword = req.body[1];
+
   const user = await User.findOne({ email: userEmail });
-  if (user === null) return null;
 
-  const match = await bcrypt.compare(userPassword, user.password);
-  if (!match) return null;
+  if (user === null)
+    res.status(400).send('Invalid email or password, make sure to type them correctly!');
 
-  return user;
+  else 
+  {
+    const match = await bcrypt.compare(userPassword, user.password);
+
+    if (!match)
+      res.status(400).send('Invalid email or password, make sure to type them correctly!');
+
+    else
+      res.status(200).send(user);
+  }
 }
 
 /*****************************************************************************************************************/
