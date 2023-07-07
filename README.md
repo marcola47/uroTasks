@@ -19,5 +19,5 @@ Task manager inspired by Trello and Click Up, combining what each of them do bes
 - MongoDBAtlas
 
 #### Credits
-- [Fontawesome](https://fontawesome.com/start)
-- [React Color](https://casesandberg.github.io/react-color/)
+- [FontAwesome - Icons](https://fontawesome.com/start)
+- [React Color - Color pickers](https://casesandberg.github.io/react-color/)
