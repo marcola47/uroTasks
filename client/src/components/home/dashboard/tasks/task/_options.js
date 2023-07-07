@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { ReducerContext } from '../../../../../app';
 import { EditorContext } from '../../../../../pages/home';
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ReducerContext, UserContext } from "../../../../app";
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export default function Project({ itemData })
-{
+{ 
   const { user, setUser } = useContext(UserContext);
   const { state, dispatch } = useContext(ReducerContext);
 

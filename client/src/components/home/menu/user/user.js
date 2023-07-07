@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserContext, FlagsContext } from '../../../../app';
+import { UserContext } from '../../../../app';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';

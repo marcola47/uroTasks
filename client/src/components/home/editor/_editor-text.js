@@ -85,9 +85,10 @@ export default function ItemText({ toggleEditor })
       toggleEditor();
   }
 
+  // eslint-disable-next-line
   function handleDiscard()
   {
-    return
+    return;
   }
 
   function handleKeyDown(e)

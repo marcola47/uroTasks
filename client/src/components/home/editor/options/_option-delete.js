@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ProjectsContext } from '../../../../app';
-import { ScrollContext, ToggleMenuContext } from '../../../../pages/home';
+import { ScrollContext } from '../../../../pages/home';
 import { ToggleEditorContext } from '../editor';
 import axios from 'axios';
 

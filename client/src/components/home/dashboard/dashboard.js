@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ProjectsContext, ReducerContext } from "../../../app";
 import axios from 'axios';
 
@@ -7,23 +7,10 @@ import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
 import Tasks from './tasks/tasks';
 
-export const ScrollContext = React.createContext();
-
 export default function Dashboard()
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state } = useContext(ReducerContext);
-
-  const [scrollTo, setScrollTo] = useState(0);
-
-  useLayoutEffect(() => 
-  {
-    const tasksContainer = document.querySelector('.tasks__container');
-
-    if (scrollTo > 64)
-      tasksContainer?.scrollBy(scrollTo, 0);
-
-  }, [scrollTo, projects, activeProject])
 
   // reimplement using web sockets, doing manual verification and cache revalidation are a fucking nightmare
   useEffect(() => 

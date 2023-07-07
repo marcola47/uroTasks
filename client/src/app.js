@@ -1,6 +1,6 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
-import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './css/app.css';
@@ -55,6 +55,8 @@ export default function App()
       .then(res => setProjects(res.data))
       .catch(err => console.log(err))
     }
+
+    // eslint-disable-next-line
   }, [user])
 
   const [state, dispatch] = useReducer(reducer, 
