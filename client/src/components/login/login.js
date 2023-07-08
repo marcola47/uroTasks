@@ -37,7 +37,7 @@ export default function LoginForm()
       return;
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-login`, [email, password])
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, {email: email, password: password})
       .then(res => 
       {
         setUser(res.data);

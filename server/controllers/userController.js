@@ -6,35 +6,55 @@ const userController = {};
 /*****************************************************************************************************************/
 userController.login = async (req, res) => 
 {
-  const userEmail = req.body[0];
-  const userPassword = req.body[1];
+  const userData = req.body;
 
-  const user = await User.findOne({ email: userEmail });
-
-  if (user === null)
-    res.status(400).send('Invalid email or password, make sure to type them correctly!');
-
-  else 
+  try 
   {
-    const match = await bcrypt.compare(userPassword, user.password);
+    const user = await User.findOne({ email: userData.email });
 
-    if (!match)
-      res.status(400).send('Invalid email or password, make sure to type them correctly!');
+    if (!user) 
+      return res.status(400).send('Invalid email or password, make sure to type them correctly!');
+    
+    const match = await bcrypt.compare(userData.password, user.password);
 
-    else
-      res.status(200).send(user);
+    if (!match) 
+      return res.status(400).send('Invalid email or password, make sure to type them correctly!');
+
+    res.status(200).send(user);
+  } 
+
+  catch (error) 
+  {
+    console.error("Error during login:", error);
+    res.status(500).send("Error logging in");
   }
-}
+};
 
 /*****************************************************************************************************************/
-userController.create = async (userData) => 
+userController.create = async (req, res) => 
 {
-  const hash = await bcrypt.hash(userData.password, 10);
-  const user = new User({ ...userData, password: hash });
-  user.save();
+  const userData = req.body;
+  const existingUser = await User.findOne({ email: userData.email });
 
-  console.log(`${new Date()}: successfully created user ${user.name}`);
-}
+  if (existingUser) 
+    return res.status(400).send("Email already in use");
+
+  try 
+  {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const newUser = new User({ ...userData, password: hashedPassword });
+    await newUser.save();
+
+    res.sendStatus(201);
+    console.log(`${new Date()}: Successfully created user ${user.name}`);
+  }
+  
+  catch (error) 
+  {
+    console.error("Error creating user:", error);
+    res.status(500).send("Error creating user");
+  }
+};
 
 /*****************************************************************************************************************/
 userController.updateActiveProject = async (userID, projectID) => 

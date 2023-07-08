@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
 import routes from './routes.js';
@@ -17,6 +18,7 @@ app.listen(PORT, () => {console.log(`server started running on port ${PORT}`)});
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use('/', routes);
+
 
 // ***************************************************************************************
 // mongodb connection

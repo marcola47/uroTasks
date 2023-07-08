@@ -135,15 +135,8 @@ router.post('/task-delete', async (req, res) =>
 
 /********************************************************************************************/
 /*** user routes ***/
-router.post('/user-login', userController.login);
-
-router.post('/user-create', async (req, res) => 
-{
-  const userData = req.body[0];
-
-  await userController.create(userData);
-  res.sendStatus(201);
-});
+router.post('/user/login', userController.login);
+router.post('/user/create', userController.create);
 
 router.post('/user-update', async (req, res) => 
 {

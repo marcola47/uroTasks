@@ -63,7 +63,7 @@ export default function RegForm()
       projects: []
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-create`, [newUser])
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/create`, newUser)
       .then(res => 
       {
         setUser(newUser);
