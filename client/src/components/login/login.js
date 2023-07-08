@@ -40,16 +40,17 @@ export default function LoginForm()
     axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, {email: email, password: password})
       .then(res => 
       {
-        setUser(res.data);
+        localStorage.setItem("token", res.data.token);
+        setUser(res.data.result);
         navigate('/');
       })
       .catch(err => 
       {
         if (err.response)
-          setError(err.response.data);
+           setError(err.response.data.message);
 
-        else
-          setError("Unable to communicate with server")
+         else
+           setError("Unable to communicate with server")
       })
   }
 

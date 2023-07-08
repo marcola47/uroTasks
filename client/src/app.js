@@ -46,14 +46,28 @@ export default function App()
 
   useEffect(() => 
   {
-    if (user === null && location.pathname !== '/register')
+    if (localStorage.getItem("token") !== null && user === null)
+    {
+      axios.get(`${process.env.REACT_APP_SERVER_ROUTE}/loginFromToken`, { headers: { "x-access-token": localStorage.getItem("token") } })
+      .then(res => 
+      {
+        console.log("user authenticated through jwt")
+        setUser(res.data)
+      })
+      .catch(err => console.log(err))
+    }
+
+    else
+    {
+      if (user === null && location.pathname !== '/register')
       navigate('/login')
 
-    else if (user !== null && projects.length === 0)
-    {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
-      .then(res => setProjects(res.data))
-      .catch(err => console.log(err))
+      else if (user !== null && projects.length === 0)
+      {
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
+        .then(res => setProjects(res.data))
+        .catch(err => console.log(err))
+      }
     }
 
     // eslint-disable-next-line

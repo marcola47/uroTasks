@@ -3,6 +3,8 @@ import express from 'express';
 import Project from './models/Project.js';
 import Task from './models/Task.js';
 
+import verifyToken from './middleware/verifytoken.js';
+
 import projectController from './controllers/projectController.js'
 import taskController from './controllers/taskController.js';
 import userController from './controllers/userController.js';
@@ -14,6 +16,10 @@ const router = express.Router();
 router.get('/login', async (req, res) => {res.redirect('/login')});
 router.get('/register', async (req, res) => {res.redirect('/register')});
 router.get('/settings', async (req, res) => {res.redirect('/settings')});
+
+
+router.get('/loginFromToken', verifyToken, userController.loginFromToken);
+
 
 /********************************************************************************************/
 /*** project routes ***/

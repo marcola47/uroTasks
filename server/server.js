@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
 import routes from './routes.js';

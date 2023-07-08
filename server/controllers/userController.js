@@ -1,7 +1,16 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import User from '../models/User.js'
+
 const userController = {};
+
+/*****************************************************************************************************************/
+userController.loginFromToken = async (req, res) =>
+{
+  const user = await User.findOne({ id: req.userID });
+  res.status(200).send(user);
+};
 
 /*****************************************************************************************************************/
 userController.login = async (req, res) => 
@@ -13,14 +22,17 @@ userController.login = async (req, res) =>
     const user = await User.findOne({ email: userData.email });
 
     if (!user) 
-      return res.status(400).send('Invalid email or password, make sure to type them correctly!');
+      return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
     
     const match = await bcrypt.compare(userData.password, user.password);
 
     if (!match) 
-      return res.status(400).send('Invalid email or password, make sure to type them correctly!');
+      return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
 
-    res.status(200).send(user);
+    const id = user.id;
+    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 300 })
+
+    res.status(200).json({ auth: true, token: token, result: user });
   } 
 
   catch (error) 
