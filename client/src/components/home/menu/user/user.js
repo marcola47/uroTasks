@@ -11,6 +11,7 @@ export default function User()
   function logout()
   {
     setUser(null);
+    localStorage.removeItem("token");
   }
 
   return (

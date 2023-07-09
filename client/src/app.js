@@ -49,17 +49,13 @@ export default function App()
     if (localStorage.getItem("token") !== null && user === null)
     {
       axios.get(`${process.env.REACT_APP_SERVER_ROUTE}/loginFromToken`, { headers: { "x-access-token": localStorage.getItem("token") } })
-      .then(res => 
-      {
-        console.log("user authenticated through jwt")
-        setUser(res.data)
-      })
+      .then(res => setUser(res.data))
       .catch(err => console.log(err))
     }
 
     else
     {
-      if (user === null && location.pathname !== '/register')
+      if (location.pathname !== '/register' && user === null)
       navigate('/login')
 
       else if (user !== null && projects.length === 0)

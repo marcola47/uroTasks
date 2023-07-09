@@ -3,7 +3,7 @@ import express from 'express';
 import Project from './models/Project.js';
 import Task from './models/Task.js';
 
-import verifyToken from './middleware/verifytoken.js';
+import { verifyHeaderToken, verifyBodyToken } from './middleware/verifyToken.js';
 
 import projectController from './controllers/projectController.js'
 import taskController from './controllers/taskController.js';
@@ -18,7 +18,7 @@ router.get('/register', async (req, res) => {res.redirect('/register')});
 router.get('/settings', async (req, res) => {res.redirect('/settings')});
 
 
-router.get('/loginFromToken', verifyToken, userController.loginFromToken);
+router.get('/loginFromToken', verifyHeaderToken, userController.loginFromToken);
 
 
 /********************************************************************************************/
@@ -105,39 +105,8 @@ router.post('/task-create', async (req, res) =>
   res.sendStatus(201);
 });
 
-router.post('/task-update', async (req, res) => 
-{
-  const type = req.query.type;
-  
-  if (type === 'content')
-  {
-    const [taskID, newContent] = [req.body[0], req.body[1]];
-    await taskController.updateContent(taskID, newContent);
-  }
-
-  else if (type === 'type')
-  {
-    const [projectID, taskID, locations, positions] = [req.body[0], req.body[1], req.body[2], req.body[3]]
-    await taskController.updateType(projectID, taskID, locations, positions);
-  }
-
-  else if (type === 'position')
-  {
-    const [updatedTaskID, otherTaskID, direction] = [req.body[0], req.body[1], req.body[2]];
-    await taskController.updatePosition(updatedTaskID, otherTaskID, direction);
-  }
-
-  res.sendStatus(200);
-});
-
-router.post('/task-delete', async (req, res) => 
-{
-  const data = req.body;
-  const [projectID, taskID, taskType, location] = [data[0], data[1], data[2], data[3]]
-
-  await taskController.delete(projectID, taskID, taskType, location);
-  res.sendStatus(200);
-});
+router.post('/task-update', verifyBodyToken, taskController.update);
+router.post('/task-delete', verifyBodyToken, taskController.delete);
 
 /********************************************************************************************/
 /*** user routes ***/

@@ -44,7 +44,12 @@ export default function ItemText({ toggleEditor })
 
     if (isNewContent)
     {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=content`, [editorData.id, newContent])
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=content`, 
+      {
+        taskID: editorData.id, 
+        newContent: newContent,
+        token: localStorage.getItem("token")
+      })
       .then(res => 
       {
         console.log(res);

@@ -33,18 +33,25 @@ export default function OptionDelete({ task })
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-delete`, [activeProject.id, task.id, task.type, position])
-      .then(res => 
-      {
-        console.log(res);
-        setActiveProject({ ...activeProject, tasks: taskList });
-        setProjects(projectsCopy);
-      })
-      .catch( err => {console.log(err) })
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-delete`, 
+    { 
+      projectID: activeProject.id, 
+      taskID: task.id, 
+      taskType: task.type, 
+      position: position,
+      token: localStorage.getItem("token")
+    })
+    .then(res => 
+    {
+      console.log(res);
+      setActiveProject({ ...activeProject, tasks: taskList });
+      setProjects(projectsCopy);
+    })
+    .catch(err => console.log(err))
   }
 
   return (
-    <div className='option option--remove' onClick={deleteTask}>
+    <div className='option option--remove' onClick={ deleteTask }>
       <div className='option__icon'><FontAwesomeIcon icon={ faMultiply }/></div>
     </div>
   )

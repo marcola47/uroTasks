@@ -9,6 +9,8 @@ const userController = {};
 userController.loginFromToken = async (req, res) =>
 {
   const user = await User.findOne({ id: req.userID });
+
+  user.password = null;
   res.status(200).send(user);
 };
 
@@ -30,15 +32,17 @@ userController.login = async (req, res) =>
       return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
 
     const id = user.id;
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 300 })
+    const expireDate = 60 * 60 * 24;
+    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: expireDate })
 
+    user.password = null;
     res.status(200).json({ auth: true, token: token, result: user });
   } 
 
   catch (error) 
   {
     console.error("Error during login:", error);
-    res.status(500).send("Error logging in");
+    res.status(500).send("Internal server error logging in");
   }
 };
 
@@ -58,13 +62,13 @@ userController.create = async (req, res) =>
     await newUser.save();
 
     res.sendStatus(201);
-    console.log(`${new Date()}: Successfully created user ${user.name}`);
+    console.log(`${new Date()}: Successfully created user ${newUser.name}`);
   }
   
   catch (error) 
   {
     console.error("Error creating user:", error);
-    res.status(500).send("Error creating user");
+    res.status(500).send("Internal server error on creating user");
   }
 };
 

@@ -84,14 +84,21 @@ export default function OptionChangeType({ task })
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=type`, [activeProject.id, task.id, types, positions])
-      .then(res => 
-      {
-        console.log(res); 
-        setActiveProject({ ...activeProject, tasks: taskList });
-        setProjects(projectsCopy);
-      })
-      .catch( err => {console.log(err)} )
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=type`, 
+    {
+      projectID: activeProject.id, 
+      taskID: task.id, 
+      types: types, 
+      positions: positions,
+      token: localStorage.getItem("token")
+    })
+    .then(res => 
+    {
+      console.log(res); 
+      setActiveProject({ ...activeProject, tasks: taskList });
+      setProjects(projectsCopy);
+    })
+    .catch( err => {console.log(err)} )
   }
 
   return (
