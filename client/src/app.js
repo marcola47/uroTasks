@@ -1,6 +1,6 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import './css/app.css';
@@ -20,6 +20,7 @@ export const ReducerContext = React.createContext();
 export default function App() 
 {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [fetchTasks, setFetchTasks] = useState(true);
@@ -89,7 +90,7 @@ export default function App()
       }
 
       else if (location.pathname !== '/register' && location.pathname !== '/login')
-        window.location.href = '/login'
+        navigate('/login')
     }
 
     // eslint-disable-next-line
@@ -131,8 +132,7 @@ export default function App()
                 <Route path='/register' element={ <RegisterPage/> }/>
                 <Route path='/settings' element={ <SettingsPage/> }/>
       
-                <Route path='/404' element={ <NotFoundPage/> }/>
-                <Route path='*' element={ <useNavigate to='/404'/> }/>
+                <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
             </FlagsContext.Provider>
           </ReducerContext.Provider>
