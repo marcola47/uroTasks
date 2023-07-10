@@ -83,7 +83,7 @@ export default function App()
         {
           console.log(err)
   
-          window.location.href = '/login'
+          navigate('/login');
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
         })
