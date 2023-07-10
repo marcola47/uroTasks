@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { config } from 'dotenv';
+config();
 
 import User from '../../models/User.js';
 import userSeeds from './users.json' assert { type: "json" };
@@ -27,5 +29,6 @@ const seedProjects = async () =>
   console.log('User seeding completed.');
 };
 
-mongoose.connect('mongodb+srv://marcola88:egdb1122@urotasks.wwkpbcj.mongodb.net/');
+const dbHost = process.env.DB_HOST;
+mongoose.connect(dbHost);
 seedProjects().then(() => {mongoose.connection.close();});

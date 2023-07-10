@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { EditorContext } from '../../../pages/home';
 
 import EditorText from './_editor-text';

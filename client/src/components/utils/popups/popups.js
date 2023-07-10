@@ -9,7 +9,7 @@ export function Error({ header, error, setError })
   {
     const timer = setTimeout(() => {setError(null)}, 5000);
     return () => {clearTimeout(timer)};
-  }, [error]);
+  }, [error, setError]);
 
   return (
     <div className={`popup popup--error ${error ? 'popup--shown' : ''}`}>
@@ -31,7 +31,7 @@ export function Confirmation({ header, confirmation, setConfirmation })
   {
     const timer = setTimeout(() => {setConfirmation(null)}, 5000);
     return () => {clearTimeout(timer)};
-  }, [confirmation]);
+  }, [confirmation, setConfirmation]);
 
   return (
     <div className={`popup popup--confirmation ${confirmation ? 'popup--shown' : ''}`}>

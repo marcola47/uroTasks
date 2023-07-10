@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ReducerContext, UserContext } from "../../../../app";
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export default function Project({ itemData })
-{
+{ 
   const { user, setUser } = useContext(UserContext);
   const { state, dispatch } = useContext(ReducerContext);
 
@@ -21,13 +21,19 @@ export default function Project({ itemData })
         dispatch({ type: 'searchbarSpaced' });  
       }  
   
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-update?type=activeProject`, [user.id, itemData.id])
-        .then(res => 
-        {
-          console.log(res);
-          setUser({ ...user, activeProject: itemData.id });
-        })
-        .catch( err => {console.log(err)} )
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=activeProject`, 
+      {
+        userID: user.id, 
+        projectID: itemData.id,
+        accessToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
+      })
+      .then(res => 
+      {
+        console.log(res);
+        setUser({ ...user, activeProject: itemData.id });
+      })
+      .catch(err => console.log(err))
     }
   }
 

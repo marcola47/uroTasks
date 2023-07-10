@@ -1,6 +1,6 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
-import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './css/app.css';
@@ -20,7 +20,6 @@ export const ReducerContext = React.createContext();
 export default function App() 
 {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [fetchTasks, setFetchTasks] = useState(true);
@@ -29,32 +28,71 @@ export default function App()
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
 
-  useEffect(() => 
+  useEffect(() => // get and set projects 
   {
-    if (user !== null && user.activeProject !== '0' && projects.length > 0)
+    if (user !== null && user.activeProject !== '0')
     {
-      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+      if (projects.length <= 0)
+      {
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/get`, 
+        {
+          projectIDs: user.projects,
+          accessToken: localStorage.getItem("accessToken"),
+          refreshToken: localStorage.getItem("refreshToken")
+        })
+        .then(res => setProjects(res.data))
+        .catch(err => console.log(err))
+      }
 
-      activeProjectIndex !== -1 
-      ? setActiveProject(projects[activeProjectIndex]) 
-      : setActiveProject(null);
+      else if (projects.length > 0)
+      {
+        const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+
+        activeProjectIndex !== -1 
+        ? setActiveProject(projects[activeProjectIndex]) 
+        : setActiveProject(null);
+      }
+
+      else
+        setActiveProject(null);
     }
-
-    else
-      setActiveProject(null);
   }, [user, projects]);
 
-  useEffect(() => 
+  useEffect(() => // get and set user
   {
-    if (user === null && location.pathname !== '/register')
-      navigate('/login')
-
-    else if (user !== null && projects.length === 0)
+    if (user === null)
     {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
-      .then(res => setProjects(res.data))
-      .catch(err => console.log(err))
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (accessToken || refreshToken)
+      {
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/token`, 
+        { 
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          reqType: 'login'
+        })
+        .then(res => 
+        { 
+          localStorage.setItem("accessToken", res.data.accessToken);
+          setUser(res.data.result);
+        })
+        .catch(err => 
+        {
+          console.log(err)
+  
+          window.location.href = '/login'
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        })
+      }
+
+      else if (location.pathname !== '/register' && location.pathname !== '/login')
+        window.location.href = '/login'
     }
+
+    // eslint-disable-next-line
   }, [user])
 
   const [state, dispatch] = useReducer(reducer, 

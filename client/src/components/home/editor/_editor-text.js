@@ -44,7 +44,13 @@ export default function ItemText({ toggleEditor })
 
     if (isNewContent)
     {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=content`, [editorData.id, newContent])
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/update?type=content`, 
+      {
+        taskID: editorData.id, 
+        newContent: newContent,
+        accesToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
+      })
       .then(res => 
       {
         console.log(res);
@@ -85,9 +91,10 @@ export default function ItemText({ toggleEditor })
       toggleEditor();
   }
 
+  // eslint-disable-next-line
   function handleDiscard()
   {
-    return
+    return;
   }
 
   function handleKeyDown(e)

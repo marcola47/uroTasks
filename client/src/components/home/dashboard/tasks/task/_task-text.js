@@ -45,7 +45,7 @@ export default function ItemText({ value, taskID })
 
     if (isNewContent)
     {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=content`, [taskID, newContent])
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/update?type=content`, [taskID, newContent])
       .then(res => 
       {
         console.log(res);

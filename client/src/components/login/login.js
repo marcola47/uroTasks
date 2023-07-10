@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useEffect } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { UserContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -37,19 +37,21 @@ export default function LoginForm()
       return;
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-login`, [email, password])
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, {email: email, password: password})
       .then(res => 
       {
-        setUser(res.data);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        setUser(res.data.result);
         navigate('/');
       })
       .catch(err => 
       {
         if (err.response)
-          setError(err.response.data);
+           setError(err.response.data.message);
 
-        else
-          setError("Unable to communicate with server")
+         else
+           setError("Unable to communicate with server")
       })
   }
 

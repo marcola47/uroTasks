@@ -32,17 +32,23 @@ export default function TaskbarProjectColor()
 
     setActiveProject({ ...activeProject, color: newColor });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-update?type=color`, [activeProject.id, newColor])
-      .then(res => 
-      {
-        console.log(res);
-        setProjects(projectsCopy);
-      })
-      .catch(err => 
-      {
-        console.log(err);
-        setActiveProject({ ...activeProject, color: oldColor })
-      })
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/update?type=color`, 
+    {
+      projectID: activeProject.id, 
+      newColor: newColor,
+      accessToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
+    })
+    .then(res => 
+    {
+      console.log(res);
+      setProjects(projectsCopy);
+    })
+    .catch(err => 
+    {
+      console.log(err);
+      setActiveProject({ ...activeProject, color: oldColor })
+    })
   }
 
   function ColorPicker()

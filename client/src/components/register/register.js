@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { UserContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -63,20 +63,22 @@ export default function RegForm()
       projects: []
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-create`, [newUser])
-      .then(res => 
-      {
-        setUser(newUser);
-        navigate('/');
-      })
-      .catch(err => 
-      {
-        if (err.response)
-          setError(err.response.data);
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/create`, newUser)
+    .then(res => 
+    {
+      localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
+      setUser(newUser);
+      navigate('/');
+    })
+    .catch(err => 
+    {
+      if (err.response)
+        setError(err.response.data);
 
-        else
-          setError("Unable to communicate with server")
-      })
+      else
+        setError("Unable to communicate with server")
+    })
   }
 
   return (
