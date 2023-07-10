@@ -33,7 +33,7 @@ userController.login = async (req, res) =>
 
     const id = user.id;
     const expireDate = 60 * 60 * 24;
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: expireDate })
+    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '300s' })
 
     user.password = null;
     res.status(200).json({ auth: true, token: token, result: user });
