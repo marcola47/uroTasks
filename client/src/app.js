@@ -1,6 +1,6 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './css/app.css';
@@ -20,7 +20,6 @@ export const ReducerContext = React.createContext();
 export default function App() 
 {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [fetchTasks, setFetchTasks] = useState(true);
@@ -29,63 +28,65 @@ export default function App()
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
 
-  useEffect(() => 
+  useEffect(() => // get and set projects 
   {
-    if (user !== null && user.activeProject !== '0' && projects.length > 0)
+    if (user !== null && user.activeProject !== '0')
     {
-      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
-
-      activeProjectIndex !== -1 
-      ? setActiveProject(projects[activeProjectIndex]) 
-      : setActiveProject(null);
-    }
-
-    else
-      setActiveProject(null);
-  }, [user, projects]);
-
-  useEffect(() => 
-  {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-
-    if (accessToken !== null && refreshToken !== null && user === null)
-    {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/loginFromToken`, 
-      { 
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        reqType: 'login'
-      })
-      .then(res => 
-      { 
-        localStorage.setItem("accessToken", res.data.accessToken);
-        setUser(res.data.result);
-      })
-      .catch(err => 
-      {
-        console.log(err)
-
-        navigate('/login')
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-      })
-    }
-
-    else
-    {
-      if (location.pathname !== '/register' && user === null)
-      navigate('/login')
-
-      else if (user !== null && projects.length === 0)
+      if (projects.length <= 0)
       {
         axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
         .then(res => setProjects(res.data))
         .catch(err => console.log(err))
       }
+
+      else if (projects.length > 0)
+      {
+        const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+
+        activeProjectIndex !== -1 
+        ? setActiveProject(projects[activeProjectIndex]) 
+        : setActiveProject(null);
+      }
+
+      else
+        setActiveProject(null);
+    }
+  }, [user, projects]);
+
+  useEffect(() => // get and set user
+  {
+    if (user === null)
+    {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (accessToken || refreshToken)
+      {
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/loginFromToken`, 
+        { 
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          reqType: 'login'
+        })
+        .then(res => 
+        { 
+          localStorage.setItem("accessToken", res.data.accessToken);
+          setUser(res.data.result);
+        })
+        .catch(err => 
+        {
+          console.log(err)
+  
+          window.location.href = '/login'
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        })
+      }
+
+      else if (location.pathname !== '/register' && location.pathname !== '/login')
+        window.location.href = '/login'
     }
 
-    // eslint-disable-next-line
   }, [user])
 
   const [state, dispatch] = useReducer(reducer, 

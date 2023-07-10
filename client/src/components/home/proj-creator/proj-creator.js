@@ -43,13 +43,17 @@ export default function ProjCreator()
         console.log(res);
         setProjects([...projects, newProject]);
 
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-update?type=projectList&method=add`, [user.id, newProject.id])
-          .then(res => 
-          {
-            console.log(res);
-            setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] });
-          })
-          .catch( err => {console.log(err)} )
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=add`, 
+        {
+          userID: user.id, 
+          projectID: newProject.id
+        })
+        .then(res => 
+        {
+          console.log(res);
+          setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] });
+        })
+        .catch(err => console.log(err))
       })
       .catch( err => {console.log(err)} )
 

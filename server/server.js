@@ -18,7 +18,6 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use('/', routes);
 
-
 // ***************************************************************************************
 // mongodb connection
 const dbHost = process.env.DB_HOST;

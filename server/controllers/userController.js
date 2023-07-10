@@ -56,7 +56,8 @@ userController.logout = async (req, res) =>
   {
     const userID = req.body.userID;
     const refreshToken = req.body.refreshToken
-    await Token.findOneAndDelete({ userID: userID, token: refreshToken });
+    
+    await Token.findOneAndDelete({ token: refreshToken, userID: userID });
     res.status(200).json({ message: "Logout successful" });
   }
 
@@ -99,27 +100,32 @@ userController.create = async (req, res) =>
 };
 
 /*****************************************************************************************************************/
-userController.updateActiveProject = async (userID, projectID) => 
+userController.updateActiveProject = async (req, res) => 
 {
-  await User.updateOne({ id: userID }, { activeProject: projectID }); 
-  console.log(`${new Date()}: successfully updated user's active project to |${projectID}|`);
+  const data = req.body;
+
+  await User.updateOne({ id: data.userID }, { activeProject: data.projectID }); 
+  console.log(`${new Date()}: successfully updated user's active project to |${data.projectID}|`);
 }
 
 /*****************************************************************************************************************/
-userController.updateProjectList = async (userID, projectID, method) => 
+userController.updateProjectList = async (req, res) => 
 {
+  const method = req.query.method;
+  const data = req.body;
+
   const updatedUser = {};
 
   if (method === 'add') 
   {
-    updatedUser.$push = { projects: projectID };
-    updatedUser.$set = { activeProject: projectID };
+    updatedUser.$push = { projects: data.projectID };
+    updatedUser.$set = { activeProject: data.projectID };
     console.log(`${new Date()}: Successfully added project to list`);
   } 
 
   else if (method === 'delete') 
   {
-    updatedUser.$pull = { projects: projectID };
+    updatedUser.$pull = { projects: data.projectID };
     updatedUser.$set = { activeProject: '0' };
     console.log(`${new Date()}: Successfully removed project from list`);
   } 
@@ -127,7 +133,30 @@ userController.updateProjectList = async (userID, projectID, method) =>
   else 
     throw new Error('Invalid method');
 
-  await User.updateOne({ id: userID }, updatedUser);
+  await User.updateOne({ id: data.userID }, updatedUser);
 };
+
+/*****************************************************************************************************************/
+userController.update = async (req, res) =>
+{
+  try 
+  {
+    const type = req.query.type;
+  
+    if (type === 'activeProject')
+      await userController.updateActiveProject(req, res);
+  
+    else if (type === 'projectList')
+      await userController.updateProjectList(req, res);
+  
+    res.sendStatus(200);
+  }
+
+  catch (error)
+  {
+    console.log(error);
+    res.status(500).send({ message: "Error on updating user data" })
+  }
+}
 
 export default userController;

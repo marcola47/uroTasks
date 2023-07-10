@@ -7,7 +7,7 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function User()
 {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   function logout()
   {
@@ -16,12 +16,13 @@ export default function User()
       userID: user.id,
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => setUser(null))
+    .then(() => 
+    {
+      window.location.reload()
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    })
     .catch(err => console.log(err))
-
-    setUser(null);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
   }
 
   return (

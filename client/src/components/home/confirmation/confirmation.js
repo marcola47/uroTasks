@@ -12,27 +12,31 @@ export default function Confirmation({ confirmFunction })
   {
     const projectsOld = projects;
     
-    dispatch({ type: 'confirmationShown' })
-
     axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-delete`, [activeProject.id])
+    .then(res => 
+    {
+      console.log(res); 
+      setProjects(projects.filter(project => project.id !== activeProject.id));
+
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=delete`, 
+      {
+        userID: user.id, 
+        projectID: activeProject.id
+      })
       .then(res => 
       {
-        console.log(res); 
-        setProjects(projects.filter(project => project.id !== activeProject.id));
+        console.log(res);
+        setUser({ ...user, activeProject: "0" });
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => 
+    {
+      console.log(err);
+      setProjects(projectsOld);
+    })
 
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-update?type=projectList&method=delete`, [user.id, activeProject.id])
-          .then(res => 
-          {
-            console.log(res);
-            setUser({ ...user, activeProject: "0" });
-          })
-          .catch( err => {console.log(err)} )
-      })
-      .catch(err => 
-      {
-        console.log(err);
-        setProjects(projectsOld);
-      })
+    dispatch({ type: 'confirmationShown' })
   }
 
   return (

@@ -21,13 +21,17 @@ export default function Project({ itemData })
         dispatch({ type: 'searchbarSpaced' });  
       }  
   
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user-update?type=activeProject`, [user.id, itemData.id])
-        .then(res => 
-        {
-          console.log(res);
-          setUser({ ...user, activeProject: itemData.id });
-        })
-        .catch( err => {console.log(err)} )
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=activeProject`, 
+      {
+        userID: user.id, 
+        projectID: itemData.id
+      })
+      .then(res => 
+      {
+        console.log(res);
+        setUser({ ...user, activeProject: itemData.id });
+      })
+      .catch(err => console.log(err))
     }
   }
 

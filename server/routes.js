@@ -12,14 +12,6 @@ import userController from './controllers/userController.js';
 const router = express.Router();
 
 /********************************************************************************************/
-/*** general routes ***/
-router.get('/login', async (req, res) => {res.redirect('/login')});
-router.get('/register', async (req, res) => {res.redirect('/register')});
-router.get('/settings', async (req, res) => {res.redirect('/settings')});
-
-router.post('/loginFromToken', verifyToken, userController.loginFromToken);
-
-/********************************************************************************************/
 /*** project routes ***/
 router.post('/project-get', async (req , res) => 
 {
@@ -36,7 +28,7 @@ router.post('/project-get', async (req , res) =>
         await Project.updateOne({ id: project.id }, { activeTasks: count });
         project.activeTasks = count;
       })
-      .catch( err => {console.log(err)} )
+      .catch(err => console.log(err))
     }
 
     delete project.tasks;
@@ -108,27 +100,10 @@ router.post('/task-delete', verifyToken, taskController.delete);
 
 /********************************************************************************************/
 /*** user routes ***/
+router.post('/user/loginFromToken', verifyToken, userController.loginFromToken);
 router.post('/user/login', userController.login);
+router.post('/user/logout', userController.logout);
 router.post('/user/create', userController.create);
-
-router.post('/user-update', async (req, res) => 
-{
-  const type = req.query.type;
-  
-  if (type === 'activeProject')
-  {
-    const [userID, projectID] = [req.body[0], req.body[1]];
-    await userController.updateActiveProject(userID, projectID);
-  }
-
-  else if (type === 'projectList')
-  {
-    const method = req.query.method;
-    const [userID, projectID] = [req.body[0], req.body[1]];
-    await userController.updateProjectList(userID, projectID, method);
-  }
-  
-  res.sendStatus(200);
-});
+router.post('/user/update', userController.update);
 
 export default router;
