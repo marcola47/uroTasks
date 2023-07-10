@@ -92,6 +92,7 @@ export default function App()
         window.location.href = '/login'
     }
 
+    // eslint-disable-next-line
   }, [user])
 
   const [state, dispatch] = useReducer(reducer, 
