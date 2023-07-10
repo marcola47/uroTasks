@@ -40,7 +40,8 @@ export default function LoginForm()
     axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, {email: email, password: password})
       .then(res => 
       {
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
         setUser(res.data.result);
         navigate('/');
       })

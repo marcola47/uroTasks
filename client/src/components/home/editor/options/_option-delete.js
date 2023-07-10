@@ -39,7 +39,8 @@ export default function OptionDelete({ task })
       taskID: task.id, 
       taskType: task.type, 
       position: position,
-      token: localStorage.getItem("token")
+      accesToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 
     {

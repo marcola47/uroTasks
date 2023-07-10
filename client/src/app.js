@@ -46,11 +46,30 @@ export default function App()
 
   useEffect(() => 
   {
-    if (localStorage.getItem("token") !== null && user === null)
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (accessToken !== null && refreshToken !== null && user === null)
     {
-      axios.get(`${process.env.REACT_APP_SERVER_ROUTE}/loginFromToken`, { headers: { "x-access-token": localStorage.getItem("token") } })
-      .then(res => setUser(res.data))
-      .catch(err => console.log(err))
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/loginFromToken`, 
+      { 
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        reqType: 'login'
+      })
+      .then(res => 
+      { 
+        localStorage.setItem("accessToken", res.data.accessToken);
+        setUser(res.data.result);
+      })
+      .catch(err => 
+      {
+        console.log(err)
+
+        navigate('/login')
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      })
     }
 
     else

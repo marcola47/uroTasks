@@ -59,7 +59,8 @@ export default function OptionChangeType({ task })
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction,
-      token: localStorage.getItem("token")
+      accesToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 
     {

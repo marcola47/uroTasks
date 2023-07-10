@@ -3,7 +3,7 @@ import express from 'express';
 import Project from './models/Project.js';
 import Task from './models/Task.js';
 
-import { verifyHeaderToken, verifyBodyToken } from './middleware/verifyToken.js';
+import verifyToken from './middleware/verifyToken.js';
 
 import projectController from './controllers/projectController.js'
 import taskController from './controllers/taskController.js';
@@ -17,9 +17,7 @@ router.get('/login', async (req, res) => {res.redirect('/login')});
 router.get('/register', async (req, res) => {res.redirect('/register')});
 router.get('/settings', async (req, res) => {res.redirect('/settings')});
 
-
-router.get('/loginFromToken', verifyHeaderToken, userController.loginFromToken);
-
+router.post('/loginFromToken', verifyToken, userController.loginFromToken);
 
 /********************************************************************************************/
 /*** project routes ***/
@@ -105,8 +103,8 @@ router.post('/task-create', async (req, res) =>
   res.sendStatus(201);
 });
 
-router.post('/task-update', verifyBodyToken, taskController.update);
-router.post('/task-delete', verifyBodyToken, taskController.delete);
+router.post('/task-update', verifyToken, taskController.update);
+router.post('/task-delete', verifyToken, taskController.delete);
 
 /********************************************************************************************/
 /*** user routes ***/

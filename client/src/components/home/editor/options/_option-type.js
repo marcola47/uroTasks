@@ -90,7 +90,8 @@ export default function OptionChangeType({ task })
       taskID: task.id, 
       types: types, 
       positions: positions,
-      token: localStorage.getItem("token")
+      accesToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 
     {

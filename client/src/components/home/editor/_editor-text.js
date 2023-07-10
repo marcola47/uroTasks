@@ -48,7 +48,8 @@ export default function ItemText({ toggleEditor })
       {
         taskID: editorData.id, 
         newContent: newContent,
-        token: localStorage.getItem("token")
+        accesToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
       })
       .then(res => 
       {

@@ -1,17 +1,18 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import User from '../models/User.js'
+import User from '../models/User.js';
+import Token from '../models/Token.js';
 
 const userController = {};
 
 /*****************************************************************************************************************/
 userController.loginFromToken = async (req, res) =>
 {
-  const user = await User.findOne({ id: req.userID });
+  const user = await User.findOne({ id: req.body.userID });
 
   user.password = null;
-  res.status(200).send(user);
+  res.status(200).json({ auth: true, accessToken: req.body.accessToken, result: user });
 };
 
 /*****************************************************************************************************************/
@@ -31,12 +32,14 @@ userController.login = async (req, res) =>
     if (!match) 
       return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
 
-    const id = user.id;
-    const expireDate = 60 * 60 * 24;
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '300s' })
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '1m' })
+    const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
+    
+    await Token.create({ token: refreshToken, userID: user.id })
+      .catch(err => console.log(err))
 
     user.password = null;
-    res.status(200).json({ auth: true, token: token, result: user });
+    res.status(200).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken, result: user });
   } 
 
   catch (error) 
@@ -47,12 +50,29 @@ userController.login = async (req, res) =>
 };
 
 /*****************************************************************************************************************/
+userController.logout = async (req, res) => 
+{
+  try 
+  {
+    const userID = req.body.userID;
+    const refreshToken = req.body.refreshToken
+    await Token.findOneAndDelete({ userID: userID, token: refreshToken });
+    res.status(200).json({ message: "Logout successful" });
+  }
+
+  catch (error)
+  {
+    console.error(error);
+    res.status(500).json({ message: "Error logging out" });
+  }
+};
+
+/*****************************************************************************************************************/
 userController.create = async (req, res) => 
 {
   const userData = req.body;
-  const existingUser = await User.findOne({ email: userData.email });
 
-  if (existingUser) 
+  if (await User.findOne({ email: userData.email })) 
     return res.status(400).send("Email already in use");
 
   try 
@@ -61,7 +81,13 @@ userController.create = async (req, res) =>
     const newUser = new User({ ...userData, password: hashedPassword });
     await newUser.save();
 
-    res.sendStatus(201);
+    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '1m' })
+    const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
+    
+    await Token.create({ token: refreshToken, userID: newUser.id })
+      .catch(err => console.log(err))
+
+    res.status(201).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken });
     console.log(`${new Date()}: Successfully created user ${newUser.name}`);
   }
   
