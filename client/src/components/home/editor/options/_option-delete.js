@@ -33,7 +33,7 @@ export default function OptionDelete({ task })
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-delete`, 
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/delete`, 
     { 
       projectID: activeProject.id, 
       taskID: task.id, 

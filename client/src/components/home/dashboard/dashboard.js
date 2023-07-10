@@ -17,23 +17,25 @@ export default function Dashboard()
   {
     if (activeProject !== null && activeProject.tasks === undefined)
     {
-      axios.get(`${process.env.REACT_APP_SERVER_ROUTE}/tasks-get?projectID=${activeProject.id}`)
-        .then(res => 
+      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/get?projectID=${activeProject.id}`,
+      {
+        accessToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
+      })
+      .then(res => 
+      {
+        const projectsCopy = projects.map(project => 
         {
-          const projectsCopy = projects.map(project => 
-          {
-            if (project.id === activeProject.id)
-              project.tasks = res.data;
+          if (project.id === activeProject.id)
+            project.tasks = res.data;
 
-            return project;
-          });
-          
-          console.log('project tasks fetched');
-          setProjects(projectsCopy);
-          setActiveProject({ ...activeProject, tasks: res.data });
-        })
-        .catch(err => 
-        { console.log(err) })
+          return project;
+        });
+        
+        setProjects(projectsCopy);
+        setActiveProject({ ...activeProject, tasks: res.data });
+      })
+      .catch(err => console.log(err))
     }
 
     // eslint-disable-next-line

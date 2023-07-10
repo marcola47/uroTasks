@@ -3,18 +3,50 @@ import Task from '../models/Task.js';
 const taskController = {};
 
 /*********************************************************************************************************************************/
-taskController.create = async (projectID, taskData) => 
+taskController.get = async (req, res) =>
 {
-  const newTask = new Task(taskData);
-  await newTask.save();
+  try
+  {
+    const projectID = req.query.projectID;
+    const project = await Project.findOne({ id: projectID }).select('tasks -_id');
+    
+    const taskIDs = project.tasks;
+    const tasks = await Task.find({ id: { $in: taskIDs } }).lean().select('-_id -__v');
+  
+    res.status(200).send(tasks);
+  }
 
-  if (taskData.type === 'done')
-    await Project.updateOne({ id: projectID }, { $push: { tasks: newTask.id } });
+  catch (error)
+  {
+    console.log(error)
+    res.status(500).send({ message: "Error on getting tasks" })
+  }
+}
 
-  else
-    await Project.updateOne({ id: projectID }, { $push: { tasks: newTask.id }, $inc: { activeTasks: 1 } });
+/*********************************************************************************************************************************/
+taskController.create = async (req, res) => 
+{
+  try 
+  {
+    const data = req.body;
+    const newTask = new Task(data.newTask);
+  
+    if (newTask.type === 'done')
+      await Project.updateOne({ id: data.projectID }, { $push: { tasks: newTask.id } });
+  
+    else
+      await Project.updateOne({ id: data.projectID }, { $push: { tasks: newTask.id }, $inc: { activeTasks: 1 } });
+  
+    console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
+    await newTask.save();
+    res.sendStatus(201);
+  }
 
-  console.log(`${new Date()}: successfully inserted task to project |${projectID}|`)
+  catch (error)
+  {
+    console.log(error);
+    res.status(500).send({ message: "Error on creating task" });
+  }
 }
 
 
@@ -25,9 +57,8 @@ taskController.updateContent = async (req, res) =>
   {
     const data = req.body;
 
-    await Task.updateOne({ id: data.taskID }, { content: data.newContent, updated_at: new Date() });
-    
     console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
+    await Task.updateOne({ id: data.taskID }, { content: data.newContent, updated_at: new Date() });
     res.sendStatus(200);
   }
 

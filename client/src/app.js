@@ -34,7 +34,12 @@ export default function App()
     {
       if (projects.length <= 0)
       {
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-get`, [user.projects])
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/get`, 
+        {
+          projectIDs: user.projects,
+          accessToken: localStorage.getItem("accessToken"),
+          refreshToken: localStorage.getItem("refreshToken")
+        })
         .then(res => setProjects(res.data))
         .catch(err => console.log(err))
       }
@@ -62,7 +67,7 @@ export default function App()
 
       if (accessToken || refreshToken)
       {
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/loginFromToken`, 
+        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/token`, 
         { 
           accessToken: accessToken,
           refreshToken: refreshToken,

@@ -7,7 +7,7 @@ import Token from '../models/Token.js';
 const userController = {};
 
 /*****************************************************************************************************************/
-userController.loginFromToken = async (req, res) =>
+userController.token = async (req, res) =>
 {
   const user = await User.findOne({ id: req.body.userID });
 
@@ -32,7 +32,7 @@ userController.login = async (req, res) =>
     if (!match) 
       return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '1m' })
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: user.id })
@@ -82,7 +82,7 @@ userController.create = async (req, res) =>
     const newUser = new User({ ...userData, password: hashedPassword });
     await newUser.save();
 
-    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '1m' })
+    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: newUser.id })

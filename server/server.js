@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { config } from 'dotenv';
 
-import routes from './routes.js';
+import router from './routes.js';
 
 // ***************************************************************************************
 // server settings
@@ -16,7 +16,7 @@ const corsOptions = { origin: corsOrigin, credentials: true, optionSucessStatus:
 app.listen(PORT, () => {console.log(`server started running on port ${PORT}`)});
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use('/', routes);
+app.use('/', router);
 
 // ***************************************************************************************
 // mongodb connection

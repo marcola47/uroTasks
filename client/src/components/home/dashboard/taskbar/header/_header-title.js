@@ -27,7 +27,13 @@ export default function ItemText({ value })
 
     setActiveProject({ ...activeProject, name: newName });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-update?type=name`, [activeProject.id, newName])
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/update?type=name`, 
+    {
+      projectID: activeProject.id, 
+      newName: newName,
+      accessToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
+    })
     .then(res => 
     {
       console.log(res);

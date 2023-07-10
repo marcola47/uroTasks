@@ -12,7 +12,13 @@ export default function Confirmation({ confirmFunction })
   {
     const projectsOld = projects;
     
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project-delete`, [activeProject.id])
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/delete`, 
+    {
+      projectID: activeProject.id,
+      accessToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
+      
+    })
     .then(res => 
     {
       console.log(res); 
@@ -21,7 +27,9 @@ export default function Confirmation({ confirmFunction })
       axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=delete`, 
       {
         userID: user.id, 
-        projectID: activeProject.id
+        projectID: activeProject.id,
+        accessToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
       })
       .then(res => 
       {

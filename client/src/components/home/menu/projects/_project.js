@@ -24,7 +24,9 @@ export default function Project({ itemData })
       axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=activeProject`, 
       {
         userID: user.id, 
-        projectID: itemData.id
+        projectID: itemData.id,
+        accessToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
       })
       .then(res => 
       {

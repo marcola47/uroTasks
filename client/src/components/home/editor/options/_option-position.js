@@ -54,7 +54,7 @@ export default function OptionChangeType({ task })
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-update?type=position`, 
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/update?type=position`, 
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 

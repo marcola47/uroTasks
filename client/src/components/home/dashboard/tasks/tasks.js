@@ -72,17 +72,23 @@ export default function TasksContainer({ taskType })
     else
       setActiveProject({ ...activeProject, tasks: tasksUpdated });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task-create`, [activeProject.id, newTask])
-      .then(res => 
-      {
-        console.log(res);
-        setProjects(projectsCopy);
-      })
-      .catch(err => 
-      {
-        console.log(err);
-        setActiveProject({ ...activeProject, tasks: tasksOld });
-      })
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/create`, 
+    {
+      projectID: activeProject.id, 
+      newTask: newTask,
+      accessToken: localStorage.getItem("accessToken"),
+      refreshToken: localStorage.getItem("refreshToken")
+    })
+    .then(res => 
+    {
+      console.log(res);
+      setProjects(projectsCopy);
+    })
+    .catch(err => 
+    {
+      console.log(err);
+      setActiveProject({ ...activeProject, tasks: tasksOld });
+    })
   }
 
   function handleSave() 
