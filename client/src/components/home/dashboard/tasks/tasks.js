@@ -79,14 +79,10 @@ export default function TasksContainer({ taskType })
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
-    {
-      console.log(res);
-      setProjects(projectsCopy);
-    })
+    .then(res => setProjects(projectsCopy))
     .catch(err => 
     {
-      console.log(err);
+      // set error
       setActiveProject({ ...activeProject, tasks: tasksOld });
     })
   }

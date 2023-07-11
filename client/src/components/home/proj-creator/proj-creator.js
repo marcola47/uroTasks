@@ -45,7 +45,7 @@ export default function ProjCreator()
     })
     .then(res => 
     {
-      console.log(res);
+      // set confirmation
       setProjects([...projects, newProject]);
 
       axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=add`, 
@@ -55,20 +55,15 @@ export default function ProjCreator()
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(res => 
-      {
-        console.log(res);
-        setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] });
-      })
-      .catch(err => console.log(err))
+      .then(res => setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] }))
+      .catch(err => {/* set error */})
     })
-    .catch(err => console.log(err))
+    .catch(err => {/* set error */})
 
     if (state.isMenuHidden === false)
       toggleMenu();
 
     dispatch({ type: 'projCreatorShown' }); 
-
     projectNameRef.current.value = '';
   }
 
