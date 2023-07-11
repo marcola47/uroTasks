@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import axios from 'axios';
 
 
-import { ButtonGlow } from '../../utils/buttons';
+import { ButtonGlow } from '../../utils/buttons/buttons';
 import { ChromePicker } from 'react-color';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

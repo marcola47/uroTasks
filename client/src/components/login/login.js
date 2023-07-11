@@ -3,7 +3,7 @@ import { UserContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { Error } from '../utils/popups/popups';
+import { Error } from '../utils/notifications/notifications';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';

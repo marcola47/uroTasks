@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import axios from 'axios';
 
 import Task from './task/task'
-import List from '../../../utils/list';
+import List from '../../../utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';

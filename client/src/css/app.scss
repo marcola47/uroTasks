@@ -65,21 +65,6 @@ textarea
   }
 }
 
-.btn--glow
-{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  
-  color: #fff;
-
-  font-size: 2.3rem;
-  cursor: pointer;
-
-  &:hover > svg
-  { @include glow-content }
-}
-
 @media screen and (max-width: 1336px) 
 {
   html

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import './css/app.css';
 
+import Notifications from './components/utils/notifications/notifications'
 import NotFoundPage from './pages/404'
 import HomePage from './pages/home'
 import LoginPage from './pages/login'
@@ -119,6 +120,8 @@ export default function App()
 
   return (
     <div className="app" id='app'>
+      
+      
       <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
