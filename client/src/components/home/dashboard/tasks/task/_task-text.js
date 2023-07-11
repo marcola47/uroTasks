@@ -46,14 +46,10 @@ export default function ItemText({ value, taskID })
     if (isNewContent)
     {
       axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/update?type=content`, [taskID, newContent])
-      .then(res => 
-      {
-        console.log(res);
-        setProjects(projectsCopy);
-      })
+      .then(res => setProjects(projectsCopy))
       .catch(err => 
       {
-        console.log(err);
+        // set error
         setActiveProject({ ...activeProject, tasks: tasksOld });
       })
     }

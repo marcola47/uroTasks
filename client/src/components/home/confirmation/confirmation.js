@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Confirmation({ confirmFunction })
 {
   const { user, setUser } = useContext(UserContext);
-  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
   function deleteProject()
@@ -21,7 +21,6 @@ export default function Confirmation({ confirmFunction })
     })
     .then(res => 
     {
-      console.log(res); 
       setProjects(projects.filter(project => project.id !== activeProject.id));
 
       axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=delete`, 
@@ -33,10 +32,11 @@ export default function Confirmation({ confirmFunction })
       })
       .then(res => 
       {
-        console.log(res);
+        // set confirmation
         setUser({ ...user, activeProject: "0" });
+        setActiveProject(null);
       })
-      .catch(err => console.log(err))
+      .catch(err => {/* set error */})
     })
     .catch(err => 
     {

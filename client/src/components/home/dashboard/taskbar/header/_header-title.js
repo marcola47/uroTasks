@@ -34,14 +34,10 @@ export default function ItemText({ value })
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
-    {
-      console.log(res);
-      setProjects(projectsCopy);
-    })
+    .then(res => setProjects(projectsCopy))
     .catch(err => 
     {
-      console.log(err);
+      // set error
       setActiveProject({ ...activeProject, name: oldName });
     })
   }

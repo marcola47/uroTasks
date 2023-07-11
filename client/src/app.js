@@ -53,9 +53,6 @@ export default function App()
         ? setActiveProject(projects[activeProjectIndex]) 
         : setActiveProject(null);
       }
-
-      else
-        setActiveProject(null);
     }
   }, [user, projects]);
 

@@ -28,12 +28,8 @@ export default function Project({ itemData })
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(res => 
-      {
-        console.log(res);
-        setUser({ ...user, activeProject: itemData.id });
-      })
-      .catch(err => console.log(err))
+      .then(res => setUser({ ...user, activeProject: itemData.id }))
+      .catch(err => {/* set error */})
     }
   }
 

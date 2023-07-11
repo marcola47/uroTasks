@@ -44,11 +44,10 @@ export default function OptionDelete({ task })
     })
     .then(res => 
     {
-      console.log(res);
       setActiveProject({ ...activeProject, tasks: taskList });
       setProjects(projectsCopy);
     })
-    .catch(err => console.log(err))
+    .catch(err => {/* set error */})
   }
 
   return (

@@ -51,14 +51,10 @@ export default function ItemText({ toggleEditor })
         accesToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(res => 
-      {
-        console.log(res);
-        setProjects(projectsCopy);
-      })
+      .then(res => setProjects(projectsCopy))
       .catch(err => 
       {
-        console.log(err);
+        // set error
         setActiveProject({ ...activeProject, tasks: tasksOld });
       })
     }
