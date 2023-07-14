@@ -87,7 +87,7 @@ export default function App()
         })
       }
 
-      else if (location.pathname !== '/register' && location.pathname !== '/login')
+      else if (location.pathname !== '/register' || location.pathname !== '/login')
         navigate('/login')
     }
 
@@ -100,7 +100,9 @@ export default function App()
     isDashboardMoved: false,
     isSearchbarSpaced: false,
     isProjCreatorShown: false,
-    isConfirmationShown: false
+    isConfirmationShown: false,
+
+    notifications: []
   });
       
   function reducer(state, action)
@@ -108,24 +110,59 @@ export default function App()
     switch (action.type)
     {
       // ui
-      case 'menuHidden': return { ...state, isMenuHidden: !state.isMenuHidden };
-      case 'dashboardMoved': return { ...state, isDashboardMoved: !state.isDashboardMoved };
-      case 'searchbarSpaced': return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
-      case 'projCreatorShown': return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
-      case 'confirmationShown': return { ...state, isConfirmationShown: !state.isConfirmationShown };
+      case 'menuHidden': 
+        return { ...state, isMenuHidden: !state.isMenuHidden };
+      
+      case 'dashboardMoved': 
+        return { ...state, isDashboardMoved: !state.isDashboardMoved };
+
+      case 'searchbarSpaced': 
+        return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+
+      case 'projCreatorShown': 
+        return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
+
+      case 'confirmationShown': 
+        return { ...state, isConfirmationShown: !state.isConfirmationShown };
+
+      case 'addNotification': 
+        return { ...state, notifications: [action.payload].concat(state.notifications) };
+
+      case 'removeNotification': 
+        return { ...state, notifications: state.notifications.filter(notification => notification.index !== action.payload) };
+
+      case 'removeLastNotification': 
+        return { ...state, notifications: state.notifications.slice(0, -1) }
 
       default: return state;
     }
   }
 
+  useEffect(() => 
+  {
+    if (state.notifications.length > 0) 
+    {
+      console.log(state.notifications)
+      const timer = setTimeout(() => {
+        dispatch({ type: 'removeLastNotification' });
+      }, 5000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    
+
+  }, [state.notifications])
+
   return (
     <div className="app" id='app'>
-      
-      
       <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
             <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
+              <Notifications/>
+
               <Routes>
                 <Route exact path='/' element={ <HomePage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>

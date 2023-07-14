@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import axios from 'axios';
 
-import { Error } from '../utils/notifications/notifications';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
@@ -116,8 +114,6 @@ export default function RegForm()
       <div className="reg__background">
         <img src="img/loading.svg" alt="" />
       </div>
-
-      <Error header="Failed to register user" error={ error } setError={ setError }/>
     </div>
   )
 }

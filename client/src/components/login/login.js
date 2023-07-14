@@ -1,9 +1,7 @@
 import { useState, useContext, useRef } from 'react';
-import { UserContext } from '../../app';
+import { UserContext, ReducerContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-import { Error } from '../utils/notifications/notifications';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +11,7 @@ export default function LoginForm()
   const navigate = useNavigate();
 
   const { setUser } = useContext(UserContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const [error, setError] = useState(null);
 
   const emailRef = useRef();
@@ -27,13 +26,39 @@ export default function LoginForm()
 
     if (email === '' || !emailRegex.test(email))
     {
-      setError('Email format not accepted')
+      //setError('Email format not accepted');
+      
+      dispatch(
+      { 
+        type: 'addNotification', 
+        payload: 
+        { 
+          index: state.notifications.length, 
+          type: "error",
+          header: "Failed to login",
+          message: "Email format not accepted" 
+        } 
+      })
+      
       return;
     }
     
     if (password === '' || password.length < 8)
     {
-      setError('Your password must be atleast 8 characters long')
+      //setError('Your password must be atleast 8 characters long')
+
+      dispatch(
+      { 
+        type: 'addNotification', 
+        payload: 
+        { 
+          index: state.notifications.length,
+          type: "error",
+          header: "Failed to login",
+          message: "Your password must be atleast 8 characters long" 
+        } 
+      })
+
       return;
     }
 
@@ -80,8 +105,6 @@ export default function LoginForm()
       <div className="login__background">
         <img src="img/loading.svg" alt="" />
       </div>
-
-      <Error header="Failed to login" error={ error } setError={ setError }/>
     </div>
   )
 }
