@@ -1,17 +1,15 @@
-import { useContext, useRef, useState } from 'react';
-import { UserContext } from '../../app';
+import { useContext, useRef } from 'react';
+import { UserContext, ReducerContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import axios from 'axios';
-
-import { Error } from '../utils/popups/popups';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
 export default function RegForm()
 {
-  const [error, setError] = useState(null);
+  const { dispatch } = useContext(ReducerContext);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -31,25 +29,73 @@ export default function RegForm()
 
     if (name === '' || email === '' || password === '' || passwordConfirm === '')
     {
-      setError('Make sure to fill in all the necessary data');
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to register",
+          message: "Make sure to fill in all the necessary data" 
+        } 
+      })
+      
+      dispatch({ type: 'showNotification' })
+
       return;
     }
       
     if (!emailRegex.test(email))
     {
-      setError('Make sure you email is in the correct format')
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to register",
+          message: "Make sure you email is in the correct format" 
+        } 
+      })
+      
+      dispatch({ type: 'showNotification' })
+
       return;
     }
 
     if (password !== passwordConfirm)
     {
-      setError('Make sure both password fields match')
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to register",
+          message: "Make sure both password fields match" 
+        } 
+      })
+      
+      dispatch({ type: 'showNotification' })
+
       return;
     }
 
     if (password.length < 8)
     {
-      setError('Your password must be atleast 8 characters long');
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to register",
+          message: "Your password must be atleast 8 characters long" 
+        } 
+      })
+      
+      dispatch({ type: 'showNotification' })
+
       return;
     }
     
@@ -74,10 +120,34 @@ export default function RegForm()
     .catch(err => 
     {
       if (err.response)
-        setError(err.response.data);
+      {
+        dispatch(
+        { 
+          type: 'setNotification', 
+          payload: 
+          { 
+            type: "error",
+            header: "Failed to register",
+            message: err.response.data.message 
+          } 
+        })
+      }
 
       else
-        setError("Unable to communicate with server")
+      {
+        dispatch(
+        { 
+          type: 'setNotification', 
+          payload: 
+          { 
+            type: "error",
+            header: "Failed to register",
+            message: "Failed to communicate with server"
+          } 
+        })
+      }
+
+      dispatch({ type: 'showNotification' })
     })
   }
 
@@ -116,8 +186,6 @@ export default function RegForm()
       <div className="reg__background">
         <img src="img/loading.svg" alt="" />
       </div>
-
-      <Error header="Failed to register user" error={ error } setError={ setError }/>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import axios from 'axios';
 
 import Task from './task/task'
-import List from '../../../utils/list';
+import List from '../../../utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -79,14 +79,10 @@ export default function TasksContainer({ taskType })
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
-    {
-      console.log(res);
-      setProjects(projectsCopy);
-    })
+    .then(res => setProjects(projectsCopy))
     .catch(err => 
     {
-      console.log(err);
+      // set error
       setActiveProject({ ...activeProject, tasks: tasksOld });
     })
   }

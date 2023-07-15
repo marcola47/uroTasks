@@ -1,9 +1,7 @@
-import { useState, useContext, useRef } from 'react';
-import { UserContext } from '../../app';
+import { useContext, useRef } from 'react';
+import { UserContext, ReducerContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-import { Error } from '../utils/popups/popups';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
@@ -13,46 +11,96 @@ export default function LoginForm()
   const navigate = useNavigate();
 
   const { setUser } = useContext(UserContext);
-  const [error, setError] = useState(null);
+  const { dispatch } = useContext(ReducerContext);
 
   const emailRef = useRef();
   const passwordRef = useRef();
 
   function login()
   {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (email === '' || !emailRegex.test(email))
     {
-      setError('Email format not accepted')
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to login",
+          message: "Email format not accepted" 
+        } 
+      })
+      
+      dispatch({ type: 'showNotification' })
       return;
     }
     
     if (password === '' || password.length < 8)
     {
-      setError('Your password must be atleast 8 characters long')
+      dispatch(
+      { 
+        type: 'setNotification', 
+        payload: 
+        { 
+          type: "error",
+          header: "Failed to login",
+          message: "Your password must be atleast 8 characters long" 
+        } 
+      })
+
+      dispatch({ type: 'showNotification' })
       return;
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, {email: email, password: password})
-      .then(res => 
+    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, 
+    { 
+      email: email, 
+      password: password 
+    })
+    .then(res => 
+    {
+      localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
+      
+      setUser(res.data.result);
+      navigate('/');
+    })
+    .catch(err => 
+    {
+      if (err.response)
       {
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        setUser(res.data.result);
-        navigate('/');
-      })
-      .catch(err => 
-      {
-        if (err.response)
-           setError(err.response.data.message);
+        dispatch(
+        { 
+          type: 'setNotification', 
+          payload: 
+          { 
+            type: "error",
+            header: "Failed to login",
+            message: err.response.data.message 
+          } 
+        })
+      }
 
-         else
-           setError("Unable to communicate with server")
-      })
+      else
+      {
+        dispatch(
+        { 
+          type: 'setNotification', 
+          payload: 
+          { 
+            type: "error",
+            header: "Failed to login",
+            message: "Failed to communicate with server"
+          } 
+        })
+      }
+
+      dispatch({ type: 'showNotification' })
+    })
   }
 
   return (
@@ -80,8 +128,6 @@ export default function LoginForm()
       <div className="login__background">
         <img src="img/loading.svg" alt="" />
       </div>
-
-      <Error header="Failed to login" error={ error } setError={ setError }/>
     </div>
   )
 }

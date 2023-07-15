@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from '../../../../app';
 import { ToggleMenuContext } from '../../../../pages/home';
 
-import { ButtonGlow } from '../../../utils/buttons';
-import List from '../../../utils/list';
+import { ButtonGlow } from '../../../utils/buttons/buttons';
+import List from '../../../utils/list/list';
 import Project from './_project';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

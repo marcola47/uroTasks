@@ -1,10 +1,12 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
 import './css/app.css';
 
+import Notification from './components/utils/notification/notification'
 import NotFoundPage from './pages/404'
 import HomePage from './pages/home'
 import LoginPage from './pages/login'
@@ -53,9 +55,6 @@ export default function App()
         ? setActiveProject(projects[activeProjectIndex]) 
         : setActiveProject(null);
       }
-
-      else
-        setActiveProject(null);
     }
   }, [user, projects]);
 
@@ -83,13 +82,13 @@ export default function App()
         {
           console.log(err)
   
-          navigate('/login');
+          navigate('login');
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
         })
       }
 
-      else if (location.pathname !== '/register' && location.pathname !== '/login')
+      else if (location.pathname !== '/register' || location.pathname !== '/login')
         navigate('/login')
     }
 
@@ -102,7 +101,10 @@ export default function App()
     isDashboardMoved: false,
     isSearchbarSpaced: false,
     isProjCreatorShown: false,
-    isConfirmationShown: false
+    isConfirmationShown: false,
+
+    notification: null,
+    notificationShown: false
   });
       
   function reducer(state, action)
@@ -110,15 +112,48 @@ export default function App()
     switch (action.type)
     {
       // ui
-      case 'menuHidden': return { ...state, isMenuHidden: !state.isMenuHidden };
-      case 'dashboardMoved': return { ...state, isDashboardMoved: !state.isDashboardMoved };
-      case 'searchbarSpaced': return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
-      case 'projCreatorShown': return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
-      case 'confirmationShown': return { ...state, isConfirmationShown: !state.isConfirmationShown };
+      case 'menuHidden': 
+        return { ...state, isMenuHidden: !state.isMenuHidden };
+      
+      case 'dashboardMoved': 
+        return { ...state, isDashboardMoved: !state.isDashboardMoved };
+
+      case 'searchbarSpaced': 
+        return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+
+      case 'projCreatorShown': 
+        return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
+
+      case 'confirmationShown': 
+        return { ...state, isConfirmationShown: !state.isConfirmationShown };
+
+      case 'setNotification': 
+        return { ...state, notification: action.payload };
+
+      case 'toggleNotification':
+        return { ...state, notificationShown: !state.notificationShown }
+
+      case 'showNotification':
+        return { ...state, notificationShown: true }
+
+      case 'hideNotification':
+        return { ...state, notificationShown: false }
 
       default: return state;
     }
   }
+
+  useEffect(() => 
+  {
+    const timer = setTimeout(() => 
+    {
+      if (state.notification)
+        dispatch({ type: 'hideNotification' })
+
+    }, 5000);
+    
+    return () => {clearTimeout(timer)};
+  }, [state.notification])
 
   return (
     <div className="app" id='app'>
@@ -126,6 +161,11 @@ export default function App()
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
             <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
+              
+              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
+                { state.notificationShown && <Notification/> }
+              </AnimatePresence>
+
               <Routes>
                 <Route exact path='/' element={ <HomePage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>
@@ -134,6 +174,7 @@ export default function App()
       
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
+
             </FlagsContext.Provider>
           </ReducerContext.Provider>
         </UserContext.Provider>
