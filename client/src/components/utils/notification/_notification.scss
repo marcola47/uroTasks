@@ -1,39 +1,22 @@
 @import '../../../css/_variables.scss';
 
-.notifications
-{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  max-height: 95dvh;
-  padding: 16px;
-
-  overflow-y: scroll;
-}
-
-.popup
+.notification
 {
   display: flex;
   align-items: center;
   gap: 16px;
   
-  z-index: -99;
-  opacity: 0;
+  z-index: 999;
 
-  position: relative;
+  position: absolute;
+  top: 16px;
+  right: 16px;
   width: 360px;
   padding: 16px 32px 16px 0px;
   border-radius: $br-big;
 
   color: $white-light;
   background-color: $bg-blue-light;
-
-  transform: translateX(384px);
 
   &::before
   {
@@ -46,19 +29,12 @@
     border-radius: $br-big;
   }
 
-  &--shown
-  {
-    z-index: 99;
-    opacity: 1;
-    transform: translateX(0px);
-  }
-
   &--confirmation
   {
     &::before
     { background: linear-gradient(270deg, rgba(0,0,0,0) 30%, rgba(27, 228, 0, 0.164) 100%); }
 
-    .popup__icon, .popup__header
+    .notification__icon, .notification__header
     { color: $green-light; }
   }
 
@@ -67,7 +43,7 @@
     &::before
     { background: linear-gradient(270deg, rgba(0,0,0,0) 30%, rgba(207, 0, 28, 0.247) 100%); }
 
-    .popup__icon, .popup__header
+    .notification__icon, .notification__header
     { color: $crimson-dark; }
   }
 
@@ -106,7 +82,7 @@
 
 @media screen and (max-width: 420px) 
 {
-  .popup
+  .notification
   {
     width: calc(100% - 32px);
     left: 16px;
