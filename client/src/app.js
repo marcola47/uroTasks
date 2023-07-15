@@ -1,11 +1,12 @@
 /** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
 import './css/app.css';
 
-import Notifications from './components/utils/notifications/notifications'
+import Notification from './components/utils/notification/notification'
 import NotFoundPage from './pages/404'
 import HomePage from './pages/home'
 import LoginPage from './pages/login'
@@ -102,7 +103,8 @@ export default function App()
     isProjCreatorShown: false,
     isConfirmationShown: false,
 
-    notifications: []
+    notification: null,
+    notificationShown: false
   });
       
   function reducer(state, action)
@@ -125,14 +127,17 @@ export default function App()
       case 'confirmationShown': 
         return { ...state, isConfirmationShown: !state.isConfirmationShown };
 
-      case 'addNotification': 
-        return { ...state, notifications: [action.payload].concat(state.notifications) };
+      case 'setNotification': 
+        return { ...state, notification: action.payload };
 
-      case 'removeNotification': 
-        return { ...state, notifications: state.notifications.filter(notification => notification.index !== action.payload) };
+      case 'toggleNotification':
+        return { ...state, notificationShown: !state.notificationShown }
 
-      case 'removeLastNotification': 
-        return { ...state, notifications: state.notifications.slice(0, -1) }
+      case 'showNotification':
+        return { ...state, notificationShown: true }
+
+      case 'hideNotification':
+        return { ...state, notificationShown: false }
 
       default: return state;
     }
@@ -140,20 +145,15 @@ export default function App()
 
   useEffect(() => 
   {
-    if (state.notifications.length > 0) 
+    const timer = setTimeout(() => 
     {
-      console.log(state.notifications)
-      const timer = setTimeout(() => {
-        dispatch({ type: 'removeLastNotification' });
-      }, 5000);
+      if (state.notification)
+        dispatch({ type: 'hideNotification' })
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
+    }, 5000);
     
-
-  }, [state.notifications])
+    return () => {clearTimeout(timer)};
+  }, [state.notification])
 
   return (
     <div className="app" id='app'>
@@ -161,7 +161,10 @@ export default function App()
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
             <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
-              <Notifications/>
+              
+              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
+                { state.notificationShown && <Notification/> }
+              </AnimatePresence>
 
               <Routes>
                 <Route exact path='/' element={ <HomePage/> }/>
@@ -171,6 +174,7 @@ export default function App()
       
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
+
             </FlagsContext.Provider>
           </ReducerContext.Provider>
         </UserContext.Provider>

@@ -45,7 +45,7 @@ userController.login = async (req, res) =>
   catch (error) 
   {
     console.error("Error during login:", error);
-    res.status(500).send("Internal server error logging in");
+    res.status(500).send({ message: "Internal server error logging in" });
   }
 };
 
@@ -74,7 +74,7 @@ userController.create = async (req, res) =>
   const userData = req.body;
 
   if (await User.findOne({ email: userData.email })) 
-    return res.status(400).send("Email already in use");
+    return res.status(400).send({ message: "Email already in use" });
 
   try 
   {
@@ -95,7 +95,7 @@ userController.create = async (req, res) =>
   catch (error) 
   {
     console.error("Error creating user:", error);
-    res.status(500).send("Internal server error on creating user");
+    res.status(500).send({ message: "Internal server error on creating user" });
   }
 };
 
