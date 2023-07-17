@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { ProjectsContext } from '../../../../app';
-import { ScrollContext } from '../../../../pages/home';
 import { ToggleEditorContext } from '../editor';
 import axios from 'axios';
 
@@ -12,7 +11,6 @@ export default function OptionChangeType({ task })
   const [changeTypeOpen, setChangeTypeOpen] = useState(false)
 
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { setScrollTo } = useContext(ScrollContext);
   const toggleEditor = useContext(ToggleEditorContext);
   
   let taskTypeLeft, taskTypeRight, changeTypeIcon;
@@ -37,9 +35,6 @@ export default function OptionChangeType({ task })
 
   function updateTaskType(newType)
   { 
-    const scrollOffset = document.getElementById(task.type).offsetLeft;
-    setScrollTo(scrollOffset);
-
     const taskList = activeProject.tasks;
     const taskToMove = taskList.find(taskItem => taskItem.id === task.id);
     
@@ -90,7 +85,7 @@ export default function OptionChangeType({ task })
       taskID: task.id, 
       types: types, 
       positions: positions,
-      accesToken: localStorage.getItem("accessToken"),
+      accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 

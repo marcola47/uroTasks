@@ -14,7 +14,7 @@ export default function Project({ itemData })
   {
     if (itemData.id !== user.activeProject)
     {
-      if (window.innerWidth < 1337 && state.isMenuHidden === false)
+      if (window.innerWidth < 1337 && state.isMenuShown === false)
       {
         dispatch({ type: 'menuHidden'      });
         dispatch({ type: 'dashboardMoved'  });

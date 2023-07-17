@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext } from '../../../../app';
-import { ScrollContext } from '../../../../pages/home';
 import { ToggleEditorContext } from '../editor';
 import axios from 'axios';
 
@@ -10,14 +9,10 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 export default function OptionChangeType({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { setScrollTo } = useContext(ScrollContext);
   const toggleEditor = useContext(ToggleEditorContext);
  
   function updateTaskPosition(direction)
   { 
-    const scrollOffset = document.getElementById(task.type).offsetLeft;
-    setScrollTo(scrollOffset);
-
     const tasksFiltered = activeProject.tasks.filter(taskObj => taskObj.type === task.type);
     const lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
     const updatedTask = tasksFiltered.find(taskObj => taskObj.id === task.id);
@@ -59,7 +54,7 @@ export default function OptionChangeType({ task })
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction,
-      accesToken: localStorage.getItem("accessToken"),
+      accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 

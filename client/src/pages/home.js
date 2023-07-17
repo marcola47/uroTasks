@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { ReducerContext, FlagsContext } from '../app';
 
 import Menu from '../components/home/menu/menu';
@@ -22,7 +22,6 @@ export default function HomePage()
   const [editorParams, setEditorParams] = useState({ x: 0, y: 0, w: 0, h: 0 });
   const [editorData, setEditorData] = useState(null);
   const [editorShown, setEditorShown] = useState(false);
-  const [scrollTo, setScrollTo] = useState(0);
 
   function toggleMenu()
   { 
@@ -53,12 +52,10 @@ export default function HomePage()
         <ToggleMenuContext.Provider value={{ toggleMenu }}>
           <ProjCreator/>
           <Menu/>
-
-           <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
-            <ScrollContext.Provider value={{ scrollTo, setScrollTo }}>
-              <Dashboard/>
-              <Editor/>
-            </ScrollContext.Provider>
+          
+          <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
+            <Dashboard/>
+            <Editor/>
           </EditorContext.Provider>
         </ToggleMenuContext.Provider>
       </>

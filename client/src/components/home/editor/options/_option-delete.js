@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext } from '../../../../app';
-import { ScrollContext } from '../../../../pages/home';
 import { ToggleEditorContext } from '../editor';
 import axios from 'axios';
 
@@ -10,14 +9,10 @@ import { faMultiply } from '@fortawesome/free-solid-svg-icons';
 export default function OptionDelete({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { setScrollTo } = useContext(ScrollContext);
   const toggleEditor = useContext(ToggleEditorContext);
 
   function deleteTask()
   {
-    const scrollOffset = document.getElementById(task.type).offsetLeft;
-    setScrollTo(scrollOffset);
-
     const taskList = activeProject.tasks;
     const taskIndex = taskList.findIndex(taskItem => taskItem.id === task.id);
     const position = taskList[taskIndex].position;
@@ -39,7 +34,7 @@ export default function OptionDelete({ task })
       taskID: task.id, 
       taskType: task.type, 
       position: position,
-      accesToken: localStorage.getItem("accessToken"),
+      accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 

@@ -7,12 +7,11 @@ import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
 import Tasks from './tasks/tasks';
 
-export default function Dashboard()
+function Dashboard()
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state } = useContext(ReducerContext);
 
-  // reimplement using web sockets, doing manual verification and cache revalidation are a fucking nightmare
   useEffect(() => 
   {
     if (activeProject !== null && activeProject.tasks === undefined)
@@ -78,3 +77,6 @@ export default function Dashboard()
     </div>
   )
 }
+
+const MemoizedDashboard = React.memo(Dashboard);
+export default MemoizedDashboard;

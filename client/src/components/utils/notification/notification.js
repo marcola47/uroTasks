@@ -19,7 +19,7 @@ export default function Notification()
 
   return (
     <motion.div key="notification" className={ classes } initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: '400px' }}>
-      <div className="notification__close" onClick={ () => {dispatch({ type: 'toggleNotification' })} }>x</div>
+      <div className="notification__close" onClick={ () => {dispatch({ type: 'hideNotification' })} }>x</div>
 
       <div className="notification__icon">
         <FontAwesomeIcon icon={ icon }/>

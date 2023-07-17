@@ -702,7 +702,7 @@
     transform: rotate(0deg);
   }
 }
-.editable__bg {
+.editor__bg {
   z-index: -100;
   opacity: 0;
   position: absolute;
@@ -712,13 +712,13 @@
   transition-duration: 0.15s, 0s;
   transition-delay: 0s, 0.15s;
 }
-.editable__bg--shown {
+.editor__bg--shown {
   opacity: 1;
   z-index: 99;
   transition: opacity 0.15s 0.05s ease-in-out;
 }
 
-.editable {
+.editor {
   z-index: -100;
   opacity: 0;
   position: absolute;
@@ -731,12 +731,12 @@
   transition-duration: 0.15s, 0s;
   transition-delay: 0s, 0.15s;
 }
-.editable--shown {
+.editor--shown {
   opacity: 1;
   z-index: 100;
   transition: opacity 0.15s 0.05s ease-in-out;
 }
-.editable textarea {
+.editor textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: -4px;
@@ -746,7 +746,7 @@
   font-family: inherit;
   font-size: inherit;
 }
-.editable .options {
+.editor .options {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -758,7 +758,7 @@
      -moz-user-select: none;
           user-select: none;
 }
-.editable .options .option {
+.editor .options .option {
   opacity: 1;
   z-index: 5;
   position: relative;
@@ -774,30 +774,30 @@
      -moz-user-select: none;
           user-select: none;
 }
-.editable .options .option:hover {
+.editor .options .option:hover {
   background-color: #fff;
 }
-.editable .options .option--position--up {
+.editor .options .option--position--up {
   border-radius: 3px 3px 0 0;
 }
-.editable .options .option--position--down {
+.editor .options .option--position--down {
   margin-top: -4px;
   border-radius: 0 0 3px 3px;
 }
-.editable .options .option--remove {
+.editor .options .option--remove {
   color: #fff;
   background-color: hsl(0, 80%, 51%);
 }
-.editable .options .option--remove:hover {
+.editor .options .option--remove:hover {
   background-color: #e93535;
 }
-.editable .options .option__icon {
+.editor .options .option__icon {
   display: grid;
   place-items: center;
   width: 42px;
   height: 42px;
 }
-.editable .options__select {
+.editor .options__select {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -814,26 +814,26 @@
   pointer-events: none;
   cursor: default;
 }
-.editable .options__select--shown {
+.editor .options__select--shown {
   opacity: 1;
   pointer-events: initial;
   cursor: pointer;
 }
-.editable .options__select > * {
+.editor .options__select > * {
   width: 88px;
   height: 40px;
 }
-.editable .options__location {
+.editor .options__location {
   display: grid;
   place-items: center;
   border-radius: 3px;
   color: hsl(215, 29%, 7%);
   background-color: hsl(0, 0%, 86%);
 }
-.editable .options__location--selected, .editable .options__location:hover {
+.editor .options__location--selected, .editor .options__location:hover {
   background-color: #fff;
 }
-.editable .options__submit {
+.editor .options__submit {
   left: 0px;
   border-radius: 3px;
   color: #fff;
@@ -841,7 +841,7 @@
   font-size: inherit;
   cursor: pointer;
 }
-.editable .options__submit:hover {
+.editor .options__submit:hover {
   background-color: hsl(204, 76%, 62%);
 }
 
@@ -1101,7 +1101,6 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 10;
   width: 420px;
   height: 100dvh;
   padding: 32px;
@@ -1110,8 +1109,13 @@
   transform-origin: left;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.0392156863);
 }
+.menu--shown {
+  z-index: 12;
+  opacity: 1;
+}
 .menu--hidden {
   transform: translateX(-420px);
+  z-index: -12;
   opacity: 0;
 }
 

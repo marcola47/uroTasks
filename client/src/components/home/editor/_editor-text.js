@@ -13,6 +13,7 @@ export default function ItemText({ toggleEditor })
 
   function handleContentChange(newContent)
   {
+    console.log('running')
     let isNewContent = false;
     
     if (newContent === "")
@@ -48,7 +49,7 @@ export default function ItemText({ toggleEditor })
       {
         taskID: editorData.id, 
         newContent: newContent,
-        accesToken: localStorage.getItem("accessToken"),
+        accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
       .then(res => setProjects(projectsCopy))
@@ -64,7 +65,7 @@ export default function ItemText({ toggleEditor })
   {
     if (editorShown)
     {
-      const textArea = document.getElementById('editable__text-area');
+      const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
     
       textArea.style.height = 'auto';
@@ -78,7 +79,7 @@ export default function ItemText({ toggleEditor })
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== '')
+    if (taskTextRef.current.value !== editorData.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');
@@ -87,18 +88,12 @@ export default function ItemText({ toggleEditor })
       toggleEditor();
   }
 
-  // eslint-disable-next-line
-  function handleDiscard()
-  {
-    return;
-  }
-
   function handleKeyDown(e)
   {
     
     if (e.key === "Enter")
     {
-      const textArea = document.getElementById('editable__text-area');
+      const textArea = document.getElementById('editor__text-area');
       textArea.blur();
 
       toggleEditor();
@@ -109,7 +104,7 @@ export default function ItemText({ toggleEditor })
 
   function handleInputGrowth()
   {
-    const textArea = document.getElementById('editable__text-area');
+    const textArea = document.getElementById('editor__text-area');
 
     textArea.style.height = 'auto';
     textArea.style.height = `${textArea.scrollHeight}px`;
@@ -117,7 +112,7 @@ export default function ItemText({ toggleEditor })
 
   return (
       <textarea  
-          id='editable__text-area' 
+          id='editor__text-area' 
           ref={ taskTextRef } 
           value={ inputValue } 
           onChange={ e => {setInputValue(e.target.value);} } 

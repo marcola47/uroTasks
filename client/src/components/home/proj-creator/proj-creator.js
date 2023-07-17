@@ -60,7 +60,7 @@ export default function ProjCreator()
     })
     .catch(err => {/* set error */})
 
-    if (state.isMenuHidden === false)
+    if (state.isMenuShown === false)
       toggleMenu();
 
     dispatch({ type: 'projCreatorShown' }); 
@@ -85,7 +85,7 @@ export default function ProjCreator()
 
   function toggleProjectCreator()
   {
-    if (state.isMenuHidden === false)
+    if (state.isMenuShown === false)
       toggleMenu();
 
     dispatch({ type: 'projCreatorShown' })

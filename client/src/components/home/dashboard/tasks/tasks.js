@@ -126,7 +126,7 @@ export default function TasksContainer({ taskType })
       <TaskTypeContext.Provider value={ taskType }>
       {
         activeProject?.tasks
-        ? <List elements={ tasksFiltered.sort((a, b) => {return a.position - b.position}) } ListItem={ Task } classes='tasks__list'/> 
+        ? <List elements={ tasksFiltered.sort((a, b) => {return a.position - b.position}) } ListItem={ Task } classes='tasks__list' ids={ `list--${taskType}` }/> 
         : null
       }
       </TaskTypeContext.Provider>

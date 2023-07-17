@@ -80,8 +80,6 @@ export default function App()
         })
         .catch(err => 
         {
-          console.log(err)
-  
           navigate('login');
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
@@ -97,7 +95,7 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
-    isMenuHidden: false,
+    isMenuShown: true,
     isDashboardMoved: false,
     isSearchbarSpaced: false,
     isProjCreatorShown: false,
@@ -113,7 +111,7 @@ export default function App()
     {
       // ui
       case 'menuHidden': 
-        return { ...state, isMenuHidden: !state.isMenuHidden };
+         return { ...state, isMenuShown: !state.isMenuShown };
       
       case 'dashboardMoved': 
         return { ...state, isDashboardMoved: !state.isDashboardMoved };
@@ -129,9 +127,6 @@ export default function App()
 
       case 'setNotification': 
         return { ...state, notification: action.payload };
-
-      case 'toggleNotification':
-        return { ...state, notificationShown: !state.notificationShown }
 
       case 'showNotification':
         return { ...state, notificationShown: true }
