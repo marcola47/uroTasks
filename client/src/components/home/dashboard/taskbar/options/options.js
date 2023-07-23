@@ -7,4 +7,7 @@ export default function TaskbarOptions()
       <OptionsDelete/>
     </div>
   )
+
+  // <FontAwesomeIcon icon={ faGrip } />
+  // <FontAwesomeIcon icon={ faGripVertical } />
 }

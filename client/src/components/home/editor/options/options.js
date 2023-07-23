@@ -11,7 +11,7 @@ export default function TaskOptions({ task })
   const [bottom, setBottom] = useState(0);
   const optionsRef = useRef(null);
 
-  useEffect(() => 
+  useEffect(() => // make options never be out of bounds
   {
     const optionsRect = optionsRef.current.getBoundingClientRect();
     setBottom(window.innerHeight - optionsRect.bottom);

@@ -1,5 +1,6 @@
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
+import User from '../models/User.js';
 
 const projectController = {};
 
@@ -34,7 +35,11 @@ projectController.get = async (req, res) =>
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ message: "Error on getting projects" })
+    res.status(500).send(
+    {
+      header: "Failed to fetch projects",
+      message: "Internal server error on fetching projects" 
+    })
   }
 }
 
@@ -54,7 +59,11 @@ projectController.create = async (req, res) =>
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ message: "Error on creating project" })
+    res.status(500).send(
+    {
+      header: "Failed to create project",
+      message: "Internal server error on creating project" 
+    })
   }
 }
 
@@ -98,7 +107,11 @@ projectController.update = async (req, res) =>
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ message: "Error on updating project data" });
+    res.status(500).send(
+    {
+      header: "Failed to update project",
+      message: "Internal server error on updating project" 
+    })
   }
 }
 
@@ -111,16 +124,26 @@ projectController.delete = async (req, res) =>
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     const taskIDs = project.tasks;
     
-    console.log(`${new Date()}: successfully deleted project: ${data.projectID}`);
+    const updatedUser = {};
+    updatedUser.$pull = { projects: data.projectID };
+    updatedUser.$set = { activeProject: '0' };
+
     await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.deleteOne({ id: data.projectID });
+    await User.updateOne({ id: data.userID }, updatedUser);
+
+    console.log(`${new Date()}: successfully deleted project: ${data.projectID}`);
     res.sendStatus(200);
   }
 
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ message: "Error on deleting project" });
+    res.status(500).send(
+    {
+      header: "Failed to delete project",
+      message: "Internal server error on deleting project" 
+    })
   }
 }
 

@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { ReducerContext, FlagsContext } from '../app';
 
 import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
 import ProjCreator from '../components/home/proj-creator/proj-creator';
 import Editor from '../components/home/editor/editor';
-import Confirmation from '../components/home/confirmation/confirmation';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -39,26 +38,21 @@ export default function HomePage()
     )
   }
 
-  else
-  {
-    return (
-      <>
-        <div className='dashboard__burger' id="dashboard__burger" onClick={ toggleMenu }>
-          <FontAwesomeIcon icon={ faBars }/>
-        </div>
+  return (
+    <>
+      <div className='dashboard__burger' id="dashboard__burger" onClick={ toggleMenu }>
+        <FontAwesomeIcon icon={ faBars }/>
+      </div>
 
-        <Confirmation/>
-
-        <ToggleMenuContext.Provider value={{ toggleMenu }}>
-          <ProjCreator/>
-          <Menu/>
-          
-          <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
-            <Dashboard/>
-            <Editor/>
-          </EditorContext.Provider>
-        </ToggleMenuContext.Provider>
-      </>
-    )
-  }
+      <ToggleMenuContext.Provider value={{ toggleMenu }}>
+        <ProjCreator/>
+        <Menu/>
+        
+        <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
+          <Dashboard/>
+          <Editor/>
+        </EditorContext.Provider>
+      </ToggleMenuContext.Provider>
+    </>
+  )
 }

@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import axios, { setResponseError } from './utils/axiosConfig';
 
 import './css/app.css';
 
-import Notification from './components/utils/notification/notification'
+import { Notification, Confirmation } from './components/utils/notification/modals'
 import NotFoundPage from './pages/404'
 import HomePage from './pages/home'
 import LoginPage from './pages/login'
@@ -33,7 +33,7 @@ export default function App()
 
   useEffect(() => // get and set projects 
   {
-    if (user !== null && user.activeProject !== '0')
+    if (user !== null)
     {
       if (projects.length <= 0)
       {
@@ -102,14 +102,16 @@ export default function App()
     isConfirmationShown: false,
 
     notification: null,
-    notificationShown: false
+    notificationShown: false,
+
+    confirmation: null,
+    confirmationShown: false
   });
       
   function reducer(state, action)
   {
     switch (action.type)
     {
-      // ui
       case 'menuHidden': 
          return { ...state, isMenuShown: !state.isMenuShown };
       
@@ -125,6 +127,15 @@ export default function App()
       case 'confirmationShown': 
         return { ...state, isConfirmationShown: !state.isConfirmationShown };
 
+      case 'setConfirmation': 
+        return { ...state, confirmation: action.payload };
+
+      case 'showConfirmation':
+        return { ...state, confirmationShown: true }
+
+      case 'hideConfirmation':
+        return { ...state, confirmationShown: false }
+
       case 'setNotification': 
         return { ...state, notification: action.payload };
 
@@ -138,18 +149,18 @@ export default function App()
     }
   }
 
-  useEffect(() => 
+  useEffect(() => // hide notification
   {
     const timer = setTimeout(() => 
     {
-      if (state.notification)
+      if (state.notificationShown)
         dispatch({ type: 'hideNotification' })
 
     }, 5000);
     
     return () => {clearTimeout(timer)};
   }, [state.notification])
-
+  
   return (
     <div className="app" id='app'>
       <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
@@ -157,8 +168,10 @@ export default function App()
           <ReducerContext.Provider value={{ state, dispatch }}>
             <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
               
+              {/* if I only use the value of the notification object to show it, the exit animation doesn't trigger */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-                { state.notificationShown && <Notification/> }
+                { state.notificationShown && <Notification/> } 
+                { state.confirmationShown && <Confirmation/> }
               </AnimatePresence>
 
               <Routes>

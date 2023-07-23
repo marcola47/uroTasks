@@ -13,7 +13,6 @@ export default function ItemText({ toggleEditor })
 
   function handleContentChange(newContent)
   {
-    console.log('running')
     let isNewContent = false;
     
     if (newContent === "")
@@ -61,7 +60,7 @@ export default function ItemText({ toggleEditor })
     }
   }
 
-  useEffect(() => 
+  useEffect(() => // set editor styles when shown
   {
     if (editorShown)
     {

@@ -12,7 +12,7 @@ function Dashboard()
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state } = useContext(ReducerContext);
 
-  useEffect(() => 
+  useEffect(() => // fetch active project tasks
   {
     if (activeProject !== null && activeProject.tasks === undefined)
     {

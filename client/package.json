@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "iab": "npm install && npm run build",
-    "importSass": "node src/scripts/importSassFiles.js"
+    "importSass": "node src/utils/importSassFiles.js"
   },
   "eslintConfig": {
     "extends": [
