@@ -93,7 +93,7 @@ export default function App()
     {
       if (projects.length <= 0)
       {
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/get`, 
+        axios.post(`/project/get`, 
         {
           projectIDs: user.projects,
           accessToken: localStorage.getItem("accessToken"),
@@ -123,7 +123,7 @@ export default function App()
 
       if (accessToken || refreshToken)
       {
-        axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/token`, 
+        axios.post(`/user/token`, 
         { 
           accessToken: accessToken,
           refreshToken: refreshToken,

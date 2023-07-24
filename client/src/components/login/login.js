@@ -43,7 +43,7 @@ export default function LoginForm()
       return;
     }
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/login`, 
+    axios.post(`/user/login`, 
     { 
       email: email, 
       password: password 

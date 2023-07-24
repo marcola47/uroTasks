@@ -12,7 +12,7 @@ export default function User()
 
   function logout()
   {
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/logout`, 
+    axios.post(`/user/logout`, 
     {
       userID: user.id,
       refreshToken: localStorage.getItem("refreshToken")
