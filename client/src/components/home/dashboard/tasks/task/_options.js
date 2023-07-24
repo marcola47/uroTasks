@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { ReducerContext } from '../../../../../app';
-import { EditorContext } from '../../../../../pages/home';
+import { EditorContext } from 'pages/home';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +7,6 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 export default function TaskOptions({ task, taskRef })
 {
   const { setEditorShown, setEditorParams, setEditorData } = useContext(EditorContext);
-  const { state } = useContext(ReducerContext);
 
   function toggleOptions()
   { 

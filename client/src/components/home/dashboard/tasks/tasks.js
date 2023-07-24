@@ -1,10 +1,10 @@
 import React, { useState, useContext, useRef } from "react";
-import { ProjectsContext } from "../../../../app";
+import { ProjectsContext, ReducerContext } from "app";
 import { v4 as uuid } from 'uuid';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import Task from './task/task'
-import List from '../../../utils/list/list';
+import List from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,9 @@ export const TaskTypeContext = React.createContext();
 
 export default function TasksContainer({ taskType })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);      
+  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
+  const { dispatch } = useContext(ReducerContext);
+  
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const inputValueRef = useRef();
@@ -53,7 +55,7 @@ export default function TasksContainer({ taskType })
     tasksFiltered.push(newTask);
     const tasksUpdated = [...tasksOld, newTask];
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
       {
@@ -72,17 +74,17 @@ export default function TasksContainer({ taskType })
     else
       setActiveProject({ ...activeProject, tasks: tasksUpdated });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/create`, 
+    axios.post('/task/create', 
     {
       projectID: activeProject.id, 
       newTask: newTask,
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => setProjects(projectsCopy))
+    .then(_ => setProjects(projectsCopy))
     .catch(err => 
     {
-      // set error
+      setResponseError(err, dispatch);
       setActiveProject({ ...activeProject, tasks: tasksOld });
     })
   }

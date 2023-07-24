@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { EditorContext } from '../../../pages/home';
+import { EditorContext } from 'pages/home';
 
 import EditorText from './_editor-text';
 import Options from './options/options'
@@ -28,7 +28,7 @@ export default function EditorTask()
   return (
     <>
       <div className={`editor ${editorShown ? 'editor--shown' : ''}`} style={ style }>
-        <ToggleEditorContext.Provider value={ toggleEditor }>
+        <ToggleEditorContext.Provider value={{ toggleEditor }}>
         { 
           editorData 
           ? <><EditorText toggleEditor={ toggleEditor }/> <Options task={ editorData }/></>

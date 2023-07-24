@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ReducerContext } from '../../../app';
+import { ReducerContext } from 'app';
 
 import Header from './header/header';
 import Projects from './projects/projects'

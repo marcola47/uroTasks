@@ -16,156 +16,87 @@
 
   font-weight: 500;
 
-  .header
+  &__header
   { 
     display: flex; 
     width: 100%;
 
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  &__color
+  {
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  &__text
+  { 
+    width: 100%;
+    cursor: text;
+   
+    input
+    {
+      color: inherit;
+      background-color: inherit;
     
-    &__color
-    {
-      margin-right: 8px;
-      cursor: pointer;
-    }
-
-    &__text
-    { 
-      width: 100%;
-      cursor: text;
-     
-      input
-      {
-        color: inherit;
-        background-color: inherit;
-      
-        font-size: inherit;
-        font-weight: inherit;
-      }
-    }
-
-    .chrome-picker__bg
-    {
-      position: absolute;
-      width: 100dvw;
-      height: 86dvh;
-        
-      z-index: 1;
-    }
-
-    .chrome-picker
-    {  
-      position: absolute;
-      top: 64px;
-      left: 0;
-
-      z-index: 1;
+      font-size: inherit;
+      font-weight: inherit;
     }
   }
 
-  .options
+  .chrome-picker__bg
+  {
+    position: absolute;
+    width: 100dvw;
+    height: 86dvh;
+      
+    z-index: 1;
+  }
+
+  .chrome-picker
+  {  
+    position: absolute;
+    top: 64px;
+    left: 0;
+
+    z-index: 1;
+  }
+
+  &__options
   {
     display: flex;
     gap: 8px;
+  }
 
-    .option
+  &__option
+  {
+    position: relative;
+    padding: 10px 14px;
+    border-radius: $br-small;
+
+    color: #fff;
+
+    cursor: pointer;
+    user-select: none;
+
+    &--delete
     {
-      position: relative;
-      padding: 10px 14px;
-      border-radius: $br-small;
-
-      color: #fff;
-
-      cursor: pointer;
-      user-select: none;
-
-      &--delete
+      &:hover, &--active
+      { 
+        color: $bg-blue-dark;
+        background-color: $red-light;
+      }
+      
+      .fa-trash-can
       {
-        &:hover, &--active
-        { 
-          color: $bg-blue-dark;
-          background-color: $red-light;
-        }
-        
-        .fa-trash-can
-        {
-          pointer-events: none;
-          font-size: 1.2rem; 
-          transition: color 0s ease-in-out; 
-        }
+        pointer-events: none;
+        font-size: 1.2rem; 
+        transition: color 0s ease-in-out; 
       }
     }
   }
-
-  /*.confirmation
-  {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-
-    opacity: 0;
-    z-index: -99;
-
-    position: absolute;
-    top: 49px;
-    right: -1px;
-    width: 320px;
-    padding: 12px;
-
-    border-radius: $br-small;
-    border: 2px solid $white-dark;
-    background-color: $bg-blue-mid;
-    
-    @include transition-open;
-
-    text-align: center;
-
-    pointer-events: none;
-
-    &--shown
-    {
-      opacity: 1;
-      z-index: 99;
-
-      @include transition-close;
-      pointer-events: initial;
-    }
-
-    &__header
-    { pointer-events: none; }
-
-    &__btns
-    {
-      display: flex;
-      gap: 24px;
-
-      .btn--confirmation
-      {
-        padding: 8px;
-        border-radius: $br-small;
-
-        cursor: pointer;
-      }
-
-      #confirmation--confirm
-      {
-        border: 2px solid $red-dark;
-
-        &:hover
-        { background-color: $red-dark; }
-      }
-
-      #confirmation--cancel
-      {
-        border: 2px solid $blue-light;
-
-        &:hover
-        { background-color: $blue-light; }
-      }
-    }
-  }*/
 }
 
 @media screen and (max-width: 820px) 

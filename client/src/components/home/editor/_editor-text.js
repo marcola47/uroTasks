@@ -1,12 +1,13 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import { ProjectsContext } from '../../../app';
-import { EditorContext } from '../../../pages/home';
-import axios from 'axios';
+import { ProjectsContext, ReducerContext } from 'app';
+import { EditorContext } from 'pages/home';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 export default function ItemText({ toggleEditor }) 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { editorShown, editorData } = useContext(EditorContext);
+  const { dispatch } = useContext(ReducerContext);
   
   const [inputValue, setInputValue] = useState(editorData.content);
   const taskTextRef = useRef();
@@ -32,7 +33,7 @@ export default function ItemText({ toggleEditor })
       return taskObj;
     });
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;
@@ -51,10 +52,10 @@ export default function ItemText({ toggleEditor })
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(res => setProjects(projectsCopy))
+      .then(_ => setProjects(projectsCopy))
       .catch(err => 
       {
-        // set error
+        setResponseError(err, dispatch);
         setActiveProject({ ...activeProject, tasks: tasksOld });
       })
     }
@@ -89,7 +90,7 @@ export default function ItemText({ toggleEditor })
 
   function handleKeyDown(e)
   {
-    
+  
     if (e.key === "Enter")
     {
       const textArea = document.getElementById('editor__text-area');
@@ -98,7 +99,6 @@ export default function ItemText({ toggleEditor })
       toggleEditor();
       handleSave(e);
     }
-
   }
 
   function handleInputGrowth()
@@ -110,14 +110,14 @@ export default function ItemText({ toggleEditor })
   }
 
   return (
-      <textarea  
-          id='editor__text-area' 
-          ref={ taskTextRef } 
-          value={ inputValue } 
-          onChange={ e => {setInputValue(e.target.value);} } 
-          onBlur={ e => {handleSave(e)} } 
-          onKeyDown={ handleKeyDown }
-          onInput={ handleInputGrowth }
-      />
+    <textarea  
+      id='editor__text-area' 
+      ref={ taskTextRef } 
+      value={ inputValue } 
+      onChange={ e => {setInputValue(e.target.value);} } 
+      onBlur={ e => {handleSave(e)} } 
+      onKeyDown={ handleKeyDown }
+      onInput={ handleInputGrowth }
+    />
   );
 }

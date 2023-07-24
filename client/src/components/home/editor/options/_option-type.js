@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
-import { ProjectsContext } from '../../../../app';
+import { ProjectsContext, ReducerContext } from 'app';
 import { ToggleEditorContext } from '../editor';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,8 @@ export default function OptionChangeType({ task })
   const [changeTypeOpen, setChangeTypeOpen] = useState(false)
 
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const toggleEditor = useContext(ToggleEditorContext);
+  const { toggleEditor } = useContext(ToggleEditorContext);
+  const { dispatch } = useContext(ReducerContext);
   
   let taskTypeLeft, taskTypeRight, changeTypeIcon;
   switch (task?.type)
@@ -61,7 +62,7 @@ export default function OptionChangeType({ task })
       return taskObj;
     })
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
       {
@@ -88,12 +89,12 @@ export default function OptionChangeType({ task })
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
+    .then(_ => 
     { 
       setActiveProject({ ...activeProject, tasks: taskList });
       setProjects(projectsCopy);
     })
-    .catch(err => {/* set error */})
+    .catch(err => setResponseError(err, dispatch))
   }
 
   return (

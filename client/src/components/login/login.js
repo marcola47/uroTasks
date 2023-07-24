@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
-import { UserContext, ReducerContext } from '../../app';
+import { UserContext, ReducerContext } from 'app';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
@@ -22,37 +22,24 @@ export default function LoginForm()
     const password = passwordRef.current.value;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    const clientError = 
+    {
+      type: "client",
+      header: "Failed to login",
+      message: ""
+    }
+
     if (email === '' || !emailRegex.test(email))
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to login",
-          message: "Email format not accepted" 
-        } 
-      })
-      
-      dispatch({ type: 'showNotification' })
+      clientError.message = "Email format not accepted";
+      setResponseError(clientError, dispatch)
       return;
     }
     
     if (password === '' || password.length < 8)
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to login",
-          message: "Your password must be atleast 8 characters long" 
-        } 
-      })
-
-      dispatch({ type: 'showNotification' })
+      clientError.message = "Your password must be atleast 8 characters long";
+      setResponseError(clientError, dispatch)
       return;
     }
 
@@ -69,38 +56,7 @@ export default function LoginForm()
       setUser(res.data.result);
       navigate('/');
     })
-    .catch(err => 
-    {
-      if (err.response)
-      {
-        dispatch(
-        { 
-          type: 'setNotification', 
-          payload: 
-          { 
-            type: "error",
-            header: "Failed to login",
-            message: err.response.data.message 
-          } 
-        })
-      }
-
-      else
-      {
-        dispatch(
-        { 
-          type: 'setNotification', 
-          payload: 
-          { 
-            type: "error",
-            header: "Failed to login",
-            message: "Failed to communicate with server"
-          } 
-        })
-      }
-
-      dispatch({ type: 'showNotification' })
-    })
+    .catch(err => setResponseError(err, dispatch))
   }
 
   return (

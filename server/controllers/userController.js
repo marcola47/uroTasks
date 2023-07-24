@@ -74,7 +74,7 @@ userController.create = async (req, res) =>
   const userData = req.body;
 
   if (await User.findOne({ email: userData.email })) 
-    return res.status(400).send({ message: "Email already in use" });
+    return res.status(400).send({ header: "Failed to register", message: "Email already in use" });
 
   try 
   {

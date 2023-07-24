@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ReducerContext } from '../../../app';
+import { ReducerContext } from 'app';
 import { motion } from 'framer-motion';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

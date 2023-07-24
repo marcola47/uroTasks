@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { ProjectsContext } from '../../../../app';
+import { ProjectsContext, ReducerContext } from 'app';
 import { ToggleEditorContext } from '../editor';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMultiply } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,8 @@ import { faMultiply } from '@fortawesome/free-solid-svg-icons';
 export default function OptionDelete({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const toggleEditor = useContext(ToggleEditorContext);
+  const { toggleEditor } = useContext(ToggleEditorContext);
+  const { dispatch } = useContext(ReducerContext);
 
   function deleteTask()
   {
@@ -18,7 +19,7 @@ export default function OptionDelete({ task })
     const position = taskList[taskIndex].position;
     taskList.splice(taskIndex, 1);
     
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;
@@ -28,7 +29,7 @@ export default function OptionDelete({ task })
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/delete`, 
+    axios.post('/task/delete', 
     { 
       projectID: activeProject.id, 
       taskID: task.id, 
@@ -42,7 +43,7 @@ export default function OptionDelete({ task })
       setActiveProject({ ...activeProject, tasks: taskList });
       setProjects(projectsCopy);
     })
-    .catch(err => {/* set error */})
+    .catch(err => setResponseError(err, dispatch))
   }
 
   return (

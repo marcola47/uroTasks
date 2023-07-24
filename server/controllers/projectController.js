@@ -51,9 +51,15 @@ projectController.create = async (req, res) =>
     const data = req.body;
     const project = new Project(data.newProject);
     
-    console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
+    const updatedUser = {};
+    updatedUser.$push = { projects: project.id };
+    updatedUser.$set = { activeProject: project.id };
+
+    await User.updateOne({ id: data.userID }, updatedUser);
     await project.save();
+
     res.sendStatus(201);
+    console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
   }
 
   catch (error)

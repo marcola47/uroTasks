@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import { ProjectsContext, ReducerContext } from "../../../app";
-import axios from 'axios';
+import { ProjectsContext, ReducerContext } from "app";
+import axios from 'utils/axiosConfig';
 
 import Screensaver from './screensaver/screensaver';
 import Searchbar from './searchbar/searchbar';
@@ -16,14 +16,14 @@ function Dashboard()
   {
     if (activeProject !== null && activeProject.tasks === undefined)
     {
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/get?projectID=${activeProject.id}`,
+      axios.post(`/task/get?projectID=${activeProject.id}`,
       {
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
       .then(res => 
       {
-        const projectsCopy = projects.map(project => 
+        const projectsCopy = [...projects].map(project => 
         {
           if (project.id === activeProject.id)
             project.tasks = res.data;
@@ -53,22 +53,16 @@ function Dashboard()
 
   function DashboardContent()
   {
-    if (activeProject !== null)
-    {
-      return (
-        <>
-          <Searchbar/>
-          { 
-            activeProject.tasks !== undefined
-            ? <><Taskbar/> <TasksContainer/></>
-            : null
-          }
-        </>
-      )
-    }
-
-    else
+    if (activeProject?.tasks === undefined)
       return <Screensaver/>
+
+    return (
+      <>
+        <Searchbar/>
+        <Taskbar/> 
+        <TasksContainer/>
+      </>
+    )
   }
 
   return (

@@ -163,112 +163,44 @@
   padding-bottom: 8px;
   border-bottom: 2px solid hsl(0, 0%, 86%);
   font-weight: 500;
-  /*.confirmation
-  {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-
-    opacity: 0;
-    z-index: -99;
-
-    position: absolute;
-    top: 49px;
-    right: -1px;
-    width: 320px;
-    padding: 12px;
-
-    border-radius: $br-small;
-    border: 2px solid $white-dark;
-    background-color: $bg-blue-mid;
-
-    @include transition-open;
-
-    text-align: center;
-
-    pointer-events: none;
-
-    &--shown
-    {
-      opacity: 1;
-      z-index: 99;
-
-      @include transition-close;
-      pointer-events: initial;
-    }
-
-    &__header
-    { pointer-events: none; }
-
-    &__btns
-    {
-      display: flex;
-      gap: 24px;
-
-      .btn--confirmation
-      {
-        padding: 8px;
-        border-radius: $br-small;
-
-        cursor: pointer;
-      }
-
-      #confirmation--confirm
-      {
-        border: 2px solid $red-dark;
-
-        &:hover
-        { background-color: $red-dark; }
-      }
-
-      #confirmation--cancel
-      {
-        border: 2px solid $blue-light;
-
-        &:hover
-        { background-color: $blue-light; }
-      }
-    }
-  }*/
 }
-.taskbar .header {
+.taskbar__header {
   display: flex;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
 }
-.taskbar .header__color {
+.taskbar__color {
   margin-right: 8px;
   cursor: pointer;
 }
-.taskbar .header__text {
+.taskbar__text {
   width: 100%;
   cursor: text;
 }
-.taskbar .header__text input {
+.taskbar__text input {
   color: inherit;
   background-color: inherit;
   font-size: inherit;
   font-weight: inherit;
 }
-.taskbar .header .chrome-picker__bg {
+.taskbar .chrome-picker__bg {
   position: absolute;
   width: 100dvw;
   height: 86dvh;
   z-index: 1;
 }
-.taskbar .header .chrome-picker {
+.taskbar .chrome-picker {
   position: absolute;
   top: 64px;
   left: 0;
   z-index: 1;
 }
-.taskbar .options {
+.taskbar__options {
   display: flex;
   gap: 8px;
 }
-.taskbar .options .option {
+.taskbar__option {
   position: relative;
   padding: 10px 14px;
   border-radius: 3px;
@@ -278,11 +210,11 @@
      -moz-user-select: none;
           user-select: none;
 }
-.taskbar .options .option--delete:hover, .taskbar .options .option--delete--active {
+.taskbar__option--delete:hover, .taskbar__option--delete--active {
   color: hsl(215, 29%, 7%);
   background-color: hsl(0, 100%, 58%);
 }
-.taskbar .options .option--delete .fa-trash-can {
+.taskbar__option--delete .fa-trash-can {
   pointer-events: none;
   font-size: 1.2rem;
   transition: color 0s ease-in-out;

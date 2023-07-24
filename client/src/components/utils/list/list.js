@@ -1,9 +1,8 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
 function List({ elements, ListItem, classes = "", ids = "" })
 {
-  const [scrollOffsetY, setScrollOffsetY] = useState();
   const listRef = useRef(null);
 
   // don't judge me
@@ -31,12 +30,7 @@ function List({ elements, ListItem, classes = "", ids = "" })
 
   return (
     <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll }>
-      { 
-        elements.map(element => 
-        {
-          return <ListItem itemData={ element } key={ element.id ?? uuid() }/>
-        }) 
-      }
+      { elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }
     </ul>
   )
 }

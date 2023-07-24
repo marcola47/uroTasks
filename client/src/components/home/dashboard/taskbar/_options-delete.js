@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { ProjectsContext, UserContext, ReducerContext } from "../../../../../app";
-import axios, { setResponseError, setResponseConfirmation } from '../../../../../utils/axiosConfig';
+import { ProjectsContext, UserContext, ReducerContext } from "app";
+import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export default function TaskbarDelete()
+export default function OptionsDelete()
 {
   const { user, setUser } = useContext(UserContext);
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
@@ -23,7 +23,7 @@ export default function TaskbarDelete()
       refreshToken: localStorage.getItem("refreshToken")
       
     })
-    .then(res => 
+    .then(_ => 
     {
       setProjects(projects.filter(project => project.id !== activeProject.id));
       setActiveProject(null);
@@ -54,7 +54,7 @@ export default function TaskbarDelete()
 
   return (
     // fix: the trash icon turns red whenever any confirmation is shown
-    <div className={`option option--delete ${state.confirmationShown ? '' : ''}`} onClick={ showConfirmation }>
+    <div className={`taskbar__option taskbar__option--delete ${state.confirmationShown ? '' : ''}`} onClick={ showConfirmation }>
       <FontAwesomeIcon icon={ faTrashCan }/>  
     </div>
   )

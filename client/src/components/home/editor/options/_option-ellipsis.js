@@ -6,7 +6,7 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionTags()
 {
-  const toggleEditor = useContext(ToggleEditorContext);
+  const { toggleEditor } = useContext(ToggleEditorContext);
 
   return (
     <div className='option option--ellipsis' onClick={ toggleEditor }>

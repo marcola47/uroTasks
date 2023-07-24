@@ -2,7 +2,7 @@ import { useContext, useRef } from 'react';
 import { UserContext, ReducerContext } from '../../app';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
@@ -27,75 +27,38 @@ export default function RegForm()
     const password = passwordRef.current.value;
     const passwordConfirm = passwordConfirmRef.current.value;
 
+    const clientError = 
+    {
+      type: "client",
+      header: "Failed to register",
+      message: ""
+    }
+
     if (name === '' || email === '' || password === '' || passwordConfirm === '')
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to register",
-          message: "Make sure to fill in all the necessary data" 
-        } 
-      })
-      
-      dispatch({ type: 'showNotification' })
-
+      clientError.message = "Make sure to fill all the necessary data";
+      setResponseError(clientError, dispatch);
       return;
     }
       
     if (!emailRegex.test(email))
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to register",
-          message: "Make sure you email is in the correct format" 
-        } 
-      })
-      
-      dispatch({ type: 'showNotification' })
-
+      clientError.message = "Make sure your email is in the correct format";
+      setResponseError(clientError, dispatch);
       return;
     }
 
     if (password !== passwordConfirm)
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to register",
-          message: "Make sure both password fields match" 
-        } 
-      })
-      
-      dispatch({ type: 'showNotification' })
-
+      clientError.message = "Make sure both password fields match";
+      setResponseError(clientError, dispatch);
       return;
     }
 
     if (password.length < 8)
     {
-      dispatch(
-      { 
-        type: 'setNotification', 
-        payload: 
-        { 
-          type: "error",
-          header: "Failed to register",
-          message: "Your password must be atleast 8 characters long" 
-        } 
-      })
-      
-      dispatch({ type: 'showNotification' })
-
+      clientError.message = "Your password must be atleast 8 characters long";
+      setResponseError(clientError, dispatch);
       return;
     }
     
@@ -117,38 +80,7 @@ export default function RegForm()
       setUser(newUser);
       navigate('/');
     })
-    .catch(err => 
-    {
-      if (err.response)
-      {
-        dispatch(
-        { 
-          type: 'setNotification', 
-          payload: 
-          { 
-            type: "error",
-            header: "Failed to register",
-            message: err.response.data.message 
-          } 
-        })
-      }
-
-      else
-      {
-        dispatch(
-        { 
-          type: 'setNotification', 
-          payload: 
-          { 
-            type: "error",
-            header: "Failed to register",
-            message: "Failed to communicate with server"
-          } 
-        })
-      }
-
-      dispatch({ type: 'showNotification' })
-    })
+    .catch(err => setResponseError(err, dispatch))
   }
 
   return (
