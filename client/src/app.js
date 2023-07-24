@@ -6,7 +6,7 @@ import axios from 'utils/axiosConfig';
 
 import 'css/app.css';
 
-import { Notification, Confirmation } from 'components/utils/notification/modals'
+import { Notification, Confirmation } from 'components/utils/modals/modals'
 import NotFoundPage from 'pages/404'
 import HomePage from 'pages/home'
 import LoginPage from 'pages/login'
@@ -36,7 +36,7 @@ export default function App()
     isMenuShown: true,
     isDashboardMoved: false,
     isSearchbarSpaced: false,
-    isProjCreatorShown: false,
+    projCreatorShown: false,
     isConfirmationShown: false,
 
     notification: null,
@@ -60,7 +60,7 @@ export default function App()
         return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
 
       case 'projCreatorShown': 
-        return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
+        return { ...state, projCreatorShown: !state.projCreatorShown };
 
       case 'confirmationShown': 
         return { ...state, isConfirmationShown: !state.isConfirmationShown };

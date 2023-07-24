@@ -56,7 +56,7 @@ export default function ItemText({ toggleEditor })
       .catch(err => 
       {
         setResponseError(err, dispatch);
-        setActiveProject({ ...activeProject, tasks: tasksOld });
+        setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
       })
     }
   }

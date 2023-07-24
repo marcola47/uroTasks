@@ -26,7 +26,7 @@ export default function HeaderTitle({ title })
       return project;
     });
 
-    setActiveProject({ ...activeProject, name: newName });
+    setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: newName }));
 
     axios.post('/project/update?type=name', 
     {
@@ -39,7 +39,7 @@ export default function HeaderTitle({ title })
     .catch(err => 
     {
       setResponseError(err, dispatch);
-      setActiveProject({ ...activeProject, name: oldName });
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: oldName }));
     })
   }
 

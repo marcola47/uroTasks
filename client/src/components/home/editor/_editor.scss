@@ -1,32 +1,9 @@
 @import '../../../css/variables';
 
-.editor__bg
-{
-  z-index: -100;
-  opacity: 0;
-
-  position: absolute;
-  inset: 0;
-
-  background-color: $bg-overlay;
-  
-  transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s; 
-  transition-delay: 0s, 0.15s; 
-
-
-  &--shown
-  { 
-    opacity: 1; 
-    z-index: 99;
-    @include transition-close;
-  }
-}
-
 .editor
 {
-  z-index: -100;
-  opacity: 0;
+  z-index: 100;
+  opacity: 1; 
 
   position: absolute;
   height: fit-content;

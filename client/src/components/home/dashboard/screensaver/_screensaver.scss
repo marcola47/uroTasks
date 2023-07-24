@@ -1,3 +1,4 @@
+
 .screensaver
 {
   display: flex;
@@ -6,9 +7,11 @@
   align-items: center;
 
   width: 100%;
-  height: 100%;
+  height: 280px;
   margin-block: auto;
 
-  img 
-  { max-width: 280px; }
+  background-size: 240px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(img/logo__name--dark_theme.svg);
 }

@@ -1,30 +1,5 @@
 @import '../../../css/_variables.scss';
 
-.proj-creator__bg
-{
-  z-index: -99;
-  opacity: 0;
-
-  position: fixed;
-  inset: 0;
-
-  background-color: $bg-overlay;
-
-  @include transition-open;
-
-  pointer-events: none;
-
-  &--shown
-  { 
-    z-index: 99;
-    opacity: 1;
-
-    @include transition-close;
-    pointer-events: initial;
-
-  }
-}
-
 .proj-creator
 {
   display: grid;
@@ -32,8 +7,9 @@
   grid-template-rows: repeat(3, auto);
   column-gap: 8px;
 
-  z-index: -99;
-  opacity: 0;
+  z-index: 100;
+  opacity: 1;
+
   position: absolute;
   left: 50%;
   top: 50%;
@@ -45,19 +21,8 @@
   color: white;
   background-color: $bg-blue-light;
 
-  @include transition-open;
-  pointer-events: none;
   transform: translate(-50%, -50%);
   
-  &--shown
-  { 
-    opacity: 1;
-    z-index: 99;
-
-    @include transition-close;
-    pointer-events: initial;
-  }
-
   &__title
   {
     display: flex;
@@ -72,14 +37,9 @@
 
   &__input
   {
+    width: 100%;
     padding: 8px;
     border-radius: $br-small;
-  }
-
-  #input-2
-  {
-    position: relative;
-    cursor: pointer;
   }
 
   .chrome-picker__bg
@@ -123,7 +83,5 @@
 @media screen and (max-width: 480px) 
 {
   .proj-creator
-  {
-    width: 90%;
-  }
+  { width: 90% }
 }

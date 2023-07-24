@@ -3,8 +3,10 @@ import { ProjectsContext, ReducerContext, UserContext } from "app";
 import { ToggleMenuContext } from 'pages/home';
 import { v4 as uuid } from 'uuid';
 import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
+import { motion } from 'framer-motion';
 
 
+import { TransitionOpacity } from 'components/utils/transitions/transitions';
 import { ButtonGlow } from 'components/utils/buttons/buttons';
 import { ChromePicker } from 'react-color';
 
@@ -15,10 +17,10 @@ export default function ProjCreator()
 {
   const projectNameRef = useRef();
   
-  const { toggleMenu } = useContext(ToggleMenuContext);
-  const { user, setUser } = useContext(UserContext);
-  const { state, dispatch } = useContext(ReducerContext);
   const { projects, setProjects } = useContext(ProjectsContext);
+  const { user, setUser } = useContext(UserContext);
+  const { dispatch } = useContext(ReducerContext);
+  const { toggleMenu } = useContext(ToggleMenuContext);
 
   const [color, setColor] = useState('#4b99cc');
   const [pickerActive, setPickerActive] = useState(false);
@@ -44,17 +46,15 @@ export default function ProjCreator()
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
+    .then(_ => 
     {
-      setProjects([...projects, newProject]);
-      setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] })
+      setProjects(prevProjects => ([...prevProjects, newProject]));
+      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newProject.id] }))
       setResponseConfirmation("Successfully created project", "", dispatch)
     })
     .catch(err => setResponseError(err, dispatch))
 
-    if (state.isMenuShown === false)
-      toggleMenu();
-
+    toggleMenu();
     dispatch({ type: 'projCreatorShown' }); 
     projectNameRef.current.value = '';
   }
@@ -71,32 +71,27 @@ export default function ProjCreator()
 
   function ColorInput()
   {
-    const colorStyle = {backgroundColor: color, color: color, borderRadius: "3px",};
-    return <div className='input-color' style={colorStyle}>.</div>
-  }
-
-  function toggleProjectCreator()
-  {
-    if (state.isMenuShown === false)
-      toggleMenu();
-
-    dispatch({ type: 'projCreatorShown' })
+    const colorStyle = { backgroundColor: color, color: color, borderRadius: "3px" };
+    
+    return (
+      <button className="proj-creator__input" onClick={ () => {setPickerActive(!pickerActive)} }>
+        <div className='proj-creator__color' style={ colorStyle }>.</div>
+      </button>
+    ) 
   }
 
   return (
-    <>
-      <div className={`proj-creator__bg ${state.isProjCreatorShown ? 'proj-creator__bg--shown' : ''}`} onClick={ toggleProjectCreator }/>
-
-      <div className={`proj-creator ${state.isProjCreatorShown ? 'proj-creator--shown' : ''}`}>
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'projCreatorShown' })} } id='proj-creator'>
+      <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
-        <ButtonGlow onClick={ toggleProjectCreator } icon={ faXmark }/>
+        <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown' })} } icon={ faXmark }/>
         
-        <input className="proj-creator__input" id="input-1" ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
-        <button className="proj-creator__input" id="input-2" onClick={ () => {setPickerActive(!pickerActive)} }><ColorInput/></button>
-        {pickerActive ? <ColorPicker/> : null}
+        <input className="proj-creator__input" ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
+        <ColorInput/>
+        { pickerActive && <ColorPicker/> }
         
-        <button className="proj-creator__submit" onClick={ createProject }>CONFIRM</button>
+        <button className="proj-creator__submit" onClick={ createProject }>CREATE</button>
       </div>
-    </>
-  )
+    </TransitionOpacity>
+)
 }

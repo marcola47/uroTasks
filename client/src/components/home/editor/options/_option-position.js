@@ -63,7 +63,7 @@ export default function OptionChangeType({ task })
     })
     .then(_ => 
     {
-      setActiveProject({ ...activeProject, tasks: taskList });
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
       setProjects(projectsCopy);
     })
     .catch(err => setResponseError(err, dispatch));
