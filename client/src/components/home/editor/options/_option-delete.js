@@ -40,7 +40,7 @@ export default function OptionDelete({ task })
     })
     .then(res => 
     {
-      setActiveProject({ ...activeProject, tasks: taskList });
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
       setProjects(projectsCopy);
     })
     .catch(err => setResponseError(err, dispatch))

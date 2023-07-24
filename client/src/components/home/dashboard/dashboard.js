@@ -32,7 +32,7 @@ function Dashboard()
         });
         
         setProjects(projectsCopy);
-        setActiveProject({ ...activeProject, tasks: res.data });
+        setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: res.data }));
       })
       .catch(err => console.log(err))
     }

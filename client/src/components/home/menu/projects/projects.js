@@ -32,7 +32,7 @@ function Project({ itemData })
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(_ => setUser({ ...user, activeProject: itemData.id }))
+      .then(_ => setUser(prevUser => ({ ...prevUser, activeProject: itemData.id })))
       .catch(err => setResponseError(err, dispatch))
     }
   }

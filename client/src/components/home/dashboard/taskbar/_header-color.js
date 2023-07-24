@@ -44,7 +44,7 @@ export default function HeaderColor()
     .catch(err => 
     {
       setResponseError(err, dispatch)
-      setActiveProject({ ...activeProject, color: oldColor })
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, color: oldColor }))
     })
   }
 

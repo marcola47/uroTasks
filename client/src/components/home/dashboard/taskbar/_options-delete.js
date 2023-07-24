@@ -27,7 +27,7 @@ export default function OptionsDelete()
     {
       setProjects(projects.filter(project => project.id !== activeProject.id));
       setActiveProject(null);
-      setUser({ ...user, activeProject: "0" });
+      setUser(prevUser => ({ ...prevUser, activeProject: "0" }));
       setResponseConfirmation("Succesfully deleted project", "Open another project from the menu or create a new one", dispatch)
     })
     .catch(err => setResponseError(err, dispatch))

@@ -48,8 +48,8 @@ export default function ProjCreator()
     })
     .then(_ => 
     {
-      setProjects([...projects, newProject]);
-      setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] })
+      setProjects(prevProjects => ([...prevProjects, newProject]));
+      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newProject.id] }))
       setResponseConfirmation("Successfully created project", "", dispatch)
     })
     .catch(err => setResponseError(err, dispatch))
