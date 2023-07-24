@@ -25,7 +25,7 @@ function Project({ itemData })
         dispatch({ type: 'searchbarSpaced' });  
       }  
   
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=activeProject`, 
+      axios.post(`/user/update?type=activeProject`, 
       {
         userID: user.id, 
         projectID: itemData.id,

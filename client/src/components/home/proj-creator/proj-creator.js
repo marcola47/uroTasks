@@ -37,7 +37,7 @@ export default function ProjCreator()
       users: [user.id]
     };
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/create`, 
+    axios.post(`/project/create`, 
     {
       userID: user.id, 
       newProject: newProject,
