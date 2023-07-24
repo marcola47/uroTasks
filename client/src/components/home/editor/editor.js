@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { EditorContext } from '../../../pages/home';
+import { EditorContext } from 'pages/home';
 
 import EditorText from './_editor-text';
 import Options from './options/options'
 
 export const ToggleEditorContext = React.createContext();
 
-export default function EditableTask()
+export default function EditorTask()
 {
   const { editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData } = useContext(EditorContext);
 
@@ -27,17 +27,17 @@ export default function EditableTask()
 
   return (
     <>
-      <div className={`editable ${editorShown ? 'editable--shown' : ''}`} style={ style }>
-        <ToggleEditorContext.Provider value={ toggleEditor }>
+      <div className={`editor ${editorShown ? 'editor--shown' : ''}`} style={ style }>
+        <ToggleEditorContext.Provider value={{ toggleEditor }}>
         { 
           editorData 
-          ? <><EditorText toggleEditor={ toggleEditor }/> <Options task={ editorData }/> </>
+          ? <><EditorText toggleEditor={ toggleEditor }/> <Options task={ editorData }/></>
           : null 
         }
         </ToggleEditorContext.Provider>
       </div>
 
-      <div className={`editable__bg ${editorShown ? 'editable__bg--shown' : ''}`} onClick={ toggleEditor }/>
+      <div className={`editor__bg ${editorShown ? 'editor__bg--shown' : ''}`} onClick={ toggleEditor }/>
     </>
   )
 }

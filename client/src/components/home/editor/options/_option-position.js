@@ -1,8 +1,7 @@
 import { useContext } from 'react';
-import { ProjectsContext } from '../../../../app';
-import { ScrollContext } from '../../../../pages/home';
+import { ProjectsContext, ReducerContext } from 'app';
 import { ToggleEditorContext } from '../editor';
-import axios from 'axios';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -10,14 +9,11 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 export default function OptionChangeType({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { setScrollTo } = useContext(ScrollContext);
-  const toggleEditor = useContext(ToggleEditorContext);
+  const { toggleEditor } = useContext(ToggleEditorContext);
+  const { dispatch } = useContext(ReducerContext);
  
   function updateTaskPosition(direction)
   { 
-    const scrollOffset = document.getElementById(task.type).offsetLeft;
-    setScrollTo(scrollOffset);
-
     const tasksFiltered = activeProject.tasks.filter(taskObj => taskObj.type === task.type);
     const lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
     const updatedTask = tasksFiltered.find(taskObj => taskObj.id === task.id);
@@ -44,30 +40,33 @@ export default function OptionChangeType({ task })
       return taskObj;
     })
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;
-
+    
       return project;
-    })
+    });
+
+    console.log(projectsCopy);
+    console.log(projects);
 
     toggleEditor();
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/task/update?type=position`, 
+    axios.post('/task/update?type=position', 
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction,
-      accesToken: localStorage.getItem("accessToken"),
+      accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => 
+    .then(_ => 
     {
       setActiveProject({ ...activeProject, tasks: taskList });
       setProjects(projectsCopy);
     })
-    .catch(err => {/* set error */});
+    .catch(err => setResponseError(err, dispatch));
   }
 
   return (

@@ -31,108 +31,6 @@
     transform: rotate(0deg);
   }
 }
-@keyframes fade_in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fade_out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes rotate_cw {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotate_ccw {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-.confirmation__bg {
-  z-index: -98;
-  opacity: 0;
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6666666667);
-}
-.confirmation__bg--shown {
-  z-index: 98;
-  opacity: 1;
-}
-
-.confirmation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  opacity: 0;
-  z-index: -99;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 320px;
-  padding: 24px;
-  border-radius: 6px;
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(215, 29%, 23%);
-  font-weight: 500;
-  text-align: center;
-  pointer-events: none;
-  transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s;
-  transition-delay: 0s, 0.15s;
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.0392156863);
-  transform: translate(-50%, -50%);
-}
-.confirmation--shown {
-  opacity: 1;
-  z-index: 99;
-  transition: opacity 0.15s 0.05s ease-in-out;
-  pointer-events: initial;
-}
-.confirmation__header {
-  pointer-events: none;
-}
-.confirmation__btns {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-}
-.confirmation__btns .btn--confirmation {
-  width: 100%;
-  padding: 8px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.confirmation__btns #confirmation--confirm {
-  background-color: hsl(0, 80%, 51%);
-}
-.confirmation__btns #confirmation--confirm:hover {
-  background-color: #e93535;
-}
-.confirmation__btns #confirmation--cancel {
-  color: hsl(215, 29%, 7%);
-  background-color: hsl(0, 0%, 86%);
-}
-.confirmation__btns #confirmation--cancel:hover {
-  background-color: #e8e8e8;
-}
-
 .screensaver {
   display: flex;
   flex-direction: column;
@@ -265,112 +163,44 @@
   padding-bottom: 8px;
   border-bottom: 2px solid hsl(0, 0%, 86%);
   font-weight: 500;
-  /*.confirmation
-  {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-
-    opacity: 0;
-    z-index: -99;
-
-    position: absolute;
-    top: 49px;
-    right: -1px;
-    width: 320px;
-    padding: 12px;
-
-    border-radius: $br-small;
-    border: 2px solid $white-dark;
-    background-color: $bg-blue-mid;
-
-    @include transition-open;
-
-    text-align: center;
-
-    pointer-events: none;
-
-    &--shown
-    {
-      opacity: 1;
-      z-index: 99;
-
-      @include transition-close;
-      pointer-events: initial;
-    }
-
-    &__header
-    { pointer-events: none; }
-
-    &__btns
-    {
-      display: flex;
-      gap: 24px;
-
-      .btn--confirmation
-      {
-        padding: 8px;
-        border-radius: $br-small;
-
-        cursor: pointer;
-      }
-
-      #confirmation--confirm
-      {
-        border: 2px solid $red-dark;
-
-        &:hover
-        { background-color: $red-dark; }
-      }
-
-      #confirmation--cancel
-      {
-        border: 2px solid $blue-light;
-
-        &:hover
-        { background-color: $blue-light; }
-      }
-    }
-  }*/
 }
-.taskbar .header {
+.taskbar__header {
   display: flex;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
 }
-.taskbar .header__color {
+.taskbar__color {
   margin-right: 8px;
   cursor: pointer;
 }
-.taskbar .header__text {
+.taskbar__text {
   width: 100%;
   cursor: text;
 }
-.taskbar .header__text input {
+.taskbar__text input {
   color: inherit;
   background-color: inherit;
   font-size: inherit;
   font-weight: inherit;
 }
-.taskbar .header .chrome-picker__bg {
+.taskbar .chrome-picker__bg {
   position: absolute;
   width: 100dvw;
   height: 86dvh;
   z-index: 1;
 }
-.taskbar .header .chrome-picker {
+.taskbar .chrome-picker {
   position: absolute;
   top: 64px;
   left: 0;
   z-index: 1;
 }
-.taskbar .options {
+.taskbar__options {
   display: flex;
   gap: 8px;
 }
-.taskbar .options .option {
+.taskbar__option {
   position: relative;
   padding: 10px 14px;
   border-radius: 3px;
@@ -380,11 +210,11 @@
      -moz-user-select: none;
           user-select: none;
 }
-.taskbar .options .option--delete:hover, .taskbar .options .option--delete--active {
+.taskbar__option--delete:hover, .taskbar__option--delete--active {
   color: hsl(215, 29%, 7%);
   background-color: hsl(0, 100%, 58%);
 }
-.taskbar .options .option--delete .fa-trash-can {
+.taskbar__option--delete .fa-trash-can {
   pointer-events: none;
   font-size: 1.2rem;
   transition: color 0s ease-in-out;
@@ -577,8 +407,8 @@
   cursor: pointer;
 }
 .tasks__add button:hover {
-  border: 2px solid hsl(155, 100%, 57%);
-  color: hsl(155, 100%, 57%);
+  border: 2px solid hsl(145, 77%, 50%);
+  color: hsl(145, 77%, 50%);
 }
 .tasks__add button .fa-plus {
   transition: all 0s ease-in-out;
@@ -702,7 +532,7 @@
     transform: rotate(0deg);
   }
 }
-.editable__bg {
+.editor__bg {
   z-index: -100;
   opacity: 0;
   position: absolute;
@@ -712,13 +542,13 @@
   transition-duration: 0.15s, 0s;
   transition-delay: 0s, 0.15s;
 }
-.editable__bg--shown {
+.editor__bg--shown {
   opacity: 1;
   z-index: 99;
   transition: opacity 0.15s 0.05s ease-in-out;
 }
 
-.editable {
+.editor {
   z-index: -100;
   opacity: 0;
   position: absolute;
@@ -731,12 +561,12 @@
   transition-duration: 0.15s, 0s;
   transition-delay: 0s, 0.15s;
 }
-.editable--shown {
+.editor--shown {
   opacity: 1;
   z-index: 100;
   transition: opacity 0.15s 0.05s ease-in-out;
 }
-.editable textarea {
+.editor textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: -4px;
@@ -746,7 +576,7 @@
   font-family: inherit;
   font-size: inherit;
 }
-.editable .options {
+.editor .options {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -758,7 +588,7 @@
      -moz-user-select: none;
           user-select: none;
 }
-.editable .options .option {
+.editor .options .option {
   opacity: 1;
   z-index: 5;
   position: relative;
@@ -774,30 +604,30 @@
      -moz-user-select: none;
           user-select: none;
 }
-.editable .options .option:hover {
+.editor .options .option:hover {
   background-color: #fff;
 }
-.editable .options .option--position--up {
+.editor .options .option--position--up {
   border-radius: 3px 3px 0 0;
 }
-.editable .options .option--position--down {
+.editor .options .option--position--down {
   margin-top: -4px;
   border-radius: 0 0 3px 3px;
 }
-.editable .options .option--remove {
+.editor .options .option--remove {
   color: #fff;
   background-color: hsl(0, 80%, 51%);
 }
-.editable .options .option--remove:hover {
+.editor .options .option--remove:hover {
   background-color: #e93535;
 }
-.editable .options .option__icon {
+.editor .options .option__icon {
   display: grid;
   place-items: center;
   width: 42px;
   height: 42px;
 }
-.editable .options__select {
+.editor .options__select {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -814,26 +644,26 @@
   pointer-events: none;
   cursor: default;
 }
-.editable .options__select--shown {
+.editor .options__select--shown {
   opacity: 1;
   pointer-events: initial;
   cursor: pointer;
 }
-.editable .options__select > * {
+.editor .options__select > * {
   width: 88px;
   height: 40px;
 }
-.editable .options__location {
+.editor .options__location {
   display: grid;
   place-items: center;
   border-radius: 3px;
   color: hsl(215, 29%, 7%);
   background-color: hsl(0, 0%, 86%);
 }
-.editable .options__location--selected, .editable .options__location:hover {
+.editor .options__location--selected, .editor .options__location:hover {
   background-color: #fff;
 }
-.editable .options__submit {
+.editor .options__submit {
   left: 0px;
   border-radius: 3px;
   color: #fff;
@@ -841,7 +671,7 @@
   font-size: inherit;
   cursor: pointer;
 }
-.editable .options__submit:hover {
+.editor .options__submit:hover {
   background-color: hsl(204, 76%, 62%);
 }
 
@@ -1101,7 +931,6 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 10;
   width: 420px;
   height: 100dvh;
   padding: 32px;
@@ -1110,8 +939,13 @@
   transform-origin: left;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.0392156863);
 }
+.menu--shown {
+  z-index: 12;
+  opacity: 1;
+}
 .menu--hidden {
   transform: translateX(-420px);
+  z-index: -12;
   opacity: 0;
 }
 
@@ -1233,13 +1067,13 @@
   margin-top: 8px;
   padding: 8px;
   border-radius: 3px;
-  background-color: hsl(155, 71%, 46%);
+  background-color: hsl(145, 77%, 41%);
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
 }
 .proj-creator__submit:hover {
-  background-color: hsl(155, 100%, 57%);
+  background-color: hsl(145, 77%, 50%);
 }
 
 @media screen and (max-width: 480px) {
@@ -1604,7 +1438,7 @@
   background: linear-gradient(270deg, rgba(0, 0, 0, 0) 30%, rgba(27, 228, 0, 0.164) 100%);
 }
 .notification--confirmation .notification__icon, .notification--confirmation .notification__header {
-  color: hsl(155, 100%, 57%);
+  color: hsl(145, 77%, 50%);
 }
 .notification--error::before {
   background: linear-gradient(270deg, rgba(0, 0, 0, 0) 30%, rgba(207, 0, 28, 0.247) 100%);
@@ -1632,6 +1466,85 @@
 .notification__msg {
   color: #b8b8b8;
   font-size: 0.9rem;
+}
+
+.confirmation {
+  z-index: 99;
+  position: absolute;
+  inset: 0;
+}
+.confirmation__bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6666666667);
+}
+.confirmation__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 32px;
+  border-radius: 9px;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(215, 29%, 23%);
+  transform: translate(-50%, -50%);
+}
+.confirmation__data {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+.confirmation__header {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.confirmation__msg {
+  color: #b8b8b8;
+  font-size: 0.9rem;
+}
+.confirmation__btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.confirmation__btns .btn {
+  width: 100%;
+  padding-block: 12px;
+  border-radius: 9px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+.confirmation__btns .btn--confirmation--negative {
+  background-color: hsl(0, 80%, 51%);
+}
+.confirmation__btns .btn--confirmation--negative:hover {
+  background-color: hsl(0, 100%, 58%);
+}
+.confirmation__btns .btn--confirmation--positive {
+  background-color: hsl(145, 77%, 41%);
+}
+.confirmation__btns .btn--confirmation--positive:hover {
+  background-color: hsl(145, 77%, 50%);
+}
+.confirmation__btns .btn--confirmation--neutral {
+  color: hsl(215, 29%, 7%);
+  background-color: hsl(0, 0%, 86%);
+}
+.confirmation__btns .btn--confirmation--neutral:hover {
+  background-color: hsl(0, 0%, 100%);
+}
+.confirmation__btns .btn--rejection {
+  color: #b8b8b8;
+}
+.confirmation__btns .btn--rejection:hover {
+  color: hsl(0, 0%, 86%);
 }
 
 @media screen and (max-width: 420px) {

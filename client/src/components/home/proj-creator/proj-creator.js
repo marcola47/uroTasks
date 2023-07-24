@@ -1,11 +1,11 @@
 import { useState, useContext, useRef  } from 'react';
-import { ProjectsContext, ReducerContext, UserContext } from "../../../app";
-import { ToggleMenuContext } from '../../../pages/home';
+import { ProjectsContext, ReducerContext, UserContext } from "app";
+import { ToggleMenuContext } from 'pages/home';
 import { v4 as uuid } from 'uuid';
-import axios from 'axios';
+import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
 
 
-import { ButtonGlow } from '../../utils/buttons/buttons';
+import { ButtonGlow } from 'components/utils/buttons/buttons';
 import { ChromePicker } from 'react-color';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,28 +39,20 @@ export default function ProjCreator()
 
     axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/create`, 
     {
+      userID: user.id, 
       newProject: newProject,
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
     .then(res => 
     {
-      // set confirmation
       setProjects([...projects, newProject]);
-
-      axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/user/update?type=projectList&method=add`, 
-      {
-        userID: user.id, 
-        projectID: newProject.id,
-        accessToken: localStorage.getItem("accessToken"),
-        refreshToken: localStorage.getItem("refreshToken")
-      })
-      .then(res => setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] }))
-      .catch(err => {/* set error */})
+      setUser({ ...user, activeProject: newProject.id, projects: [...projects, newProject.id] })
+      setResponseConfirmation("Successfully created project", "", dispatch)
     })
-    .catch(err => {/* set error */})
+    .catch(err => setResponseError(err, dispatch))
 
-    if (state.isMenuHidden === false)
+    if (state.isMenuShown === false)
       toggleMenu();
 
     dispatch({ type: 'projCreatorShown' }); 
@@ -85,7 +77,7 @@ export default function ProjCreator()
 
   function toggleProjectCreator()
   {
-    if (state.isMenuHidden === false)
+    if (state.isMenuShown === false)
       toggleMenu();
 
     dispatch({ type: 'projCreatorShown' })

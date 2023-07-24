@@ -1,13 +1,14 @@
 import { useState, useContext } from 'react';
-import { ProjectsContext } from '../../../../../app';
-import axios from 'axios';
+import { ProjectsContext, ReducerContext } from 'app';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function ItemText({ value }) 
+export default function HeaderTitle({ title }) 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { dispatch } = useContext(ReducerContext);
   
   const [editing, setEditing] = useState(false);
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState(title);
 
   function handleNameChange(newName) 
   { 
@@ -17,7 +18,7 @@ export default function ItemText({ value })
     if (newName === oldName)
       return;
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         return { ...project, name: newName, tasks: activeProject.tasks }
@@ -27,7 +28,7 @@ export default function ItemText({ value })
 
     setActiveProject({ ...activeProject, name: newName });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/update?type=name`, 
+    axios.post('/project/update?type=name', 
     {
       projectID: activeProject.id, 
       newName: newName,
@@ -37,7 +38,7 @@ export default function ItemText({ value })
     .then(res => setProjects(projectsCopy))
     .catch(err => 
     {
-      // set error
+      setResponseError(err, dispatch);
       setActiveProject({ ...activeProject, name: oldName });
     })
   }
@@ -55,7 +56,7 @@ export default function ItemText({ value })
   }
 
   return (
-    <div className='header__text'>
+    <div className='taskbar__text'>
     {
       editing 
       ? <input 
@@ -68,7 +69,7 @@ export default function ItemText({ value })
           onKeyDown={ handleKeyDown }
         />
 
-      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ value }</div>
+      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ title }</div>
     }
     </div>
   );

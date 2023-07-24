@@ -2,16 +2,16 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import axios from 'utils/axiosConfig';
 
-import './css/app.css';
+import 'css/app.css';
 
-import Notification from './components/utils/notification/notification'
-import NotFoundPage from './pages/404'
-import HomePage from './pages/home'
-import LoginPage from './pages/login'
-import RegisterPage from './pages/register'
-import SettingsPage from './pages/settings'
+import { Notification, Confirmation } from 'components/utils/notification/modals'
+import NotFoundPage from 'pages/404'
+import HomePage from 'pages/home'
+import LoginPage from 'pages/login'
+import RegisterPage from 'pages/register'
+import SettingsPage from 'pages/settings'
 
 export const UserContext = React.createContext();
 export const ProjectsContext = React.createContext();
@@ -31,9 +31,65 @@ export default function App()
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
 
+  const [state, dispatch] = useReducer(reducer, 
+  {
+    isMenuShown: true,
+    isDashboardMoved: false,
+    isSearchbarSpaced: false,
+    isProjCreatorShown: false,
+    isConfirmationShown: false,
+
+    notification: null,
+    notificationShown: false,
+
+    confirmation: null,
+    confirmationShown: false
+  });
+      
+  function reducer(state, action)
+  {
+    switch (action.type)
+    {
+      case 'menuHidden': 
+         return { ...state, isMenuShown: !state.isMenuShown };
+      
+      case 'dashboardMoved': 
+        return { ...state, isDashboardMoved: !state.isDashboardMoved };
+
+      case 'searchbarSpaced': 
+        return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+
+      case 'projCreatorShown': 
+        return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
+
+      case 'confirmationShown': 
+        return { ...state, isConfirmationShown: !state.isConfirmationShown };
+
+      case 'setConfirmation': 
+        return { ...state, confirmation: action.payload };
+
+      case 'showConfirmation':
+        return { ...state, confirmationShown: true }
+
+      case 'hideConfirmation':
+        return { ...state, confirmationShown: false }
+
+      case 'setNotification': 
+        return { ...state, notification: action.payload };
+
+      case 'showNotification':
+        return { ...state, notificationShown: true }
+
+      case 'hideNotification':
+        return { ...state, notificationShown: false }
+
+      default: return state;
+    }
+  }
+
   useEffect(() => // get and set projects 
   {
-    if (user !== null && user.activeProject !== '0')
+    if (user !== null)
     {
       if (projects.length <= 0)
       {
@@ -80,8 +136,6 @@ export default function App()
         })
         .catch(err => 
         {
-          console.log(err)
-  
           navigate('login');
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
@@ -95,59 +149,11 @@ export default function App()
     // eslint-disable-next-line
   }, [user])
 
-  const [state, dispatch] = useReducer(reducer, 
-  {
-    isMenuHidden: false,
-    isDashboardMoved: false,
-    isSearchbarSpaced: false,
-    isProjCreatorShown: false,
-    isConfirmationShown: false,
-
-    notification: null,
-    notificationShown: false
-  });
-      
-  function reducer(state, action)
-  {
-    switch (action.type)
-    {
-      // ui
-      case 'menuHidden': 
-        return { ...state, isMenuHidden: !state.isMenuHidden };
-      
-      case 'dashboardMoved': 
-        return { ...state, isDashboardMoved: !state.isDashboardMoved };
-
-      case 'searchbarSpaced': 
-        return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
-
-      case 'projCreatorShown': 
-        return { ...state, isProjCreatorShown: !state.isProjCreatorShown };
-
-      case 'confirmationShown': 
-        return { ...state, isConfirmationShown: !state.isConfirmationShown };
-
-      case 'setNotification': 
-        return { ...state, notification: action.payload };
-
-      case 'toggleNotification':
-        return { ...state, notificationShown: !state.notificationShown }
-
-      case 'showNotification':
-        return { ...state, notificationShown: true }
-
-      case 'hideNotification':
-        return { ...state, notificationShown: false }
-
-      default: return state;
-    }
-  }
-
-  useEffect(() => 
+  useEffect(() => // hide notification
   {
     const timer = setTimeout(() => 
     {
-      if (state.notification)
+      if (state.notificationShown)
         dispatch({ type: 'hideNotification' })
 
     }, 5000);
@@ -162,8 +168,10 @@ export default function App()
           <ReducerContext.Provider value={{ state, dispatch }}>
             <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
               
+              {/* if I only use the notification object to show it, the exit animation doesn't trigger */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-                { state.notificationShown && <Notification/> }
+                { state.notificationShown && <Notification/> } 
+                { state.confirmationShown && <Confirmation/> }
               </AnimatePresence>
 
               <Routes>

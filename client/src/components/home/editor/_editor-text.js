@@ -1,12 +1,13 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import { ProjectsContext } from '../../../app';
-import { EditorContext } from '../../../pages/home';
-import axios from 'axios';
+import { ProjectsContext, ReducerContext } from 'app';
+import { EditorContext } from 'pages/home';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 export default function ItemText({ toggleEditor }) 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { editorShown, editorData } = useContext(EditorContext);
+  const { dispatch } = useContext(ReducerContext);
   
   const [inputValue, setInputValue] = useState(editorData.content);
   const taskTextRef = useRef();
@@ -32,7 +33,7 @@ export default function ItemText({ toggleEditor })
       return taskObj;
     });
 
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;
@@ -48,23 +49,23 @@ export default function ItemText({ toggleEditor })
       {
         taskID: editorData.id, 
         newContent: newContent,
-        accesToken: localStorage.getItem("accessToken"),
+        accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
       })
-      .then(res => setProjects(projectsCopy))
+      .then(_ => setProjects(projectsCopy))
       .catch(err => 
       {
-        // set error
+        setResponseError(err, dispatch);
         setActiveProject({ ...activeProject, tasks: tasksOld });
       })
     }
   }
 
-  useEffect(() => 
+  useEffect(() => // set editor styles when shown
   {
     if (editorShown)
     {
-      const textArea = document.getElementById('editable__text-area');
+      const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
     
       textArea.style.height = 'auto';
@@ -78,7 +79,7 @@ export default function ItemText({ toggleEditor })
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== '')
+    if (taskTextRef.current.value !== editorData.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');
@@ -87,43 +88,36 @@ export default function ItemText({ toggleEditor })
       toggleEditor();
   }
 
-  // eslint-disable-next-line
-  function handleDiscard()
-  {
-    return;
-  }
-
   function handleKeyDown(e)
   {
-    
+  
     if (e.key === "Enter")
     {
-      const textArea = document.getElementById('editable__text-area');
+      const textArea = document.getElementById('editor__text-area');
       textArea.blur();
 
       toggleEditor();
       handleSave(e);
     }
-
   }
 
   function handleInputGrowth()
   {
-    const textArea = document.getElementById('editable__text-area');
+    const textArea = document.getElementById('editor__text-area');
 
     textArea.style.height = 'auto';
     textArea.style.height = `${textArea.scrollHeight}px`;
   }
 
   return (
-      <textarea  
-          id='editable__text-area' 
-          ref={ taskTextRef } 
-          value={ inputValue } 
-          onChange={ e => {setInputValue(e.target.value);} } 
-          onBlur={ e => {handleSave(e)} } 
-          onKeyDown={ handleKeyDown }
-          onInput={ handleInputGrowth }
-      />
+    <textarea  
+      id='editor__text-area' 
+      ref={ taskTextRef } 
+      value={ inputValue } 
+      onChange={ e => {setInputValue(e.target.value);} } 
+      onBlur={ e => {handleSave(e)} } 
+      onKeyDown={ handleKeyDown }
+      onInput={ handleInputGrowth }
+    />
   );
 }

@@ -1,15 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { ProjectsContext } from '../../../../../app';
-import axios from 'axios';
+import { ProjectsContext, ReducerContext } from 'app';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { ChromePicker } from 'react-color';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
-export default function TaskbarProjectColor()
+export default function HeaderColor()
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
+  const { dispatch } = useContext(ReducerContext);
   
   const [newColor, setNewColor] = useState(activeProject?.color);
   const [pickerActive, setPickerActive] = useState(false);
@@ -22,7 +23,7 @@ export default function TaskbarProjectColor()
     if (!pickerActive || newColor === oldColor)
       return;
     
-    const projectsCopy = projects.map(project => 
+    const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
         project.color = newColor;
@@ -32,17 +33,17 @@ export default function TaskbarProjectColor()
 
     setActiveProject({ ...activeProject, color: newColor });
 
-    axios.post(`${process.env.REACT_APP_SERVER_ROUTE}/project/update?type=color`, 
+    axios.post('/project/update?type=color', 
     {
       projectID: activeProject.id, 
       newColor: newColor,
       accessToken: localStorage.getItem("accessToken"),
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(res => setProjects(projectsCopy))
+    .then(_ => setProjects(projectsCopy))
     .catch(err => 
     {
-      // set error
+      setResponseError(err, dispatch)
       setActiveProject({ ...activeProject, color: oldColor })
     })
   }
@@ -59,7 +60,7 @@ export default function TaskbarProjectColor()
 
   return (
     <>
-      <div className='header__color' onClick={ toggleColorPicker } style={{ color: newColor }}><FontAwesomeIcon icon={ faSquare }/></div>
+      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}><FontAwesomeIcon icon={ faSquare }/></div>
       {pickerActive ? <ColorPicker/> : null}
     </>
   )
