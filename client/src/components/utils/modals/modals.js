@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { ReducerContext } from 'app';
 import { motion } from 'framer-motion';
 
+import { TransitionOpacity, TransitionOpacityHorizontal } from '../transitions/transitions';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +20,7 @@ export function Notification()
     : faCircleXmark
 
   return (
-    <motion.div key="nf" className={ classes } initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: '400px' }}>
+    <TransitionOpacityHorizontal className={ classes } id="notification">
       <div className="notification__close" onClick={ () => {dispatch({ type: 'hideNotification' })} }>x</div>
 
       <div className="notification__icon">
@@ -29,7 +31,7 @@ export function Notification()
         <p className="notification__header">{ state.notification.header }</p>
         <p className="notification__msg">{ state.notification.message }</p>
       </div>
-    </motion.div>
+    </TransitionOpacityHorizontal>
   )
 }
 
@@ -38,10 +40,8 @@ export function Confirmation()
   const { state, dispatch } = useContext(ReducerContext);
 
   return (
-    <motion.div key="cf" className="confirmation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="confirmation__bg" onClick={ () => {dispatch({ type: 'hideConfirmation' })} } />
-
-      <div className="confirmation__content">
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'hideConfirmation' })} } id="cofirmation">
+      <div className="confirmation" onClick={ e => {e.stopPropagation()} }>
         <div className="confirmation__data">
           <p className="confirmation__header">{ state.confirmation?.header }</p>
           <p className="confirmation__msg">{ state.confirmation?.message }</p>
@@ -52,6 +52,6 @@ export function Confirmation()
           <div className="btn btn--rejection" onClick={ () => {dispatch({ type: 'hideConfirmation' })} }>{ state.confirmation?.rejection }</div>
         </div>
       </div>
-    </motion.div>
+    </TransitionOpacity>
   )
 }

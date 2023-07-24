@@ -123,13 +123,17 @@ export default function TasksContainer({ taskType })
   return (
     <div className="tasks" id={ taskType }>
       <h2 className="tasks__header">{ taskTypeName }</h2>
-      <div className="tasks__options"><FontAwesomeIcon icon={ faEllipsisVertical }/></div>
+      {/* <div className="tasks__options"><FontAwesomeIcon icon={ faEllipsisVertical }/></div> */}
       
       <TaskTypeContext.Provider value={ taskType }>
       {
-        activeProject?.tasks
-        ? <List elements={ tasksFiltered.sort((a, b) => {return a.position - b.position}) } ListItem={ Task } classes='tasks__list' ids={ `list--${taskType}` }/> 
-        : null
+        activeProject?.tasks &&
+        <List 
+          classes='tasks__list' 
+          ids={ `list--${taskType}` }
+          elements={ tasksFiltered.sort((a, b) => {return a.position - b.position}) } 
+          ListItem={ Task } 
+        /> 
       }
       </TaskTypeContext.Provider>
       

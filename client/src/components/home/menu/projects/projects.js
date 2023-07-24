@@ -53,14 +53,7 @@ export default function MenuProjects()
 {
   const { projects } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
-  const { toggleMenu } = useContext(ToggleMenuContext);
 
-  function toggleProjCreator()
-  {
-    toggleMenu();
-    dispatch({ type: 'projCreatorShown' });
-  }
-  
   function toggleProjectList()
   {
     const chevronElement = document.querySelectorAll('.fa-chevron-up')[0];
@@ -73,8 +66,16 @@ export default function MenuProjects()
   return (
     <div className='projects'>
       <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
-      <ButtonGlow onClick={ toggleProjCreator } icon={ faPlus } fontSize='1.5rem'/>
-      <List elements={ projects } ListItem={ Project } classes="projects__list" ids="projects__list"/>
+      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown' })} } icon={ faPlus } fontSize='1.5rem'/>
+      { 
+        projects &&
+        <List 
+          classes="projects__list" 
+          ids="projects__list"
+          elements={ projects } 
+          ListItem={ Project } 
+        />
+      }
     </div>
   )
 }

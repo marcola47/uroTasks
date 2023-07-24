@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { ReducerContext, FlagsContext } from '../app';
+import { ReducerContext, FlagsContext } from 'app';
+import { AnimatePresence } from 'framer-motion';
 
 import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
@@ -15,7 +16,7 @@ export const ScrollContext = React.createContext();
 
 export default function HomePage()
 {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const { loading } = useContext(FlagsContext);
 
   const [editorParams, setEditorParams] = useState({ x: 0, y: 0, w: 0, h: 0 });
@@ -45,12 +46,14 @@ export default function HomePage()
       </div>
 
       <ToggleMenuContext.Provider value={{ toggleMenu }}>
-        <ProjCreator/>
-        <Menu/>
-        
         <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
+          <Menu/>
           <Dashboard/>
-          <Editor/>
+
+          <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
+            { state.projCreatorShown && <ProjCreator/> }
+            { editorShown && <Editor/> }
+          </AnimatePresence>
         </EditorContext.Provider>
       </ToggleMenuContext.Provider>
     </>

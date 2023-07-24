@@ -8,10 +8,10 @@ export default function TaskOptions({ task, taskRef })
 {
   const { setEditorShown, setEditorParams, setEditorData } = useContext(EditorContext);
 
+  
   function toggleOptions()
   { 
     let taskRect = taskRef.current.getBoundingClientRect();
-
     let offsetX = taskRect.left + window.scrollX + taskRef.current.scrollLeft;
     let offsetY = taskRect.top + window.scrollY + taskRef.current.scrollTop;
     let width = taskRef.current.clientWidth - 46;

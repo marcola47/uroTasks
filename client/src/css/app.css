@@ -532,25 +532,9 @@
     transform: rotate(0deg);
   }
 }
-.editor__bg {
-  z-index: -100;
-  opacity: 0;
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6666666667);
-  transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s;
-  transition-delay: 0s, 0.15s;
-}
-.editor__bg--shown {
-  opacity: 1;
-  z-index: 99;
-  transition: opacity 0.15s 0.05s ease-in-out;
-}
-
 .editor {
-  z-index: -100;
-  opacity: 0;
+  z-index: 100;
+  opacity: 1;
   position: absolute;
   height: -moz-fit-content;
   height: fit-content;
@@ -558,8 +542,8 @@
   color: #fff;
   background-color: hsl(216, 23%, 26%);
   transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s;
-  transition-delay: 0s, 0.15s;
+  transition-duration: 0.1s, 0s;
+  transition-delay: 0s, 0.1s;
 }
 .editor--shown {
   opacity: 1;
@@ -986,32 +970,14 @@
     transform: rotate(0deg);
   }
 }
-.proj-creator__bg {
-  z-index: -99;
-  opacity: 0;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6666666667);
-  transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s;
-  transition-delay: 0s, 0.15s;
-  pointer-events: none;
-}
-.proj-creator__bg--shown {
-  z-index: 99;
-  opacity: 1;
-  transition: opacity 0.15s 0.05s ease-in-out;
-  pointer-events: initial;
-}
-
 .proj-creator {
   display: grid;
   grid-template-columns: minmax(0px, 360px) minmax(0px, 32px);
   grid-template-rows: repeat(3, auto);
   -moz-column-gap: 8px;
        column-gap: 8px;
-  z-index: -99;
-  opacity: 0;
+  z-index: 100;
+  opacity: 1;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -1020,17 +986,7 @@
   border-radius: 6px;
   color: white;
   background-color: hsl(216, 23%, 26%);
-  transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s;
-  transition-delay: 0s, 0.15s;
-  pointer-events: none;
   transform: translate(-50%, -50%);
-}
-.proj-creator--shown {
-  opacity: 1;
-  z-index: 99;
-  transition: opacity 0.15s 0.05s ease-in-out;
-  pointer-events: initial;
 }
 .proj-creator__title {
   display: flex;
@@ -1042,12 +998,9 @@
   margin-bottom: 12px;
 }
 .proj-creator__input {
+  width: 100%;
   padding: 8px;
   border-radius: 3px;
-}
-.proj-creator #input-2 {
-  position: relative;
-  cursor: pointer;
 }
 .proj-creator .chrome-picker__bg {
   z-index: 1;
@@ -1469,20 +1422,10 @@
 }
 
 .confirmation {
-  z-index: 99;
-  position: absolute;
-  inset: 0;
-}
-.confirmation__bg {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6666666667);
-}
-.confirmation__content {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  z-index: 2;
+  z-index: 99;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1617,6 +1560,14 @@ textarea {
 .loading img {
   width: 240px;
   animation: rotate_cw 2s infinite;
+}
+
+.overlay__bg {
+  z-index: 99;
+  opacity: 1;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6666666667);
 }
 
 @media screen and (max-width: 1336px) {

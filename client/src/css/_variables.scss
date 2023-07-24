@@ -80,8 +80,8 @@ $br-small: 3px;
 @mixin transition-open
 { 
   transition-property: opacity, z-index;
-  transition-duration: 0.15s, 0s; 
-  transition-delay: 0s, 0.15s; 
+  transition-duration: 0.1s, 0s; 
+  transition-delay: 0s, 0.1s; 
 }
 
 @mixin transition-close

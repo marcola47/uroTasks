@@ -65,6 +65,17 @@ textarea
   }
 }
 
+.overlay__bg
+{
+  z-index: 99;
+  opacity: 1;
+
+  position: absolute;
+  inset: 0;
+
+  background-color: $bg-overlay;
+}
+
 @media screen and (max-width: 1336px) 
 {
   html
