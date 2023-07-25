@@ -3,8 +3,6 @@ import { ProjectsContext, ReducerContext, UserContext } from "app";
 import { ToggleMenuContext } from 'pages/home';
 import { v4 as uuid } from 'uuid';
 import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
-import { motion } from 'framer-motion';
-
 
 import { TransitionOpacity } from 'components/utils/transitions/transitions';
 import { ButtonGlow } from 'components/utils/buttons/buttons';

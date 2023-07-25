@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext, UserContext } from 'app';
-import { ToggleMenuContext } from 'pages/home';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { ButtonGlow } from 'components/utils/buttons/buttons';
@@ -9,7 +8,7 @@ import List from 'components/utils/list/list';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faPlus, faSquare } from '@fortawesome/free-solid-svg-icons';
 
-function Project({ itemData })
+function MenuProject({ itemData })
 { 
   const { user, setUser } = useContext(UserContext);
   const { state, dispatch } = useContext(ReducerContext);
@@ -73,7 +72,7 @@ export default function MenuProjects()
           classes="projects__list" 
           ids="projects__list"
           elements={ projects } 
-          ListItem={ Project } 
+          ListItem={ MenuProject } 
         />
       }
     </div>

@@ -6,7 +6,7 @@ import OptionType from './_option-type';
 import OptionPosition from './_option-position';  
 import OptionDelete from './_option-delete';
 
-export default function TaskOptions({ task })
+export default function EditorOptions({ task })
 {
   const [bottom, setBottom] = useState(0);
   const optionsRef = useRef(null);

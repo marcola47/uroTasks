@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ReducerContext } from 'app';
-import { motion } from 'framer-motion';
 
 import { TransitionOpacity, TransitionOpacityHorizontal } from '../transitions/transitions';
 
