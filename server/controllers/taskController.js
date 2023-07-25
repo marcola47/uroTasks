@@ -1,5 +1,8 @@
+import mongoose from 'mongoose';
+
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
+
 const taskController = {};
 
 /*********************************************************************************************************************************/
@@ -26,6 +29,9 @@ taskController.get = async (req, res) =>
 /*********************************************************************************************************************************/
 taskController.create = async (req, res) => 
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try 
   {
     const data = req.body;
@@ -37,13 +43,18 @@ taskController.create = async (req, res) =>
     else
       await Project.updateOne({ id: data.projectID }, { $push: { tasks: newTask.id }, $inc: { activeTasks: 1 } });
   
-    console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
     await newTask.save();
+   
+    await session.commitTransaction();
     res.sendStatus(201);
+    console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
   }
 
   catch (error)
   {
+    await session.abortTransaction();
+    session.endSession();
+
     console.log(error);
     res.status(500).send({ message: "Error on creating task" });
   }
@@ -57,9 +68,9 @@ taskController.updateContent = async (req, res) =>
   {
     const data = req.body;
 
-    console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
     await Task.updateOne({ id: data.taskID }, { content: data.newContent, updated_at: new Date() });
     res.sendStatus(200);
+    console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
   }
 
   catch (error)
@@ -72,6 +83,9 @@ taskController.updateContent = async (req, res) =>
 /*********************************************************************************************************************************/
 taskController.updateType = async (req, res) => 
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try
   {
     const data = req.body;
@@ -93,12 +107,16 @@ taskController.updateType = async (req, res) =>
         await Task.updateOne({ id: data.taskID }, { type: data.types.new, position: data.positions.new, updated_at: new Date() });
     }));
     
-    console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
+    await session.commitTransaction();
     res.sendStatus(200);
+    console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
   }
 
   catch (error)
   {
+    await session.abortTransaction();
+    session.endSession();
+
     console.log(error);
     res.status(500).send({ auth: true, message: "Internal server error on updating task type" })
   }
@@ -107,6 +125,9 @@ taskController.updateType = async (req, res) =>
 /*********************************************************************************************************************************/
 taskController.updatePosition = async (req, res) =>
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try
   {
     const data = req.body;
@@ -124,12 +145,16 @@ taskController.updatePosition = async (req, res) =>
         break;
     }
   
-    console.log(`${new Date()}: successfully updated task position`);
+    await session.commitTransaction();
     res.sendStatus(200);
+    console.log(`${new Date()}: successfully updated task position`);
   }
 
   catch (error)
   {
+    await session.abortTransaction();
+    session.endSession();
+
     console.log(error);
     res.status(500).send({ auth: true, message: "Internal server error on updating task position" })
   }

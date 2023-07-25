@@ -48,9 +48,6 @@ export default function OptionPosition({ task })
       return project;
     });
 
-    console.log(projectsCopy);
-    console.log(projects);
-
     toggleEditor();
 
     axios.post('/task/update?type=position', 
