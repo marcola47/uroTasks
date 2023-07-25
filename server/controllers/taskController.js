@@ -10,19 +10,25 @@ taskController.get = async (req, res) =>
 {
   try
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const projectID = req.query.projectID;
     const project = await Project.findOne({ id: projectID }).select('tasks -_id');
     
     const taskIDs = project.tasks;
     const tasks = await Task.find({ id: { $in: taskIDs } }).lean().select('-_id -__v');
   
-    res.status(200).send(tasks);
+    res.status(200).send({ newAccessToken: newAccessToken, tasks: tasks });
   }
 
   catch (error)
   {
     console.log(error)
-    res.status(500).send({ message: "Error on getting tasks" })
+    res.status(500).send(
+    { 
+      header: "Failed to get tasks",
+      message: "Internal server error on getting tasks" 
+    })
   }
 }
 
@@ -34,6 +40,8 @@ taskController.create = async (req, res) =>
 
   try 
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const newTask = new Task(data.newTask);
   
@@ -46,7 +54,7 @@ taskController.create = async (req, res) =>
     await newTask.save();
    
     await session.commitTransaction();
-    res.sendStatus(201);
+    res.status(201).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
   }
 
@@ -56,7 +64,11 @@ taskController.create = async (req, res) =>
     session.endSession();
 
     console.log(error);
-    res.status(500).send({ message: "Error on creating task" });
+    res.status(500).send(
+    { 
+      header: "Failed to create task",
+      message: "Internal server error on creating task" 
+    })
   }
 }
 
@@ -66,17 +78,22 @@ taskController.updateContent = async (req, res) =>
 {
   try 
   {
+    const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
 
     await Task.updateOne({ id: data.taskID }, { content: data.newContent, updated_at: new Date() });
-    res.sendStatus(200);
+    res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
   }
 
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ auth: true, message: "Internal server error on updating task content" })
+    res.status(500).send(
+    { 
+      header: "Failed to update task",
+      message: "Internal server error on updating task" 
+    })
   }
 }
 
@@ -88,6 +105,8 @@ taskController.updateType = async (req, res) =>
 
   try
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     const taskList = await Task.find({ id: { $in: project.tasks } });
@@ -108,7 +127,7 @@ taskController.updateType = async (req, res) =>
     }));
     
     await session.commitTransaction();
-    res.sendStatus(200);
+    res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
   }
 
@@ -118,7 +137,11 @@ taskController.updateType = async (req, res) =>
     session.endSession();
 
     console.log(error);
-    res.status(500).send({ auth: true, message: "Internal server error on updating task type" })
+    res.status(500).send(
+    { 
+      header: "Failed to update task",
+      message: "Internal server error on updating task" 
+    })
   }
 }
 
@@ -130,6 +153,7 @@ taskController.updatePosition = async (req, res) =>
 
   try
   {
+    const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
 
     switch (data.direction)
@@ -146,7 +170,7 @@ taskController.updatePosition = async (req, res) =>
     }
   
     await session.commitTransaction();
-    res.sendStatus(200);
+    res.status(200).send({ newAccessToken: newAccessToken })
     console.log(`${new Date()}: successfully updated task position`);
   }
 
@@ -156,7 +180,11 @@ taskController.updatePosition = async (req, res) =>
     session.endSession();
 
     console.log(error);
-    res.status(500).send({ auth: true, message: "Internal server error on updating task position" })
+    res.status(500).send(
+    { 
+      header: "Failed to update task",
+      message: "Internal server error on updating task" 
+    })
   }
 }
 
@@ -179,7 +207,11 @@ taskController.update = async (req, res) =>
   catch (error)
   {
     console.log(error)
-    res.status(500).send({ auth: true, message: "Internal server error on updating task" })
+    res.status(500).send(
+    { 
+      header: "Failed to update task",
+      message: "Internal server error on updating task" 
+    })
   }
 }
 
@@ -188,6 +220,8 @@ taskController.delete = async (req, res) =>
 {
   try
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     project.tasks.splice(project.tasks.findIndex(task => task === data.taskID), 1);
@@ -209,14 +243,18 @@ taskController.delete = async (req, res) =>
         await Task.deleteOne({ id: data.taskID });
     }));
 
-    res.sendStatus(200);
+    res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully deleted task |${data.taskID}|`);
   }
 
   catch (error)
   {
     console.log(error)
-    res.status(500).send({ auth: true, message: "Internal server error on deleting task" })
+    res.status(500).send(
+    { 
+      header: "Failed to delete task",
+      message: "Internal server error on deleting task" 
+    })
   }
 }
 

@@ -50,7 +50,7 @@ export default function OptionPosition({ task })
 
     toggleEditor();
 
-    axios.post('/task/update?type=position', 
+    axios.post('/a/task/update?type=position', 
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 

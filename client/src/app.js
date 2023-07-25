@@ -70,13 +70,13 @@ export default function App()
     {
       if (projects.length <= 0)
       {
-        axios.post(`/project/get`, 
+        axios.post(`/a/project/get`, 
         {
           projectIDs: user.projects,
           accessToken: localStorage.getItem("accessToken"),
           refreshToken: localStorage.getItem("refreshToken")
         })
-        .then(res => setProjects(res.data))
+        .then(res => setProjects(res.data.projectsMeta))
         .catch(err => console.log(err))
       }
 
@@ -102,7 +102,7 @@ export default function App()
 
       if (accessToken || refreshToken)
       {
-        axios.post(`/user/token`, 
+        axios.post(`/a/user/token`, 
         { 
           accessToken: accessToken,
           refreshToken: refreshToken,

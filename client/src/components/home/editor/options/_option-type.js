@@ -80,7 +80,7 @@ export default function OptionType({ task })
 
     toggleEditor();
 
-    axios.post(`/task/update?type=type`, 
+    axios.post(`/a/task/update?type=type`, 
     {
       projectID: activeProject.id, 
       taskID: task.id, 

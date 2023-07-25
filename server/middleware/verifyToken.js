@@ -25,8 +25,8 @@ export default function verifyToken(req, res, next)
           
         if (await Token.findOne({ token: refreshToken, userID: refreshDecoded.id }))
         {
-          const newAccessToken = jwt.sign({ id: refreshDecoded.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
-          req.body.accessToken = newAccessToken;
+          const newAccessToken = jwt.sign({ id: refreshDecoded.id }, process.env.JWT_ACCESS, { expiresIn: '15s' })
+          req.newAccessToken = newAccessToken;
         
           if (reqType === 'login')
             req.body.userID = refreshDecoded.id;

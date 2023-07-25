@@ -24,7 +24,7 @@ export default function Login()
 
     const clientError = 
     {
-      type: "client",
+      clientSide: true,
       header: "Failed to login",
       message: ""
     }
@@ -43,7 +43,7 @@ export default function Login()
       return;
     }
 
-    axios.post(`/user/login`, 
+    axios.post(`/g/user/login`, 
     { 
       email: email, 
       password: password 

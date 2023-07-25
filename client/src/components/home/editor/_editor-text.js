@@ -45,7 +45,7 @@ export default function EditorText({ toggleEditor })
 
     if (isNewContent)
     {
-      axios.post(`/task/update?type=content`, 
+      axios.post(`/a/task/update?type=content`, 
       {
         taskID: editorData.id, 
         newContent: newContent,

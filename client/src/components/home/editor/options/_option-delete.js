@@ -29,7 +29,7 @@ export default function OptionDelete({ task })
 
     toggleEditor();
 
-    axios.post('/task/delete', 
+    axios.post('/a/task/delete', 
     { 
       projectID: activeProject.id, 
       taskID: task.id, 

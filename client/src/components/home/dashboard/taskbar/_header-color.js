@@ -33,7 +33,7 @@ export default function HeaderColor()
 
     setActiveProject({ ...activeProject, color: newColor });
 
-    axios.post('/project/update?type=color', 
+    axios.post('/a/project/update?type=color', 
     {
       projectID: activeProject.id, 
       newColor: newColor,

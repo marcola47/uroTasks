@@ -74,7 +74,7 @@ export default function Tasks({ taskType })
     else
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksUpdated }));
 
-    axios.post('/task/create', 
+    axios.post('/a/task/create', 
     {
       projectID: activeProject.id, 
       newTask: newTask,

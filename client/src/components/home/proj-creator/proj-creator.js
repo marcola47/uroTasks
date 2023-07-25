@@ -35,7 +35,7 @@ export default function ProjCreator()
       users: [user.id]
     };
 
-    axios.post(`/project/create`, 
+    axios.post(`/a/project/create`, 
     {
       userID: user.id, 
       newProject: newProject,

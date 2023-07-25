@@ -20,7 +20,7 @@ function MenuProject({ itemData })
       if (window.innerWidth < 1337 && state.menuShown === true)
         dispatch({ type: 'menuShown', payload: false });
   
-      axios.post('/user/update?type=activeProject', 
+      axios.post('/a/user/update?type=activeProject', 
       {
         userID: user.id, 
         projectID: itemData.id,

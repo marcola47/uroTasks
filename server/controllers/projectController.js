@@ -11,6 +11,8 @@ projectController.get = async (req, res) =>
 {
   try
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const projectsMeta = await Project.find({ id: { $in: data.projectIDs } }).lean().select('-created_at -updated_at -_id -__v');
       
@@ -31,7 +33,7 @@ projectController.get = async (req, res) =>
       return project;
     }));
   
-    res.status(200).send(projectsMeta);
+    res.status(200).send({ newAccessToken: newAccessToken, projectsMeta: projectsMeta });
   }
 
   catch (error)
@@ -53,6 +55,8 @@ projectController.create = async (req, res) =>
 
   try 
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const project = new Project(data.newProject);
     
@@ -64,7 +68,7 @@ projectController.create = async (req, res) =>
     await project.save();
     
     await session.commitTransaction();
-    res.sendStatus(201);
+    res.status(201).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
   }
 
@@ -85,18 +89,22 @@ projectController.create = async (req, res) =>
 /*********************************************************************************************************************************/
 projectController.updateName = async (req, res) => 
 {
+  const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
   await Project.updateOne({ id: data.projectID }, { name: data.newName });
+  res.status(200).send({ newAccessToken: newAccessToken });
   console.log(`${new Date()}: successfully updated project name to: ${data.newName}`);
 };
 
 /*********************************************************************************************************************************/
 projectController.updateColor = async (req, res) => 
 {
+  const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
   
   await Project.updateOne({ id: data.projectID }, { color: data.newColor });
+  res.status(200).send({ newAccessToken: newAccessToken });
   console.log(`${new Date()}: successfully updated project color to: ${data.newColor}`);
 };
 
@@ -115,8 +123,6 @@ projectController.update = async (req, res) =>
   
     else 
       throw new Error('Invalid type');
-  
-    res.sendStatus(200);
   }
 
   catch (error)
@@ -135,6 +141,8 @@ projectController.delete = async (req, res) =>
 {
   try 
   {
+    const newAccessToken = req.newAccessToken ?? null;
+
     const data = req.body;
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     const taskIDs = project.tasks;
@@ -148,7 +156,7 @@ projectController.delete = async (req, res) =>
     await User.updateOne({ id: data.userID }, updatedUser);
 
     console.log(`${new Date()}: successfully deleted project: ${data.projectID}`);
-    res.sendStatus(200);
+    res.status(200).send({ newAccessToken: newAccessToken });
   }
 
   catch (error)

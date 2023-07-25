@@ -25,14 +25,14 @@ userController.login = async (req, res) =>
     const user = await User.findOne({ email: userData.email });
 
     if (!user) 
-      return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
+      return res.status(400).json({ header: "Failed to login", message: 'Invalid email or password, make sure to type them correctly!'});
     
     const match = await bcrypt.compare(userData.password, user.password);
 
     if (!match) 
-      return res.status(400).json({ auth: false, message: 'Invalid email or password, make sure to type them correctly!'});
+      return res.status(400).json({ header: "Failed to login", message: 'Invalid email or password, make sure to type them correctly!'});
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15s' })
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: user.id })
@@ -45,7 +45,11 @@ userController.login = async (req, res) =>
   catch (error) 
   {
     console.error("Error during login:", error);
-    res.status(500).send({ message: "Internal server error logging in" });
+    res.status(500).send(
+    {
+      header: "Failed to log in", 
+      message: "Internal server error on logging in" 
+    });
   }
 };
 
@@ -64,7 +68,11 @@ userController.logout = async (req, res) =>
   catch (error)
   {
     console.error(error);
-    res.status(500).json({ message: "Error logging out" });
+    res.status(500).json(
+    { 
+      header: "Failed to log out",
+      message: "Internal server error on logging out" 
+    });
   }
 };
 
@@ -82,7 +90,7 @@ userController.create = async (req, res) =>
     const newUser = new User({ ...userData, password: hashedPassword });
     await newUser.save();
 
-    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
+    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15s' })
     const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: newUser.id })
@@ -95,46 +103,23 @@ userController.create = async (req, res) =>
   catch (error) 
   {
     console.error("Error creating user:", error);
-    res.status(500).send({ message: "Internal server error on creating user" });
+    res.status(500).send(
+    {
+      header: "Failed to register", 
+      message: "Internal server error on creating user" 
+    });
   }
 };
 
 /*****************************************************************************************************************/
 userController.updateActiveProject = async (req, res) => 
 {
+  const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
-  await User.updateOne({ id: data.userID }, { activeProject: data.projectID }); 
-  console.log(`${new Date()}: successfully updated user's active project to |${data.projectID}|`);
+  await User.updateOne({ id: data.userID }, { activeProject: data.projectID });
+  res.status(200).send({ newAccessToken: newAccessToken });
 }
-
-/*****************************************************************************************************************/
-userController.updateProjectList = async (req, res) => 
-{
-  const method = req.query.method;
-  const data = req.body;
-
-  const updatedUser = {};
-
-  if (method === 'add') 
-  {
-    updatedUser.$push = { projects: data.projectID };
-    updatedUser.$set = { activeProject: data.projectID };
-    console.log(`${new Date()}: Successfully added project to list`);
-  } 
-
-  else if (method === 'delete') 
-  {
-    updatedUser.$pull = { projects: data.projectID };
-    updatedUser.$set = { activeProject: '0' };
-    console.log(`${new Date()}: Successfully removed project from list`);
-  } 
-  
-  else 
-    throw new Error('Invalid method');
-
-  await User.updateOne({ id: data.userID }, updatedUser);
-};
 
 /*****************************************************************************************************************/
 userController.update = async (req, res) =>
@@ -145,17 +130,16 @@ userController.update = async (req, res) =>
   
     if (type === 'activeProject')
       await userController.updateActiveProject(req, res);
-  
-    else if (type === 'projectList')
-      await userController.updateProjectList(req, res);
-  
-    res.sendStatus(200);
   }
 
   catch (error)
   {
     console.log(error);
-    res.status(500).send({ message: "Error on updating user data" })
+    res.status(500).send(
+    {
+      header: "Failed to update user data", 
+      message: "Internal server error on updating user data"
+    })
   }
 }
 

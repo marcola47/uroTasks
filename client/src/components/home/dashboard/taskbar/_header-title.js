@@ -28,7 +28,7 @@ export default function HeaderTitle({ title })
 
     setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: newName }));
 
-    axios.post('/project/update?type=name', 
+    axios.post('/a/project/update?type=name', 
     {
       projectID: activeProject.id, 
       newName: newName,

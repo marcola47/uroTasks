@@ -29,7 +29,7 @@ export default function Register()
 
     const clientError = 
     {
-      type: "client",
+      clientSide: true,
       header: "Failed to register",
       message: ""
     }
@@ -72,7 +72,7 @@ export default function Register()
       projects: []
     }
 
-    axios.post(`/user/create`, newUser)
+    axios.post(`/g/user/create`, newUser)
     .then(res => 
     {
       localStorage.setItem("accessToken", res.data.accessToken);

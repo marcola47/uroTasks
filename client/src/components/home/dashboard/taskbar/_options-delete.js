@@ -15,7 +15,7 @@ export default function OptionsDelete()
   {  
     dispatch({ type: 'confirmationShown', payload: false })
 
-    axios.post(`/project/delete`, 
+    axios.post(`/a/project/delete`, 
     {
       userID: user.id, 
       projectID: activeProject.id,

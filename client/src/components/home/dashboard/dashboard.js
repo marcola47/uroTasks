@@ -16,7 +16,7 @@ function Dashboard()
   {
     if (activeProject !== null && activeProject.tasks === undefined)
     {
-      axios.post(`/task/get?projectID=${activeProject.id}`,
+      axios.post(`/a/task/get?projectID=${activeProject.id}`,
       {
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
@@ -26,7 +26,7 @@ function Dashboard()
         const projectsCopy = [...projects].map(project => 
         {
           if (project.id === activeProject.id)
-            project.tasks = res.data;
+            project.tasks = res.data.tasks;
 
           return project;
         });
