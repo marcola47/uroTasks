@@ -1414,10 +1414,10 @@
   font-size: 2rem;
 }
 .notification__header {
-  margin-bottom: 8px;
   font-weight: 700;
 }
 .notification__msg {
+  margin-top: 8px;
   color: #b8b8b8;
   font-size: 0.9rem;
 }

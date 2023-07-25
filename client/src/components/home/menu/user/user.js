@@ -42,7 +42,7 @@ export default function MenuUser()
       } 
     })
 
-    dispatch({ type: 'showConfirmation' })
+    dispatch({ type: 'confirmationShown', payload: true })
   }
 
   return (

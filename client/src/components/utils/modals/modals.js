@@ -20,7 +20,7 @@ export function Notification()
 
   return (
     <TransitionOpacityHorizontal className={ classes } id="notification">
-      <div className="notification__close" onClick={ () => {dispatch({ type: 'hideNotification' })} }>x</div>
+      <div className="notification__close" onClick={ () => {dispatch({ type: 'notificationShown', payload: false })} }>x</div>
 
       <div className="notification__icon">
         <FontAwesomeIcon icon={ icon }/>
@@ -28,7 +28,7 @@ export function Notification()
       
       <div className="notification__data">
         <p className="notification__header">{ state.notification.header }</p>
-        <p className="notification__msg">{ state.notification.message }</p>
+        { state.notification.message !== '' && <p className="notification__msg">{ state.notification.message }</p> }
       </div>
     </TransitionOpacityHorizontal>
   )
@@ -39,7 +39,7 @@ export function Confirmation()
   const { state, dispatch } = useContext(ReducerContext);
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'hideConfirmation' })} } id="cofirmation">
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} } id="cofirmation">
       <div className="confirmation" onClick={ e => {e.stopPropagation()} }>
         <div className="confirmation__data">
           <p className="confirmation__header">{ state.confirmation?.header }</p>
@@ -48,7 +48,7 @@ export function Confirmation()
 
         <div className="confirmation__btns">
           <div className={`btn ${state.confirmation?.className}`} onClick={ state.confirmation?.function }>{ state.confirmation?.confirmation }</div>
-          <div className="btn btn--rejection" onClick={ () => {dispatch({ type: 'hideConfirmation' })} }>{ state.confirmation?.rejection }</div>
+          <div className="btn btn--rejection" onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} }>{ state.confirmation?.rejection }</div>
         </div>
       </div>
     </TransitionOpacity>

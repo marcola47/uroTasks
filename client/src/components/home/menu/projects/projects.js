@@ -17,14 +17,10 @@ function MenuProject({ itemData })
   {
     if (itemData.id !== user.activeProject)
     {
-      if (window.innerWidth < 1337 && state.isMenuShown === false)
-      {
-        dispatch({ type: 'menuHidden'      });
-        dispatch({ type: 'dashboardMoved'  });
-        dispatch({ type: 'searchbarSpaced' });  
-      }  
+      if (window.innerWidth < 1337 && state.menuShown === true)
+        dispatch({ type: 'menuShown', payload: false });
   
-      axios.post(`/user/update?type=activeProject`, 
+      axios.post('/user/update?type=activeProject', 
       {
         userID: user.id, 
         projectID: itemData.id,
@@ -65,7 +61,7 @@ export default function MenuProjects()
   return (
     <div className='projects'>
       <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
-      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown' })} } icon={ faPlus } fontSize='1.5rem'/>
+      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } icon={ faPlus } fontSize='1.5rem'/>
       { 
         projects &&
         <List 
