@@ -6,7 +6,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
-export default function LoginForm()
+export default function Login()
 {
   const navigate = useNavigate();
 

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { EditorContext } from 'pages/home';
-import { motion } from 'framer-motion';
 
 import { TransitionOpacity } from 'components/utils/transitions/transitions';
 import EditorText from './_editor-text';
@@ -8,7 +7,7 @@ import Options from './options/options'
 
 export const ToggleEditorContext = React.createContext();
 
-export default function EditorTask()
+export default function Editor()
 {
   const { setEditorShown, editorParams, setEditorParams, editorData, setEditorData } = useContext(EditorContext);
 

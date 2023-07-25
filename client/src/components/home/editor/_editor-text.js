@@ -3,7 +3,7 @@ import { ProjectsContext, ReducerContext } from 'app';
 import { EditorContext } from 'pages/home';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function ItemText({ toggleEditor }) 
+export default function EditorText({ toggleEditor }) 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { editorShown, editorData } = useContext(EditorContext);

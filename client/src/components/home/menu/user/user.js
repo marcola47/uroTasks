@@ -5,7 +5,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-export default function User()
+export default function MenuUser()
 {
   const { user } = useContext(UserContext);
   const { dispatch } = useContext(ReducerContext);
@@ -42,7 +42,7 @@ export default function User()
       } 
     })
 
-    dispatch({ type: 'showConfirmation' })
+    dispatch({ type: 'confirmationShown', payload: true })
   }
 
   return (

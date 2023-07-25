@@ -46,7 +46,7 @@ export function setResponseError(err, dispatch)
     })
   }
 
-  dispatch({ type: 'showNotification' });
+  dispatch({ type: 'notificationShown', payload: true });
 }
 
 export function setResponseConfirmation(header, message, dispatch)
@@ -62,7 +62,7 @@ export function setResponseConfirmation(header, message, dispatch)
     } 
   })
 
-  dispatch({ type: 'showNotification' })
+  dispatch({ type: 'notificationShown', payload: true })
 }
 
 export default instance;

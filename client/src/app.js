@@ -1,4 +1,3 @@
-/** dependencies **/
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
@@ -15,8 +14,6 @@ import SettingsPage from 'pages/settings'
 
 export const UserContext = React.createContext();
 export const ProjectsContext = React.createContext();
-
-export const FlagsContext = React.createContext();
 export const ReducerContext = React.createContext();
 
 export default function App() 
@@ -24,20 +21,14 @@ export default function App()
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [fetchTasks, setFetchTasks] = useState(true);
-
   const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
 
   const [state, dispatch] = useReducer(reducer, 
   {
-    isMenuShown: true,
-    isDashboardMoved: false,
-    isSearchbarSpaced: false,
+    menuShown: true,
     projCreatorShown: false,
-    isConfirmationShown: false,
 
     notification: null,
     notificationShown: false,
@@ -50,38 +41,24 @@ export default function App()
   {
     switch (action.type)
     {
-      case 'menuHidden': 
-         return { ...state, isMenuShown: !state.isMenuShown };
-      
-      case 'dashboardMoved': 
-        return { ...state, isDashboardMoved: !state.isDashboardMoved };
-
-      case 'searchbarSpaced': 
-        return { ...state, isSearchbarSpaced: !state.isSearchbarSpaced };
+      // ui
+      case 'menuShown': 
+        return { ...state, menuShown: action.payload };
 
       case 'projCreatorShown': 
-        return { ...state, projCreatorShown: !state.projCreatorShown };
-
-      case 'confirmationShown': 
-        return { ...state, isConfirmationShown: !state.isConfirmationShown };
+        return { ...state, projCreatorShown: action.payload };
 
       case 'setConfirmation': 
         return { ...state, confirmation: action.payload };
 
-      case 'showConfirmation':
-        return { ...state, confirmationShown: true }
-
-      case 'hideConfirmation':
-        return { ...state, confirmationShown: false }
+      case 'confirmationShown':
+        return { ...state, confirmationShown: action.payload }
 
       case 'setNotification': 
         return { ...state, notification: action.payload };
 
-      case 'showNotification':
-        return { ...state, notificationShown: true }
-
-      case 'hideNotification':
-        return { ...state, notificationShown: false }
+      case 'notificationShown':
+        return { ...state, notificationShown: action.payload }
 
       default: return state;
     }
@@ -112,6 +89,8 @@ export default function App()
         : setActiveProject(null);
       }
     }
+
+    // eslint-disable-next-line
   }, [user, projects]);
 
   useEffect(() => // get and set user
@@ -134,7 +113,7 @@ export default function App()
           localStorage.setItem("accessToken", res.data.accessToken);
           setUser(res.data.result);
         })
-        .catch(err => 
+        .catch(_ => 
         {
           navigate('login');
           localStorage.removeItem("accessToken");
@@ -145,7 +124,7 @@ export default function App()
       else if (location.pathname !== '/register' || location.pathname !== '/login')
         navigate('/login')
     }
-
+ 
     // eslint-disable-next-line
   }, [user])
 
@@ -154,20 +133,18 @@ export default function App()
     const timer = setTimeout(() => 
     {
       if (state.notificationShown)
-        dispatch({ type: 'hideNotification' })
+        dispatch({ type: 'notificationShown', payload: false })
 
     }, 5000);
     
     return () => {clearTimeout(timer)};
-  }, [state.notification])
+  }, [state.notificationShown])
 
   return (
     <div className="app" id='app'>
       <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
-            <FlagsContext.Provider value={{ loading, setLoading, fetchTasks, setFetchTasks }}>
-              
               {/* if I only use the notification object to show it, the exit animation doesn't trigger */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
@@ -182,8 +159,6 @@ export default function App()
       
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
-
-            </FlagsContext.Provider>
           </ReducerContext.Provider>
         </UserContext.Provider>
       </ProjectsContext.Provider>

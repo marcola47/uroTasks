@@ -6,7 +6,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-export default function OptionChangeType({ task })
+export default function OptionType({ task })
 {
   const [changeTypeOpen, setChangeTypeOpen] = useState(false)
 

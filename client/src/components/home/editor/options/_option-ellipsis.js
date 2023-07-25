@@ -4,7 +4,7 @@ import { ToggleEditorContext } from '../editor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
-export default function OptionTags()
+export default function OptionEllipsis()
 {
   const { toggleEditor } = useContext(ToggleEditorContext);
 

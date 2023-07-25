@@ -11,7 +11,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export const TaskTypeContext = React.createContext();
 
-export default function TasksContainer({ taskType })
+export default function Tasks({ taskType })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
   const { dispatch } = useContext(ReducerContext);

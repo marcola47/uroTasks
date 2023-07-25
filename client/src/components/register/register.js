@@ -7,7 +7,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
-export default function RegForm()
+export default function Register()
 {
   const { dispatch } = useContext(ReducerContext);
   const { setUser } = useContext(UserContext);

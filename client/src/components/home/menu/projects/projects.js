@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext, UserContext } from 'app';
-import { ToggleMenuContext } from 'pages/home';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { ButtonGlow } from 'components/utils/buttons/buttons';
@@ -9,7 +8,7 @@ import List from 'components/utils/list/list';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faPlus, faSquare } from '@fortawesome/free-solid-svg-icons';
 
-function Project({ itemData })
+function MenuProject({ itemData })
 { 
   const { user, setUser } = useContext(UserContext);
   const { state, dispatch } = useContext(ReducerContext);
@@ -18,14 +17,10 @@ function Project({ itemData })
   {
     if (itemData.id !== user.activeProject)
     {
-      if (window.innerWidth < 1337 && state.isMenuShown === false)
-      {
-        dispatch({ type: 'menuHidden'      });
-        dispatch({ type: 'dashboardMoved'  });
-        dispatch({ type: 'searchbarSpaced' });  
-      }  
+      if (window.innerWidth < 1337 && state.menuShown === true)
+        dispatch({ type: 'menuShown', payload: false });
   
-      axios.post(`/user/update?type=activeProject`, 
+      axios.post('/user/update?type=activeProject', 
       {
         userID: user.id, 
         projectID: itemData.id,
@@ -66,14 +61,14 @@ export default function MenuProjects()
   return (
     <div className='projects'>
       <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
-      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown' })} } icon={ faPlus } fontSize='1.5rem'/>
+      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } icon={ faPlus } fontSize='1.5rem'/>
       { 
         projects &&
         <List 
           classes="projects__list" 
           ids="projects__list"
           elements={ projects } 
-          ListItem={ Project } 
+          ListItem={ MenuProject } 
         />
       }
     </div>

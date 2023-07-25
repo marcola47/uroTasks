@@ -9,11 +9,11 @@ export default function OptionsDelete()
 {
   const { user, setUser } = useContext(UserContext);
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { state, dispatch } = useContext(ReducerContext);
+  const { dispatch } = useContext(ReducerContext);
 
   function deleteProject()
   {  
-    dispatch({ type: 'hideConfirmation' })
+    dispatch({ type: 'confirmationShown', payload: false })
 
     axios.post(`/project/delete`, 
     {
@@ -49,12 +49,12 @@ export default function OptionsDelete()
       } 
     })
 
-    dispatch({ type: 'showConfirmation' })
+    dispatch({ type: 'confirmationShown', payload: true })
   }
 
   return (
     // fix: the trash icon turns red whenever any confirmation is shown
-    <div className={`taskbar__option taskbar__option--delete ${state.confirmationShown ? '' : ''}`} onClick={ showConfirmation }>
+    <div className="taskbar__option taskbar__option--delete" onClick={ showConfirmation }>
       <FontAwesomeIcon icon={ faTrashCan }/>  
     </div>
   )

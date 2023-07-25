@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 import User from '../models/User.js';
@@ -46,6 +48,9 @@ projectController.get = async (req, res) =>
 /*********************************************************************************************************************************/
 projectController.create = async (req, res) =>
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try 
   {
     const data = req.body;
@@ -57,13 +62,17 @@ projectController.create = async (req, res) =>
 
     await User.updateOne({ id: data.userID }, updatedUser);
     await project.save();
-
+    
+    await session.commitTransaction();
     res.sendStatus(201);
     console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
   }
 
   catch (error)
   {
+    await session.abortTransaction();
+    session.endSession();
+    
     console.log(error);
     res.status(500).send(
     {

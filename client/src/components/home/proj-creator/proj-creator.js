@@ -1,10 +1,7 @@
 import { useState, useContext, useRef  } from 'react';
 import { ProjectsContext, ReducerContext, UserContext } from "app";
-import { ToggleMenuContext } from 'pages/home';
 import { v4 as uuid } from 'uuid';
 import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
-import { motion } from 'framer-motion';
-
 
 import { TransitionOpacity } from 'components/utils/transitions/transitions';
 import { ButtonGlow } from 'components/utils/buttons/buttons';
@@ -17,10 +14,9 @@ export default function ProjCreator()
 {
   const projectNameRef = useRef();
   
-  const { projects, setProjects } = useContext(ProjectsContext);
   const { user, setUser } = useContext(UserContext);
-  const { dispatch } = useContext(ReducerContext);
-  const { toggleMenu } = useContext(ToggleMenuContext);
+  const { projects, setProjects } = useContext(ProjectsContext);
+  const { state, dispatch } = useContext(ReducerContext);
 
   const [color, setColor] = useState('#4b99cc');
   const [pickerActive, setPickerActive] = useState(false);
@@ -54,8 +50,10 @@ export default function ProjCreator()
     })
     .catch(err => setResponseError(err, dispatch))
 
-    toggleMenu();
-    dispatch({ type: 'projCreatorShown' }); 
+    if (window.innerWidth < 1337 && state.menuShown === true)
+      dispatch({ type: 'menuShown', payload: false });
+
+    dispatch({ type: 'projCreatorShown', payload: false }); 
     projectNameRef.current.value = '';
   }
 
@@ -81,10 +79,10 @@ export default function ProjCreator()
   }
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'projCreatorShown' })} } id='proj-creator'>
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
       <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
-        <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown' })} } icon={ faXmark }/>
+        <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } icon={ faXmark }/>
         
         <input className="proj-creator__input" ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
         <ColorInput/>

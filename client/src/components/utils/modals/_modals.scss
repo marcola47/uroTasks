@@ -68,13 +68,11 @@
   }
 
   &__header
-  {
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
+  { font-weight: 700 }
 
   &__msg
   {
+    margin-top: 8px;
     color: $grey-light;
     font-size: 0.9rem;
   }
