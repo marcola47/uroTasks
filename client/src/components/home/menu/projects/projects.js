@@ -39,7 +39,7 @@ function MenuProject({ itemData })
         <div className='project__name'>{ itemData?.name }</div>
       </div> 
   
-      <div className='project__total-tasks'>{ itemData?.activeTasks < 100 ? itemData?.activeTasks : 99 }</div>
+      <div className='project__total-tasks'>?</div>
     </li>
   )
 }
@@ -66,11 +66,11 @@ export default function MenuProjects()
         projects &&
         <List 
           classes="projects__list" 
-          ids="projects__list"
+          ids="list--projects"
           elements={ projects } 
           ListItem={ MenuProject } 
         />
       }
     </div>
-  )
+  ) 
 }

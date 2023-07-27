@@ -7,10 +7,9 @@
   gap: 8px;
 
   position: relative;
-  width: 1400px;
-  max-width: 100%;
+  width: calc(100% - 48px);
 
-  margin-bottom: 16px;
+  margin: 16px 24px;
   padding-bottom: 8px;
   border-bottom: 2px solid $white-dark;
 

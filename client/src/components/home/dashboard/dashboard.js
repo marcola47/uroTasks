@@ -5,7 +5,9 @@ import axios from 'utils/axiosConfig';
 import Screensaver from './screensaver/screensaver';
 import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
-import Tasks from './tasks/tasks';
+import Tasks from "./tasks/tasks";
+
+
 
 function Dashboard()
 {
@@ -40,17 +42,6 @@ function Dashboard()
     // eslint-disable-next-line
   }, [activeProject]);
 
-  function TasksContainer()
-  {
-    return (
-      <div className="tasks__container" id="tasks__container">
-        <Tasks taskType="todo"/>
-        <Tasks taskType="doing"/>
-        <Tasks taskType="done"/>
-      </div>
-    )
-  }
-
   function DashboardContent()
   {
     if (activeProject?.tasks === undefined)
@@ -60,7 +51,7 @@ function Dashboard()
       <>
         <Searchbar/>
         <Taskbar/> 
-        <TasksContainer/>
+        <Tasks/>
       </>
     )
   }

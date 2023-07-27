@@ -1,10 +1,10 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import { ToggleEditorContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionType({ task })
 {
@@ -14,38 +14,20 @@ export default function OptionType({ task })
   const { toggleEditor } = useContext(ToggleEditorContext);
   const { dispatch } = useContext(ReducerContext);
   
-  let taskTypeLeft, taskTypeRight, changeTypeIcon;
-  switch (task?.type)
-  {
-    case 'todo' : taskTypeLeft = "doing"; taskTypeRight = "done" ; changeTypeIcon = faArrowRight;      break;
-    case 'doing': taskTypeLeft = "todo" ; taskTypeRight = "done" ; changeTypeIcon = faArrowsLeftRight; break;
-    case 'done' : taskTypeLeft = "todo" ; taskTypeRight = "doing"; changeTypeIcon = faArrowLeft;       break;
-    default: break;
-  }
- 
-  function formatTaskType(taskTypeName)
-  {
-    if (taskTypeName === undefined)
-      return;
-
-    if (taskTypeName === 'todo')
-      taskTypeName = taskTypeName.slice(0, 2) + '-' + taskTypeName.slice(2)
-
-    return taskTypeName.toUpperCase();
-  }
+  const taskTypes = activeProject.types.filter(type => type.id !== task.type);
 
   function updateTaskType(newType)
   { 
     const taskList = activeProject.tasks;
     const taskToMove = taskList.find(taskItem => taskItem.id === task.id);
     
-    const tasksFiltered = taskList.filter(taskObj => taskObj.type === newType);
+    const tasksFiltered = taskList.filter(taskObj => taskObj.type === newType.id);
     let lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
 
     if (lastTaskPos === -Infinity)
       lastTaskPos = 0;
 
-    const types = { old: task.type, new: newType };
+    const types = { old: task.type, new: newType.id };
     const positions = { old: taskToMove.position, new: lastTaskPos + 1 };
     
     taskList.map(taskObj => 
@@ -100,12 +82,26 @@ export default function OptionType({ task })
   return (
     <>
       <div className='option option--type'>
-        <div className='option__icon' onClick={ () => {setChangeTypeOpen(!changeTypeOpen)} }><FontAwesomeIcon icon={ changeTypeIcon }/></div>
+        <div className='option__icon' onClick={ () => {setChangeTypeOpen(!changeTypeOpen)} }><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
       </div>
 
       <div className={ `options__select ${changeTypeOpen ? 'options__select--shown' : ''}` }>
-        <div className='options__location' onClick={ () => {updateTaskType(taskTypeLeft)} }>{ formatTaskType(taskTypeLeft) }</div>
-        <div className='options__location' onClick={ () => {updateTaskType(taskTypeRight)} }>{ formatTaskType(taskTypeRight) }</div>
+        <div className="options__locations">
+        { 
+          taskTypes.map(taskType => 
+          {
+            return (
+              <div 
+                key={ taskType.id }
+                className='options__location' 
+                onClick={ () => {updateTaskType(taskType)} }
+              >
+                { taskType.name.toUpperCase() }
+              </div>
+            )
+          }) 
+        }
+        </div>
       </div>
     </>
   )

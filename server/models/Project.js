@@ -1,6 +1,26 @@
 import mongoose from "mongoose";
 import idSchema from './_id.js';
 
+import { v4 as uuid } from 'uuid';
+ 
+const typesSchema = new mongoose.Schema(
+{
+  id:
+  {
+    type: String,
+    default: uuid,
+    required: true
+  },
+
+  name:
+  {
+    type: String,
+    required: true
+  },
+
+  position: Number
+}, { _id : false });
+
 const projectSchema = new mongoose.Schema(
 {
   id: idSchema,
@@ -25,8 +45,11 @@ const projectSchema = new mongoose.Schema(
     default: -1
   },
 
-  tasks: [String],
 
+  types: [typesSchema],
+
+  tasks: [String],
+  
   users: [String],
 
   created_at:

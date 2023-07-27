@@ -7,40 +7,55 @@
 *
 { margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out; }
 
+html
+{ font-size: 14px }
 
 html, input, button 
-{ font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif; }
+{ font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif }
 
 body 
 { background-color: $bg-blue-dark }
 
 a 
-{ text-decoration: none; color: #fff; }
+{ text-decoration: none; color: #fff }
 
 ul 
-{ list-style: none; }
+{ list-style: none }
 
 button
-{ cursor: pointer; }
+{ cursor: pointer }
 
 textarea 
-{ resize: none; }
+{ resize: none }
 
-::-webkit-scrollbar   
-{ width: 0px; }
+::-webkit-scrollbar 
+{ width: 8px }
+
+::-webkit-scrollbar-track 
+{ 
+  margin: 8px;
+  border-radius: $br-big;
+  background: $bg-blue-mid 
+}
+
+::-webkit-scrollbar-thumb 
+{ 
+  border-radius: $br-big;
+  background: $bg-blue-light 
+}
+
+::-webkit-scrollbar-thumb:hover 
+{ background: hsl(216, 23%, 30%); }
 
 /***************************************************************************************************************/
 /* app */
 .app
 {
-  opacity: 1;
-
   position: relative;
-
   height: 100dvh;
   width: 100dvw;
 
-  overflow-x: hidden;
+  overflow-y: hidden;
 
   animation: ease-in-out 1s forwards fade_in;
 }
@@ -74,10 +89,4 @@ textarea
   inset: 0;
 
   background-color: $bg-overlay;
-}
-
-@media screen and (max-width: 1336px) 
-{
-  html
-  { font-size: 14px; }
 }

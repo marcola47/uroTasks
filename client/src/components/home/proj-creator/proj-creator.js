@@ -32,7 +32,8 @@ export default function ProjCreator()
       name: name,
       color: color,
       activeTasks: 0,
-      users: [user.id]
+      users: [user.id],
+      types: ["todo", "doing", "done"]
     };
 
     axios.post(`/a/project/create`, 

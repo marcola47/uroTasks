@@ -1,0 +1,114 @@
+@import '../../../../../css/_variables.scss';
+
+.card
+{
+  flex: 0 0 280px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 100%) minmax(0, auto);
+  grid-template-rows: auto minmax(0, 100%);
+  row-gap: 16px;
+  
+  width: 280px;
+  height: fit-content;
+  padding: 4px;
+  border-radius: $br-big;
+
+  background-color: $bg-blue-mid;
+  
+  ::-webkit-scrollbar-track 
+  { 
+    margin: 0;
+    border-radius: 2px;
+    background: hsl(216, 23%, 13%) 
+  }
+
+  ::-webkit-scrollbar-thumb 
+  { 
+    border-radius: 2px;
+    background: $bg-blue-light 
+  }
+
+  &__header
+  {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 16px 16px 0px 16px;
+  }
+
+  &__options
+  {
+    font-size: 1.5rem;
+    text-align: right;
+  }
+
+  &__list
+  {
+    grid-row: 2;
+    grid-column: span 2;
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    max-height: 580px;
+    padding-inline: 4px;
+    border-radius: $br-small;
+
+    overflow-y: auto;
+  }
+
+  &__add-task
+  {
+    grid-column: span 2;
+    padding: 4px;
+
+    textarea
+    {
+      padding: 12px;
+      border-radius: $br-small;
+    
+      color: inherit;
+      background-color: $bg-blue-light;
+    
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    button
+    {
+      width: 100%;
+
+      padding: 10px;
+      border: 2px solid #00000000;
+      border-radius: $br-small;
+
+      color: #c0c0c0;
+      background-color: inherit;
+
+      text-align: left;
+      cursor: pointer;
+
+      &:hover
+      {
+        border: 2px solid $green-light;
+        color: $green-light;
+      }
+
+      .fa-plus
+      { transition: all 0s ease-in-out; }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) 
+{
+
+  .card
+  {
+    width: auto;
+    
+    scroll-margin: 24px;
+    scroll-snap-align: start;
+  }
+}

@@ -9,11 +9,14 @@ function List({ elements, ListItem, classes = "", ids = "" })
   useLayoutEffect(() => 
   {
     const listElement = listRef.current;
-    const storedScrollOffsetY = sessionStorage.getItem(`${ids}:scroll_y`);
+    const storedScrollOffsetY = sessionStorage.getItem(`${ids}:y`);
+    const storedScrollOffsetX = sessionStorage.getItem(`${ids}:x`);
     
     if (listElement)
+    {
       listElement.scrollTop = Number(storedScrollOffsetY);
-
+      listElement.scrollLeft = Number(storedScrollOffsetX);
+    }
   }, []);
 
   // don't judge me
@@ -24,7 +27,10 @@ function List({ elements, ListItem, classes = "", ids = "" })
     if (listElement)
     {
       const scrollOffsetY = listElement.scrollTop;
-      sessionStorage.setItem(`${ids}:scroll_y`, scrollOffsetY);
+      const scrollOffsetX = listElement.scrollLeft;
+
+      sessionStorage.setItem(`${ids}:y`, scrollOffsetY);
+      sessionStorage.setItem(`${ids}:x`, scrollOffsetX);
     }
   };
 

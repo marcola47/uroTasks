@@ -1,72 +1,30 @@
 @import '../../../../css/_variables.scss';
 
-.tasks__container
-{
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 32.66%;
-  gap: 1%;
-
-  width: 1400px;
-  max-width: 100%;
-
-  overflow: scroll;
-  scroll-snap-type: inline mandatory;
-}
-
 .tasks
 {
-  display: grid;
-  grid-template-columns: minmax(0, 100%) minmax(0, auto);
-  grid-template-rows: auto minmax(0, 100%);
+  flex: 1;
+
+  display: flex;
   gap: 16px;
+
+  width: 100%;
+  padding: 0px 24px;
+
+  overflow: auto;
+
+  &__add-card
+  {
+    flex: 0 0 280px;
+    width: 280px;
   
-  height: fit-content;
-  padding: 16px;
-  border-radius: $br-big;
-
-  background-color: $bg-blue-mid;
-
-  scroll-snap-align: start;
-
-  &__header
-  {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
-  &__options
-  {
-    font-size: 1.5rem;
-    text-align: right;
-  }
-
-  &__list
-  {
-    grid-row: 2;
-    grid-column: 1 / 3;
-    
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-
-    max-height: 560px;
-    border-radius: $br-small;
-
-    overflow-y: scroll;
-  }
-
-  &__add
-  {
-    grid-column: span 2;
-
-    textarea
+    input
     {
-      padding: 12px;
-      border-radius: $br-small;
+      padding: 14px;
+      border: 2px solid #00000000;
+      border-radius: $br-big;
     
       color: inherit;
-      background-color: $bg-blue-light;
+      background-color: $bg-blue-mid;
     
       font-family: inherit;
       font-size: inherit;
@@ -75,14 +33,15 @@
     button
     {
       width: 100%;
-
-      padding: 10px;
+      padding: 14px;
       border: 2px solid #00000000;
-      border-radius: $br-small;
+      border-radius: $br-big;
 
-      color: #c0c0c0;
-      background-color: inherit;
+      color: white;
+      background-color: $bg-blue-mid;
 
+      font-size: 1rem;
+      font-weight: 500;
       text-align: left;
       cursor: pointer;
 
@@ -98,11 +57,21 @@
   }
 }
 
-@media screen and (max-width: 920px) 
+@media screen and (max-width: 768px) 
 {
-  .tasks__container
+  .tasks
   {
+    display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 100%;
+    scroll-snap-type: inline mandatory;
+  }
+
+  .tasks__add-card
+  {
+    width: auto;
+    
+    scroll-margin: 24px;
+    scroll-snap-align: start;
   }
 }

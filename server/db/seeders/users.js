@@ -25,8 +25,6 @@ const seedProjects = async () =>
 
     await user.save();
   }
-
-  console.log('User seeding completed.');
 };
 
 const dbHost = process.env.DB_HOST;

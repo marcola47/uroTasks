@@ -14,25 +14,8 @@ projectController.get = async (req, res) =>
     const newAccessToken = req.newAccessToken ?? null;
 
     const data = req.body;
-    const projectsMeta = await Project.find({ id: { $in: data.projectIDs } }).lean().select('-created_at -updated_at -_id -__v');
+    const projectsMeta = await Project.find({ id: { $in: data.projectIDs } }).lean().select('-tasks -created_at -updated_at -_id -__v');
       
-    await Promise.all (projectsMeta.map(async project => 
-    {
-      if (project.activeTasks === -1)
-      {
-        await Task.countDocuments({ id: { $in: project.tasks }, type: { $in: ['todo', 'doing'] } })
-        .then(async count => 
-        {
-          await Project.updateOne({ id: project.id }, { activeTasks: count });
-          project.activeTasks = count;
-        })
-        .catch(err => console.log(err))
-      }
-  
-      delete project.tasks;
-      return project;
-    }));
-  
     res.status(200).send({ newAccessToken: newAccessToken, projectsMeta: projectsMeta });
   }
 
@@ -109,6 +92,25 @@ projectController.updateColor = async (req, res) =>
 };
 
 /*********************************************************************************************************************************/
+projectController.updateTypes = async (req, res) => 
+{
+  if (req.query.crud == 'create')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    
+    await Project.updateOne({ id: data.projectID }, { $push: { types: data.newType } });
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated task types`);
+  }
+
+  else if (req.query.crud = 'delete')
+  {
+    
+  }
+};
+
+/*********************************************************************************************************************************/
 projectController.update = async (req, res) => 
 {
   try 
@@ -121,6 +123,9 @@ projectController.update = async (req, res) =>
     else if (type === 'color')
       await projectController.updateColor(req, res);
   
+    else if (type === 'types')
+      await projectController.updateTypes(req, res);
+
     else 
       throw new Error('Invalid type');
   }
