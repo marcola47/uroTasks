@@ -161,7 +161,7 @@ export default function App()
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
               </AnimatePresence>
-
+              {/* some bad shit happens when they're in the same instance of AnimatePresence */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.confirmationShown && <Confirmation/> }
               </AnimatePresence>

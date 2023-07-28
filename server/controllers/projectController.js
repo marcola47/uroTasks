@@ -15,7 +15,7 @@ projectController.get = async (req, res) =>
 
     const data = req.body;
     const projectsMeta = await Project.find({ id: { $in: data.projectIDs } }).lean().select('-tasks -created_at -updated_at -_id -__v');
-    
+
     res.status(200).send({ newAccessToken: newAccessToken, projectsMeta: projectsMeta });
   }
 
@@ -213,13 +213,13 @@ projectController.delete = async (req, res) =>
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     const taskIDs = project.tasks;
     
+    const updatedUser = {};
+    updatedUser.$pull = { projects: data.projectID };
+    updatedUser.$set = { activeProject: '0' };
+
     await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.deleteOne({ id: data.projectID });
-    await User.updateOne
-    (
-      { id: data.userID },
-      { projects: data.projectID, activeProject: '0' }
-    );
+    await User.updateOne({ id: data.userID }, updatedUser);
 
     console.log(`${new Date()}: successfully deleted project: ${data.projectID}`);
     res.status(200).send({ newAccessToken: newAccessToken });
