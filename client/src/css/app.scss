@@ -5,13 +5,10 @@
 /***************************************************************************************************************/
 /* global styles */
 *
-{ margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out; }
+{ margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; }
 
 html
-{ font-size: 14px }
-
-html, input, button 
-{ font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif }
+{ font-size: 14px; font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif }
 
 body 
 { background-color: $bg-blue-dark }
@@ -22,11 +19,19 @@ a
 ul 
 { list-style: none }
 
-button
-{ cursor: pointer }
-
 textarea 
 { resize: none }
+
+input, button 
+{  
+  color: inherit;
+  background-color: inherit;
+
+  font-size: inherit;
+  font-family: inherit;
+
+  cursor: pointer
+}
 
 ::-webkit-scrollbar 
 { width: 8px }
@@ -45,7 +50,7 @@ textarea
 }
 
 ::-webkit-scrollbar-thumb:hover 
-{ background: hsl(216, 23%, 30%); }
+{ background-color: $bg-blue-bright; }
 
 /***************************************************************************************************************/
 /* app */
@@ -56,6 +61,7 @@ textarea
   width: 100dvw;
 
   overflow-y: hidden;
+  overflow-x: hidden;
 
   animation: ease-in-out 1s forwards fade_in;
 }
@@ -82,7 +88,7 @@ textarea
 
 .overlay__bg
 {
-  z-index: 99;
+  z-index: 1000;
   opacity: 1;
 
   position: absolute;

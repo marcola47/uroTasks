@@ -7,8 +7,6 @@ import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
 import Tasks from "./tasks/tasks";
 
-
-
 function Dashboard()
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);

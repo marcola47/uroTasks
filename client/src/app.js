@@ -29,6 +29,7 @@ export default function App()
   {
     menuShown: window.innerWidth > 1336 ? true : false,
     projCreatorShown: false,
+    fetchingProjects: true,
 
     notification: null,
     notificationShown: false,
@@ -47,6 +48,9 @@ export default function App()
       // ui
       case 'menuShown': 
         return { ...state, menuShown: action.payload };
+
+      case 'fetchingProjects':
+        return { ...state, fetchingProjects: action.payload }
 
       case 'projCreatorShown': 
         return { ...state, projCreatorShown: action.payload };
@@ -74,7 +78,7 @@ export default function App()
   {
     if (user !== null)
     {
-      if (projects.length <= 0)
+      if (state.fetchingProjects)
       {
         axios.post(`/a/project/get`, 
         {
@@ -82,7 +86,11 @@ export default function App()
           accessToken: localStorage.getItem("accessToken"),
           refreshToken: localStorage.getItem("refreshToken")
         })
-        .then(res => setProjects(res.data.projectsMeta))
+        .then(res =>
+        {
+          setProjects(res.data.projectsMeta); 
+          dispatch({ type: 'fetchingProjects', payload: false })
+        })
         .catch(err => console.log(err))
       }
 
@@ -152,6 +160,9 @@ export default function App()
           <ReducerContext.Provider value={{ state, dispatch }}>
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
+              </AnimatePresence>
+
+              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.confirmationShown && <Confirmation/> }
               </AnimatePresence>
 

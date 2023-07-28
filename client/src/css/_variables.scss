@@ -1,13 +1,15 @@
-$bg-blue-dark: hsl(216, 21%, 7%);
-$bg-blue-mid: hsl(216, 21%, 15%);
-$bg-blue-light: hsl(216, 21%, 26%);
+$bg-blue-dark: hsl(211, 18%, 5%);
+$bg-blue-dim: hsl(211, 18%, 10%);
+$bg-blue-mid: hsl(211, 18%, 15%);
+$bg-blue-light: hsl(211, 18%, 25%);
+$bg-blue-bright: hsl(211, 18%, 30%);
 $bg-overlay: #000000aa;
 
 $white-dark: hsl(0, 0%, 86%);
 $white-light: hsl(0, 0%, 100%);
 
-$grey-dark: #999;
-$grey-light: #b8b8b8;
+$grey-dark: hsl(0, 0%, 60%);
+$grey-light: hsl(0, 0%, 72%);
 
 $blue-dark:  hsl(204, 70%, 55%);
 $blue-light: hsl(204, 70%, 62%);
@@ -23,6 +25,9 @@ $red-light: hsl(0, 100%, 58%);
 
 $green-dark: hsl(145, 77%, 41%);
 $green-light: hsl(145, 77%, 50%);
+
+$yellow-dark: hsl(46, 93%, 40%);
+$yellow-light: hsl(46, 93%, 48%);
 
 $menu-w: 420px;
 $menu-w-inv: $menu-w * -1;
@@ -77,12 +82,5 @@ $br-small: 3px;
 @mixin anim_rotate_ccw
 { animation: rotate_ccw 2s infinite; }
 
-@mixin transition-open
-{ 
-  transition-property: opacity, z-index;
-  transition-duration: 0.1s, 0s; 
-  transition-delay: 0s, 0.1s; 
-}
-
-@mixin transition-close
-{ transition: opacity 0.15s 0.05s ease-in-out; }
+@mixin transition
+{ transition: all 0.1s ease-in-out; }

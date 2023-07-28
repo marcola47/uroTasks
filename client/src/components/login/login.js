@@ -62,7 +62,7 @@ export default function Login()
   return (
     <div className="login">
       <div className="login__form">
-        <img src="img/logo--dark_theme.svg" className="login__logo" alt="" />
+        <img src="img/logo--written--dark.svg" className="login__logo" alt="" />
 
         <div className="login__inputs">
           <div className="login__input">

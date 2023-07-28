@@ -13,6 +13,8 @@
 
   background-color: $bg-blue-light;
 
+  @include transition;
+
   .fa-magnifying-glass
   {
     position: absolute;

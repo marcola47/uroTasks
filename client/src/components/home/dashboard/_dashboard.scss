@@ -18,6 +18,7 @@
   background-color: $bg-blue-dark;
 
   animation: ease-in-out 1s forwards fade-in;
+  @include transition;
 
   ::-webkit-scrollbar
   {  height: 12px }

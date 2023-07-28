@@ -12,13 +12,10 @@
   color: #fff;
   background-color: $bg-blue-light;
 
-  @include transition-open;
-
   &--shown
   { 
     opacity: 1; 
     z-index: 100;
-    @include transition-close;
   }
 
   &__position
@@ -133,7 +130,6 @@
 
       pointer-events: none;
       cursor: default;
-
 
       ::-webkit-scrollbar 
       { width: 6px }

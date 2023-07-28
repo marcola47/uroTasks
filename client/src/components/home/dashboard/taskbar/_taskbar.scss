@@ -80,6 +80,8 @@
     cursor: pointer;
     user-select: none;
 
+    @include transition;
+
     &--delete
     {
       &:hover, &--active

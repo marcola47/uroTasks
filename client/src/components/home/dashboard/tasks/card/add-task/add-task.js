@@ -68,10 +68,10 @@ export default function AddTask({ type })
 
   function handleSave() 
   {
-    setEditing(false);
-
     if (inputValueRef.current.value !== '')
       handleTextChange(inputValue);
+
+    setEditing(false);
   }
 
   function handleKeyDown(e)

@@ -86,7 +86,7 @@ export default function Register()
   return (
     <div className="reg">
       <div className="reg__form">
-        <img src="img/logo--dark_theme.svg" className="reg__logo" alt="" />
+        <img src="img/logo--written--dark.svg" className="reg__logo" alt="" />
 
         <div className="reg__inputs">
           <div className="reg__input reg__input--name">

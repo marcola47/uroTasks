@@ -102,7 +102,7 @@ export default function ProjCreator()
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
         <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } icon={ faXmark }/>
         
-        <input className="proj-creator__input" ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
+        <input className="proj-creator__input" id='input--name' ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
         <ColorInput/>
         { pickerActive && <ColorPicker/> }
         
