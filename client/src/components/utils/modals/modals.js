@@ -39,7 +39,7 @@ export function Confirmation()
   const { state, dispatch } = useContext(ReducerContext);
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} } id="cofirmation">
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} } id="confirmation">
       <div className="confirmation" onClick={ e => {e.stopPropagation()} }>
         <div className="confirmation__data">
           <p className="confirmation__header">{ state.confirmation?.header }</p>

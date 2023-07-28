@@ -12,13 +12,21 @@
   color: #fff;
   background-color: $bg-blue-light;
 
-  @include transition-open;
-
   &--shown
   { 
     opacity: 1; 
     z-index: 100;
-    @include transition-close;
+  }
+
+  &__position
+  {
+    position: absolute;
+    left: 4px;
+    top: 2px;
+
+    color: #aaaaaa;
+
+    font-size: 0.6rem;
   }
 
   textarea
@@ -103,17 +111,15 @@
 
     &__select
     {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      
       opacity: 0;
 
       position: absolute;
-      top: 92px;
-      left: -112px;
+      top: 0px;
+      left: -164px;
       
-      padding: 8px;
+      width: 160px;
+      max-height: 100%;
+      padding: 4px;
       border: 2px solid $white-dark;
       border-radius: $br-big;
 
@@ -125,31 +131,58 @@
       pointer-events: none;
       cursor: default;
 
+      ::-webkit-scrollbar 
+      { width: 6px }
+
+      ::-webkit-scrollbar-thumb 
+      { border-radius: 2px }
+
+      ::-webkit-scrollbar-track 
+      { 
+        margin: 4px;
+        border-radius: 2px;
+      }
+
       &--shown
       {
         opacity: 1;
         pointer-events: initial;
         cursor: pointer;
       }
+    }
 
-      & > *
-      {
-        width: 88px;
-        height: 40px;
-      }
+    &__locations
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      max-height: 256px;
+      padding: 4px;
+      border-radius: $br-small;
+
+      overflow-y: auto;
     }
 
     &__location
     { 
-      display: grid;
-      place-items: center;
+      flex: 0 0 42px;
 
+      width: calc(100%);
+      height: 42px;
+      padding: 12px 8px;
       border-radius: $br-small;
 
       color: $bg-blue-dark;
       background-color: $white-dark;
 
-      &--selected, &:hover
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      font-weight: 500;
+
+      &:hover
       { background-color: #fff; }
     }
 

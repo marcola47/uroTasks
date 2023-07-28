@@ -12,7 +12,7 @@ export default function MenuUser()
 
   function logout()
   {
-    axios.post(`/user/logout`, 
+    axios.post(`/g/user/logout`, 
     {
       userID: user.id,
       refreshToken: localStorage.getItem("refreshToken")

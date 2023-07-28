@@ -24,7 +24,7 @@ export default function Login()
 
     const clientError = 
     {
-      type: "client",
+      clientSide: true,
       header: "Failed to login",
       message: ""
     }
@@ -43,7 +43,7 @@ export default function Login()
       return;
     }
 
-    axios.post(`/user/login`, 
+    axios.post(`/g/user/login`, 
     { 
       email: email, 
       password: password 
@@ -62,7 +62,7 @@ export default function Login()
   return (
     <div className="login">
       <div className="login__form">
-        <img src="img/logo--dark_theme.svg" className="login__logo" alt="" />
+        <img src="img/logo--written--dark.svg" className="login__logo" alt="" />
 
         <div className="login__inputs">
           <div className="login__input">
@@ -82,7 +82,7 @@ export default function Login()
       </div>
 
       <div className="login__background">
-        <img src="img/loading.svg" alt="" />
+        <img src="img/logo--circle.svg" alt="" />
       </div>
     </div>
   )

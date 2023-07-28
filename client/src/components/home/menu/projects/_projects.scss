@@ -76,6 +76,7 @@
       align-items: center;
       gap: 16px;
     
+      width: 80%;
       margin-left: 16px;
 
       color: #cecece;
@@ -83,6 +84,7 @@
 
     &__name
     {
+      width: calc(100%);
       white-space: nowrap;
       overflow-x: hidden;
       text-overflow: ellipsis;

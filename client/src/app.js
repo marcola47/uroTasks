@@ -27,14 +27,18 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
-    menuShown: true,
+    menuShown: window.innerWidth > 1336 ? true : false,
     projCreatorShown: false,
+    fetchingProjects: true,
 
     notification: null,
     notificationShown: false,
 
     confirmation: null,
-    confirmationShown: false
+    confirmationShown: false,
+
+    editorParams: null,
+    editorData: null
   });
       
   function reducer(state, action)
@@ -45,20 +49,26 @@ export default function App()
       case 'menuShown': 
         return { ...state, menuShown: action.payload };
 
+      case 'fetchingProjects':
+        return { ...state, fetchingProjects: action.payload }
+
       case 'projCreatorShown': 
         return { ...state, projCreatorShown: action.payload };
-
-      case 'setConfirmation': 
-        return { ...state, confirmation: action.payload };
 
       case 'confirmationShown':
         return { ...state, confirmationShown: action.payload }
 
-      case 'setNotification': 
-        return { ...state, notification: action.payload };
+      case 'setConfirmation': 
+        return { ...state, confirmation: action.payload };
 
       case 'notificationShown':
         return { ...state, notificationShown: action.payload }
+
+      case 'setNotification': 
+        return { ...state, notification: action.payload };
+
+      case 'setEditor':
+        return { ...state, editorParams: action.payload.params, editorData: action.payload.data }
 
       default: return state;
     }
@@ -68,15 +78,19 @@ export default function App()
   {
     if (user !== null)
     {
-      if (projects.length <= 0)
+      if (state.fetchingProjects)
       {
-        axios.post(`/project/get`, 
+        axios.post(`/a/project/get`, 
         {
           projectIDs: user.projects,
           accessToken: localStorage.getItem("accessToken"),
           refreshToken: localStorage.getItem("refreshToken")
         })
-        .then(res => setProjects(res.data))
+        .then(res =>
+        {
+          setProjects(res.data.projectsMeta); 
+          dispatch({ type: 'fetchingProjects', payload: false })
+        })
         .catch(err => console.log(err))
       }
 
@@ -85,8 +99,8 @@ export default function App()
         const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
 
         activeProjectIndex !== -1 
-        ? setActiveProject(projects[activeProjectIndex]) 
-        : setActiveProject(null);
+          ? setActiveProject(projects[activeProjectIndex]) 
+          : setActiveProject(null);
       }
     }
 
@@ -102,7 +116,7 @@ export default function App()
 
       if (accessToken || refreshToken)
       {
-        axios.post(`/user/token`, 
+        axios.post(`/a/user/token`, 
         { 
           accessToken: accessToken,
           refreshToken: refreshToken,
@@ -121,7 +135,7 @@ export default function App()
         })
       }
 
-      else if (location.pathname !== '/register' || location.pathname !== '/login')
+      else if (location.pathname !== '/register' && location.pathname !== '/login')
         navigate('/login')
     }
  
@@ -134,7 +148,6 @@ export default function App()
     {
       if (state.notificationShown)
         dispatch({ type: 'notificationShown', payload: false })
-
     }, 5000);
     
     return () => {clearTimeout(timer)};
@@ -142,12 +155,14 @@ export default function App()
 
   return (
     <div className="app" id='app'>
-      <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
-        <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser }}>
+        <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
-              {/* if I only use the notification object to show it, the exit animation doesn't trigger */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
+              </AnimatePresence>
+              {/* some bad shit happens when they're in the same instance of AnimatePresence */}
+              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.confirmationShown && <Confirmation/> }
               </AnimatePresence>
 
@@ -156,12 +171,11 @@ export default function App()
                 <Route path='/login' element={ <LoginPage/> }/>
                 <Route path='/register' element={ <RegisterPage/> }/>
                 <Route path='/settings' element={ <SettingsPage/> }/>
-      
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
           </ReducerContext.Provider>
-        </UserContext.Provider>
-      </ProjectsContext.Provider>
+        </ProjectsContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }

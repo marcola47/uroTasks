@@ -1,42 +1,60 @@
-import React, { useContext } from 'react';
-import { EditorContext } from 'pages/home';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { ReducerContext } from 'app';
 
 import { TransitionOpacity } from 'components/utils/transitions/transitions';
-import EditorText from './_editor-text';
-import Options from './options/options'
+import EditorText from './editor-text/editor-text';
+import OptionEllipsis from './options/option-ellipsis'
+import OptionTags from './options/option-tags';
+import OptionType from './options/option-type';
+import OptionPosition from './options/option-position';  
+import OptionDelete from './options/option-delete';
 
-export const ToggleEditorContext = React.createContext();
 
 export default function Editor()
 {
-  const { setEditorShown, editorParams, setEditorParams, editorData, setEditorData } = useContext(EditorContext);
+  const { state, dispatch } = useContext(ReducerContext);
+  const [bottom, setBottom] = useState(0);
+  const optionsRef = useRef(null);
 
-  const style = 
+  const editorStyle = 
   {
-    left: editorParams?.x ?? 0, 
-    top: editorParams?.y ?? 0,
-    width: editorParams?.w ?? 0,
-    minHeight: editorParams?.h ?? 0
+    left: state.editorParams?.x ?? 0, 
+    top: state.editorParams?.y ?? 0,
+    width: state.editorParams?.w ?? 0,
+    minHeight: state.editorParams?.h ?? 0
   }
 
-  function toggleEditor()
+  useEffect(() => // make options never be out of bounds
   {
-    setEditorShown(false);
-    setEditorParams(null);
-    setEditorData(null);
-  }
+    if (optionsRef)
+    {
+      const optionsRect = optionsRef.current.getBoundingClientRect();
+      setBottom(window.innerHeight - optionsRect.bottom);
+    }
+  }, [optionsRef])
+
+  const optionsStyle = bottom < 0 
+    ? { top: (bottom - 16) } 
+    : {}
 
   return (
-    <TransitionOpacity onClick={ toggleEditor } id='editor'>
-      <div className="editor" style={ style } onClick={ e => {e.stopPropagation()} }>
-        <ToggleEditorContext.Provider value={{ toggleEditor }}>
-        { 
-          editorData 
-            ? <><EditorText toggleEditor={ toggleEditor }/> <Options task={ editorData }/></>
-            : null 
-        }
-        </ToggleEditorContext.Provider>
+    <TransitionOpacity onClick={ () => {dispatch({ type: 'setEditor', payload: { params: null, data: null } })} } id='editor'>
+    {
+      state.editorData && // many errors when not doing this
+      <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
+      <div className='editor__position'>{ state.editorData?.position }</div>
+
+      <EditorText/> 
+
+      <div className="options" ref={ optionsRef } style={ optionsStyle }>
+        <OptionEllipsis/>
+        <OptionTags task={ state.editorData }/>
+        <OptionType task={ state.editorData }/>
+        <OptionPosition task={ state.editorData }/>
+        <OptionDelete task={ state.editorData }/>
       </div>
+    </div>
+    }
     </TransitionOpacity>
   )
 }

@@ -2,10 +2,24 @@ import axios from 'axios';
 
 const instance = axios.create({ baseURL: process.env.REACT_APP_SERVER_ROUTE });
 
+instance.interceptors.response.use(
+  (res) => 
+  {
+    const newAccessToken = res.data.newAccessToken;
+
+    if (newAccessToken)
+      localStorage.setItem('accessToken', newAccessToken);
+
+    return res;
+  },
+
+  (err) => { return Promise.reject(err) }
+);
+
 export function setResponseError(err, dispatch)
 {
-  if (err.type) 
-  { // makes it possible to set errors using this function even if it's not an axios error
+  if (err.clientSide) 
+  {
     dispatch(
     {
       type: 'setNotification',

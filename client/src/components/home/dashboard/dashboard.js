@@ -5,7 +5,7 @@ import axios from 'utils/axiosConfig';
 import Screensaver from './screensaver/screensaver';
 import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
-import Tasks from './tasks/tasks';
+import Tasks from "./tasks/tasks";
 
 function Dashboard()
 {
@@ -16,7 +16,7 @@ function Dashboard()
   {
     if (activeProject !== null && activeProject.tasks === undefined)
     {
-      axios.post(`/task/get?projectID=${activeProject.id}`,
+      axios.post(`/a/task/get?projectID=${activeProject.id}`,
       {
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
@@ -26,7 +26,7 @@ function Dashboard()
         const projectsCopy = [...projects].map(project => 
         {
           if (project.id === activeProject.id)
-            project.tasks = res.data;
+            project.tasks = res.data.tasks;
 
           return project;
         });
@@ -40,17 +40,6 @@ function Dashboard()
     // eslint-disable-next-line
   }, [activeProject]);
 
-  function TasksContainer()
-  {
-    return (
-      <div className="tasks__container" id="tasks__container">
-        <Tasks taskType="todo"/>
-        <Tasks taskType="doing"/>
-        <Tasks taskType="done"/>
-      </div>
-    )
-  }
-
   function DashboardContent()
   {
     if (activeProject?.tasks === undefined)
@@ -60,7 +49,7 @@ function Dashboard()
       <>
         <Searchbar/>
         <Taskbar/> 
-        <TasksContainer/>
+        <Tasks/>
       </>
     )
   }

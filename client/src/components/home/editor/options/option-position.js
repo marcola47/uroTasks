@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { ToggleEditorContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,6 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 export default function OptionPosition({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { toggleEditor } = useContext(ToggleEditorContext);
   const { dispatch } = useContext(ReducerContext);
  
   function updateTaskPosition(direction)
@@ -48,9 +46,13 @@ export default function OptionPosition({ task })
       return project;
     });
 
-    toggleEditor();
+    dispatch(
+    { 
+      type: 'setEditor', 
+      payload: { params: null, dat: null } 
+    })
 
-    axios.post('/task/update?type=position', 
+    axios.post('/a/task/update?type=position', 
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 

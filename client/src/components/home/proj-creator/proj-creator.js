@@ -32,10 +32,28 @@ export default function ProjCreator()
       name: name,
       color: color,
       activeTasks: 0,
-      users: [user.id]
+      users: [user.id],
+      types: 
+      [
+        {
+          id: uuid(),
+          name: "todo",
+          position: 1
+        },
+        {
+          id: uuid(),
+          name: "doing",
+          position: 2
+        },
+        {
+          id: uuid(),
+          name: "done",
+          position: 3
+        }
+      ]
     };
 
-    axios.post(`/project/create`, 
+    axios.post(`/a/project/create`, 
     {
       userID: user.id, 
       newProject: newProject,
@@ -84,7 +102,7 @@ export default function ProjCreator()
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
         <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } icon={ faXmark }/>
         
-        <input className="proj-creator__input" ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
+        <input className="proj-creator__input" id='input--name' ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
         <ColorInput/>
         { pickerActive && <ColorPicker/> }
         

@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { ToggleEditorContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,6 @@ import { faMultiply } from '@fortawesome/free-solid-svg-icons';
 export default function OptionDelete({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { toggleEditor } = useContext(ToggleEditorContext);
   const { dispatch } = useContext(ReducerContext);
 
   function deleteTask()
@@ -27,9 +25,13 @@ export default function OptionDelete({ task })
       return project;
     })
 
-    toggleEditor();
+    dispatch(
+    {
+      type: 'setEditor',
+      payload: { params: null, dat: null }
+    })
 
-    axios.post('/task/delete', 
+    axios.post('/a/task/delete', 
     { 
       projectID: activeProject.id, 
       taskID: task.id, 

@@ -3,6 +3,24 @@
     "id": "9e831f3b-afba-40e4-8504-78a824967a20",
     "name": "WORK",
     "color": "#7b4b94",
+    "types":
+    [
+      {
+        "id": "407b1576-1d56-490b-bd02-917fcef662e8",
+        "name": "todo",
+        "position": 1
+      },
+      {
+        "id": "544f6181-d326-4577-ac54-a7b2b08f58ba",
+        "name": "doing",
+        "position": 2
+      },
+      {
+        "id": "3bed6846-2510-4545-9796-962e508ed6e6",
+        "name": "done",
+        "position": 3
+      }
+    ],
     "tasks":
     [
       "e7fca16b-240d-40b9-bce0-7f92cf72f630",
@@ -22,6 +40,24 @@
     "id": "54bcaf79-88bd-4829-b424-a67ff998049e",
     "name": "COLLEGE",
     "color": "#7d82b8",
+    "types":
+    [
+      {
+        "id": "fd5fe109-ddc9-4268-8ff3-3db2a7547f5d",
+        "name": "todo",
+        "position": 1
+      },
+      {
+        "id": "28c2ba59-26e9-4663-b8f9-60f83d2a9910",
+        "name": "doing",
+        "position": 2
+      },
+      {
+        "id": "09912699-f705-4bc4-98f6-1dcd1db81d51",
+        "name": "done",
+        "position": 3
+      }
+    ],
     "tasks":
     [
       "e7fca16b-240d-40b9-bce0-7f92cf72f640",
@@ -41,6 +77,24 @@
     "id": "75586c9f-682d-4912-b37f-be1bdd6deee9",
     "name": "MUSIC PRODUCTION",
     "color": "#b7e3cc",
+    "types":
+    [
+      {
+        "id": "e62f9872-b10b-4833-bd54-af2ccc82750d",
+        "name": "todo",
+        "position": 1
+      },
+      {
+        "id": "5b4402a2-33a8-4e7c-98c6-89b9deafd99e",
+        "name": "doing",
+        "position": 2
+      },
+      {
+        "id": "b63ae287-94cb-40de-8756-e9e140490e1f",
+        "name": "done",
+        "position": 3
+      }
+    ],
     "tasks":
     [
       "e7fca16b-240d-40b9-bce0-7f92cf72f650",

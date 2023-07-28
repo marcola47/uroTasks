@@ -11,7 +11,7 @@ export default function MenuHeader()
 
   return (
     <div className='menu__header'>
-      <a className='menu__logo' href='/'><img src='img/logo--dark_theme.svg' alt='urotasks_logo'/></a>  
+      <a className='menu__logo' href='/'><img src='img/logo--written--dark.svg' alt='urotasks_logo'/></a>  
       <ButtonGlow onClick={ () => {dispatch({ type: 'menuShown', payload: false })} } icon={ faXmark }/>
     </div>
   )

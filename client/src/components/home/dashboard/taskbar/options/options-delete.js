@@ -15,7 +15,7 @@ export default function OptionsDelete()
   {  
     dispatch({ type: 'confirmationShown', payload: false })
 
-    axios.post(`/project/delete`, 
+    axios.post(`/a/project/delete`, 
     {
       userID: user.id, 
       projectID: activeProject.id,
@@ -42,7 +42,7 @@ export default function OptionsDelete()
       {
         header: "Are you sure you want to delete this project?",
         message: "This action is not reversible and all project data will be lost forever.",
-        className: 'btn--confirmation--negative',
+        className: 'btn--confirmation--danger',
         confirmation: "Yes, I want to delete this project",
         rejection: "No, I'm keeping this project",
         function: deleteProject

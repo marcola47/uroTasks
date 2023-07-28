@@ -14,18 +14,19 @@
   background-color: $bg-blue-mid;
   
   transform-origin: left;
+  @include transition;
   @include glow-bg;
 
   &--shown
   {
-    z-index: 12;
+    z-index: 100;
     opacity: 1;
   }
 
   &--hidden
   {
     transform: translateX($menu-w-inv);
-    z-index: -12;
+    z-index: -100;
     opacity: 0;
   }
 }

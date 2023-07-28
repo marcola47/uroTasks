@@ -5,9 +5,9 @@ const taskSchema = new mongoose.Schema(
 {
   id: idSchema,
 
-  type: String,
-  
   position: Number,
+
+  type: String,
 
   project: String,
 

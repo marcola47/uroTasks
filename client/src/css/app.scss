@@ -5,41 +5,62 @@
 /***************************************************************************************************************/
 /* global styles */
 *
-{ margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; transition: all 0.15s ease-in-out; }
+{ margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box; }
 
-
-html, input, button 
-{ font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif; }
+html
+{ font-size: 14px; font-family: 'Montserrat', 'Oxygen', 'Ubuntu', sans-serif }
 
 body 
 { background-color: $bg-blue-dark }
 
 a 
-{ text-decoration: none; color: #fff; }
+{ text-decoration: none; color: #fff }
 
 ul 
-{ list-style: none; }
-
-button
-{ cursor: pointer; }
+{ list-style: none }
 
 textarea 
-{ resize: none; }
+{ resize: none }
 
-::-webkit-scrollbar   
-{ width: 0px; }
+input, button 
+{  
+  color: inherit;
+  background-color: inherit;
+
+  font-size: inherit;
+  font-family: inherit;
+
+  cursor: pointer
+}
+
+::-webkit-scrollbar 
+{ width: 8px }
+
+::-webkit-scrollbar-track 
+{ 
+  margin: 8px;
+  border-radius: $br-big;
+  background: $bg-blue-mid 
+}
+
+::-webkit-scrollbar-thumb 
+{ 
+  border-radius: $br-big;
+  background: $bg-blue-light 
+}
+
+::-webkit-scrollbar-thumb:hover 
+{ background-color: $bg-blue-bright; }
 
 /***************************************************************************************************************/
 /* app */
 .app
 {
-  opacity: 1;
-
   position: relative;
-
   height: 100dvh;
   width: 100dvw;
 
+  overflow-y: hidden;
   overflow-x: hidden;
 
   animation: ease-in-out 1s forwards fade_in;
@@ -67,17 +88,11 @@ textarea
 
 .overlay__bg
 {
-  z-index: 99;
+  z-index: 1000;
   opacity: 1;
 
   position: absolute;
   inset: 0;
 
   background-color: $bg-overlay;
-}
-
-@media screen and (max-width: 1336px) 
-{
-  html
-  { font-size: 14px; }
 }

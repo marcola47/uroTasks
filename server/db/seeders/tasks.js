@@ -7,7 +7,6 @@ import taskSeeds from './tasks.json' assert { type: "json" };
 
 const seedProjects = async () =>
 {
-
   await Task.deleteMany({});
   await Task.insertMany(taskSeeds);
 };

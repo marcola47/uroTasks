@@ -29,7 +29,7 @@ export default function Register()
 
     const clientError = 
     {
-      type: "client",
+      clientSide: true,
       header: "Failed to register",
       message: ""
     }
@@ -72,7 +72,7 @@ export default function Register()
       projects: []
     }
 
-    axios.post(`/user/create`, newUser)
+    axios.post(`/g/user/create`, newUser)
     .then(res => 
     {
       localStorage.setItem("accessToken", res.data.accessToken);
@@ -86,7 +86,7 @@ export default function Register()
   return (
     <div className="reg">
       <div className="reg__form">
-        <img src="img/logo--dark_theme.svg" className="reg__logo" alt="" />
+        <img src="img/logo--written--dark.svg" className="reg__logo" alt="" />
 
         <div className="reg__inputs">
           <div className="reg__input reg__input--name">
@@ -116,7 +116,7 @@ export default function Register()
       </div>
 
       <div className="reg__background">
-        <img src="img/loading.svg" alt="" />
+        <img src="img/logo--circle.svg" alt="" />
       </div>
     </div>
   )

@@ -136,12 +136,20 @@
       text-align: center;
       cursor: pointer;
 
-      &--confirmation--negative
+      &--confirmation--danger
       {
         background-color: $red-dark;
 
         &:hover
         { background-color: $red-light; }
+      }
+
+      &--confirmation--caution
+      {
+        background-color: $yellow-dark;
+
+        &:hover
+        { background-color: $yellow-light }
       }
       
       &--confirmation--positive
@@ -178,5 +186,10 @@
   {
     width: calc(100% - 32px);
     left: 16px;
-  }  
+  }
+
+  .confirmation
+  {
+    width: calc(100% - 32px);
+  }
 }

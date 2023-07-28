@@ -2,17 +2,18 @@
 
 .searchbar
 {
-  position: relative;
+  position: absolute;
+  top: 22px;
 
-  width: 1400px;
+  width: 420px;
   max-width: 100%;
 
-  margin-bottom: 48px;
+  margin: 0px 72px 48px 72px;
   border-radius: $br-big;
 
   background-color: $bg-blue-light;
 
-  @include glow-bg;
+  @include transition;
 
   .fa-magnifying-glass
   {
@@ -38,23 +39,25 @@
   }
 }
 
+@media screen and (min-width: 1337px)
+{
+  .searchbar--menu-shown
+  { margin-left: 24px }
+}
+
 @media screen and (max-width: 1542px)
 {
   .searchbar
   {
     position: absolute;
-    left: 72px;
     top: 22px;
-    
-    width: calc(100% - 96px);  
   }
 }
 
-@media screen and (min-width: 1337px) and (max-width: 1542px)
+@media screen and (max-width: 768px)
 {
-  .searchbar--menu-shown
+  .searchbar
   {
-    left: 24px;
-    width: calc(100% - 49px);
+    width: calc(100% - 96px);
   }
 }

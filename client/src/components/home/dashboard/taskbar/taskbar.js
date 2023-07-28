@@ -2,9 +2,8 @@
 import { useContext } from 'react';
 import { ProjectsContext } from "app";
 
-import HeaderTitle from './_header-title';
-import HeaderColor from './_header-color';
-import OptionsDelete from './_options-delete';
+import { HeaderColor, HeaderTitle } from './header/header'
+import OptionsDelete from './options/options-delete';
 
 export default function Taskbar()
 {

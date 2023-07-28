@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "seed": "node scripts/seeder.js : -- ",
+    "migration_create": "node scripts/migration_create.js",
+    "migrate:up": "node scripts/migration_migrate.js up",
+    "migrate:down": "node scripts/migration_migrate.js down"
   },
   "author": "marcola47",
   "license": "MIT",

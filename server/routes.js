@@ -7,27 +7,33 @@ import taskController from './controllers/taskController.js';
 import userController from './controllers/userController.js';
 
 const router = express.Router();
+const guestRouter = express.Router();
+const authRouter = express.Router();
+authRouter.use(verifyToken);
 
 /***********************************************************************/
 /*** project routes ***/
-router.post('/project/get', verifyToken, projectController.get);
-router.post('/project/create', verifyToken, projectController.create);
-router.post('/project/update', verifyToken, projectController.update);
-router.post('/project/delete', verifyToken, projectController.delete);
+authRouter.post('/project/get', projectController.get);
+authRouter.post('/project/create', projectController.create);
+authRouter.post('/project/update', projectController.update);
+authRouter.post('/project/delete', projectController.delete);
 
 /***********************************************************************/
 /*** task routes ***/
-router.post('/task/get', verifyToken, taskController.get);
-router.post('/task/create', verifyToken, taskController.create);
-router.post('/task/update', verifyToken, taskController.update);
-router.post('/task/delete', verifyToken, taskController.delete);
+authRouter.post('/task/get', taskController.get);
+authRouter.post('/task/create', taskController.create);
+authRouter.post('/task/update', taskController.update);
+authRouter.post('/task/delete', taskController.delete);
 
 /***********************************************************************/
 /*** user routes ***/
-router.post('/user/token', verifyToken, userController.token);
-router.post('/user/login', userController.login);
-router.post('/user/logout', userController.logout);
-router.post('/user/create', userController.create);
-router.post('/user/update', verifyToken, userController.update);
+guestRouter.post('/user/login', userController.login);
+guestRouter.post('/user/logout', userController.logout);
+guestRouter.post('/user/create', userController.create);
+authRouter.post('/user/update', userController.update);
+authRouter.post('/user/token', userController.token);
+
+router.use('/a', authRouter);
+router.use('/g', guestRouter);
 
 export default router;
