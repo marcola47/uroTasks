@@ -82,7 +82,7 @@ export default function Login()
       </div>
 
       <div className="login__background">
-        <img src="img/loading.svg" alt="" />
+        <img src="img/logo--circle.svg" alt="" />
       </div>
     </div>
   )

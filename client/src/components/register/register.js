@@ -116,7 +116,7 @@ export default function Register()
       </div>
 
       <div className="reg__background">
-        <img src="img/loading.svg" alt="" />
+        <img src="img/logo--circle.svg" alt="" />
       </div>
     </div>
   )

@@ -42,7 +42,7 @@
   background-size: 240px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url(img/logo__name--dark_theme.svg);
+  background-image: url(img/logo--circle--name--dark.svg);
 }
 
 @keyframes fade_in {
@@ -1264,7 +1264,7 @@
   place-items: center;
   width: calc(100% - 420px);
   height: 100dvh;
-  background: url("/public/img/credentials__bg--dark_theme.png") center center/cover;
+  background: url("/public/img/credentials__bg--dark.png") center center/cover;
 }
 
 @media screen and (max-width: 720px) {
@@ -1394,7 +1394,7 @@
   place-items: center;
   width: calc(100% - 420px);
   height: 100dvh;
-  background: url("/public/img/credentials__bg--dark_theme.png") center center/cover;
+  background: url("/public/img/credentials__bg--dark.png") center center/cover;
 }
 
 @media screen and (max-width: 720px) {

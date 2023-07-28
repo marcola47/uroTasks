@@ -127,7 +127,7 @@ export default function App()
         })
       }
 
-      else if (location.pathname !== '/register' || location.pathname !== '/login')
+      else if (location.pathname !== '/register' && location.pathname !== '/login')
         navigate('/login')
     }
  
@@ -140,7 +140,6 @@ export default function App()
     {
       if (state.notificationShown)
         dispatch({ type: 'notificationShown', payload: false })
-
     }, 5000);
     
     return () => {clearTimeout(timer)};
@@ -148,8 +147,8 @@ export default function App()
 
   return (
     <div className="app" id='app'>
-      <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
-        <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser }}>
+        <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
@@ -164,8 +163,8 @@ export default function App()
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
           </ReducerContext.Provider>
-        </UserContext.Provider>
-      </ProjectsContext.Provider>
+        </ProjectsContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }
