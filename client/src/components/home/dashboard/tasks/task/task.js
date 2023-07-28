@@ -1,26 +1,29 @@
 import React, { useContext, useRef } from 'react';
-import { EditorContext } from 'pages/home';
+import { ReducerContext } from 'app';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 export default function Task({ itemData })
 {
+  const { dispatch } = useContext(ReducerContext);
   const taskRef = useRef();
-
-  const { setEditorShown, setEditorParams, setEditorData } = useContext(EditorContext);
-
+ 
   function toggleOptions()
   { 
+    const params = {};
+
     let taskRect = taskRef.current.getBoundingClientRect();
-    let offsetX = taskRect.left + window.scrollX + taskRef.current.scrollLeft;
-    let offsetY = taskRect.top + window.scrollY + taskRef.current.scrollTop;
-    let width = taskRef.current.clientWidth - 46;
-    let height = taskRef.current.offsetHeight;
+    params.x = taskRect.left + window.scrollX + taskRef.current.scrollLeft;
+    params.y = taskRect.top + window.scrollY + taskRef.current.scrollTop;
+    params.w = taskRef.current.clientWidth - 46;
+    params.h = taskRef.current.offsetHeight;
  
-    setEditorShown(true);
-    setEditorData(itemData);
-    setEditorParams({ x: offsetX, y: offsetY, w: width, h: height })
+    dispatch(
+    {
+      type: 'setEditor',
+      payload: { params: params, data: itemData }
+    })
   }
 
   return (

@@ -1,15 +1,13 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { EditorContext } from 'pages/home';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function EditorText({ toggleEditor }) 
+export default function EditorText() 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { editorShown, editorData } = useContext(EditorContext);
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   
-  const [inputValue, setInputValue] = useState(editorData.content);
+  const [inputValue, setInputValue] = useState(state.editorData.content);
   const taskTextRef = useRef();
 
   function handleContentChange(newContent)
@@ -24,7 +22,7 @@ export default function EditorText({ toggleEditor })
 
     const taskList = activeProject.tasks.map(taskObj => 
     {
-      if (taskObj.id === editorData.id && taskObj.content !== newContent)
+      if (taskObj.id === state.editorData.id && taskObj.content !== newContent)
       {
         taskObj.content = newContent;
         isNewContent = true;
@@ -47,7 +45,7 @@ export default function EditorText({ toggleEditor })
     {
       axios.post(`/a/task/update?type=content`, 
       {
-        taskID: editorData.id, 
+        taskID: state.editorData.id, 
         newContent: newContent,
         accessToken: localStorage.getItem("accessToken"),
         refreshToken: localStorage.getItem("refreshToken")
@@ -63,7 +61,7 @@ export default function EditorText({ toggleEditor })
 
   useEffect(() => // set editor styles when shown
   {
-    if (editorShown)
+    if (state.editorData)
     {
       const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
@@ -75,17 +73,23 @@ export default function EditorText({ toggleEditor })
       textArea.focus();
     }
 
-  }, [editorShown])
+  }, [state.editorData])
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== editorData.content)
+    if (taskTextRef.current.value !== state.editorData.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');
 
     if (e.target === editorBg)
-      toggleEditor();
+    {
+      dispatch(
+      {
+        type: 'setEditor',
+        payload: { params: null, dat: null }
+      })
+    }
   }
 
   function handleKeyDown(e)
@@ -96,8 +100,12 @@ export default function EditorText({ toggleEditor })
       const textArea = document.getElementById('editor__text-area');
       textArea.blur();
 
-      toggleEditor();
       handleSave(e);
+      dispatch(
+      {
+        type: 'setEditor',
+        payload: { params: null, dat: null }
+      })
     }
   }
 

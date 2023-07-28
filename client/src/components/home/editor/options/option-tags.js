@@ -1,6 +1,5 @@
 // import { useContext } from 'react';
 // import { ScrollContext } from 'pages/home';
-// import { ToggleEditorContext } from '../editor';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag } from '@fortawesome/free-solid-svg-icons';

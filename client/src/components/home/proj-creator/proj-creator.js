@@ -33,7 +33,24 @@ export default function ProjCreator()
       color: color,
       activeTasks: 0,
       users: [user.id],
-      types: ["todo", "doing", "done"]
+      types: 
+      [
+        {
+          id: uuid(),
+          name: "todo",
+          position: 1
+        },
+        {
+          id: uuid(),
+          name: "doing",
+          position: 2
+        },
+        {
+          id: uuid(),
+          name: "done",
+          position: 3
+        }
+      ]
     };
 
     axios.post(`/a/project/create`, 

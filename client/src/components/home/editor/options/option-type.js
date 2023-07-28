@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { ToggleEditorContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +10,6 @@ export default function OptionType({ task })
   const [changeTypeOpen, setChangeTypeOpen] = useState(false)
 
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { toggleEditor } = useContext(ToggleEditorContext);
   const { dispatch } = useContext(ReducerContext);
   
   const taskTypes = activeProject.types.filter(type => type.id !== task.type);
@@ -60,7 +58,6 @@ export default function OptionType({ task })
       return project;
     })
 
-    toggleEditor();
 
     axios.post(`/a/task/update?type=type`, 
     {
@@ -73,6 +70,12 @@ export default function OptionType({ task })
     })
     .then(_ => 
     { 
+      dispatch(
+      { 
+        type: 'setEditor', 
+        payload: { params: null, data: null } 
+      })
+
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
       setProjects(projectsCopy);
     })

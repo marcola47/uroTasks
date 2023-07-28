@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { ReducerContext } from 'app';
 import { AnimatePresence } from 'framer-motion';
 
@@ -17,10 +17,6 @@ export default function HomePage()
 {
   const { state, dispatch } = useContext(ReducerContext);
 
-  const [editorParams, setEditorParams] = useState({ x: 0, y: 0, w: 0, h: 0 });
-  const [editorData, setEditorData] = useState(null);
-  const [editorShown, setEditorShown] = useState(false);
-
   if (state.loading)
   {
     return (
@@ -36,15 +32,13 @@ export default function HomePage()
         <FontAwesomeIcon icon={ faBars }/>
       </div>
 
-      <EditorContext.Provider value={{ editorShown, setEditorShown, editorParams, setEditorParams, editorData, setEditorData }}>
-        <Menu/>
-        <Dashboard/>
+      <Menu/>
+      <Dashboard/>
 
-        <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-          { state.projCreatorShown && <ProjCreator/> }
-          { editorShown && <Editor/> }
-        </AnimatePresence>
-      </EditorContext.Provider>
+      <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
+        { state.projCreatorShown && <ProjCreator/> }
+        { state.editorParams && state.editorData && <Editor/> }
+      </AnimatePresence>
     </>
   )
 }

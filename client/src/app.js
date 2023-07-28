@@ -27,14 +27,17 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
-    menuShown: true,
+    menuShown: window.innerWidth > 1336 ? true : false,
     projCreatorShown: false,
 
     notification: null,
     notificationShown: false,
 
     confirmation: null,
-    confirmationShown: false
+    confirmationShown: false,
+
+    editorParams: null,
+    editorData: null
   });
       
   function reducer(state, action)
@@ -48,17 +51,20 @@ export default function App()
       case 'projCreatorShown': 
         return { ...state, projCreatorShown: action.payload };
 
+      case 'confirmationShown':
+        return { ...state, confirmationShown: action.payload }
+
       case 'setConfirmation': 
         return { ...state, confirmation: action.payload };
 
-      case 'confirmationShown':
-        return { ...state, confirmationShown: action.payload }
+      case 'notificationShown':
+        return { ...state, notificationShown: action.payload }
 
       case 'setNotification': 
         return { ...state, notification: action.payload };
 
-      case 'notificationShown':
-        return { ...state, notificationShown: action.payload }
+      case 'setEditor':
+        return { ...state, editorParams: action.payload.params, editorData: action.payload.data }
 
       default: return state;
     }
@@ -85,8 +91,8 @@ export default function App()
         const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
 
         activeProjectIndex !== -1 
-        ? setActiveProject(projects[activeProjectIndex]) 
-        : setActiveProject(null);
+          ? setActiveProject(projects[activeProjectIndex]) 
+          : setActiveProject(null);
       }
     }
 
@@ -145,7 +151,6 @@ export default function App()
       <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
         <UserContext.Provider value={{ user, setUser }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
-              {/* if I only use the notification object to show it, the exit animation doesn't trigger */}
               <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
                 { state.notificationShown && <Notification/> } 
                 { state.confirmationShown && <Confirmation/> }
@@ -156,7 +161,6 @@ export default function App()
                 <Route path='/login' element={ <LoginPage/> }/>
                 <Route path='/register' element={ <RegisterPage/> }/>
                 <Route path='/settings' element={ <SettingsPage/> }/>
-      
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
           </ReducerContext.Provider>

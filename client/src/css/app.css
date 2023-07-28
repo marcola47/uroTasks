@@ -639,6 +639,13 @@
   z-index: 100;
   transition: opacity 0.15s 0.05s ease-in-out;
 }
+.editor__position {
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  color: #aaaaaa;
+  font-size: 0.6rem;
+}
 .editor textarea {
   width: 100%;
   padding: 12px;
