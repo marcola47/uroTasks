@@ -1,3 +1,5 @@
+@import '../../../../css/variables';
+
 
 .screensaver
 {
@@ -12,4 +14,6 @@
 
   background: url('/public/img/logo--circle--name--dark.svg') no-repeat center center;
   background-size: 240px;
+
+  @include transition;
 }

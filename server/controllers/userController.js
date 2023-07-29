@@ -32,7 +32,7 @@ userController.login = async (req, res) =>
     if (!match) 
       return res.status(400).json({ header: "Failed to login", message: 'Invalid email or password, make sure to type them correctly!'});
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15s' })
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: user.id })
@@ -90,7 +90,7 @@ userController.create = async (req, res) =>
     const newUser = new User({ ...userData, password: hashedPassword });
     await newUser.save();
 
-    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15s' })
+    const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: newUser.id })

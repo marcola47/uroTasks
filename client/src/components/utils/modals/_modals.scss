@@ -136,6 +136,8 @@
       text-align: center;
       cursor: pointer;
 
+      @include transition;
+
       &--confirmation--danger
       {
         background-color: $red-dark;

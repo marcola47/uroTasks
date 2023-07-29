@@ -54,7 +54,7 @@ export default function MenuProjects()
     const chevronElement = document.querySelectorAll('.fa-chevron-up')[0];
     chevronElement.classList.toggle('chevron-rotate');
   
-    const projectsListElement = document.getElementById('projects__list');
+    const projectsListElement = document.getElementById('list--projects');
     projectsListElement.classList.toggle('projects__list--hidden')
   }
 
@@ -62,15 +62,12 @@ export default function MenuProjects()
     <div className='projects'>
       <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
       <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } icon={ faPlus } fontSize='1.5rem'/>
-      { 
-        projects &&
-        <List 
-          classes="projects__list" 
-          ids="list--projects"
-          elements={ projects } 
-          ListItem={ MenuProject } 
-        />
-      }
+      <List 
+        classes="projects__list" 
+        ids="list--projects"
+        elements={ projects } 
+        ListItem={ MenuProject } 
+      />
     </div>
   ) 
 }

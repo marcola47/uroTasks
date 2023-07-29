@@ -14,7 +14,7 @@
   width: calc(100% - $menu-w);  
   padding-block: 80px 8px;
 
-  color: #fff;
+  color: $white-light;
   background-color: $bg-blue-dark;
 
   animation: ease-in-out 1s forwards fade-in;
@@ -36,13 +36,13 @@
     top: 26px;
     z-index: 3;
     
-    color: #fff;
+    color: $white-light;
 
     font-size: 2rem;
     cursor: pointer;
 
     &:hover > svg
-    { filter: drop-shadow(0px 0px 1px #fff); }
+    { filter: drop-shadow(0px 0px 1px $white-light); }
   }
 }
 

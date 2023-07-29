@@ -68,7 +68,7 @@ export default function Register()
       name: name,
       email: email,
       password: password,
-      ActiveProject: '0',
+      ActiveProject: null,
       projects: []
     }
 

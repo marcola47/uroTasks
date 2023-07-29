@@ -28,9 +28,19 @@ const userSchema = new mongoose.Schema(
     required: true
   },
 
-  activeProject: String,
+  activeProject: 
+  {
+    type: String,
+    ref: 'Project',
+    default: null
+  },
   
-  projects: [String]
+  projects: 
+  {
+    type: [String],
+    ref: 'Project',
+    default: []
+  }
 });
 
 export default mongoose.model("User", userSchema);

@@ -31,6 +31,38 @@
     transform: rotate(0deg);
   }
 }
+@keyframes fade_in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade_out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes rotate_cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate_ccw {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
 .screensaver {
   display: flex;
   flex-direction: column;
@@ -41,6 +73,7 @@
   margin-block: auto;
   background: url("/public/img/logo--circle--name--dark.svg") no-repeat center center;
   background-size: 240px;
+  transition: all 0.1s ease-in-out;
 }
 
 @keyframes fade_in {
@@ -96,14 +129,15 @@
   width: 96%;
   padding: 12px 12px 12px 48px;
   border-radius: 6px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: inherit;
+  cursor: text;
 }
 .searchbar input::-moz-placeholder {
-  color: #afaeae;
+  color: hsl(0, 0%, 60%);
 }
 .searchbar input::placeholder {
-  color: #afaeae;
+  color: hsl(0, 0%, 60%);
 }
 
 @media screen and (min-width: 1337px) {
@@ -205,7 +239,7 @@
   position: relative;
   padding: 10px 14px;
   border-radius: 3px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -266,7 +300,6 @@
   flex: 0 0 280px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
   position: relative;
   width: 280px;
   height: -moz-fit-content;
@@ -274,6 +307,7 @@
   padding: 4px;
   border-radius: 6px;
   background-color: hsl(211, 18%, 15%);
+  transition: all 0.1s ease-in-out;
 }
 .card ::-webkit-scrollbar-track {
   margin: 0;
@@ -288,6 +322,7 @@
   font-size: 1rem;
   font-weight: 500;
   padding: 16px 48px 0px 16px;
+  margin-bottom: 16px;
 }
 .card__header input {
   font-weight: 500;
@@ -377,6 +412,7 @@
   gap: 16px;
   max-height: 580px;
   padding-inline: 4px;
+  margin-bottom: 8px;
   border-radius: 3px;
   overflow-y: auto;
 }
@@ -397,9 +433,10 @@
   padding: 10px;
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 3px;
-  color: #c0c0c0;
+  color: hsl(0, 0%, 72%);
   text-align: left;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 .card__add-task button:hover {
   border: 2px solid hsl(145, 77%, 50%);
@@ -460,7 +497,7 @@
   position: absolute;
   left: 4px;
   top: 2px;
-  color: #aaaaaa;
+  color: hsl(0, 0%, 72%);
   font-size: 0.6rem;
 }
 .task__text {
@@ -486,10 +523,11 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  transition: all 0.1s ease-in-out;
 }
 .task__options:hover {
   color: hsl(211, 18%, 25%);
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
 }
 .task__options__icon {
   display: grid;
@@ -540,6 +578,7 @@
   width: 100%;
   padding: 0px 24px;
   overflow: auto;
+  transition: all 0.1s ease-in-out;
 }
 .tasks__add-card {
   flex: 0 0 280px;
@@ -565,6 +604,7 @@
   font-weight: 500;
   text-align: left;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 .tasks__add-card button:hover {
   border: 2px solid hsl(145, 77%, 50%);
@@ -629,7 +669,7 @@
   min-height: 100dvh;
   width: calc(100% - 420px);
   padding-block: 80px 8px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 5%);
   animation: ease-in-out 1s forwards fade-in;
   transition: all 0.1s ease-in-out;
@@ -646,12 +686,12 @@
   left: 24px;
   top: 26px;
   z-index: 3;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   font-size: 2rem;
   cursor: pointer;
 }
 .dashboard__burger:hover > svg {
-  filter: drop-shadow(0px 0px 1px #fff);
+  filter: drop-shadow(0px 0px 1px hsl(0, 0%, 100%));
 }
 
 @media screen and (max-width: 1336px) {
@@ -704,8 +744,9 @@
   height: -moz-fit-content;
   height: fit-content;
   border-radius: 3px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 25%);
+  transition: all 0.1s ease-in-out;
 }
 .editor--shown {
   opacity: 1;
@@ -715,7 +756,7 @@
   position: absolute;
   left: 4px;
   top: 2px;
-  color: #aaaaaa;
+  color: hsl(0, 0%, 72%);
   font-size: 0.6rem;
 }
 .editor textarea {
@@ -755,9 +796,10 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  transition: all 0.1s ease-in-out;
 }
 .editor .options .option:hover {
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
 }
 .editor .options .option--position--up {
   border-radius: 3px 3px 0 0;
@@ -767,7 +809,7 @@
   border-radius: 0 0 3px 3px;
 }
 .editor .options .option--remove {
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(0, 80%, 51%);
 }
 .editor .options .option--remove:hover {
@@ -794,6 +836,7 @@
   font-weight: 400;
   pointer-events: none;
   cursor: default;
+  transition: all 0.1s ease-in-out;
 }
 .editor .options__select ::-webkit-scrollbar {
   width: 6px;
@@ -832,20 +875,10 @@
   text-overflow: ellipsis;
   text-align: center;
   font-weight: 500;
+  transition: all 0.1s ease-in-out;
 }
 .editor .options__location:hover {
-  background-color: #fff;
-}
-.editor .options__submit {
-  left: 0px;
-  border-radius: 3px;
-  color: #fff;
-  background-color: hsl(204, 70%, 55%);
-  font-size: inherit;
-  cursor: pointer;
-}
-.editor .options__submit:hover {
-  background-color: hsl(204, 70%, 62%);
+  background-color: hsl(0, 0%, 100%);
 }
 
 @keyframes fade_in {
@@ -885,6 +918,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
+  transition: all 0.1s ease-in-out;
 }
 
 .menu__logo:hover {
@@ -941,9 +975,13 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  transition: all 0.1s ease-in-out;
 }
 .projects__header:hover {
   filter: drop-shadow(0px 0px 1px hsl(0, 0%, 100%));
+}
+.projects__header .fa-chevron-up {
+  transition: all 0.1s ease-in-out;
 }
 .projects__header .chevron-rotate {
   transform: rotate(180deg);
@@ -954,10 +992,11 @@
   max-height: 512px;
   font-size: 0.9rem;
   overflow-y: scroll;
+  transition: all 0.1s ease-in-out;
 }
 .projects__list--hidden {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 .projects .project {
   display: flex;
@@ -987,7 +1026,7 @@
   gap: 16px;
   width: 80%;
   margin-left: 16px;
-  color: #cecece;
+  color: hsl(145, 77%, 50%);
 }
 .projects .project__name {
   width: 100%;
@@ -1059,16 +1098,6 @@
   align-items: center;
   font-size: 1.4rem;
 }
-.user .user__signout {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-.user .user__signout:hover {
-  filter: drop-shadow(0px 0px 1px hsl(0, 0%, 100%));
-}
 
 @keyframes fade_in {
   from {
@@ -1109,7 +1138,7 @@
   width: 420px;
   height: 100dvh;
   padding: 32px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 15%);
   transform-origin: left;
   transition: all 0.1s ease-in-out;
@@ -1279,7 +1308,7 @@
   width: 420px;
   height: 100dvh;
   padding-top: 64px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 15%);
 }
 .login__logo {
@@ -1309,12 +1338,13 @@
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 25%);
+  cursor: text;
 }
 .login__inputs input::-moz-placeholder {
-  color: #c0c0c0;
+  color: hsl(0, 0%, 72%);
 }
 .login__inputs input::placeholder {
-  color: #c0c0c0;
+  color: hsl(0, 0%, 72%);
 }
 .login__navigate {
   width: 320px;
@@ -1406,7 +1436,7 @@
   width: 420px;
   height: 100dvh;
   padding-top: 64px;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 15%);
 }
 .reg__logo {
@@ -1439,12 +1469,13 @@
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 25%);
+  cursor: text;
 }
 .reg__inputs input::-moz-placeholder {
-  color: #c0c0c0;
+  color: hsl(0, 0%, 72%);
 }
 .reg__inputs input::placeholder {
-  color: #c0c0c0;
+  color: hsl(0, 0%, 72%);
 }
 .reg__navigate {
   width: 320px;
@@ -1522,9 +1553,12 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   font-size: 2.3rem;
   cursor: pointer;
+}
+.btn--glow > svg {
+  transition: all 0.1s ease-in-out;
 }
 .btn--glow:hover > svg {
   filter: drop-shadow(0px 0px 1px hsl(0, 0%, 100%));
@@ -1660,6 +1694,7 @@
   font-weight: 600;
   text-align: center;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 .confirmation__btns .btn--confirmation--danger {
   background-color: hsl(0, 80%, 51%);
@@ -1723,7 +1758,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
 }
 
 ul {
@@ -1780,7 +1815,7 @@ input, button {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
 }
 .loading img {
   width: 240px;

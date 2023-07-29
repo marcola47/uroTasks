@@ -30,17 +30,4 @@
       font-size: 1.4rem;
     }
   }
-
-  .user__signout
-  {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  
-    font-size: 1.4rem;
-    cursor: pointer;
-
-    &:hover
-    { @include glow-content }
-  }
 }

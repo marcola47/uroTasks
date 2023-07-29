@@ -6,7 +6,6 @@
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
   
   position: relative;
   width: 280px;
@@ -15,6 +14,8 @@
   border-radius: $br-big;
 
   background-color: $bg-blue-mid;
+
+  @include transition;
   
   ::-webkit-scrollbar-track 
   { 
@@ -34,6 +35,7 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 16px 48px 0px 16px;
+    margin-bottom: 16px;
 
     input 
     { font-weight: 500; }
@@ -157,6 +159,7 @@
 
     max-height: 580px;
     padding-inline: 4px;
+    margin-bottom: 8px;
     border-radius: $br-small;
 
     overflow-y: auto;
@@ -187,10 +190,12 @@
       border: 2px solid #00000000;
       border-radius: $br-small;
 
-      color: #c0c0c0;
+      color: $grey-light;
 
       text-align: left;
       cursor: pointer;
+
+      @include transition;
 
       &:hover
       {
@@ -206,7 +211,6 @@
 
 @media screen and (max-width: 768px) 
 {
-
   .card
   {
     width: auto;

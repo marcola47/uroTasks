@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { UserContext, ReducerContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
+import { ButtonGlow } from 'components/utils/buttons/buttons';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
@@ -51,7 +53,7 @@ export default function MenuUser()
         <img className='user__img' src='img/capybara.jpg' alt='user_pic'></img>
         <div className='user__name'>{ user?.name }</div>
       </a>
-      <div className='user__signout' onClick={ showConfirmation }><FontAwesomeIcon icon={ faRightFromBracket }/></div>
+      <ButtonGlow onClick={ showConfirmation } icon={ faRightFromBracket } fontSize='1.8rem'/>
     </div>
   )
 }
