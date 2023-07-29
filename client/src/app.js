@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import axios from 'utils/axiosConfig';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import 'css/app.css';
 
@@ -28,7 +27,7 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
-    menuShown: window.innerWidth > 1336 ? true : false,
+    menuShown: JSON.parse(localStorage.getItem("menuOpen")),
     projCreatorShown: false,
     fetchingProjects: true,
 
@@ -46,12 +45,16 @@ export default function App()
   {
     switch (action.type)
     {
-      // ui
-      case 'menuShown': 
-        return { ...state, menuShown: action.payload };
-
       case 'fetchingProjects':
         return { ...state, fetchingProjects: action.payload }
+
+      case 'fetchingTasks':
+        return { ...state, fetchingTasks: action.payload }
+
+      // ui
+      case 'menuShown':
+        localStorage.setItem("menuOpen", action.payload)
+        return { ...state, menuShown: action.payload };
 
       case 'projCreatorShown': 
         return { ...state, projCreatorShown: action.payload };
@@ -95,11 +98,12 @@ export default function App()
           localStorage.setItem("accessToken", res.data.accessToken);
           setUser(res.data.result);
         })
-        .catch(_ => 
+        .catch(err => 
         {
           navigate('login');
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
+          setResponseError(err, dispatch)
         })
       }
 
@@ -125,7 +129,7 @@ export default function App()
           setProjects(res.data.projectsMeta); 
           dispatch({ type: 'fetchingProjects', payload: false })
         })
-        .catch(err => console.log(err))
+        .catch(err => setResponseError(err, dispatch))
       }
 
       else if (projects.length > 0)
@@ -139,19 +143,49 @@ export default function App()
     }
   }
 
-  // eslint-disable-next-line
-  useEffect(() => { fetchProjects() }, [user, projects]);
+  function fetchTasks()
+  {
+    if (activeProject)
+    {
+      if (activeProject.tasks === undefined)
+        dispatch({ type: 'fetchingTasks', payload: true })
+        
+      if (state.fetchingTasks)
+      {
+        axios.post(`/a/task/get?projectID=${activeProject.id}`,
+        {
+          accessToken: localStorage.getItem("accessToken"),
+          refreshToken: localStorage.getItem("refreshToken")
+        })
+        .then(res => 
+        {
+          const projectsCopy = [...projects].map(project => 
+          {
+            if (project.id === activeProject.id)
+              project.tasks = res.data.tasks;
+  
+            return project;
+          });
+          
+          setProjects(projectsCopy);
+          setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: res.data.tasks }));
+          dispatch({ type: 'fetchingTasks', payload: false })
+        })
+        .catch(err => setResponseError(err, dispatch))
+      }
+    }
+  }
+
   // eslint-disable-next-line
   useEffect(() => { fetchUser() }, [user])
+  // eslint-disable-next-line
+  useEffect(() => { fetchProjects() }, [user, state.fetchingProjects]);
+  // eslint-disable-next-line
+  useEffect(() => { fetchTasks() }, [activeProject, state.fetchingTasks]);
 
   useEffect(() => // hide notification
   {
-    const timer = setTimeout(() => 
-    {
-      if (state.notificationShown)
-        dispatch({ type: 'notificationShown', payload: false })
-    }, 5000);
-    
+    const timer = setTimeout(() => { if (state.notificationShown) dispatch({ type: 'notificationShown', payload: false }) }, 5000);
     return () => {clearTimeout(timer)};
   }, [state.notificationShown])
 

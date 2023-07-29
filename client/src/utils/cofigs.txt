@@ -1,3 +1,0 @@
-user - showTaskPosition
-
-list - assign as 'done'

@@ -7,7 +7,14 @@ export default function verifyToken(req, res, next)
   const reqType = req.body.reqType;
 
   if (!accessToken)
-    return res.status(400).send({ auth: false, message: "You are not currently authtenticated. Please, log in to continue." })
+  {
+    return res.status(400).send(
+    { 
+      auth: false,
+      header: "Failed to perform action", 
+      message: "You are not currently authtenticated. Please, log in to continue." 
+    })
+  }
 
   jwt.verify(accessToken, process.env.JWT_ACCESS, (accessError, accessDecoded) =>
   {
@@ -16,12 +23,26 @@ export default function verifyToken(req, res, next)
       const refreshToken = req.body.refreshToken;
 
       if (!refreshToken)
-        return res.status(400).send({ auth: false, message: "You are not currently authtenticated. Please, log in to continue." })
+      {
+        return res.status(400).send(
+        { 
+          auth: false, 
+          header: "Failed to perform action",
+          message: "You are not currently authtenticated. Please, log in to continue." 
+        })
+      }
       
       jwt.verify(refreshToken, process.env.JWT_REFRESH, async (refreshError, refreshDecoded) => 
       {
         if (refreshError)
-          return res.status(400).send({ auth: false, message: "Your current session expired. Please, log in to continue." })
+        {
+          return res.status(400).send(
+          { 
+            auth: false,
+            header: "Failed to perform action", 
+            message: "Your current session expired. Please, log in to continue." 
+          })
+        }
           
         if (await Token.findOne({ token: refreshToken, userID: refreshDecoded.id }))
         {
@@ -36,12 +57,26 @@ export default function verifyToken(req, res, next)
         }
 
         else
-          return res.status(401).send({ auth: false, message: "Failed to authenticate access token. Please, log in to continue." })
+        {
+          return res.status(401).send(
+          { 
+            auth: false,
+            header: "Failed to perform action",
+            message: "Failed to authenticate access token. Please, log in to continue." 
+          })
+        }
       })
     }
 
     else if (accessError)
-      return res.status(401).send({ auth: false, message: "Failed to authenticate access token. Please, log in to continue." })
+    {
+      return res.status(401).send(
+      { 
+        auth: false, 
+        header: "Failed to perform action",
+        message: "Failed to authenticate access token. Please, log in to continue." 
+      })
+    }
 
     else
     {
