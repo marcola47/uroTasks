@@ -12,7 +12,14 @@ const tokenSchema = new mongoose.Schema(
   {
     type: String,
     required: true
-  }
+  },
+
+  lastUsed: 
+  {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
 });
 
 export default mongoose.model("Token", tokenSchema);

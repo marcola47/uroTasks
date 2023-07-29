@@ -6,10 +6,13 @@
   justify-content: flex-end;
   align-items: center;
   
-  color: #fff;
+  color: $white-light;
 
   font-size: 2.3rem;
   cursor: pointer;
+
+  & > svg
+  { @include transition }
 
   &:hover > svg
   { @include glow-content }

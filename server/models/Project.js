@@ -35,7 +35,7 @@ const projectSchema = new mongoose.Schema(
   color: 
   { 
     type: String, 
-    require: true,
+    required: true,
     maxlength: 7
   },
 
@@ -45,23 +45,34 @@ const projectSchema = new mongoose.Schema(
     default: -1
   },
 
+  types:
+  { 
+    type: [typesSchema],
+    maxlength: 1024
+  },
 
-  types: [typesSchema],
-
-  tasks: [String],
+  tasks: 
+  {
+    type: [String],
+    maxlength: 2048
+  },
   
-  users: [String],
+  users:
+  {
+    type: [String],
+    maxlength: 1024
+  },
 
   created_at:
   {
     type: Date,
-    default: new Date()
+    default: Date.now
   }, 
 
   updated_at:
   {
     type: Date,
-    default: new Date()
+    default: Date.now
   }
 }, { strict: false });
 

@@ -14,7 +14,7 @@ body
 { background-color: $bg-blue-dark }
 
 a 
-{ text-decoration: none; color: #fff }
+{ text-decoration: none; color: $white-light }
 
 ul 
 { list-style: none }
@@ -77,7 +77,7 @@ input, button
   width: 100vw;
   height: 100vh;
 
-  color: #fff;
+  color: $white-light;
 
   img
   { 

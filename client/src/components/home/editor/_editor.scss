@@ -9,8 +9,10 @@
   height: fit-content;
   border-radius: $br-small;
 
-  color: #fff;
+  color: $white-light;
   background-color: $bg-blue-light;
+
+  @include transition;
 
   &--shown
   { 
@@ -24,7 +26,7 @@
     left: 4px;
     top: 2px;
 
-    color: #aaaaaa;
+    color: $grey-light;
 
     font-size: 0.6rem;
   }
@@ -75,8 +77,10 @@
       pointer-events: all;
       user-select: none;
 
+      @include transition;
+
       &:hover
-      { background-color: #fff; }
+      { background-color: $white-light; }
 
       &--position
       { 
@@ -92,7 +96,7 @@
 
       &--remove
       { 
-        color: #fff;
+        color: $white-light;
         background-color: $red-dark; 
 
         &:hover 
@@ -130,6 +134,8 @@
 
       pointer-events: none;
       cursor: default;
+
+      @include transition;
 
       ::-webkit-scrollbar 
       { width: 6px }
@@ -182,23 +188,10 @@
       text-align: center;
       font-weight: 500;
 
-      &:hover
-      { background-color: #fff; }
-    }
-
-    &__submit
-    {
-      left: 0px;
-      border-radius: $br-small;
-
-      color: #fff;
-      background-color: $blue-dark;
-
-      font-size: inherit;
-      cursor: pointer;
+      @include transition;
 
       &:hover
-      { background-color: $blue-light; }
+      { background-color: $white-light; }
     }
   }
 }

@@ -17,7 +17,7 @@
     left: 4px;
     top: 2px;
 
-    color: #aaaaaa;
+    color: $grey-light;
 
     font-size: 0.6rem;
   }
@@ -51,10 +51,12 @@
     cursor: pointer;
     user-select: none;
 
+    @include transition;
+
     &:hover
     { 
       color: $bg-blue-light;
-      background-color: #fff;
+      background-color: $white-light;
     }
 
     &__icon

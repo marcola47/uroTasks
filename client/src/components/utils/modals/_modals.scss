@@ -18,6 +18,8 @@
   color: $white-light;
   background-color: $bg-blue-light;
 
+  @include transition;
+
   &::before
   {
     content: '';
@@ -135,6 +137,8 @@
       font-weight: 600;
       text-align: center;
       cursor: pointer;
+
+      @include transition;
 
       &--confirmation--danger
       {

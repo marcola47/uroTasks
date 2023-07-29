@@ -24,7 +24,7 @@ $wm: 280px;
     height: 100dvh;
     padding-top: 64px;
 
-    color: #fff;
+    color: $white-light;
     background-color: $bg-blue-mid;
   }
 
@@ -72,8 +72,10 @@ $wm: 280px;
       color: $white-light;
       background-color: $bg-blue-light;
 
+      cursor: text;
+
       &::placeholder
-      { color: #c0c0c0; }
+      { color: $grey-light; }
     }
   }
 

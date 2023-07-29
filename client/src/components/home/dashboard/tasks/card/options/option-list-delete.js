@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { OptionsContext } from '../card';
 import axios, { setResponseError, setResponseConfirmation } from 'utils/axiosConfig'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -16,11 +16,16 @@
     cursor: pointer;
     user-select: none;
 
+    @include transition;
+
     &:hover
     { @include glow-content }
 
+    .fa-chevron-up
+    { @include transition }
+
     .chevron-rotate 
-    { transform: rotate(180deg); }
+    { transform: rotate(180deg) }
   }
 
   &__list
@@ -32,11 +37,12 @@
   
     font-size: 0.9rem;
     overflow-y: scroll;
+    @include transition;
 
     &--hidden
     { 
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
   }
 
@@ -79,7 +85,7 @@
       width: 80%;
       margin-left: 16px;
 
-      color: #cecece;
+      color: $grey-light;
     }
 
     &__name

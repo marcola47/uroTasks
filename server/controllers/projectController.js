@@ -215,7 +215,7 @@ projectController.delete = async (req, res) =>
     
     const updatedUser = {};
     updatedUser.$pull = { projects: data.projectID };
-    updatedUser.$set = { activeProject: '0' };
+    updatedUser.$set = { activeProject: null };
 
     await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.deleteOne({ id: data.projectID });

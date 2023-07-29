@@ -11,6 +11,7 @@
   padding: 0px 24px;
 
   overflow: auto;
+  @include transition;
 
   &__add-card
   {
@@ -44,6 +45,8 @@
       font-weight: 500;
       text-align: left;
       cursor: pointer;
+
+      @include transition;
 
       &:hover
       {
