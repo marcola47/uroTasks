@@ -5,6 +5,7 @@ import axios from 'utils/axiosConfig';
 
 import 'css/app.css';
 
+import { AnimateTransit } from 'components/utils/transitions/transitions';
 import { Notification, Confirmation } from 'components/utils/modals/modals'
 import NotFoundPage from 'pages/404'
 import HomePage from 'pages/home'
@@ -74,7 +75,40 @@ export default function App()
     }
   }
 
-  useEffect(() => // get and set projects 
+  function fetchUser()
+  {
+    if (user === null)
+    {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (accessToken && refreshToken)
+      {
+        axios.post(`/a/user/token`, 
+        { 
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          reqType: 'login'
+        })
+        .then(res => 
+        { 
+          localStorage.setItem("accessToken", res.data.accessToken);
+          setUser(res.data.result);
+        })
+        .catch(_ => 
+        {
+          navigate('login');
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        })
+      }
+
+      else if (location.pathname !== '/register' && location.pathname !== '/login')
+        navigate('/login')
+    }
+  }
+
+  function fetchProjects()
   {
     if (user !== null)
     {
@@ -103,44 +137,12 @@ export default function App()
           : setActiveProject(null);
       }
     }
+  }
 
-    // eslint-disable-next-line
-  }, [user, projects]);
-
-  useEffect(() => // get and set user
-  {
-    if (user === null)
-    {
-      const accessToken = localStorage.getItem("accessToken");
-      const refreshToken = localStorage.getItem("refreshToken");
-
-      if (accessToken || refreshToken)
-      {
-        axios.post(`/a/user/token`, 
-        { 
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          reqType: 'login'
-        })
-        .then(res => 
-        { 
-          localStorage.setItem("accessToken", res.data.accessToken);
-          setUser(res.data.result);
-        })
-        .catch(_ => 
-        {
-          navigate('login');
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-        })
-      }
-
-      else if (location.pathname !== '/register' && location.pathname !== '/login')
-        navigate('/login')
-    }
- 
-    // eslint-disable-next-line
-  }, [user])
+  // eslint-disable-next-line
+  useEffect(() => { fetchProjects() }, [user, projects]);
+  // eslint-disable-next-line
+  useEffect(() => { fetchUser() }, [user])
 
   useEffect(() => // hide notification
   {
@@ -158,14 +160,9 @@ export default function App()
       <UserContext.Provider value={{ user, setUser }}>
         <ProjectsContext.Provider value={{ projects, setProjects, activeProject, setActiveProject }}>
           <ReducerContext.Provider value={{ state, dispatch }}>
-              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-                { state.notificationShown && <Notification/> } 
-              </AnimatePresence>
-              {/* some bad shit happens when they're in the same instance of AnimatePresence */}
-              <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-                { state.confirmationShown && <Confirmation/> }
-              </AnimatePresence>
-
+              <AnimateTransit children={ state.notificationShown && <Notification/> }/>
+              <AnimateTransit children={ state.confirmationShown && <Confirmation/> }/>
+              
               <Routes>
                 <Route exact path='/' element={ <HomePage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>

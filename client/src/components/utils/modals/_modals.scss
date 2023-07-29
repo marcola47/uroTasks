@@ -18,6 +18,8 @@
   color: $white-light;
   background-color: $bg-blue-light;
 
+  @include transition;
+
   &::before
   {
     content: '';
