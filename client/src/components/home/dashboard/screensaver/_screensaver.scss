@@ -1,19 +1,21 @@
 @import '../../../../css/variables';
 
-
 .screensaver
 {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  height: 280px;
-  margin-block: auto;
+  width: 100vw;
+  height: 100vh;
 
-  background: url('/public/img/logo--circle--name--dark.svg') no-repeat center center;
-  background-size: 240px;
+  color: $white-light;
+
+  img
+  { 
+    width: 128px;
+    @include anim_rotate_cw; 
+  }
 
   @include transition;
 }

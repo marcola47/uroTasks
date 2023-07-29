@@ -6,6 +6,7 @@ import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
 import ProjCreator from '../components/home/proj-creator/proj-creator';
 import Editor from '../components/home/editor/editor';
+import Screensaver from 'components/home/dashboard/screensaver/screensaver';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -17,14 +18,8 @@ export default function HomePage()
 {
   const { state, dispatch } = useContext(ReducerContext);
 
-  if (state.loading)
-  {
-    return (
-      <div className="loading">
-        <img src="img/loading.svg" alt=""/>
-      </div>
-    )
-  }
+  if (state.fetchingProjects)
+    return <Screensaver/>
 
   return (
     <>
