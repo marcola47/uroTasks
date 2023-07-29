@@ -67,8 +67,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   color: hsl(0, 0%, 100%);
   transition: all 0.1s ease-in-out;
 }
@@ -667,7 +667,7 @@
   align-items: flex-start;
   position: absolute;
   left: 420px;
-  min-height: 100dvh;
+  height: 100dvh;
   width: calc(100% - 420px);
   padding-block: 80px 8px;
   color: hsl(0, 0%, 100%);
@@ -1237,10 +1237,10 @@
   height: 60vh;
 }
 .proj-creator .chrome-picker {
+  z-index: 2;
   position: absolute;
   top: 104px;
   right: 16px;
-  z-index: 2;
 }
 .proj-creator__submit {
   grid-column: span 2;
@@ -1251,6 +1251,7 @@
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 .proj-creator__submit:hover {
   background-color: hsl(145, 77%, 50%);

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ReducerContext } from 'app';
-import { AnimatePresence } from 'framer-motion';
 
+import { AnimateTransit } from 'components/utils/transitions/transitions';
 import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
 import ProjCreator from '../components/home/proj-creator/proj-creator';
@@ -30,10 +30,8 @@ export default function HomePage()
       <Menu/>
       <Dashboard/>
 
-      <AnimatePresence initial={ false } mode='wait' onExitComplete={ () => null }>
-        { state.projCreatorShown && <ProjCreator/> }
-        { state.editorParams && state.editorData && <Editor/> }
-      </AnimatePresence>
+      <AnimateTransit children={ state.projCreatorShown && <ProjCreator/> }/>
+      <AnimateTransit children={ state.editorParams && state.editorData && <Editor/> }/>
     </>
   )
 }

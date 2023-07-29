@@ -61,10 +61,11 @@
 
   .chrome-picker
   {
+    z-index: 2;
+
     position: absolute;
     top: 104px;
     right: 16px;
-    z-index: 2;
   }
 
   &__submit
@@ -80,6 +81,8 @@
     font-size: 1.2rem;
     font-weight: 500;
     cursor: pointer;
+
+    @include transition;
 
     &:hover
     { background-color: $green-light; }
