@@ -56,11 +56,9 @@ export default function ProjCreator()
     axios.post(`/a/project/create`, 
     {
       userID: user.id, 
-      newProject: newProject,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      newProject: newProject
     })
-    .then(_ => 
+    .then(() => 
     {
       setProjects(prevProjects => ([...prevProjects, newProject]));
       setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newProject.id] }))

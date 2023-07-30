@@ -36,11 +36,9 @@ export default function OptionDelete({ task })
       projectID: activeProject.id, 
       taskID: task.id, 
       taskType: task.type, 
-      position: position,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      position: position
     })
-    .then(res => 
+    .then(() => 
     {
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
       setProjects(projectsCopy);

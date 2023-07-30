@@ -29,11 +29,9 @@ export default function OptionDeleteList({ type })
     axios.post('/a/project/update?type=types&crud=delete', 
     {
       projectID: activeProject.id,
-      typeID: type.id,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      typeID: type.id
     })
-    .then(_ => 
+    .then(() => 
     {
       setResponseConfirmation("Successfully deleted list", "", dispatch);
       setProjects(projectsCopy);

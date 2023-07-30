@@ -16,14 +16,11 @@ export default function OptionsDelete()
     dispatch({ type: 'confirmationShown', payload: false })
 
     axios.post(`/a/project/delete`, 
-    {
+    { 
       userID: user.id, 
-      projectID: activeProject.id,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
-      
+      projectID: activeProject.id
     })
-    .then(_ => 
+    .then(() => 
     {
       setProjects(projects.filter(project => project.id !== activeProject.id));
       setActiveProject(null);

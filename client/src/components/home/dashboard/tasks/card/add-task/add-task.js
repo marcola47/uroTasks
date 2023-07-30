@@ -54,11 +54,9 @@ export default function AddTask({ type })
     axios.post('/a/task/create', 
     {
       projectID: activeProject.id, 
-      newTask: newTask,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      newTask: newTask
     })
-    .then(_ => setProjects(projectsCopy))
+    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch);

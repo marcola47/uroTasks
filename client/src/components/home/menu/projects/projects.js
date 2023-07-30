@@ -23,11 +23,9 @@ function MenuProject({ itemData })
       axios.post('/a/user/update?type=activeProject', 
       {
         userID: user.id, 
-        projectID: itemData.id,
-        accessToken: localStorage.getItem("accessToken"),
-        refreshToken: localStorage.getItem("refreshToken")
+        projectID: itemData.id
       })
-      .then(_ => setUser(prevUser => ({ ...prevUser, activeProject: itemData.id })))
+      .then(() => setUser(prevUser => ({ ...prevUser, activeProject: itemData.id })))
       .catch(err => setResponseError(err, dispatch))
     }
   }
@@ -39,7 +37,7 @@ function MenuProject({ itemData })
         <div className='project__name'>{ itemData?.name }</div>
       </div> 
   
-      <div className='project__total-tasks'>?</div>
+      {/* <div className='project__total-tasks'>?</div> */}
     </li>
   )
 }

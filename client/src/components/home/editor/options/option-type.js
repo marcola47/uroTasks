@@ -64,11 +64,9 @@ export default function OptionType({ task })
       projectID: activeProject.id, 
       taskID: task.id, 
       types: types, 
-      positions: positions,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      positions: positions
     })
-    .then(_ => 
+    .then(() => 
     { 
       dispatch(
       { 

@@ -36,13 +36,11 @@ export default function AddCard({ typesOrdered })
     })
 
     axios.post('/a/project/update?type=types&crud=create', 
-    {
-      projectID: activeProject.id,
-      newType: newType,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+    { 
+      projectID: activeProject.id, 
+      newType: newType 
     })
-    .then(_ => 
+    .then(() => 
     {
       setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: types }))
       setProjects(projectsCopy);
