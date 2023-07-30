@@ -56,18 +56,23 @@ export default function AddTask({ type })
       projectID: activeProject.id, 
       newTask: newTask
     })
-    .then(() => setProjects(projectsCopy))
+    .then(() => 
+    {
+      setProjects(projectsCopy)
+    })
     .catch(err => 
     {
       setResponseError(err, dispatch);
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
     })
+
+    setInputValue('');
   }
 
-  function handleSave() 
+  async function handleSave() 
   {
     if (inputValueRef.current.value !== '')
-      handleTextChange(inputValue);
+      await handleTextChange(inputValue);
 
     setEditing(false);
   }
