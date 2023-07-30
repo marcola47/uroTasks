@@ -46,11 +46,9 @@ export default function EditorText()
       axios.post(`/a/task/update?type=content`, 
       {
         taskID: state.editorData.id, 
-        newContent: newContent,
-        accessToken: localStorage.getItem("accessToken"),
-        refreshToken: localStorage.getItem("refreshToken")
+        newContent: newContent
       })
-      .then(_ => setProjects(projectsCopy))
+      .then(() => setProjects(projectsCopy))
       .catch(err => 
       {
         setResponseError(err, dispatch);

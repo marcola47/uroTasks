@@ -4,7 +4,6 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { ButtonGlow } from 'components/utils/buttons/buttons';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function MenuUser()
@@ -19,7 +18,7 @@ export default function MenuUser()
       userID: user.id,
       refreshToken: localStorage.getItem("refreshToken")
     })
-    .then(_ => 
+    .then(() => 
     {
       window.location.reload()
       localStorage.removeItem("accessToken");

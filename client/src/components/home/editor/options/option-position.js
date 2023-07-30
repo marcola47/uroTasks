@@ -56,11 +56,9 @@ export default function OptionPosition({ task })
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
-      direction: direction,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      direction: direction
     })
-    .then(_ => 
+    .then(() => 
     {
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
       setProjects(projectsCopy);

@@ -34,13 +34,11 @@ export function HeaderColor()
     setActiveProject({ ...activeProject, color: newColor });
 
     axios.post('/a/project/update?type=color', 
-    {
+    { 
       projectID: activeProject.id, 
-      newColor: newColor,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      newColor: newColor 
     })
-    .then(_ => setProjects(projectsCopy))
+    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch)
@@ -93,13 +91,11 @@ export function HeaderTitle({ title })
     setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: newName }));
 
     axios.post('/a/project/update?type=name', 
-    {
+    { 
       projectID: activeProject.id, 
-      newName: newName,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      newName: newName 
     })
-    .then(res => setProjects(projectsCopy))
+    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch);

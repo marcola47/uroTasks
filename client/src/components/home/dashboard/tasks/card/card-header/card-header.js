@@ -31,14 +31,12 @@ export default function CardHeader({ type })
     });
 
     axios.post('/a/project/update?type=types&crud=updateName', 
-    {
-      projectID: activeProject.id,
-      typeID: type.id,
-      typeName: newName,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+    { 
+      projectID: activeProject.id, 
+      typeID: type.id, 
+      typeName: newName 
     })
-    .then(_ => 
+    .then(() => 
     {
       setProjects(projectsCopy);
       setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))

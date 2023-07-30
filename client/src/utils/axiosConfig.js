@@ -2,6 +2,20 @@ import axios from 'axios';
 
 const instance = axios.create({ baseURL: process.env.REACT_APP_SERVER_ROUTE });
 
+instance.interceptors.request.use(config => 
+{
+  const { url } = config;
+
+  if (url.startsWith('/a/'))
+  {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    config.data = { ...config.data, accessToken, refreshToken };
+  }
+
+  return config;
+});
+
 instance.interceptors.response.use(
   (res) => 
   {

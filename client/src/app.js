@@ -87,12 +87,7 @@ export default function App()
 
       if (accessToken && refreshToken)
       {
-        axios.post(`/a/user/token`, 
-        { 
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          reqType: 'login'
-        })
+        axios.post(`/a/user/token`, { reqType: 'login' })
         .then(res => 
         { 
           localStorage.setItem("accessToken", res.data.accessToken);
@@ -118,12 +113,7 @@ export default function App()
     {
       if (state.fetchingProjects)
       {
-        axios.post(`/a/project/get`, 
-        {
-          projectIDs: user.projects,
-          accessToken: localStorage.getItem("accessToken"),
-          refreshToken: localStorage.getItem("refreshToken")
-        })
+        axios.post(`/a/project/get`, { projectIDs: user.projects })
         .then(res =>
         {
           setProjects(res.data.projectsMeta); 
@@ -152,11 +142,7 @@ export default function App()
         
       if (state.fetchingTasks)
       {
-        axios.post(`/a/task/get?projectID=${activeProject.id}`,
-        {
-          accessToken: localStorage.getItem("accessToken"),
-          refreshToken: localStorage.getItem("refreshToken")
-        })
+        axios.post(`/a/task/get?projectID=${activeProject.id}`)
         .then(res => 
         {
           const projectsCopy = [...projects].map(project => 

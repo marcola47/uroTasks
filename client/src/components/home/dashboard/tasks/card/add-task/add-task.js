@@ -54,22 +54,25 @@ export default function AddTask({ type })
     axios.post('/a/task/create', 
     {
       projectID: activeProject.id, 
-      newTask: newTask,
-      accessToken: localStorage.getItem("accessToken"),
-      refreshToken: localStorage.getItem("refreshToken")
+      newTask: newTask
     })
-    .then(_ => setProjects(projectsCopy))
+    .then(() => 
+    {
+      setProjects(projectsCopy)
+    })
     .catch(err => 
     {
       setResponseError(err, dispatch);
       setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
     })
+
+    setInputValue('');
   }
 
-  function handleSave() 
+  async function handleSave() 
   {
     if (inputValueRef.current.value !== '')
-      handleTextChange(inputValue);
+      await handleTextChange(inputValue);
 
     setEditing(false);
   }
