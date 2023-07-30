@@ -1,5 +1,6 @@
 # UroTasks
-![preview](https://github.com/elc1090/project3-urotasks/assets/78169543/ef674720-4f38-433f-b05a-3842e4576ebf)
+![preview](https://github.com/marcola47/uroTasks/assets/78169543/674388c9-9514-4429-9e0e-d3f7892f94e2)
+
 
 #### Description
 Task manager inspired by Trello and Click Up, combining what each of them do best in a simple to use and straightforward product.
