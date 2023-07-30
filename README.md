@@ -18,7 +18,3 @@ Task manager inspired by Trello and Click Up, combining what each of them do bes
 - VSCode
 - MongoDBCompass
 - MongoDBAtlas
-
-#### Credits
-- [FontAwesome - Icons](https://fontawesome.com/start)
-- [React Color - Color pickers](https://casesandberg.github.io/react-color/)
