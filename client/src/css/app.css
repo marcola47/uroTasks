@@ -219,6 +219,8 @@
 }
 .taskbar__text {
   width: 100%;
+}
+.taskbar__text > * {
   cursor: text;
 }
 .taskbar__text input {
@@ -261,15 +263,11 @@
 .taskbar__option--delete .fa-trash-can {
   pointer-events: none;
   font-size: 1.2rem;
-  transition: color 0s ease-in-out;
 }
 
-@media screen and (max-width: 820px) {
-  .option--orient {
-    display: none;
-  }
-  .header {
-    font-size: 1.5rem;
+@media screen and (max-width: 520px) {
+  .taskbar__header {
+    font-size: 1.4rem;
   }
 }
 @keyframes fade_in {

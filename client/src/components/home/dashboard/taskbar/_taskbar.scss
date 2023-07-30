@@ -33,7 +33,9 @@
   &__text
   { 
     width: 100%;
-    cursor: text;
+    
+    & > *
+    { cursor: text }
    
     input
     {
@@ -94,17 +96,13 @@
       {
         pointer-events: none;
         font-size: 1.2rem; 
-        transition: color 0s ease-in-out; 
       }
     }
   }
 }
 
-@media screen and (max-width: 820px) 
+@media screen and (max-width: 520px) 
 {
-  .option--orient
-  { display: none; }  
-
-  .header
-  { font-size: 1.5rem; }
+  .taskbar__header
+  { font-size: 1.4rem }
 }
