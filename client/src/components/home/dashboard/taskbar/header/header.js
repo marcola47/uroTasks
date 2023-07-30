@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
@@ -12,8 +12,11 @@ export function HeaderColor()
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
   const { dispatch } = useContext(ReducerContext);
   
-  const [newColor, setNewColor] = useState(activeProject?.color);
+  const [newColor, setNewColor] = useState(activeProject.color);
   const [pickerActive, setPickerActive] = useState(false);
+
+  //would not change the fucking color unless I do this
+  useEffect(() => { setNewColor(activeProject.color) }, [activeProject])
 
   function toggleColorPicker()
   {
@@ -51,7 +54,7 @@ export function HeaderColor()
     return (
       <div>
         <div onClick={ toggleColorPicker } className='chrome-picker__bg'/>
-        <ChromePicker color={ newColor } onChangeComplete={ (color) => {setNewColor(color.hex)} }/> 
+        <ChromePicker color={ newColor } onChangeComplete={ color => {setNewColor(color.hex)} }/> 
       </div>
     )
   }

@@ -65,16 +65,23 @@
 }
 .screensaver {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 16px;
   width: 100%;
   height: 100%;
   color: hsl(0, 0%, 100%);
+  font-size: 1.7rem;
+  text-align: center;
   transition: all 0.1s ease-in-out;
 }
-.screensaver img {
+.screensaver .spinning {
   width: 128px;
   animation: rotate_cw 2s infinite;
+}
+.screensaver .static {
+  width: 256px;
 }
 
 @keyframes fade_in {
@@ -672,7 +679,6 @@
   padding-block: 80px 8px;
   color: hsl(0, 0%, 100%);
   background-color: hsl(211, 18%, 5%);
-  animation: ease-in-out 1s forwards fade-in;
   transition: all 0.1s ease-in-out;
 }
 .dashboard ::-webkit-scrollbar {

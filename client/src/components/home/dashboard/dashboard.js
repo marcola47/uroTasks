@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ProjectsContext, ReducerContext } from "app";
 
-import Screensaver from './screensaver/screensaver';
+import { Screensaver, NoActiveProject } from './screensaver/screensaver';
 import Searchbar from './searchbar/searchbar';
 import Taskbar from './taskbar/taskbar';
 import Tasks from "./tasks/tasks";
@@ -10,6 +10,9 @@ function Dashboard()
 {
   const { activeProject } = useContext(ProjectsContext);
   const { state } = useContext(ReducerContext);
+
+  if (!activeProject)
+    return <NoActiveProject/>
 
   if (activeProject?.tasks === undefined)
     return <Screensaver/>

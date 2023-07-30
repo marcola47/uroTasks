@@ -26,7 +26,7 @@ export default function OptionDeleteList({ type })
       return project;
     });
 
-    axios.post('/a/project/update?type=types&crud=delete', 
+    axios.post('/a/project/update?type=types&crud=deleteList', 
     {
       projectID: activeProject.id,
       typeID: type.id

@@ -139,7 +139,7 @@ projectController.updateTypes = async (req, res, session) =>
     console.log(`${new Date()}: successfully updated type to ${data.typeName}`);
   }
 
-  else if (req.query.crud === 'delete')
+  else if (req.query.crud === 'deleteList')
   {
     const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
@@ -159,6 +159,21 @@ projectController.updateTypes = async (req, res, session) =>
 
     res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
+  }
+
+  else if (req.query.crud === 'deleteTasks')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+
+    await Task.deleteMany
+    (
+      { type: data.typeID, project: data.projectID }, 
+      { session }
+    );
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully deleted all tasks from list`);
   }
 }
 

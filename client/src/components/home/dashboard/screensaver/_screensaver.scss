@@ -3,19 +3,27 @@
 .screensaver
 {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 16px;
 
   width: 100%;
   height: 100%;
 
   color: $white-light;
 
-  img
+  font-size: 1.7rem;
+  text-align: center;
+
+  .spinning
   { 
     width: 128px;
-    @include anim_rotate_cw; 
+    @include anim_rotate_cw 
   }
+
+  .static
+  { width: 256px }
 
   @include transition;
 }

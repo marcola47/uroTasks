@@ -27,9 +27,11 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
+    fetchingProjects: true,
+    fetchTasks: false,
+
     menuShown: JSON.parse(localStorage.getItem("menuOpen")),
     projCreatorShown: false,
-    fetchingProjects: true,
 
     notification: null,
     notificationShown: false,
