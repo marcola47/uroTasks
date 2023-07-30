@@ -13,6 +13,8 @@ export default function CardHeader({ type })
 
   function handleNameChange(newName) 
   { 
+    const oldTypes = [...activeProject.types];
+
     const typesList = activeProject.types.map(listType => 
     {
       if (listType.id === type.id)
@@ -30,18 +32,20 @@ export default function CardHeader({ type })
       return project;
     });
 
+    setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
+
     axios.post('/a/project/update?type=types&crud=updateName', 
     { 
       projectID: activeProject.id, 
       typeID: type.id, 
       typeName: newName 
     })
-    .then(() => 
+    .then(() => setProjects(projectsCopy))
+    .catch(err => 
     {
-      setProjects(projectsCopy);
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
+      setResponseError(err, dispatch)
+      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: oldTypes }))
     })
-    .catch(err => setResponseError(err, dispatch))
 
     dispatch({ type: 'confirmationShown', payload: false })
   }
