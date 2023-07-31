@@ -1,240 +1,210 @@
 @import '../../../css/variables';
 
-.options__container
+.card__options
 {
-  z-index: 97;
+  display: flex;
+  flex-direction: column;
+  
+  z-index: 99;
 
   position: absolute;
-  right: 8px;
-  top: 8px;
+  top: 40px;
+  right: 0px;
 
-  font-size: 1.5rem;
+  width: 200px;
+  padding: 8px;
+  border-radius: $br-big;
 
-  .options
+  color: $white-light;
+  background-color: $bg-blue-light;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
+
+  font-size: 1rem;
+  @include transition;
+
+  .separator
+  {
+    border-radius: 2px;
+    border: 1px solid $grey-dark;
+    margin-block: 4px;
+  }
+
+  .option
   {
     display: flex;
-    flex-direction: column;
-    
-    z-index: -97;
-    opacity: 0;
+    align-items: center;
+    gap: 8px;
 
-    position: absolute;
-    top: 40px;
-    right: 0px;
-
-    width: 200px;
+    position: relative;
     padding: 8px;
-    border-radius: $br-big;
+    margin-block: 2px;
+    border-radius: $br-small;
 
-    background-color: $bg-blue-bright;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
-
-    font-size: 1rem;
-    pointer-events: none;
+    user-select: none;
+    cursor: pointer;
 
     @include transition;
 
-    &--shown
+    &:hover
     {
-      z-index: 99;
-      opacity: 1;
-      pointer-events: all;
+      color: $bg-blue-dark;
+      background-color: $white-light;
     }
 
-    &__toggle
-    { 
-      padding: 6px 8px 4px 8px;
-      border-radius: $br-small;
-
-      cursor: pointer;
-      @include transition;
-
-      &:hover
-      { background-color: $bg-blue-bright; }
-    }
-
-    .separator
+    &--caution:hover
     {
-      border-radius: 2px;
-      border: 1px solid $grey-dark;
-      margin-block: 4px;
+      color: $white-light;
+      background-color: $yellow-light;
     }
 
-    .option
+    &--danger:hover
+    {
+      color: $white-light;
+      background-color: $red-dark;
+    }
+
+    & > svg
+    { width: 16px }
+
+    .move
     {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 8px;
 
-      position: relative;
+      position: absolute;
+      top: 40px;
+      left: 0px;
+      width: 184px;
       padding: 8px;
-      margin-block: 2px;
       border-radius: $br-small;
 
-      user-select: none;
-      cursor: pointer;
+      color: $white-light;
+      background-color: $bg-blue-mid;
 
       @include transition;
 
-      &:hover
+      &--shown
       {
-        color: $bg-blue-dark;
-        background-color: $white-light;
+        z-index: 2;
+        opacity: 1;
+        pointer-events: all;
       }
 
-      &--caution:hover
+      &--hidden
       {
-        color: $white-light;
-        background-color: $yellow-light;
+        z-index: -100;
+        opacity: 0;
+        pointer-events: none;
       }
 
-      &--danger:hover
-      {
-        color: $white-light;
-        background-color: $red-dark;
-      }
-
-      & > svg
-      { width: 16px }
-
-      .move
+      &__container
       {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 4px;  
+      }
 
-        position: absolute;
-        top: 40px;
-        left: 0px;
-        width: 184px;
-        padding: 8px;
+      &__param
+      {
+        position: relative;
+        padding: 4px;
         border-radius: $br-small;
 
-        color: $white-light;
-        background-color: $bg-blue-mid;
+        background-color: $bg-blue-light;
 
-        @include transition;
+        ::-webkit-scrollbar-thumb 
+        { background: $bg-blue-bright }
+      }
 
-        &--shown
-        {
-          z-index: 2;
-          opacity: 1;
-          pointer-events: all;
+      &__header
+      {
+        color: $grey-light;
+        font-size: 0.85rem;
+      }
+
+      &__list
+      {
+        display: flex;
+        flex-direction: column;
+        
+        z-index: 2;
+        overflow-y: auto;
+
+        position: absolute;
+        top: 50px;
+        left: 0px;
+        width: 100%;
+        max-height: 196px;
+        border-radius: $br-small;
+
+        background-color: $bg-blue-light;
+
+        &--proj
+        { 
+          z-index: 3 
         }
 
-        &--hidden
+        &__item
         {
-          z-index: -100;
-          opacity: 0;
-          pointer-events: none;
-        }
+          flex: 0 0 32px;
 
-        &__container
-        {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;  
-        }
+          width: calc(100%);
+          padding: 8px 4px;
 
-        &__param
-        {
-          position: relative;
-          padding: 4px;
-          border-radius: $br-small;
+          font-size: 0.95rem;
 
-          background-color: $bg-blue-light;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
-          ::-webkit-scrollbar-thumb 
-          { background: $bg-blue-bright }
-        }
+          @include transition;
 
-        &__header
-        {
-          color: $grey-light;
-          font-size: 0.85rem;
-        }
-
-        &__list
-        {
-          display: flex;
-          flex-direction: column;
-          
-          z-index: 2;
-          overflow-y: auto;
-
-          position: absolute;
-          top: 50px;
-          left: 0px;
-          width: 100%;
-          max-height: 196px;
-          border-radius: $br-small;
-
-          background-color: $bg-blue-light;
-
-          &--proj
-          { 
-            z-index: 3 
-          }
-
-          &__item
+          &:hover
           {
-            flex: 0 0 32px;
-
-            width: calc(100%);
-            padding: 8px 4px;
-
-            font-size: 0.95rem;
-
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-
-            &:hover
-            {
-              color: $bg-blue-dark;
-              background-color: $white-light;
-            }
+            color: $bg-blue-dark;
+            background-color: $white-light;
           }
         }
+      }
 
-        &__btns
+      &__btns
+      {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        & > *
         {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
+          place-items: center;
 
-          & > *
-          {
-            display: grid;
-            place-items: center;
+          height: 24px;
 
-            height: 24px;
-
-            @include transition;
-          }
+          @include transition;
         }
+      }
 
-        &__btn
-        {
+      &__btn
+      {
 
-          border-radius: $br-small;
+        border-radius: $br-small;
 
-          color: $bg-blue-dark;
-          background-color: $white-dark;
+        color: $bg-blue-dark;
+        background-color: $white-dark;
 
-          &:hover
-          { background-color: $white-light }
-        }
+        &:hover
+        { background-color: $white-light }
+      }
 
-        &__submit
-        {
-          grid-column: span 2;
-          border-radius: $br-small;
-          background-color: $blue-dark;
+      &__submit
+      {
+        grid-column: span 2;
+        border-radius: $br-small;
+        background-color: $blue-dark;
 
-          &:hover
-          { background-color: $blue-light }
-        }
+        &:hover
+        { background-color: $blue-light }
       }
     }
   }

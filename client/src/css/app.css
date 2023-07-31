@@ -63,50 +63,28 @@
     transform: rotate(0deg);
   }
 }
-.options__container {
-  z-index: 97;
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  font-size: 1.5rem;
-}
-.options__container .options {
+.card__options {
   display: flex;
   flex-direction: column;
-  z-index: -97;
-  opacity: 0;
+  z-index: 99;
   position: absolute;
   top: 40px;
   right: 0px;
   width: 200px;
   padding: 8px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 30%);
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(211, 18%, 25%);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
   font-size: 1rem;
-  pointer-events: none;
   transition: all 0.1s ease-in-out;
 }
-.options__container .options--shown {
-  z-index: 99;
-  opacity: 1;
-  pointer-events: all;
-}
-.options__container .options__toggle {
-  padding: 6px 8px 4px 8px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-}
-.options__container .options__toggle:hover {
-  background-color: hsl(211, 18%, 30%);
-}
-.options__container .options .separator {
+.card__options .separator {
   border-radius: 2px;
   border: 1px solid hsl(0, 0%, 60%);
   margin-block: 4px;
 }
-.options__container .options .option {
+.card__options .option {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -120,22 +98,22 @@
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.options__container .options .option:hover {
+.card__options .option:hover {
   color: hsl(211, 18%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.options__container .options .option--caution:hover {
+.card__options .option--caution:hover {
   color: hsl(0, 0%, 100%);
   background-color: hsl(46, 93%, 48%);
 }
-.options__container .options .option--danger:hover {
+.card__options .option--danger:hover {
   color: hsl(0, 0%, 100%);
   background-color: hsl(0, 80%, 51%);
 }
-.options__container .options .option > svg {
+.card__options .option > svg {
   width: 16px;
 }
-.options__container .options .option .move {
+.card__options .option .move {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -149,35 +127,35 @@
   background-color: hsl(211, 18%, 15%);
   transition: all 0.1s ease-in-out;
 }
-.options__container .options .option .move--shown {
+.card__options .option .move--shown {
   z-index: 2;
   opacity: 1;
   pointer-events: all;
 }
-.options__container .options .option .move--hidden {
+.card__options .option .move--hidden {
   z-index: -100;
   opacity: 0;
   pointer-events: none;
 }
-.options__container .options .option .move__container {
+.card__options .option .move__container {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.options__container .options .option .move__param {
+.card__options .option .move__param {
   position: relative;
   padding: 4px;
   border-radius: 3px;
   background-color: hsl(211, 18%, 25%);
 }
-.options__container .options .option .move__param ::-webkit-scrollbar-thumb {
+.card__options .option .move__param ::-webkit-scrollbar-thumb {
   background: hsl(211, 18%, 30%);
 }
-.options__container .options .option .move__header {
+.card__options .option .move__header {
   color: hsl(0, 0%, 72%);
   font-size: 0.85rem;
 }
-.options__container .options .option .move__list {
+.card__options .option .move__list {
   display: flex;
   flex-direction: column;
   z-index: 2;
@@ -190,10 +168,10 @@
   border-radius: 3px;
   background-color: hsl(211, 18%, 25%);
 }
-.options__container .options .option .move__list--proj {
+.card__options .option .move__list--proj {
   z-index: 3;
 }
-.options__container .options .option .move__list__item {
+.card__options .option .move__list__item {
   flex: 0 0 32px;
   width: 100%;
   padding: 8px 4px;
@@ -201,36 +179,37 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  transition: all 0.1s ease-in-out;
 }
-.options__container .options .option .move__list__item:hover {
+.card__options .option .move__list__item:hover {
   color: hsl(211, 18%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.options__container .options .option .move__btns {
+.card__options .option .move__btns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
-.options__container .options .option .move__btns > * {
+.card__options .option .move__btns > * {
   display: grid;
   place-items: center;
   height: 24px;
   transition: all 0.1s ease-in-out;
 }
-.options__container .options .option .move__btn {
+.card__options .option .move__btn {
   border-radius: 3px;
   color: hsl(211, 18%, 5%);
   background-color: hsl(0, 0%, 86%);
 }
-.options__container .options .option .move__btn:hover {
+.card__options .option .move__btn:hover {
   background-color: hsl(0, 0%, 100%);
 }
-.options__container .options .option .move__submit {
+.card__options .option .move__submit {
   grid-column: span 2;
   border-radius: 3px;
   background-color: hsl(204, 70%, 55%);
 }
-.options__container .options .option .move__submit:hover {
+.card__options .option .move__submit:hover {
   background-color: hsl(204, 70%, 62%);
 }
 
@@ -526,6 +505,19 @@
 .card ::-webkit-scrollbar-thumb {
   border-radius: 2px;
   background: hsl(211, 18%, 25%);
+}
+.card .options {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: 1.5rem;
+  padding: 6px 8px 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.card .options:hover {
+  background-color: hsl(211, 18%, 30%);
 }
 .card__header {
   font-size: 1rem;
@@ -1966,5 +1958,5 @@ input, button {
   opacity: 1;
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6666666667);
+  background-color: rgba(0, 0, 0, 0.45);
 }/*# sourceMappingURL=app.css.map */

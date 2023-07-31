@@ -30,6 +30,24 @@
     background: $bg-blue-light 
   }
 
+  .options
+  { 
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  
+    font-size: 1.5rem;
+
+    padding: 6px 8px 4px 8px;
+    border-radius: $br-small;
+
+    cursor: pointer;
+    @include transition;
+
+    &:hover
+    { background-color: $bg-blue-bright; }
+  }
+
   &__header
   {
     font-size: 1rem;

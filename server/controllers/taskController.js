@@ -41,17 +41,15 @@ taskController.create = async (req, res) =>
   try 
   {
     const newAccessToken = req.newAccessToken ?? null;
-
     const data = req.body;
     const newTask = new Task(data.newTask);
-  
-    if (newTask.type === 'done')
-      await Project.updateOne({ id: data.projectID }, { $push: { tasks: newTask.id } });
-  
-    else
-      await Project.updateOne({ id: data.projectID }, { $push: { tasks: newTask.id }, $inc: { activeTasks: 1 } });
-  
+
     await newTask.save();
+    await Project.updateOne
+    (
+      { id: data.projectID }, 
+      { $push: { tasks: newTask.id } }
+    );
    
     await session.commitTransaction();
     res.status(201).send({ newAccessToken: newAccessToken });
@@ -81,7 +79,12 @@ taskController.updateContent = async (req, res) =>
     const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
 
-    await Task.updateOne({ id: data.taskID }, { content: data.newContent, updated_at: new Date() });
+    await Task.updateOne
+    (
+      { id: data.taskID }, 
+      { content: data.newContent, updated_at: new Date() }
+    );
+    
     res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
   }
@@ -106,16 +109,9 @@ taskController.updateType = async (req, res) =>
   try
   {
     const newAccessToken = req.newAccessToken ?? null;
-
     const data = req.body;
     const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
     const taskList = await Task.find({ id: { $in: project.tasks } });
-  
-    if (data.types.old === 'done')
-      await Project.updateOne({ id: data.projectID }, { $inc: { activeTasks: 1 } });
-    
-    else if (data.types.new === 'done')
-      await Project.updateOne({ id: data.projectID }, { $inc: { activeTasks: -1 } });
   
     await Promise.all(taskList.map(async task => 
     {
@@ -156,18 +152,38 @@ taskController.updatePosition = async (req, res) =>
     const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
 
-    switch (data.direction)
+    if (data.direction === 'up')
     {
-      case 'up':
-        await Task.updateOne({ id: data.updatedTaskID }, { $inc: { position: -1 } });
-        await Task.updateOne({ id: data.otherTaskID }, { $inc: { position: +1 } });
-        break;
-  
-      case 'down':
-        await Task.updateOne({ id: data.updatedTaskID }, { $inc: { position: +1 } });
-        await Task.updateOne({ id: data.otherTaskID }, { $inc: { position: -1 } });
-        break;
+      await Task.updateOne
+      (
+        { id: data.updatedTaskID },
+        { $inc: { position: -1 } }
+      );
+      
+      await Task.updateOne
+      (
+        { id: data.otherTaskID }, 
+        { $inc: { position: +1 } }
+      );
     }
+
+    else if (data.direction === 'down')
+    {
+      await Task.updateOne
+      (
+        { id: data.updatedTaskID }, 
+        { $inc: { position: +1 } }
+      );
+      
+      await Task.updateOne
+      (
+        { id: data.otherTaskID }, 
+        { $inc: { position: -1 } }
+      );
+    }
+
+    else 
+      throw new Error('Invalid direction');
   
     await session.commitTransaction();
     res.status(200).send({ newAccessToken: newAccessToken })
@@ -228,11 +244,11 @@ taskController.delete = async (req, res) =>
     
     const taskList = await Task.find({ id: { $in: project.tasks } });
   
-    if (data.taskType === 'done')
-      await Project.updateOne({ id: data.projectID }, { $pull: { tasks: data.taskID } });
-    
-    else
-      await Project.updateOne({ id: data.projectID }, { $pull: { tasks: data.taskID }, $inc: { activeTasks: -1 } });
+    await Project.updateOne
+    (
+      { id: data.projectID }, 
+      { $pull: { tasks: data.taskID } }
+    );
   
     await Promise.all(taskList.map(async task => 
     {

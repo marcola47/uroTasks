@@ -40,7 +40,10 @@ export default function App()
     confirmationShown: false,
 
     editorParams: null,
-    editorData: null
+    editorData: null,
+
+    cardParams: null,
+    cardData: null,
   });
       
   function reducer(state, action)
@@ -75,6 +78,9 @@ export default function App()
 
       case 'setEditor':
         return { ...state, editorParams: action.payload.params, editorData: action.payload.data }
+
+      case 'setCardOptions':
+        return { ...state, cardParams: action.payload.params, cardData: action.payload.data }
 
       default: return state;
     }
@@ -165,11 +171,9 @@ export default function App()
   }
 
   // eslint-disable-next-line
-  useEffect(() => { fetchUser() }, [user])
-  // eslint-disable-next-line
-  useEffect(() => { fetchProjects() }, [user, state.fetchingProjects]);
-  // eslint-disable-next-line
-  useEffect(() => { fetchTasks() }, [activeProject, state.fetchingTasks]);
+  useEffect(() => { fetchUser()     }, [user])  // eslint-disable-next-line
+  useEffect(() => { fetchProjects() }, [user, state.fetchingProjects]); // eslint-disable-next-line
+  useEffect(() => { fetchTasks()    }, [activeProject, state.fetchingTasks]);
 
   useEffect(() => // hide notification
   {

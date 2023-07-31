@@ -9,7 +9,6 @@ import OptionType from './options/option-type';
 import OptionPosition from './options/option-position';  
 import OptionDelete from './options/option-delete';
 
-
 export default function Editor()
 {
   const { state, dispatch } = useContext(ReducerContext);
@@ -42,18 +41,18 @@ export default function Editor()
     {
       state.editorData && // many errors when not doing this
       <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
-      <div className='editor__position'>{ state.editorData?.position }</div>
+        <div className='editor__position'>{ state.editorData?.position }</div>
 
-      <EditorText/> 
+        <EditorText/> 
 
-      <div className="options" ref={ optionsRef } style={ optionsStyle }>
-        <OptionEllipsis/>
-        <OptionTags task={ state.editorData }/>
-        <OptionType task={ state.editorData }/>
-        <OptionPosition task={ state.editorData }/>
-        <OptionDelete task={ state.editorData }/>
+        <div className="options" ref={ optionsRef } style={ optionsStyle }>
+          <OptionEllipsis/>
+          <OptionTags task={ state.editorData }/>
+          <OptionType task={ state.editorData }/>
+          <OptionPosition task={ state.editorData }/>
+          <OptionDelete task={ state.editorData }/>
+        </div>
       </div>
-    </div>
     }
     </TransitionOpacity>
   )
