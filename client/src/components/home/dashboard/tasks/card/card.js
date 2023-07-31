@@ -31,19 +31,19 @@ export default function Card({ type })
     ? activeProject.tasks.filter(task => task.type === type.id).sort((a, b) => {return a.position - b.position})
     : [];
 
-  useEffect(() => 
-  {
-    function handleClickOutside(event)
-    {
-      if (optionsRef.current && !optionsRef.current.contains(event.target))
-        setOptionsShown(false);
-    }
+  // useEffect(() => 
+  // {
+  //   function handleClickOutside(event)
+  //   {
+  //     if (optionsRef.current && !optionsRef.current.contains(event.target))
+  //       setOptionsShown(false);
+  //   }
 
-    if (optionsShown) 
-      document.addEventListener("click", handleClickOutside);
+  //   if (optionsShown) 
+  //     document.addEventListener("click", handleClickOutside);
     
-    return () => { document.removeEventListener("click", handleClickOutside) }
-  }, [optionsShown]);
+  //   return () => { document.removeEventListener("click", handleClickOutside) }
+  // }, [optionsShown]);
 
   return (
     <div className="card" id={ type.name }>
