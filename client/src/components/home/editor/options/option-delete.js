@@ -12,10 +12,14 @@ export default function OptionDelete({ task })
 
   function deleteTask()
   {
-    const taskList = activeProject.tasks;
-    const taskIndex = taskList.findIndex(taskItem => taskItem.id === task.id);
-    const position = taskList[taskIndex].position;
-    taskList.splice(taskIndex, 1);
+    const taskList = activeProject.tasks;    
+    const taskToDelete = taskList.find(listTask => listTask.id === task.id);
+    const filteredTasks = taskList.filter(listTask => listTask.id !== taskToDelete.id);
+    filteredTasks.forEach(listTask => 
+    { 
+      if (listTask.type === taskToDelete.type && listTask.position > taskToDelete.position) 
+        listTask.position--;
+    })
     
     const projectsCopy = [...projects].map(project => 
     {
@@ -36,11 +40,11 @@ export default function OptionDelete({ task })
       projectID: activeProject.id, 
       taskID: task.id, 
       taskType: task.type, 
-      position: position
+      position: taskToDelete.position
     })
     .then(() => 
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: filteredTasks }));
       setProjects(projectsCopy);
     })
     .catch(err => setResponseError(err, dispatch))
