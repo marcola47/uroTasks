@@ -6,6 +6,7 @@ import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
 import ProjCreator from '../components/home/proj-creator/proj-creator';
 import Editor from '../components/home/editor/editor';
+import CardOptions from 'components/home/card-options/card-options';
 import { Screensaver } from 'components/home/dashboard/screensaver/screensaver';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,6 +33,7 @@ export default function HomePage()
 
       <AnimateTransit children={ state.projCreatorShown && <ProjCreator/> }/>
       <AnimateTransit children={ state.editorParams && state.editorData && <Editor/> }/>
+      <AnimateTransit children={ state.cardParams && state.cardData && <CardOptions/> }/>
     </>
   )
 }

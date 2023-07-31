@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
-import { OptionsContext } from '../card';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -8,8 +8,7 @@ import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-
 export default function OptionMoveList({ type })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext)
-  const { state, dispatch } = useContext(ReducerContext);
-  const { optionsShown, setOptionsShown } = useContext(OptionsContext);
+  const { dispatch } = useContext(ReducerContext);
   
   const [paramsShown, setParamsShown] = useState(false);
   const [projListShown, setProjListShown] = useState(false);
@@ -20,10 +19,64 @@ export default function OptionMoveList({ type })
 
   function moveList()
   {
-    setOptionsShown(false);
+    // implement cross project moving
+    const positions = { old: type.position, new: newPosition };
+    const typesList = activeProject.types;
+
+    if (positions.new > positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== type.id && listType.position >= positions.old && listType.position <= positions.new)
+          listType.position--;
+
+        else if (listType.id === type.id)
+          listType.position = positions.new
+
+        return listType;
+      })
+    }
+
+    else if (positions.new < positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== type.id && listType.position <= positions.old && listType.position >= positions.new)
+          listType.position++;
+
+        else if (listType.id === type.id)
+          listType.position = positions.new
+
+        return listType;
+      })
+    }
+
+    const projectsCopy = [...projects].map(project => 
+    {
+      if (project.id === activeProject.id)
+        project.types = typesList;
+
+      return project;
+    })
+
+    axios.post('/a/project/update?type=types&crud=moveList', 
+    {
+      curProjectID: activeProject.id,
+      newProjectID: newProject.id,
+      typeID: type.id,
+      positions: positions
+    })
+    .then(() => 
+    {
+      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
+      setProjects(projectsCopy);
+    })
+    .catch(err => setResponseError(err, dispatch))
+
     setParamsShown(false);
     setProjListShown(false);
     setPosListShown(false);
+    dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
   }
 
   function iterateListPosition(mode)
@@ -37,6 +90,31 @@ export default function OptionMoveList({ type })
       return newPosition <= 1 ? null : setNewPosition(newPosition - 1);
   }
 
+  function showList(show)
+  {
+    if (show === 'proj')
+    {
+      setPosListShown(false)
+      
+      if (projListShown)
+        setProjListShown(false)
+      
+      else 
+        setProjListShown(true)
+    }
+
+    if (show === 'pos')
+    {
+      setProjListShown(false)
+
+      if (posListShown)
+        setPosListShown(false)
+      
+      else 
+        setPosListShown(true)
+    }
+  }
+
   function ListProject({ project })
   {
     function updateListProject()
@@ -46,7 +124,7 @@ export default function OptionMoveList({ type })
     }
 
     return (
-      <li className='move__list__item' onClick={ () => {updateListProject(project)} }>
+      <li className='move__list__item' onClick={ updateListProject }>
         { project.name }
         { project.name === activeProject.name ? ' (current)' : null }
       </li>
@@ -62,7 +140,7 @@ export default function OptionMoveList({ type })
     }
 
     return (
-      <li className='move__list__item' onClick={ () => {updateListPosition(position)} }>
+      <li className='move__list__item' onClick={ updateListPosition }>
         { position }
         { position === type.position ? ' (current)' : null }
       </li>
@@ -76,7 +154,7 @@ export default function OptionMoveList({ type })
 
       <div className={`move ${paramsShown ? 'move--shown' : 'move--hidden'}`} onClick={ e => { e.stopPropagation() }}>
         <div className="move__param move__project">
-          <div className='move__container' onClick={ () => {setProjListShown(!projListShown)} }>
+          <div className='move__container' onClick={ () => {showList('proj')} }>
             <div className="move__header">Project</div>
             <div className="move__content">{ newProject.name }</div>
           </div>
@@ -90,7 +168,7 @@ export default function OptionMoveList({ type })
         </div>
         
         <div className="move__param move__position">
-          <div className='move__container' onClick={ () => {setPosListShown(!posListShown)} }>
+          <div className='move__container' onClick={ () => {showList('pos')} }>
             <div className="move__header">Position</div>
             <div className="move__content">{ newPosition }</div>
           </div>
@@ -112,9 +190,7 @@ export default function OptionMoveList({ type })
           <FontAwesomeIcon icon={ faArrowRight }/>
           </div>
 
-          <div className="move__submit" onClick={ moveList }>
-            MOVE
-          </div>
+          <div className="move__submit" onClick={ moveList }>MOVE</div>
         </div>
       </div>
     </div>

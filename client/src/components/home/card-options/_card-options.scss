@@ -1,0 +1,211 @@
+@import '../../../css/variables';
+
+.card__options
+{
+  display: flex;
+  flex-direction: column;
+  
+  z-index: 99;
+
+  position: absolute;
+  top: 40px;
+  right: 0px;
+
+  width: 200px;
+  padding: 8px;
+  border-radius: $br-big;
+
+  color: $white-light;
+  background-color: $bg-blue-light;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
+
+  font-size: 1rem;
+  @include transition;
+
+  .separator
+  {
+    border-radius: 2px;
+    border: 1px solid $grey-dark;
+    margin-block: 4px;
+  }
+
+  .option
+  {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    position: relative;
+    padding: 8px;
+    margin-block: 2px;
+    border-radius: $br-small;
+
+    user-select: none;
+    cursor: pointer;
+
+    @include transition;
+
+    &:hover
+    {
+      color: $bg-blue-dark;
+      background-color: $white-light;
+    }
+
+    &--caution:hover
+    {
+      color: $white-light;
+      background-color: $yellow-light;
+    }
+
+    &--danger:hover
+    {
+      color: $white-light;
+      background-color: $red-dark;
+    }
+
+    & > svg
+    { width: 16px }
+
+    .move
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      position: absolute;
+      top: 40px;
+      left: 0px;
+      width: 184px;
+      padding: 8px;
+      border-radius: $br-small;
+
+      color: $white-light;
+      background-color: $bg-blue-mid;
+
+      @include transition;
+
+      &--shown
+      {
+        z-index: 2;
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      &--hidden
+      {
+        z-index: -100;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &__container
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;  
+      }
+
+      &__param
+      {
+        position: relative;
+        padding: 4px;
+        border-radius: $br-small;
+
+        background-color: $bg-blue-light;
+
+        ::-webkit-scrollbar-thumb 
+        { background: $bg-blue-bright }
+      }
+
+      &__header
+      {
+        color: $grey-light;
+        font-size: 0.85rem;
+      }
+
+      &__list
+      {
+        display: flex;
+        flex-direction: column;
+        
+        z-index: 2;
+        overflow-y: auto;
+
+        position: absolute;
+        top: 50px;
+        left: 0px;
+        width: 100%;
+        max-height: 196px;
+        border-radius: $br-small;
+
+        background-color: $bg-blue-light;
+
+        &--proj
+        { 
+          z-index: 3 
+        }
+
+        &__item
+        {
+          flex: 0 0 32px;
+
+          width: calc(100%);
+          padding: 8px 4px;
+
+          font-size: 0.95rem;
+
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          @include transition;
+
+          &:hover
+          {
+            color: $bg-blue-dark;
+            background-color: $white-light;
+          }
+        }
+      }
+
+      &__btns
+      {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        & > *
+        {
+          display: grid;
+          place-items: center;
+
+          height: 24px;
+
+          @include transition;
+        }
+      }
+
+      &__btn
+      {
+
+        border-radius: $br-small;
+
+        color: $bg-blue-dark;
+        background-color: $white-dark;
+
+        &:hover
+        { background-color: $white-light }
+      }
+
+      &__submit
+      {
+        grid-column: span 2;
+        border-radius: $br-small;
+        background-color: $blue-dark;
+
+        &:hover
+        { background-color: $blue-light }
+      }
+    }
+  }
+}

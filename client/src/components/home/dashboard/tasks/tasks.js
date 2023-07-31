@@ -8,7 +8,6 @@ export default function Tasks()
 {
   const { activeProject } = useContext(ProjectsContext);
   const typesOrdered = activeProject.types.sort((a, b) => {return a.position - b.position})
-
   const listRef = useRef(null);
 
   // don't judge me
@@ -20,7 +19,7 @@ export default function Tasks()
     if (listElement)
       listElement.scrollLeft = Number(storedScrollOffsetX);
 
-  }, []);
+  }, [activeProject.id]);
 
   // don't judge me
   function handleScroll() 

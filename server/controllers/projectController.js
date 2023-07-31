@@ -112,8 +112,8 @@ projectController.updateTypes = async (req, res, session) =>
       { session }
     );
     
-    res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${new Date()}: successfully updated task types`);
+    res.status(201).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project types`);
   }
 
   else if (req.query.crud === 'updateName')
@@ -136,7 +136,7 @@ projectController.updateTypes = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${new Date()}: successfully updated type to ${data.typeName}`);
+    console.log(`${new Date()}: successfully updated project types`);
   }
 
   else if (req.query.crud === 'deleteList')
@@ -156,6 +156,52 @@ projectController.updateTypes = async (req, res, session) =>
       { $pull: { types: { id: data.typeID } } }, 
       { session }
     );
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project types`);
+  }
+
+  else if (req.query.crud === 'moveList')
+  {
+    // implement cross project moving
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    const curProject = await Project.findOne({ id: data.curProjectID })
+    const typesList = curProject.types;
+
+    if (data.positions.new > data.positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== data.typeID && listType.position >= data.positions.old && listType.position <= data.positions.new)
+          listType.position--;
+
+        else if (listType.id === data.typeID)
+          listType.position = data.positions.new
+
+        return listType;
+      })
+    }
+
+    else if (data.positions.new < data.positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== data.typeID && listType.position <= data.positions.old && listType.position >= data.positions.new)
+          listType.position++;
+
+        else if (listType.id === data.typeID)
+          listType.position = data.positions.new
+
+        return listType;
+      })
+    }
+    
+    await Project.updateOne
+    (
+      { id: data.curProjectID }, 
+      { $set: { types: typesList } }
+    )
 
     res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
