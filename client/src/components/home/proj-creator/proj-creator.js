@@ -33,6 +33,7 @@ export default function ProjCreator()
       color: color,
       activeTasks: 0,
       users: [user.id],
+      tags: [],
       types: 
       [
         {

@@ -14,12 +14,6 @@
 
   @include transition;
 
-  &--shown
-  { 
-    opacity: 1; 
-    z-index: 100;
-  }
-
   &__position
   {
     position: absolute;
@@ -113,7 +107,7 @@
       }
     }
 
-    &__select
+    .type__select
     {
       opacity: 0;
 
@@ -155,43 +149,158 @@
         pointer-events: initial;
         cursor: pointer;
       }
+
+      .type__locations
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        max-height: 256px;
+        padding: 4px;
+        border-radius: $br-small;
+
+        overflow-y: auto;
+
+        .type__location
+        { 
+          flex: 0 0 42px;
+  
+          width: calc(100%);
+          height: 42px;
+          padding: 12px 8px;
+          border-radius: $br-small;
+  
+          color: $bg-blue-dark;
+          background-color: $white-dark;
+  
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+          font-weight: 500;
+  
+          @include transition;
+  
+          &:hover
+          { background-color: $white-light; }
+        }
+      }
     }
 
-    &__locations
+    .tags__settings
     {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 16px;
+      
+      z-index: 123;
 
-      max-height: 256px;
-      padding: 4px;
-      border-radius: $br-small;
-
-      overflow-y: auto;
-    }
-
-    &__location
-    { 
-      flex: 0 0 42px;
-
-      width: calc(100%);
-      height: 42px;
+      position: absolute;
+      top: 0px;
+      right: 46px;
+      width: 218px;
+      height: 268px;
       padding: 12px 8px;
-      border-radius: $br-small;
+      border-radius: $br-big;
 
-      color: $bg-blue-dark;
-      background-color: $white-dark;
+      background-color: $bg-blue-light;
 
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      text-align: center;
-      font-weight: 500;
+      ::-webkit-scrollbar-track
+      { margin: 0 }
 
-      @include transition;
+      ::-webkit-scrollbar-thumb 
+      { background: $bg-blue-bright }
 
-      &:hover
-      { background-color: $white-light; }
+      .tags__list
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        padding: 4px;
+        overflow: auto;
+
+        .tags__tag
+        {
+          display: grid;
+          grid-template-columns: 24px auto 24px;
+          gap: 6px;
+
+          & > *
+          { 
+            height: 24px;
+            border-radius: $br-small;
+            cursor: pointer;
+          }
+
+          .tag__operation
+          { 
+            border: 2px solid hsl(211, 18%, 55%); 
+            @include transition;
+
+            &:hover
+            { background-color: hsl(211, 18%, 40%) }
+
+            &--checked
+            { background-color: hsl(211, 18%, 55%) }
+          }
+
+          .tag__name
+          {
+            padding: 3px 4px;
+          
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            @include transition;
+          }
+
+          .tag__edit
+          {
+            display: grid;
+            place-items: center;
+
+            @include transition;
+
+            &:hover
+            {
+              color: $bg-blue-dark;
+              background-color: $white-light;
+            }
+          }
+        }
+      }
+
+      .tags__empty
+      {
+        padding: 8px;
+        border-radius: $br-small;
+
+        text-align: center;
+
+        background-color: $bg-blue-mid;
+      }
+
+      .tags__create
+      {
+        margin-top: auto;
+        padding: 8px;
+        border-radius: $br-small;
+
+        background-color: $blue-dark;
+
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+
+        @include transition;
+
+        &:hover
+        { background-color: $blue-light; }
+      }
     }
   }
 }

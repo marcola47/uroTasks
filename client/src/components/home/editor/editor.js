@@ -9,10 +9,15 @@ import OptionType from './options/option-type';
 import OptionPosition from './options/option-position';  
 import OptionDelete from './options/option-delete';
 
+export const SubMenusContext = React.createContext();
+
 export default function Editor()
 {
   const { state, dispatch } = useContext(ReducerContext);
+  
   const [bottom, setBottom] = useState(0);
+  const [subMenus, setSubMenus] = useState({ tags: false, type: false })
+  
   const optionsRef = useRef(null);
 
   const editorStyle = 
@@ -46,11 +51,13 @@ export default function Editor()
         <EditorText/> 
 
         <div className="options" ref={ optionsRef } style={ optionsStyle }>
-          <OptionEllipsis/>
-          <OptionTags task={ state.editorData }/>
-          <OptionType task={ state.editorData }/>
-          <OptionPosition task={ state.editorData }/>
-          <OptionDelete task={ state.editorData }/>
+          <SubMenusContext.Provider value={{ subMenus, setSubMenus }}>
+            <OptionEllipsis/>
+            <OptionTags task={ state.editorData }/>
+            <OptionType task={ state.editorData }/>
+            <OptionPosition task={ state.editorData }/>
+            <OptionDelete task={ state.editorData }/>
+          </SubMenusContext.Provider>
         </div>
       </div>
     }

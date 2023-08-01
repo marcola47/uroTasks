@@ -7,10 +7,10 @@ import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionType({ task })
 {
-  const [changeTypeOpen, setChangeTypeOpen] = useState(false)
-
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
+
+  const [typeSelectOpen, setTypeSelectOpen] = useState(false)
   
   const taskTypes = activeProject.types.filter(type => type.id !== task.type);
 
@@ -83,18 +83,18 @@ export default function OptionType({ task })
   return (
     <>
       <div className='option option--type'>
-        <div className='option__icon' onClick={ () => {setChangeTypeOpen(!changeTypeOpen)} }><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
+        <div className='option__icon' onClick={ () => {setTypeSelectOpen(!typeSelectOpen)} }><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
       </div>
 
-      <div className={ `options__select ${changeTypeOpen ? 'options__select--shown' : ''}` }>
-        <div className="options__locations">
+      <div className={ `type__select ${typeSelectOpen ? 'type__select--shown' : ''}` }>
+        <div className="type__locations">
         { 
           taskTypes.map(taskType => 
           {
             return (
               <div 
                 key={ taskType.id }
-                className='options__location' 
+                className='type__location' 
                 onClick={ () => {updateTaskType(taskType)} }
               >
                 { taskType.name.toUpperCase() }
