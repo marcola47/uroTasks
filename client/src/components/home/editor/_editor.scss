@@ -240,7 +240,15 @@
             { background-color: hsl(211, 18%, 40%) }
 
             &--checked
-            { background-color: hsl(211, 18%, 55%) }
+            { 
+              background-color: hsl(211, 18%, 55%);
+
+              &:hover
+              { 
+                border-color: hsl(211, 18%, 60%);
+                background-color: hsl(211, 18%, 60%);
+              }
+            }
           }
 
           .tag__name

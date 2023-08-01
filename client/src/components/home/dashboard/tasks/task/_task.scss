@@ -1,7 +1,11 @@
 @import '../../../../../css/_variables.scss';
 
 .task
-{  
+{ 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
   position: relative;
   width: 100%;
   padding: 12px;
@@ -20,6 +24,22 @@
     color: $grey-light;
 
     font-size: 0.6rem;
+  }
+
+  &__tags
+  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &__tag
+  {
+    padding: 1px 8px;
+    border-radius: $br-small;
+    
+    font-size: 0.9rem;
+    font-weight: 500;
   }
 
   &__text

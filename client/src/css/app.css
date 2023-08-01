@@ -616,6 +616,9 @@
   }
 }
 .task {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   position: relative;
   width: 100%;
   padding: 12px;
@@ -629,6 +632,17 @@
   top: 2px;
   color: hsl(0, 0%, 72%);
   font-size: 0.6rem;
+}
+.task__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.task__tag {
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 .task__text {
   font-size: 1rem;
@@ -1053,6 +1067,10 @@
 }
 .editor .options .tags__settings .tags__list .tags__tag .tag__operation--checked {
   background-color: hsl(211, 18%, 55%);
+}
+.editor .options .tags__settings .tags__list .tags__tag .tag__operation--checked:hover {
+  border-color: hsl(211, 18%, 60%);
+  background-color: hsl(211, 18%, 60%);
 }
 .editor .options .tags__settings .tags__list .tags__tag .tag__name {
   padding: 3px 4px;
