@@ -952,20 +952,17 @@
   height: 42px;
 }
 .editor .options .type__select {
-  opacity: 0;
   position: absolute;
   top: 0px;
-  left: -164px;
-  width: 160px;
-  max-height: 100%;
-  padding: 4px;
-  border: 2px solid hsl(0, 0%, 85%);
+  right: 46px;
+  width: 218px;
+  height: 100%;
+  padding: 8px 4px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 18%, 25%);
   font-size: 1.2rem;
   font-weight: 400;
-  pointer-events: none;
-  cursor: default;
+  overflow: hidden;
   transition: all 0.1s ease-in-out;
 }
 .editor .options .type__select ::-webkit-scrollbar {
@@ -973,30 +970,29 @@
 }
 .editor .options .type__select ::-webkit-scrollbar-thumb {
   border-radius: 2px;
+  background-color: hsl(211, 18%, 30%);
 }
 .editor .options .type__select ::-webkit-scrollbar-track {
-  margin: 4px;
+  margin: 0;
   border-radius: 2px;
 }
-.editor .options .type__select--shown {
-  opacity: 1;
-  pointer-events: initial;
-  cursor: pointer;
+.editor .options .type__select .type__header {
+  padding: 4px;
+  margin-bottom: 4px;
 }
 .editor .options .type__select .type__locations {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 256px;
+  max-height: 220px;
   padding: 4px;
   border-radius: 3px;
   overflow-y: auto;
 }
 .editor .options .type__select .type__locations .type__location {
-  flex: 0 0 42px;
+  flex: 0 0 36px;
   width: 100%;
-  height: 42px;
-  padding: 12px 8px;
+  padding: 8px;
   border-radius: 3px;
   color: hsl(211, 18%, 5%);
   background-color: hsl(0, 0%, 85%);
@@ -1005,6 +1001,7 @@
   text-overflow: ellipsis;
   text-align: center;
   font-weight: 500;
+  cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
 .editor .options .type__select .type__locations .type__location:hover {

@@ -16,7 +16,7 @@ export default function Editor()
   const { state, dispatch } = useContext(ReducerContext);
   
   const [bottom, setBottom] = useState(0);
-  const [subMenus, setSubMenus] = useState({ tags: false, type: false })
+  const [subMenus, setSubMenus] = useState({ tags: false, types: false })
   
   const optionsRef = useRef(null);
 

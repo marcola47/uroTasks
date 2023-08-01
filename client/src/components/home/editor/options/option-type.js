@@ -1,6 +1,10 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
+import { SubMenusContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
+
+import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/transitions';
+import List from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
@@ -9,8 +13,7 @@ export default function OptionType({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
-
-  const [typeSelectOpen, setTypeSelectOpen] = useState(false)
+  const { subMenus, setSubMenus } = useContext(SubMenusContext);
   
   const taskTypes = activeProject.types.filter(type => type.id !== task.type);
 
@@ -58,7 +61,6 @@ export default function OptionType({ task })
       return project;
     })
 
-
     axios.post(`/a/task/update?type=type`, 
     {
       projectID: activeProject.id, 
@@ -80,30 +82,35 @@ export default function OptionType({ task })
     .catch(err => setResponseError(err, dispatch))
   }
 
+  function TypeLocation({ itemData })
+  {
+    return (
+      <div key={ itemData.id } className='type__location' onClick={ () => {updateTaskType(itemData)} }>
+        { itemData.name.toUpperCase() }
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className='option option--type'>
-        <div className='option__icon' onClick={ () => {setTypeSelectOpen(!typeSelectOpen)} }><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
+      <div className='option option--type' onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
+        <div className='option__icon'><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
       </div>
 
-      <div className={ `type__select ${typeSelectOpen ? 'type__select--shown' : ''}` }>
-        <div className="type__locations">
-        { 
-          taskTypes.map(taskType => 
-          {
-            return (
-              <div 
-                key={ taskType.id }
-                className='type__location' 
-                onClick={ () => {updateTaskType(taskType)} }
-              >
-                { taskType.name.toUpperCase() }
-              </div>
-            )
-          }) 
-        }
-        </div>
-      </div>
+      <AnimateTransit>
+      {
+        subMenus.types &&
+        <TransitionOpacity className="type__select">
+          <div className="type__header">Suggested</div>
+          <List
+            classes='type__locations'
+            ids={`list--${task.id}:types`} 
+            elements={ taskTypes }
+            ListItem={ TypeLocation }
+          />
+        </TransitionOpacity>
+      }
+      </AnimateTransit>
     </>
   )
 }
