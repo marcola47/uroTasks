@@ -70,143 +70,139 @@ taskController.create = async (req, res) =>
   }
 }
 
-
 /*********************************************************************************************************************************/
 taskController.updateContent = async (req, res) => 
 {
-  try 
-  {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
+  const newAccessToken = req.newAccessToken ?? null;
+  const data = req.body;
 
-    await Task.updateOne
-    (
-      { id: data.taskID }, 
-      { content: data.newContent, updated_at: new Date() }
-    );
-    
-    res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
-  }
-
-  catch (error)
-  {
-    console.log(error);
-    res.status(500).send(
-    { 
-      header: "Failed to update task",
-      message: "Internal server error on updating task" 
-    })
-  }
+  await Task.updateOne
+  (
+    { id: data.taskID }, 
+    { content: data.newContent, updated_at: new Date() }
+  );
+  
+  res.status(200).send({ newAccessToken: newAccessToken });
+  console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
 }
 
 /*********************************************************************************************************************************/
 taskController.updateType = async (req, res) => 
 {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  const newAccessToken = req.newAccessToken ?? null;
+  const data = req.body;
+  const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
+  const taskList = await Task.find({ id: { $in: project.tasks } });
 
-  try
+  await Promise.all(taskList.map(async task => 
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
-    const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
-    const taskList = await Task.find({ id: { $in: project.tasks } });
-  
-    await Promise.all(taskList.map(async task => 
+    if (task.type === data.types.old && task.position > data.positions.old)
     {
-      if (task.type === data.types.old && task.position > data.positions.old) 
-        await Task.updateOne({ id: task.id }, { $inc: { position: -1 } });
-  
-      else if (task.id === data.taskID) 
-        await Task.updateOne({ id: data.taskID }, { type: data.types.new, position: data.positions.new, updated_at: new Date() });
-    }));
-    
-    await session.commitTransaction();
-    res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
-  }
+      await Task.updateOne
+      (
+        { id: task.id },
+        { $inc: { position: -1 } }
+      );
+    }
 
-  catch (error)
-  {
-    await session.abortTransaction();
-    session.endSession();
+    else if (task.id === data.taskID)
+    {
+      await Task.updateOne
+      (
+        { id: data.taskID }, 
+        { $set: { type: data.types.new, position: data.positions.new, updated_at: new Date() } }
+      );
+    }
+  }));
 
-    console.log(error);
-    res.status(500).send(
-    { 
-      header: "Failed to update task",
-      message: "Internal server error on updating task" 
-    })
-  }
+  res.status(200).send({ newAccessToken: newAccessToken });
+  console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
 }
 
 /*********************************************************************************************************************************/
-taskController.updatePosition = async (req, res) =>
+taskController.updatePosition = async (req, res, session) =>
 {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  const newAccessToken = req.newAccessToken ?? null;
+  const data = req.body;
 
-  try
+  if (data.direction === 'up')
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
-
-    if (data.direction === 'up')
-    {
-      await Task.updateOne
-      (
-        { id: data.updatedTaskID },
-        { $inc: { position: -1 } }
-      );
-      
-      await Task.updateOne
-      (
-        { id: data.otherTaskID }, 
-        { $inc: { position: +1 } }
-      );
-    }
-
-    else if (data.direction === 'down')
-    {
-      await Task.updateOne
-      (
-        { id: data.updatedTaskID }, 
-        { $inc: { position: +1 } }
-      );
-      
-      await Task.updateOne
-      (
-        { id: data.otherTaskID }, 
-        { $inc: { position: -1 } }
-      );
-    }
-
-    else 
-      throw new Error('Invalid direction');
-  
-    await session.commitTransaction();
-    res.status(200).send({ newAccessToken: newAccessToken })
-    console.log(`${new Date()}: successfully updated task position`);
+    await Task.updateOne
+    (
+      { id: data.updatedTaskID },
+      { $inc: { position: -1 } },
+      { session }
+    );
+    
+    await Task.updateOne
+    (
+      { id: data.otherTaskID }, 
+      { $inc: { position: +1 } },
+      { session }
+    );
   }
 
-  catch (error)
+  else if (data.direction === 'down')
   {
-    await session.abortTransaction();
-    session.endSession();
-
-    console.log(error);
-    res.status(500).send(
-    { 
-      header: "Failed to update task",
-      message: "Internal server error on updating task" 
-    })
+    await Task.updateOne
+    (
+      { id: data.updatedTaskID }, 
+      { $inc: { position: +1 } },
+      { session }
+    );
+    
+    await Task.updateOne
+    (
+      { id: data.otherTaskID }, 
+      { $inc: { position: -1 } },
+      { session }
+    );
   }
+
+  else 
+    throw new Error('Invalid direction');
+
+  res.status(200).send({ newAccessToken: newAccessToken })
+  console.log(`${new Date()}: successfully updated task position`);
+}
+
+/*********************************************************************************************************************************/
+taskController.updateTags = async (req, res) =>
+{
+  const newAccessToken = req.newAccessToken ?? null;
+  const data = req.body;
+
+  if (req.query.method === 'push')
+  {
+    await Task.updateOne
+    (
+      { id: data.taskID },
+      { $push: { tags: data.tagID } } 
+    )
+  }
+
+  else if (req.query.method === 'pull')
+  {
+    await Task.updateOne
+    (
+      { id: data.taskID },
+      { $pull: { tags: data.tagID } } 
+    )
+  }
+
+  else 
+    throw new Error('Invalid method');
+
+  res.status(200).send({ newAccessToken: newAccessToken })
+  console.log(`${new Date()}: successfully updated task tags`);
 }
 
 /*********************************************************************************************************************************/
 taskController.update = async (req, res) => 
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try 
   {
     const type = req.query.type;
@@ -214,14 +210,22 @@ taskController.update = async (req, res) =>
     if (type === 'content')
       await taskController.updateContent(req, res);
 
-    else if (type === 'type')
+    else if (type === 'type') // sessions sometimes, for whatever reason, don't work here
       await taskController.updateType(req, res);
 
     else if (type === 'position')
-      await taskController.updatePosition(req, res);
+      await taskController.updatePosition(req, res, session);
+
+    else if (type === 'tags')
+      await taskController.updateTags(req, res);
+
+    await session.commitTransaction();
   }
   catch (error)
   {
+    await session.abortTransaction();
+    session.endSession();
+
     console.log(error)
     res.status(500).send(
     { 

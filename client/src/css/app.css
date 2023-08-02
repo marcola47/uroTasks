@@ -74,7 +74,7 @@
   padding: 8px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
   font-size: 1rem;
   transition: all 0.1s ease-in-out;
@@ -99,7 +99,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card__options .option:hover {
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .card__options .option--caution:hover {
@@ -124,7 +124,7 @@
   padding: 8px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   transition: all 0.1s ease-in-out;
 }
 .card__options .option .move--shown {
@@ -146,10 +146,10 @@
   position: relative;
   padding: 4px;
   border-radius: 3px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
 }
 .card__options .option .move__param ::-webkit-scrollbar-thumb {
-  background: hsl(211, 18%, 30%);
+  background: hsl(211, 17%, 30%);
 }
 .card__options .option .move__header {
   color: hsl(0, 0%, 72%);
@@ -166,7 +166,7 @@
   width: 100%;
   max-height: 196px;
   border-radius: 3px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
 }
 .card__options .option .move__list--proj {
   z-index: 3;
@@ -182,7 +182,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card__options .option .move__list__item:hover {
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .card__options .option .move__btns {
@@ -198,7 +198,7 @@
 }
 .card__options .option .move__btn {
   border-radius: 3px;
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .card__options .option .move__btn:hover {
@@ -305,7 +305,7 @@
   max-width: 100%;
   margin: 0px 72px 48px 72px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   transition: all 0.1s ease-in-out;
 }
 .searchbar .fa-magnifying-glass {
@@ -439,7 +439,7 @@
   transition: all 0.1s ease-in-out;
 }
 .taskbar__option--delete:hover, .taskbar__option--delete--active {
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 100%, 58%);
 }
 .taskbar__option--delete .fa-trash-can {
@@ -494,17 +494,17 @@
   height: fit-content;
   padding: 4px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   transition: all 0.1s ease-in-out;
 }
 .card ::-webkit-scrollbar-track {
   margin: 0;
   border-radius: 2px;
-  background: hsl(211, 18%, 10%);
+  background: hsl(211, 17%, 10%);
 }
 .card ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background: hsl(211, 18%, 25%);
+  background: hsl(211, 17%, 25%);
 }
 .card .options {
   position: absolute;
@@ -517,7 +517,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card .options:hover {
-  background-color: hsl(211, 18%, 30%);
+  background-color: hsl(211, 17%, 30%);
 }
 .card__header {
   font-size: 1rem;
@@ -554,7 +554,7 @@
   padding: 12px;
   border-radius: 3px;
   color: inherit;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   font-family: inherit;
   font-size: inherit;
 }
@@ -621,7 +621,7 @@
   position: relative;
   width: 100%;
   border-radius: 3px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   cursor: default;
 }
 .task__position {
@@ -663,7 +663,7 @@
   width: 42px;
   height: 42px;
   border-radius: 3px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   box-shadow: -3px -8px 10px hsla(211, 18%, 15%, 0.35);
   font-size: 1.2rem;
   cursor: pointer;
@@ -673,7 +673,7 @@
   transition: all 0.1s ease-in-out;
 }
 .task__options:hover {
-  color: hsl(211, 18%, 25%);
+  color: hsl(211, 17%, 25%);
   background-color: hsl(0, 0%, 100%);
 }
 .task__options__icon {
@@ -741,7 +741,7 @@
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 6px;
   color: inherit;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   font-family: inherit;
   font-size: inherit;
 }
@@ -751,7 +751,7 @@
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 6px;
   color: white;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   font-size: 1rem;
   font-weight: 500;
   text-align: left;
@@ -822,7 +822,7 @@
   width: calc(100% - 420px);
   padding-block: 80px 8px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 5%);
+  background-color: hsl(211, 17%, 5%);
   transition: all 0.1s ease-in-out;
 }
 .dashboard ::-webkit-scrollbar {
@@ -896,7 +896,7 @@
   height: fit-content;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   transition: all 0.1s ease-in-out;
 }
 .editor__position {
@@ -948,7 +948,7 @@
   width: 42px;
   height: 42px;
   border-radius: 3px;
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 85%);
   font-size: 1.2rem;
   cursor: pointer;
@@ -992,7 +992,7 @@
   height: 100%;
   padding: 8px 4px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   font-size: 1.2rem;
   font-weight: 400;
   overflow: hidden;
@@ -1003,7 +1003,7 @@
 }
 .editor .options .type__select ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background-color: hsl(211, 18%, 30%);
+  background-color: hsl(211, 17%, 30%);
 }
 .editor .options .type__select ::-webkit-scrollbar-track {
   margin: 0;
@@ -1027,7 +1027,7 @@
   width: 100%;
   padding: 8px;
   border-radius: 3px;
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 85%);
   overflow: hidden;
   white-space: nowrap;
@@ -1052,13 +1052,13 @@
   height: 268px;
   padding: 12px 8px;
   border-radius: 6px;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
 }
 .editor .options .tags__settings ::-webkit-scrollbar-track {
   margin: 0;
 }
 .editor .options .tags__settings ::-webkit-scrollbar-thumb {
-  background: hsl(211, 18%, 30%);
+  background: hsl(211, 17%, 30%);
 }
 .editor .options .tags__settings .tags__list {
   display: flex;
@@ -1105,14 +1105,14 @@
   transition: all 0.1s ease-in-out;
 }
 .editor .options .tags__settings .tags__list .tags__tag .tag__edit:hover {
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .editor .options .tags__settings .tags__empty {
   padding: 8px;
   border-radius: 3px;
   text-align: center;
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
 }
 .editor .options .tags__settings .tags__create {
   margin-top: auto;
@@ -1287,7 +1287,7 @@
   margin-left: auto;
   padding: 2px 8px;
   border-radius: 3px;
-  background-color: hsl(211, 18%, 5%);
+  background-color: hsl(211, 17%, 5%);
   text-align: center;
 }
 
@@ -1386,7 +1386,7 @@
   height: 100dvh;
   padding: 32px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
   transform-origin: left;
   transition: all 0.1s ease-in-out;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.0392156863);
@@ -1453,7 +1453,7 @@
   padding: 16px;
   border-radius: 6px;
   color: white;
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   transform: translate(-50%, -50%);
 }
 .proj-creator__title {
@@ -1469,7 +1469,7 @@
   width: 100%;
   padding: 8px;
   border-radius: 3px;
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .proj-creator #input--name {
@@ -1557,7 +1557,7 @@
   height: 100dvh;
   padding-top: 64px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
 }
 .login__logo {
   position: relative;
@@ -1585,7 +1585,7 @@
   padding: 12px 16px 12px 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   cursor: text;
 }
 .login__inputs input::-moz-placeholder {
@@ -1685,7 +1685,7 @@
   height: 100dvh;
   padding-top: 64px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 16%);
+  background-color: hsl(211, 17%, 16%);
 }
 .reg__logo {
   position: relative;
@@ -1716,7 +1716,7 @@
   padding: 12px 16px 12px 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   cursor: text;
 }
 .reg__inputs input::-moz-placeholder {
@@ -1856,7 +1856,7 @@
   padding: 16px 32px 16px 0px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   transition: all 0.1s ease-in-out;
 }
 .notification::before {
@@ -1913,7 +1913,7 @@
   padding: 32px;
   border-radius: 9px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 18%, 25%);
+  background-color: hsl(211, 17%, 25%);
   transform: translate(-50%, -50%);
 }
 .confirmation__data {
@@ -1964,7 +1964,7 @@
   background-color: hsl(145, 77%, 50%);
 }
 .confirmation__btns .btn--confirmation--neutral {
-  color: hsl(211, 18%, 5%);
+  color: hsl(211, 17%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .confirmation__btns .btn--confirmation--neutral:hover {
@@ -2002,7 +2002,7 @@ html {
 }
 
 body {
-  background-color: hsl(211, 18%, 5%);
+  background-color: hsl(211, 17%, 5%);
 }
 
 a {
@@ -2033,16 +2033,16 @@ input, button {
 ::-webkit-scrollbar-track {
   margin: 8px;
   border-radius: 6px;
-  background: hsl(211, 18%, 16%);
+  background: hsl(211, 17%, 16%);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
-  background: hsl(211, 18%, 25%);
+  background: hsl(211, 17%, 25%);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(211, 18%, 30%);
+  background-color: hsl(211, 17%, 30%);
 }
 
 /***************************************************************************************************************/

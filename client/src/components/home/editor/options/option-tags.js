@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import { SubMenusContext } from '../editor';
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/transitions';
 import getTextColor from 'utils/getTextColor';
@@ -21,39 +22,25 @@ export default function OptionTags({ task })
 
   function toggleTag(tag)
   {
+    let method = 'push';
+    let tagsList = [];
+
     if (task.tags.includes(tag.id))
     {
-      const filteredTagsList = task.tags.filter(listTag => listTag !== tag.id)
-
-      const taskList = activeProject.tasks.map(listTask => 
-      {
-        if (listTask.id === task.id)
-          listTask.tags = filteredTagsList;
-
-        return listTask;
-      })
-    
-      const projectsCopy = projects.map(project => 
-      {
-        if (project.id === activeProject.id)
-          project.tasks = taskList
-
-        return project;
-      })
-
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tasks: taskList }))
-      setProjects(projectsCopy)
+      method = 'pull';
+      tagsList = task.tags.filter(listTag => listTag !== tag.id)
     }
 
     else
     {
-      const newTagsList = task.tags
-      newTagsList.push(tag.id)
+      tagsList = task.tags;
+      tagsList.push(tag.id)
+    }
 
-      const taskList = activeProject.tasks.map(listTask => 
+    const taskList = activeProject.tasks.map(listTask => 
       {
         if (listTask.id === task.id)
-          listTask.tags = newTagsList;
+          listTask.tags = tagsList;
 
         return listTask;
       })
@@ -66,9 +53,18 @@ export default function OptionTags({ task })
         return project;
       })
 
+    axios.post(`/a/task/update?type=tags&method=${method}`,
+    {
+      taskID: task.id,
+      tagID: tag.id,
+      method: method
+    })
+    .then(() => 
+    {
       setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tasks: taskList }))
       setProjects(projectsCopy)
-    }
+    })
+    .catch(err => setResponseError(err, dispatch))
   }
 
   function Tag({ itemData })

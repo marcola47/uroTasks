@@ -7,7 +7,7 @@ import List from 'components/utils/list/list'
 export default function EditorTags({ task })
 {
   const { activeProject } = useContext(ProjectsContext);
-  const taskTagsList = activeProject.tasks.filter(listTask => listTask.id === task.id)[0].tags;
+  const taskTagsList = activeProject.tasks.filter(listTask => listTask.id === task.id)[0].tags ?? [];
   
   const tags = JSON.parse(JSON.stringify(activeProject.tags));
   const filteredTags = tags.filter(tag => taskTagsList.includes(tag.id));

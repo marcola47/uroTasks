@@ -20,10 +20,10 @@ export default function OptionType({ task })
   function updateTaskType(newType)
   { 
     const taskList = activeProject.tasks;
-    const taskToMove = taskList.find(taskItem => taskItem.id === task.id);
+    const taskToMove = taskList.find(listTask => listTask.id === task.id);
     
-    const tasksFiltered = taskList.filter(taskObj => taskObj.type === newType.id);
-    let lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
+    const tasksFiltered = taskList.filter(listTask => listTask.type === newType.id);
+    let lastTaskPos = Math.max(...tasksFiltered.map(listTask => listTask.position));
 
     if (lastTaskPos === -Infinity)
       lastTaskPos = 0;
@@ -31,32 +31,24 @@ export default function OptionType({ task })
     const types = { old: task.type, new: newType.id };
     const positions = { old: taskToMove.position, new: lastTaskPos + 1 };
     
-    taskList.map(taskObj => 
+    taskList.map(listTask => 
     {
-      if (taskObj.id === taskToMove.id)
+      if (listTask.id === taskToMove.id)
       {
-        taskObj.type = types.new;
-        taskObj.position = positions.new;
+        listTask.type = types.new;
+        listTask.position = positions.new;
       }
 
-      else if (taskObj.type === task.type && taskObj.position > positions.old)
-        taskObj.position = taskObj.position - 1;
+      else if (listTask.type === types.old && listTask.position > positions.old)
+        listTask.position = listTask.position - 1;
         
-      return taskObj;
+      return listTask;
     })
 
     const projectsCopy = [...projects].map(project => 
     {
       if (project.id === activeProject.id)
-      {
-        if (types.new === 'done')
-          project.activeTasks = project.activeTasks - 1;
-
-        else if (types.old === 'done')
-          project.activeTasks = project.activeTasks + 1;
-
         project.tasks = taskList;
-      }
 
       return project;
     })
