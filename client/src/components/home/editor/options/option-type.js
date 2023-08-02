@@ -7,7 +7,7 @@ import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/
 import List from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsLeftRight, faArrowTurnDown  } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionType({ task })
 {
@@ -94,7 +94,11 @@ export default function OptionType({ task })
   return (
     <>
       <div className='option option--type' onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
-        <div className='option__icon'><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
+      {
+        subMenus.types
+        ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
+        : <div className='option__icon'><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
+      }
       </div>
 
       <AnimateTransit>

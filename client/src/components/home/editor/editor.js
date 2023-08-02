@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { ReducerContext } from 'app';
 
 import { TransitionOpacity } from 'components/utils/transitions/transitions';
+import EditorTags from './tags/tags';
 import EditorText from './editor-text/editor-text';
 import OptionEllipsis from './options/option-ellipsis'
 import OptionTags from './options/option-tags';
@@ -48,7 +49,10 @@ export default function Editor()
       <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
         <div className='editor__position'>{ state.editorData?.position }</div>
 
-        <EditorText/> 
+        <div className="editor__content">
+          <EditorTags task={ state.editorData }/>
+          <EditorText/> 
+        </div>
 
         <div className="options" ref={ optionsRef } style={ optionsStyle }>
           <SubMenusContext.Provider value={{ subMenus, setSubMenus }}>

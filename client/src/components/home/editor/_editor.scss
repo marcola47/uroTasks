@@ -25,6 +25,24 @@
     font-size: 0.6rem;
   }
 
+  &__tags
+  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    padding: 12px;
+  }
+
+  &__tag
+  {
+    padding: 1px 8px;
+    border-radius: $br-small;
+    
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
   textarea
   {
     width: 100%;
@@ -34,6 +52,7 @@
 
     color: inherit;
     background-color: inherit;
+    box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   
     font-family: inherit;
     font-size: inherit;
@@ -104,6 +123,9 @@
       
         width: 42px; 
         height: 42px;
+
+        .fa-arrow-turn-down
+        { transform: rotate(90deg) }
       }
     }
 

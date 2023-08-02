@@ -7,7 +7,7 @@ import getTextColor from 'utils/getTextColor';
 import List from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faTag, faPencil, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionTags({ task })
 {
@@ -100,7 +100,11 @@ export default function OptionTags({ task })
   return (
     <>
       <div className='option option--tags' onClick={ () => {setSubMenus({ tags:!subMenus.tags, types: false })} }>
-        <div className='option__icon'><FontAwesomeIcon icon={ faTag }/></div>
+      {
+        subMenus.tags
+        ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
+        : <div className='option__icon'><FontAwesomeIcon icon={ faTag }/></div>
+      }
       </div>
 
       <AnimateTransit>

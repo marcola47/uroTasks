@@ -618,10 +618,8 @@
 .task {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   position: relative;
   width: 100%;
-  padding: 12px;
   border-radius: 3px;
   background-color: hsl(211, 18%, 25%);
   cursor: default;
@@ -637,6 +635,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  padding: 12px;
 }
 .task__tag {
   padding: 1px 8px;
@@ -645,9 +644,12 @@
   font-weight: 500;
 }
 .task__text {
+  padding: 12px;
+  border-radius: 3px;
   font-size: 1rem;
-  word-break: break-all;
+  word-break: break-word;
   white-space: pre-wrap;
+  box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
 }
 .task:hover > .task__options {
   opacity: 1;
@@ -662,6 +664,7 @@
   height: 42px;
   border-radius: 3px;
   background-color: hsl(211, 18%, 25%);
+  box-shadow: -3px -8px 10px hsla(211, 18%, 15%, 0.35);
   font-size: 1.2rem;
   cursor: pointer;
   -webkit-user-select: none;
@@ -903,6 +906,18 @@
   color: hsl(0, 0%, 72%);
   font-size: 0.6rem;
 }
+.editor__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 12px;
+}
+.editor__tag {
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
 .editor textarea {
   width: 100%;
   padding: 12px;
@@ -910,6 +925,7 @@
   border-radius: 3px;
   color: inherit;
   background-color: inherit;
+  box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   font-family: inherit;
   font-size: inherit;
 }
@@ -964,6 +980,9 @@
   place-items: center;
   width: 42px;
   height: 42px;
+}
+.editor .options .option__icon .fa-arrow-turn-down {
+  transform: rotate(90deg);
 }
 .editor .options .type__select {
   position: absolute;
