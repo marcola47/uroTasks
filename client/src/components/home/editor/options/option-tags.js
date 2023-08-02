@@ -93,6 +93,8 @@ export default function OptionTags({ task })
     )
   }
 
+  console.log(state.editorParams.w);
+
   return (
     <>
       <div className='option option--tags' onClick={ () => {setSubMenus({ tags:!subMenus.tags, types: false })} }>
@@ -106,7 +108,7 @@ export default function OptionTags({ task })
       <AnimateTransit>
       {
         subMenus.tags &&
-        <TransitionOpacity className="tags__settings">
+        <TransitionOpacity className="tags__settings" style={{ width: `218px` }}>
           {
             orderedTagsList 
             ? <List

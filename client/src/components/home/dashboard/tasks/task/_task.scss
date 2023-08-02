@@ -70,7 +70,7 @@
     border-radius: $br-small;
 
     background-color: $bg-blue-light;
-    box-shadow: -3px -8px 10px hsla(211, 18%, 15%, 0.35);
+    box-shadow: -5px -5px 10px hsla(211, 18%, 15%, 0.35);
 
     font-size: 1.2rem;
 
@@ -101,6 +101,21 @@
 
 @media screen and (max-width: 768px) 
 {
-  .task__options
-  { opacity: 1 }  
+  .task
+  {
+    &__tags
+    { padding-bottom: 0 }
+
+    &__options
+    { 
+      opacity: 1;
+      box-shadow: none;
+    }  
+
+    &__text
+    {
+      padding-right: 48px;
+      box-shadow: none;
+    }
+  }
 }

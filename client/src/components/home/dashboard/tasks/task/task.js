@@ -30,7 +30,7 @@ export default function Task({ itemData })
 
   return (
     <li className="task" id={ itemData?.id } ref={ taskRef }>
-      <div className='task__position'>{ itemData?.position }</div>
+      {/* <div className='task__position'>{ itemData?.position }</div> */}
 
       <TaskTags task={ itemData }/>
 

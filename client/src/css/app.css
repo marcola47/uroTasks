@@ -664,7 +664,7 @@
   height: 42px;
   border-radius: 3px;
   background-color: hsl(211, 17%, 25%);
-  box-shadow: -3px -8px 10px hsla(211, 18%, 15%, 0.35);
+  box-shadow: -5px -5px 10px hsla(211, 18%, 15%, 0.35);
   font-size: 1.2rem;
   cursor: pointer;
   -webkit-user-select: none;
@@ -687,8 +687,16 @@
 }
 
 @media screen and (max-width: 768px) {
+  .task__tags {
+    padding-bottom: 0;
+  }
   .task__options {
     opacity: 1;
+    box-shadow: none;
+  }
+  .task__text {
+    padding-right: 48px;
+    box-shadow: none;
   }
 }
 @keyframes fade_in {
@@ -1048,8 +1056,7 @@
   position: absolute;
   top: 0px;
   right: 46px;
-  width: 218px;
-  height: 268px;
+  height: 100%;
   padding: 12px 8px;
   border-radius: 6px;
   background-color: hsl(211, 17%, 25%);
