@@ -16,7 +16,7 @@
   border-radius: $br-big;
 
   color: $white-light;
-  background-color: $bg-blue-mid-light;
+  background-color: $bg-blue-mid-dim;
 
   overflow: auto;
 
@@ -46,7 +46,7 @@
     
     height: 100%;
 
-    background-color: $bg-blue-mid-light;
+    background-color: $bg-blue-mid-dim;
 
     ::-webkit-scrollbar-track
     { margin: 0 }
@@ -113,7 +113,7 @@
 
       text-align: center;
 
-      background-color: $bg-blue-mid-dim;
+      background-color: $bg-blue-dim;
     }
 
     .tags__create
@@ -153,7 +153,7 @@
       height: 64px;
       border-radius: $br-big;
 
-      background-color: $bg-blue-mid-dim;
+      background-color: $bg-blue-dim;
 
       div
       {
@@ -165,6 +165,7 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        user-select: none;
       }
     }
 
@@ -184,7 +185,7 @@
         padding: 12px;
         border-radius: $br-small;
 
-        background-color: $bg-blue-mid-dim;
+        background-color: $bg-blue-dim;
 
         cursor: text;
       }
