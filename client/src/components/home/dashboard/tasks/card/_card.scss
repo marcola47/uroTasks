@@ -76,7 +76,7 @@
     grid-template-columns: 1fr;
     gap: 16px;
 
-    max-height: 580px;
+    max-height: 640px;
     padding-inline: 4px;
     margin-bottom: 8px;
     border-radius: $br-small;
@@ -133,8 +133,13 @@
   .card
   {
     width: auto;
-    
     scroll-margin: 24px;
     scroll-snap-align: start;
   }
 }
+
+@media screen and (max-height: 883px) { .card__list { max-height: 480px } }
+@media screen and (max-height: 774px) { .card__list { max-height: 420px } }
+@media screen and (max-height: 711px) { .card__list { max-height: 360px } }
+@media screen and (max-height: 651px) { .card__list { max-height: 300px } }
+@media screen and (max-height: 592px) { .card__list { max-height: 240px } }
