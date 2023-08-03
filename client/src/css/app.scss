@@ -40,7 +40,7 @@ input, button
 { 
   margin: 8px;
   border-radius: $br-big;
-  background: $bg-blue-mid 
+  background: $bg-blue-mid-dim 
 }
 
 ::-webkit-scrollbar-thumb 
@@ -88,11 +88,36 @@ input, button
 
 .overlay__bg
 {
-  z-index: 1000;
-  opacity: 1;
+  &--dark
+  {
+    z-index: 1000;
+    opacity: 1;
+  
+    position: absolute;
+    inset: 0;
+  
+    background-color: $bg-overlay-dark;
+  }
 
-  position: absolute;
-  inset: 0;
+  &--mid
+  {
+    z-index: 1000;
+    opacity: 1;
+  
+    position: absolute;
+    inset: 0;
+  
+    background-color: $bg-overlay-mid;
+  }
 
-  background-color: $bg-overlay;
+  &--light
+  {
+    z-index: 1000;
+    opacity: 1;
+  
+    position: absolute;
+    inset: 0;
+  
+    background-color: $bg-overlay-light;
+  }
 }

@@ -23,8 +23,21 @@ export default function CardOptions()
     top: state.cardParams?.y ?? 0,
   }
 
+  function hideOptions()
+  {
+    dispatch(
+    { 
+      type: 'setCardOptions', 
+      payload: 
+      { 
+        params: null, 
+        data: null 
+      } 
+    })
+  }
+
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })} } id='card-options'>
+    <TransitionOpacity className="overlay__bg--light" onClick={ hideOptions } id='card-options'>
     {
       state.cardData && 
       <div className='card__options' style={ optionsStyle } onClick={ e => {e.stopPropagation()} }>

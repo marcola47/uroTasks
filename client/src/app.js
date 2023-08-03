@@ -31,6 +31,7 @@ export default function App()
     fetchTasks: false,
 
     menuShown: JSON.parse(localStorage.getItem("menuOpen")),
+    tagsNameShown: JSON.parse(localStorage.getItem("tagsNameShown")) ?? true,
     projCreatorShown: false,
 
     notification: null,
@@ -38,6 +39,9 @@ export default function App()
 
     confirmation: null,
     confirmationShown: false,
+
+    projSettingsParams: null,
+    projSettingsData: null,
 
     editorParams: null,
     editorData: null,
@@ -61,6 +65,10 @@ export default function App()
         localStorage.setItem("menuOpen", action.payload)
         return { ...state, menuShown: action.payload };
 
+      case 'tagsNameShown':
+        localStorage.setItem("tagsNameShown", action.payload)
+        return { ...state, tagsNameShown: action.payload };
+
       case 'projCreatorShown': 
         return { ...state, projCreatorShown: action.payload };
 
@@ -75,6 +83,9 @@ export default function App()
 
       case 'setNotification': 
         return { ...state, notification: action.payload };
+
+      case 'setProjSettings':
+        return { ...state, projSettingsParams: action.payload.params, projSettingsData: action.payload.data }
 
       case 'setEditor':
         return { ...state, editorParams: action.payload.params, editorData: action.payload.data }

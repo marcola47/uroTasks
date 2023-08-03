@@ -12,7 +12,7 @@ import { faArrowsLeftRight, faArrowTurnDown  } from '@fortawesome/free-solid-svg
 export default function OptionType({ task })
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
   
   const taskTypes = activeProject.types.filter(type => type.id !== task.type);
@@ -85,7 +85,7 @@ export default function OptionType({ task })
 
   return (
     <>
-      <div className='option option--type' onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
+      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
       {
         subMenus.types
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -97,13 +97,15 @@ export default function OptionType({ task })
       {
         subMenus.types &&
         <TransitionOpacity className="type__select">
-          <div className="type__header">Suggested</div>
-          <List
-            classes='type__locations'
-            ids={`list--${task.id}:types`} 
-            elements={ taskTypes }
-            ListItem={ TypeLocation }
-          />
+          <div className="type__select__wrapper" style={{ width: state.editorParams.w }}>
+            <div className="type__header">Suggested</div>
+            <List
+              classes='type__locations'
+              ids={`list--${task.id}:types`} 
+              elements={ taskTypes }
+              ListItem={ TypeLocation }
+            />
+          </div>
         </TransitionOpacity>
       }
       </AnimateTransit>

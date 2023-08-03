@@ -3,7 +3,8 @@ import { useContext } from 'react';
 import { ProjectsContext } from "app";
 
 import { HeaderColor, HeaderTitle } from './header/header'
-import OptionsDelete from './options/options-delete';
+import OptionTags from './options/option-tags';
+import OptionDelete from './options/option-delete';
 
 export default function Taskbar()
 {
@@ -17,7 +18,8 @@ export default function Taskbar()
       </h1>
 
       <div className="taskbar__options">
-        <OptionsDelete/>
+        <OptionTags/>
+        <OptionDelete/>
       </div>
     </div>
   )

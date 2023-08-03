@@ -50,7 +50,6 @@ export default function OptionsDelete()
   }
 
   return (
-    // fix: the trash icon turns red whenever any confirmation is shown
     <div className="taskbar__option taskbar__option--delete" onClick={ showConfirmation }>
       <FontAwesomeIcon icon={ faTrashCan }/>  
     </div>

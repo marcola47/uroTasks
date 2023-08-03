@@ -40,6 +40,11 @@
     
     font-size: 0.9rem;
     font-weight: 500;
+
+    @include transition;
+
+    &--hidden
+    { padding: 4px 8px }
   }
 
   &__text
@@ -55,7 +60,10 @@
   }
 
   &:hover > &__options
-  { opacity: 1; }
+  { 
+    opacity: 1; 
+    top: 0px;
+  }
 
   &__options
   {
@@ -63,14 +71,14 @@
     z-index: 5;
 
     position: absolute;
-    top: 0px;
+    top: 2px;
     right: 0px;
     width: 42px;
     height: 42px;
     border-radius: $br-small;
 
     background-color: $bg-blue-light;
-    box-shadow: -5px -5px 10px hsla(211, 18%, 15%, 0.35);
+    box-shadow: -5px -10px 10px hsla(211, 18%, 15%, 0.35);
 
     font-size: 1.2rem;
 

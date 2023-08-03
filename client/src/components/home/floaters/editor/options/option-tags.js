@@ -78,7 +78,7 @@ export default function OptionTags({ task })
     return (
       <li className='tags__tag'>
         <div 
-          className={`tag__operation ${task.tags.includes(itemData.id) ? 'tag__operation--checked' : ''}` }
+          className={`tag__operation ${task.tags.includes(itemData.id) && 'tag__operation--checked'}` }
           onClick={() => {toggleTag(itemData)}}
         />
         
@@ -97,7 +97,7 @@ export default function OptionTags({ task })
 
   return (
     <>
-      <div className='option option--tags' onClick={ () => {setSubMenus({ tags:!subMenus.tags, types: false })} }>
+      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: !subMenus.tags, types: false })} }>
       {
         subMenus.tags
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -108,19 +108,21 @@ export default function OptionTags({ task })
       <AnimateTransit>
       {
         subMenus.tags &&
-        <TransitionOpacity className="tags__settings" style={{ width: `218px` }}>
-          {
-            orderedTagsList 
-            ? <List
-                classes='tags__list'
-                ids={`list--${task.id}:tags`}
-                elements={ orderedTagsList }
-                ListItem={ Tag }
-              />
+        <TransitionOpacity className="tags__settings">
+          <div className='tags__settings__wrapper' style={{ width: state.editorParams.w }}>
+            {
+              orderedTagsList 
+              ? <List
+                  classes='tags__list'
+                  ids={`list--${task.id}:tags`}
+                  elements={ orderedTagsList }
+                  ListItem={ Tag }
+                />
 
-            : <div className="tags__empty">No tags found.<br/>Create some!</div>
-          }
-          <div className="tags__create">CREATE NEW TAG</div>
+              : <div className="tags__empty">No tags found.<br/>Create some!</div>
+            }
+            <div className="tags__create">CREATE NEW TAG</div>
+          </div>
         </TransitionOpacity>
       }
       </AnimateTransit>

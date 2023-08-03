@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-function List({ elements, ListItem, classes = "", ids = "" })
+function List({ elements, ListItem, onClick, classes = "", ids = "" })
 {
   const listRef = useRef(null);
 
@@ -17,6 +17,8 @@ function List({ elements, ListItem, classes = "", ids = "" })
       listElement.scrollTop = Number(storedScrollOffsetY);
       listElement.scrollLeft = Number(storedScrollOffsetX);
     }
+
+    // eslint-disable-next-line
   }, []);
 
   // don't judge me
@@ -35,7 +37,7 @@ function List({ elements, ListItem, classes = "", ids = "" })
   };
 
   return (
-    <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll }>
+    <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll } onClick={ onClick }>
       { elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }
     </ul>
   )

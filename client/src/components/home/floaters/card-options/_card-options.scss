@@ -1,4 +1,4 @@
-@import '../../../css/variables';
+@import '../../../../css/variables';
 
 .card__options
 {
@@ -16,7 +16,7 @@
   border-radius: $br-big;
 
   color: $white-light;
-  background-color: $bg-blue-light;
+  background-color: $bg-blue-mid-light;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
 
   font-size: 1rem;
@@ -80,7 +80,7 @@
       border-radius: $br-small;
 
       color: $white-light;
-      background-color: $bg-blue-mid;
+      background-color: $bg-blue-mid-dim;
 
       @include transition;
 

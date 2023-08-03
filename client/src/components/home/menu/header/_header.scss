@@ -13,6 +13,8 @@
 
 .menu__logo
 {
+  @include transition;
+
   &:hover
   { @include glow-content }
 
@@ -20,6 +22,5 @@
   {
     max-width: 192px;
     margin-bottom: -12px;
-
   }
 }

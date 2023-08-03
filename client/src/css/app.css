@@ -74,7 +74,7 @@
   padding: 8px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 13%, 20%);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
   font-size: 1rem;
   transition: all 0.1s ease-in-out;
@@ -99,7 +99,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card__options .option:hover {
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .card__options .option--caution:hover {
@@ -124,7 +124,7 @@
   padding: 8px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
   transition: all 0.1s ease-in-out;
 }
 .card__options .option .move--shown {
@@ -146,10 +146,10 @@
   position: relative;
   padding: 4px;
   border-radius: 3px;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
 }
 .card__options .option .move__param ::-webkit-scrollbar-thumb {
-  background: hsl(211, 17%, 30%);
+  background: hsl(210, 13%, 30%);
 }
 .card__options .option .move__header {
   color: hsl(0, 0%, 72%);
@@ -166,7 +166,7 @@
   width: 100%;
   max-height: 196px;
   border-radius: 3px;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
 }
 .card__options .option .move__list--proj {
   z-index: 3;
@@ -182,7 +182,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card__options .option .move__list__item:hover {
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .card__options .option .move__btns {
@@ -198,7 +198,7 @@
 }
 .card__options .option .move__btn {
   border-radius: 3px;
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .card__options .option .move__btn:hover {
@@ -305,7 +305,7 @@
   max-width: 100%;
   margin: 0px 72px 48px 72px;
   border-radius: 6px;
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 20%);
   transition: all 0.1s ease-in-out;
 }
 .searchbar .fa-magnifying-glass {
@@ -439,10 +439,18 @@
   transition: all 0.1s ease-in-out;
 }
 .taskbar__option--delete:hover, .taskbar__option--delete--active {
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 100%, 58%);
 }
 .taskbar__option--delete .fa-trash-can {
+  pointer-events: none;
+  font-size: 1.2rem;
+}
+.taskbar__option--tags:hover, .taskbar__option--tags--active {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 100%);
+}
+.taskbar__option--tags .fa-tag {
   pointer-events: none;
   font-size: 1.2rem;
 }
@@ -494,17 +502,17 @@
   height: fit-content;
   padding: 4px;
   border-radius: 6px;
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
   transition: all 0.1s ease-in-out;
 }
 .card ::-webkit-scrollbar-track {
   margin: 0;
   border-radius: 2px;
-  background: hsl(211, 17%, 10%);
+  background: hsl(210, 13%, 10%);
 }
 .card ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background: hsl(211, 17%, 25%);
+  background: hsl(210, 15%, 23%);
 }
 .card .options {
   position: absolute;
@@ -517,7 +525,7 @@
   transition: all 0.1s ease-in-out;
 }
 .card .options:hover {
-  background-color: hsl(211, 17%, 30%);
+  background-color: hsl(210, 13%, 30%);
 }
 .card__header {
   font-size: 1rem;
@@ -554,7 +562,7 @@
   padding: 12px;
   border-radius: 3px;
   color: inherit;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   font-family: inherit;
   font-size: inherit;
 }
@@ -621,7 +629,7 @@
   position: relative;
   width: 100%;
   border-radius: 3px;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   cursor: default;
 }
 .task__position {
@@ -642,6 +650,10 @@
   border-radius: 3px;
   font-size: 0.9rem;
   font-weight: 500;
+  transition: all 0.1s ease-in-out;
+}
+.task__tag--hidden {
+  padding: 4px 8px;
 }
 .task__text {
   padding: 12px;
@@ -653,18 +665,19 @@
 }
 .task:hover > .task__options {
   opacity: 1;
+  top: 0px;
 }
 .task__options {
   opacity: 0;
   z-index: 5;
   position: absolute;
-  top: 0px;
+  top: 2px;
   right: 0px;
   width: 42px;
   height: 42px;
   border-radius: 3px;
-  background-color: hsl(211, 17%, 25%);
-  box-shadow: -5px -5px 10px hsla(211, 18%, 15%, 0.35);
+  background-color: hsl(210, 15%, 23%);
+  box-shadow: -5px -10px 10px hsla(211, 18%, 15%, 0.35);
   font-size: 1.2rem;
   cursor: pointer;
   -webkit-user-select: none;
@@ -673,7 +686,7 @@
   transition: all 0.1s ease-in-out;
 }
 .task__options:hover {
-  color: hsl(211, 17%, 25%);
+  color: hsl(210, 15%, 23%);
   background-color: hsl(0, 0%, 100%);
 }
 .task__options__icon {
@@ -749,7 +762,7 @@
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 6px;
   color: inherit;
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
   font-family: inherit;
   font-size: inherit;
 }
@@ -759,7 +772,7 @@
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 6px;
   color: white;
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
   font-size: 1rem;
   font-weight: 500;
   text-align: left;
@@ -825,20 +838,20 @@
   justify-content: flex-start;
   align-items: flex-start;
   position: absolute;
-  left: 420px;
+  left: 0;
+  width: 100%;
   height: 100dvh;
-  width: calc(100% - 420px);
   padding-block: 80px 8px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 5%);
+  background-color: hsl(210, 13%, 5%);
   transition: all 0.1s ease-in-out;
 }
 .dashboard ::-webkit-scrollbar {
   height: 12px;
 }
 .dashboard--moved {
-  width: 100%;
-  left: 0;
+  left: 420px;
+  width: calc(100% - 420px);
 }
 .dashboard__burger {
   position: absolute;
@@ -860,7 +873,6 @@
     left: 0;
   }
   .dashboard__burger {
-    position: absolute;
     z-index: 2;
   }
 }
@@ -904,7 +916,7 @@
   height: fit-content;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   transition: all 0.1s ease-in-out;
 }
 .editor__position {
@@ -956,7 +968,7 @@
   width: 42px;
   height: 42px;
   border-radius: 3px;
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
   font-size: 1.2rem;
   cursor: pointer;
@@ -966,7 +978,7 @@
           user-select: none;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .option:hover {
+.editor .options .option:hover, .editor .options .option--selected {
   background-color: hsl(0, 0%, 100%);
 }
 .editor .options .option--position--up {
@@ -996,24 +1008,26 @@
   position: absolute;
   top: 0px;
   right: 46px;
-  width: 218px;
   height: 100%;
-  padding: 8px 4px;
+}
+.editor .options .type__select__wrapper {
+  height: 100%;
+  padding: 8px;
   border-radius: 6px;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   font-size: 1.2rem;
   font-weight: 400;
   overflow: hidden;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .type__select ::-webkit-scrollbar {
+.editor .options .type__select__wrapper ::-webkit-scrollbar {
   width: 6px;
 }
-.editor .options .type__select ::-webkit-scrollbar-thumb {
+.editor .options .type__select__wrapper ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background-color: hsl(211, 17%, 30%);
+  background-color: hsl(210, 13%, 30%);
 }
-.editor .options .type__select ::-webkit-scrollbar-track {
+.editor .options .type__select__wrapper ::-webkit-scrollbar-track {
   margin: 0;
   border-radius: 2px;
 }
@@ -1035,7 +1049,7 @@
   width: 100%;
   padding: 8px;
   border-radius: 3px;
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
   overflow: hidden;
   white-space: nowrap;
@@ -1049,23 +1063,27 @@
   background-color: hsl(0, 0%, 100%);
 }
 .editor .options .tags__settings {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   z-index: 123;
   position: absolute;
   top: 0px;
   right: 46px;
   height: 100%;
+}
+.editor .options .tags__settings__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
   padding: 12px 8px;
   border-radius: 6px;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
 }
-.editor .options .tags__settings ::-webkit-scrollbar-track {
+.editor .options .tags__settings__wrapper ::-webkit-scrollbar-track {
   margin: 0;
 }
-.editor .options .tags__settings ::-webkit-scrollbar-thumb {
-  background: hsl(211, 17%, 30%);
+.editor .options .tags__settings__wrapper ::-webkit-scrollbar-thumb {
+  background: hsl(210, 13%, 30%);
 }
 .editor .options .tags__settings .tags__list {
   display: flex;
@@ -1112,14 +1130,14 @@
   transition: all 0.1s ease-in-out;
 }
 .editor .options .tags__settings .tags__list .tags__tag .tag__edit:hover {
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .editor .options .tags__settings .tags__empty {
   padding: 8px;
   border-radius: 3px;
   text-align: center;
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
 }
 .editor .options .tags__settings .tags__create {
   margin-top: auto;
@@ -1175,6 +1193,9 @@
   transition: all 0.1s ease-in-out;
 }
 
+.menu__logo {
+  transition: all 0.1s ease-in-out;
+}
 .menu__logo:hover {
   filter: drop-shadow(0px 0px 1px hsl(0, 0%, 100%));
 }
@@ -1294,7 +1315,7 @@
   margin-left: auto;
   padding: 2px 8px;
   border-radius: 3px;
-  background-color: hsl(211, 17%, 5%);
+  background-color: hsl(210, 13%, 5%);
   text-align: center;
 }
 
@@ -1393,7 +1414,7 @@
   height: 100dvh;
   padding: 32px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
   transform-origin: left;
   transition: all 0.1s ease-in-out;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.0392156863);
@@ -1460,7 +1481,7 @@
   padding: 16px;
   border-radius: 6px;
   color: white;
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   transform: translate(-50%, -50%);
 }
 .proj-creator__title {
@@ -1476,7 +1497,7 @@
   width: 100%;
   padding: 8px;
   border-radius: 3px;
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
 .proj-creator #input--name {
@@ -1564,7 +1585,7 @@
   height: 100dvh;
   padding-top: 64px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
 }
 .login__logo {
   position: relative;
@@ -1592,7 +1613,7 @@
   padding: 12px 16px 12px 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   cursor: text;
 }
 .login__inputs input::-moz-placeholder {
@@ -1692,7 +1713,7 @@
   height: 100dvh;
   padding-top: 64px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 16%);
+  background-color: hsl(210, 13%, 15%);
 }
 .reg__logo {
   position: relative;
@@ -1723,7 +1744,7 @@
   padding: 12px 16px 12px 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   cursor: text;
 }
 .reg__inputs input::-moz-placeholder {
@@ -1863,7 +1884,7 @@
   padding: 16px 32px 16px 0px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   transition: all 0.1s ease-in-out;
 }
 .notification::before {
@@ -1920,7 +1941,7 @@
   padding: 32px;
   border-radius: 9px;
   color: hsl(0, 0%, 100%);
-  background-color: hsl(211, 17%, 25%);
+  background-color: hsl(210, 15%, 23%);
   transform: translate(-50%, -50%);
 }
 .confirmation__data {
@@ -1971,7 +1992,7 @@
   background-color: hsl(145, 77%, 50%);
 }
 .confirmation__btns .btn--confirmation--neutral {
-  color: hsl(211, 17%, 5%);
+  color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .confirmation__btns .btn--confirmation--neutral:hover {
@@ -2009,7 +2030,7 @@ html {
 }
 
 body {
-  background-color: hsl(211, 17%, 5%);
+  background-color: hsl(210, 13%, 5%);
 }
 
 a {
@@ -2040,16 +2061,16 @@ input, button {
 ::-webkit-scrollbar-track {
   margin: 8px;
   border-radius: 6px;
-  background: hsl(211, 17%, 16%);
+  background: hsl(210, 13%, 15%);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
-  background: hsl(211, 17%, 25%);
+  background: hsl(210, 15%, 23%);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(211, 17%, 30%);
+  background-color: hsl(210, 13%, 30%);
 }
 
 /***************************************************************************************************************/
@@ -2078,10 +2099,24 @@ input, button {
   animation: rotate_cw 2s infinite;
 }
 
-.overlay__bg {
+.overlay__bg--dark {
   z-index: 1000;
   opacity: 1;
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
+}
+.overlay__bg--mid {
+  z-index: 1000;
+  opacity: 1;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+.overlay__bg--light {
+  z-index: 1000;
+  opacity: 1;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }/*# sourceMappingURL=app.css.map */

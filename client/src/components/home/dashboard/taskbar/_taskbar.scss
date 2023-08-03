@@ -98,6 +98,21 @@
         font-size: 1.2rem; 
       }
     }
+
+    &--tags
+    {
+      &:hover, &--active
+      { 
+        color: $bg-blue-dark;
+        background-color: $white-light;
+      }
+      
+      .fa-tag
+      {
+        pointer-events: none;
+        font-size: 1.2rem; 
+      }
+    }
   }
 }
 
