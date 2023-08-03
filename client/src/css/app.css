@@ -526,6 +526,7 @@
     padding-bottom: 0;
   }
   .task__options {
+    top: 0px;
     opacity: 1;
     box-shadow: none;
   }
