@@ -34,6 +34,7 @@ export default function AddTask({ type })
       position: newPosition,
       content: content, 
       project: activeProject.id,
+      tags: [],
       created_at: new Date(), 
       updated_at: new Date() 
     }

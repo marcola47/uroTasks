@@ -1,14 +1,17 @@
 @import '../../../../../css/_variables.scss';
 
 .task
-{  
+{ 
+  display: flex;
+  flex-direction: column;
+  
   position: relative;
   width: 100%;
-  padding: 12px;
   border-radius: $br-small;
 
   background-color: $bg-blue-light;
 
+  overflow-y: hidden;
   cursor: default;
 
   &__position
@@ -22,15 +25,49 @@
     font-size: 0.6rem;
   }
 
+  &__tags
+  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    padding: 12px;
+  }
+
+  &__tag
+  {
+    padding: 1px 8px;
+    border-radius: $br-small;
+    
+    font-size: 0.9rem;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @include transition;
+
+    &--hidden
+    { padding: 4px 8px }
+  }
+
   &__text
   {
+    padding: 12px;
+    border-radius: $br-small;
+
     font-size: 1rem;
-    word-break: break-all;
-    white-space: pre-wrap
+    word-break: break-word;
+    white-space: pre-wrap;
+
+    box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   }
 
   &:hover > &__options
-  { opacity: 1; }
+  { 
+    opacity: 1; 
+    top: 0px;
+  }
 
   &__options
   {
@@ -38,13 +75,14 @@
     z-index: 5;
 
     position: absolute;
-    top: 0px;
+    top: 2px;
     right: 0px;
     width: 42px;
     height: 42px;
     border-radius: $br-small;
 
     background-color: $bg-blue-light;
+    box-shadow: -5px -10px 10px hsla(211, 18%, 15%, 0.35);
 
     font-size: 1.2rem;
 
@@ -70,5 +108,26 @@
 
     & > *
     { transition: all 0s 0s ease-in-out; }
+  }
+}
+
+@media screen and (max-width: 768px) 
+{
+  .task
+  {
+    &__tags
+    { padding-bottom: 0 }
+
+    &__options
+    { 
+      opacity: 1;
+      box-shadow: none;
+    }  
+
+    &__text
+    {
+      padding-right: 48px;
+      box-shadow: none;
+    }
   }
 }

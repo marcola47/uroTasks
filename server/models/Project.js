@@ -21,6 +21,32 @@ const typesSchema = new mongoose.Schema(
   position: Number
 }, { _id : false });
 
+const tagsSchema = new mongoose.Schema(
+{
+  id:
+  {
+    type: String,
+    default: uuid,
+    required: true
+  },
+
+  name:
+  {
+    type: String,
+    required: true
+  },
+
+  color:
+  {
+    type: String,
+    maxlength: 7,
+    default: '#ffffff',
+    required: true
+  },
+
+  position: Number
+}, { _id : false })
+
 const projectSchema = new mongoose.Schema(
 {
   id: idSchema,
@@ -48,6 +74,12 @@ const projectSchema = new mongoose.Schema(
   types:
   { 
     type: [typesSchema],
+    maxlength: 1024
+  },
+
+  tags:
+  {
+    type: [tagsSchema],
     maxlength: 1024
   },
 

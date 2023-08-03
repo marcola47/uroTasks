@@ -25,7 +25,7 @@ $wm: 280px;
     padding-top: 64px;
 
     color: $white-light;
-    background-color: $bg-blue-mid;
+    background-color: $bg-blue-mid-dim;
   }
 
   &__logo
@@ -125,7 +125,7 @@ $wm: 280px;
   .reg__form
   { width: 100vw; }
 
-  .reg__logo, input
+  .reg__logo, .reg input
   { max-width: $wm; }
 
   .reg__background

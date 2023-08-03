@@ -33,6 +33,7 @@ export default function ProjCreator()
       color: color,
       activeTasks: 0,
       users: [user.id],
+      tags: [],
       types: 
       [
         {
@@ -95,12 +96,21 @@ export default function ProjCreator()
   }
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
+    <TransitionOpacity className='overlay__bg--mid' onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
       <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
         <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } icon={ faXmark }/>
         
-        <input className="proj-creator__input" id='input--name' ref={ projectNameRef } type="text" placeholder="Name of the project" autoFocus/>
+        <input 
+          className="proj-creator__input" 
+          id='input--name' 
+          ref={ projectNameRef } 
+          type="text" 
+          placeholder="Name of the project" 
+          autoFocus
+          autoComplete='off'
+        />
+
         <ColorInput/>
         { pickerActive && <ColorPicker/> }
         

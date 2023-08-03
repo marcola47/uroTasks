@@ -18,7 +18,7 @@ function Dashboard()
     return <Screensaver/>
 
   return (
-    <div className={`dashboard ${state.menuShown ? '' : 'dashboard--moved'}`} id="dashboard">
+    <div className={`dashboard ${state.menuShown && 'dashboard--moved' }`} id="dashboard">
       <Searchbar/>
       <Taskbar/> 
       <Tasks/>

@@ -7,7 +7,7 @@ export default function EditorText()
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   
-  const [inputValue, setInputValue] = useState(state.editorData.content);
+  const [inputValue, setInputValue] = useState(state.editor.data.content);
   const taskTextRef = useRef();
 
   function handleContentChange(newContent)
@@ -22,7 +22,7 @@ export default function EditorText()
 
     const taskList = activeProject.tasks.map(taskObj => 
     {
-      if (taskObj.id === state.editorData.id && taskObj.content !== newContent)
+      if (taskObj.id === state.editor.data.id && taskObj.content !== newContent)
       {
         taskObj.content = newContent;
         isNewContent = true;
@@ -45,7 +45,7 @@ export default function EditorText()
     {
       axios.post(`/a/task/update?type=content`, 
       {
-        taskID: state.editorData.id, 
+        taskID: state.editor.data.id, 
         newContent: newContent
       })
       .then(() => setProjects(projectsCopy))
@@ -59,7 +59,7 @@ export default function EditorText()
 
   useEffect(() => // set editor styles when shown
   {
-    if (state.editorData)
+    if (state.editor.data)
     {
       const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
@@ -71,11 +71,11 @@ export default function EditorText()
       textArea.focus();
     }
 
-  }, [state.editorData])
+  }, [state.editor.data])
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== state.editorData.content)
+    if (taskTextRef.current.value !== state.editor.data.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');

@@ -19,27 +19,40 @@ export default function CardOptions()
 
   const optionsStyle = 
   {
-    left: state.cardParams?.x ?? 0, 
-    top: state.cardParams?.y ?? 0,
+    left: state.cardOptions.params?.x ?? 0, 
+    top: state.cardOptions.params?.y ?? 0,
+  }
+
+  function hideOptions()
+  {
+    dispatch(
+    { 
+      type: 'setCardOptions', 
+      payload: 
+      { 
+        params: null, 
+        data: null 
+      } 
+    })
   }
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })} } id='card-options'>
+    <TransitionOpacity className="overlay__bg--light" onClick={ hideOptions } id='card-options'>
     {
-      state.cardData && 
+      state.cardOptions.data && 
       <div className='card__options' style={ optionsStyle } onClick={ e => {e.stopPropagation()} }>
-        <OptionSort type={ state.cardData }/>
-        <OptionFilter type={ state.cardData }/>
+        <OptionSort type={ state.cardOptions.data }/>
+        <OptionFilter type={ state.cardOptions.data }/>
         <div className="separator"/>
-        <OptionMoveTasks type={ state.cardData }/>
-        <OptionCopyTasks type={ state.cardData }/>
-        <OptionArchiveTasks type={ state.cardData }/>
-        <OptionDeleteTasks type={ state.cardData }/>
+        <OptionMoveTasks type={ state.cardOptions.data }/>
+        <OptionCopyTasks type={ state.cardOptions.data }/>
+        <OptionArchiveTasks type={ state.cardOptions.data }/>
+        <OptionDeleteTasks type={ state.cardOptions.data }/>
         <div className="separator"/>
-        <OptionMoveList type={ state.cardData }/>
-        <OptionCopyList type={ state.cardData }/>
-        <OptionArchiveList type={ state.cardData }/>
-        <OptionDeleteList type={ state.cardData }/>
+        <OptionMoveList type={ state.cardOptions.data }/>
+        <OptionCopyList type={ state.cardOptions.data }/>
+        <OptionArchiveList type={ state.cardOptions.data }/>
+        <OptionDeleteList type={ state.cardOptions.data }/>
       </div>
     }
     </TransitionOpacity>

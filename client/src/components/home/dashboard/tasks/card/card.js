@@ -23,7 +23,7 @@ export default function Card({ type })
 
   function toggleOptions()
   { 
-    if (state.cardData)
+    if (state.cardOptions.data)
       dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
     
     else

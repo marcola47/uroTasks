@@ -1,0 +1,342 @@
+@import '../../../../css/variables';
+
+.editor
+{
+  z-index: 100;
+  opacity: 1; 
+
+  position: absolute;
+  height: fit-content;
+  border-radius: $br-small;
+
+  color: $white-light;
+  background-color: $bg-blue-light;
+
+  @include transition;
+
+  &__position
+  {
+    position: absolute;
+    left: 4px;
+    top: 2px;
+
+    color: $grey-light;
+
+    font-size: 0.6rem;
+  }
+
+  &__tags
+  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    padding: 12px;
+  }
+
+  &__tag
+  {
+    padding: 1px 8px;
+    border-radius: $br-small;
+    
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  textarea
+  {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: -4px;
+    border-radius: $br-small;
+
+    color: inherit;
+    background-color: inherit;
+    box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
+  
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .options
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    position: absolute;
+    top: 0px;
+    right: -46px;
+
+    cursor: default;
+    user-select: none;
+
+    .option
+    {
+      opacity: 1; 
+      z-index: 5;
+
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: $br-small; 
+
+      color: $bg-blue-dark;
+      background-color: $white-dark;
+
+      font-size: 1.2rem;
+
+      cursor: pointer;
+      pointer-events: all;
+      user-select: none;
+
+      @include transition;
+
+      &:hover, &--selected
+      { background-color: $white-light; }
+
+      &--position
+      { 
+        &--up
+        { border-radius: $br-small $br-small 0 0; }
+
+        &--down
+        {
+          margin-top: -4px;
+          border-radius: 0 0 $br-small $br-small;
+        }
+      }
+
+      &--remove
+      { 
+        color: $white-light;
+        background-color: $red-dark; 
+
+        &:hover 
+        { background-color: lighten($red-dark, 5%); }
+      }
+
+      &__icon
+      { 
+        display: grid;
+        place-items: center;
+      
+        width: 42px; 
+        height: 42px;
+
+        .fa-arrow-turn-down
+        { transform: rotate(90deg) }
+      }
+    }
+
+    .type__select
+    {
+      position: absolute;
+      top: 0px;
+      right: 46px;
+      height: 100%;
+
+      &__wrapper
+      {
+        height: 100%;
+        padding: 8px;
+        border-radius: $br-big;
+  
+        background-color: $bg-blue-light;
+  
+        font-size: 1.2rem;
+        font-weight: 400;
+  
+        overflow: hidden;
+        @include transition;
+  
+        ::-webkit-scrollbar 
+        { width: 6px }
+  
+        ::-webkit-scrollbar-thumb 
+        { 
+          border-radius: 2px;
+          background-color: $bg-blue-bright;
+        }
+  
+        ::-webkit-scrollbar-track 
+        { 
+          margin: 0;
+          border-radius: 2px;
+        }
+  
+      }
+
+      .type__header
+      {
+        padding: 4px;
+        margin-bottom: 4px;
+      }
+
+      .type__locations
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        max-height: 220px;
+        padding: 4px;
+        border-radius: $br-small;
+
+        overflow-y: auto;
+
+        .type__location
+        { 
+          flex: 0 0 36px;
+  
+          width: calc(100%);
+          padding: 8px;
+          border-radius: $br-small;
+  
+          color: $bg-blue-dark;
+          background-color: $white-dark;
+  
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+          font-weight: 500;
+  
+          cursor: pointer;
+          @include transition;
+  
+          &:hover
+          { background-color: $white-light; }
+        }
+      }
+    }
+
+    .tags__settings
+    {
+      z-index: 123;
+
+      position: absolute;
+      top: 0px;
+      right: 46px;
+      height: 100%;
+
+      &__wrapper
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        width: 100%;
+        height: 100%;
+        padding: 12px 8px;
+        border-radius: $br-big;
+
+        background-color: $bg-blue-light;
+
+        ::-webkit-scrollbar-track
+        { margin: 0 }
+
+        ::-webkit-scrollbar-thumb 
+        { background: $bg-blue-bright }
+      }
+
+      .tags__list
+      {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        padding: 4px;
+        overflow: auto;
+
+        .tags__tag
+        {
+          display: grid;
+          grid-template-columns: 24px auto 24px;
+          gap: 6px;
+
+          & > *
+          { 
+            height: 24px;
+            border-radius: $br-small;
+            cursor: pointer;
+          }
+
+          .tag__operation
+          { 
+            border: 2px solid hsl(211, 18%, 55%); 
+            @include transition;
+
+            &:hover
+            { background-color: hsl(211, 18%, 40%) }
+
+            &--checked
+            { 
+              background-color: hsl(211, 18%, 55%);
+
+              &:hover
+              { 
+                border-color: hsl(211, 18%, 60%);
+                background-color: hsl(211, 18%, 60%);
+              }
+            }
+          }
+
+          .tag__name
+          {
+            padding: 3px 4px;
+          
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            @include transition;
+          }
+
+          .tag__edit
+          {
+            display: grid;
+            place-items: center;
+
+            @include transition;
+
+            &:hover
+            {
+              color: $bg-blue-dark;
+              background-color: $white-light;
+            }
+          }
+        }
+      }
+
+      .tags__empty
+      {
+        padding: 8px;
+        border-radius: $br-small;
+
+        text-align: center;
+
+        background-color: $bg-blue-mid-dim;
+      }
+
+      .tags__create
+      {
+        margin-top: auto;
+        padding: 8px;
+        border-radius: $br-small;
+
+        background-color: $blue-dark;
+
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+
+        @include transition;
+
+        &:hover
+        { background-color: $blue-light; }
+      }
+    }
+  }
+}

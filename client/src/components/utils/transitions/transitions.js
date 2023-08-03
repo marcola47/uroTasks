@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-export function TransitionOpacity({ id, children, onClick, className = "overlay__bg"})
+export function TransitionOpacity({ id, children, onClick, className = "overlay__bg--dark" })
 {
   return (
     <motion.div
@@ -17,7 +17,7 @@ export function TransitionOpacity({ id, children, onClick, className = "overlay_
   );
 }
 
-export function TransitionOpacityHorizontal({ id, children, onClick, className = "overlay__bg" })
+export function TransitionOpacityHorizontal({ id, children, onClick, className = "overlay__bg--dark" })
 {
   return (
     <motion.div

@@ -1,6 +1,8 @@
 import React, { useContext, useRef } from 'react';
 import { ReducerContext } from 'app';
 
+import TaskTags from './tags/tags';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,7 +30,9 @@ export default function Task({ itemData })
 
   return (
     <li className="task" id={ itemData?.id } ref={ taskRef }>
-      <div className='task__position'>{ itemData?.position }</div>
+      {/* <div className='task__position'>{ itemData?.position }</div> */}
+
+      <TaskTags task={ itemData }/>
 
       <div className='task__text'>{ itemData?.content }</div>
       

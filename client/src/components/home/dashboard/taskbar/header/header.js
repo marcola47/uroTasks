@@ -54,7 +54,7 @@ export function HeaderColor()
     return (
       <div>
         <div onClick={ toggleColorPicker } className='chrome-picker__bg'/>
-        <ChromePicker color={ newColor } onChangeComplete={ color => {setNewColor(color.hex)} }/> 
+        <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/> 
       </div>
     )
   }
