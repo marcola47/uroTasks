@@ -23,10 +23,10 @@ export default function Editor()
 
   const editorStyle = 
   {
-    left: state.editorParams?.x ?? 0, 
-    top: state.editorParams?.y ?? 0,
-    width: state.editorParams?.w ?? 0,
-    minHeight: state.editorParams?.h ?? 0
+    left: state.editor.params?.x ?? 0, 
+    top: state.editor.params?.y ?? 0,
+    width: state.editor.params?.w ?? 0,
+    minHeight: state.editor.params?.h ?? 0
   }
 
   useEffect(() => // make options never be out of bounds
@@ -45,22 +45,22 @@ export default function Editor()
   return (
     <TransitionOpacity onClick={ () => {dispatch({ type: 'setEditor', payload: { params: null, data: null } })} } id='editor'>
     {
-      state.editorData && // many errors when not doing this
+      state.editor.data && // many errors when not doing this
       <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
-        <div className='editor__position'>{ state.editorData?.position }</div>
+        <div className='editor__position'>{ state.editor.data?.position }</div>
 
         <div className="editor__content">
-          <EditorTags task={ state.editorData }/>
+          <EditorTags task={ state.editor.data }/>
           <EditorText/> 
         </div>
 
         <div className="options" ref={ optionsRef } style={ optionsStyle }>
           <SubMenusContext.Provider value={{ subMenus, setSubMenus }}>
             <OptionEllipsis/>
-            <OptionTags task={ state.editorData }/>
-            <OptionType task={ state.editorData }/>
-            <OptionPosition task={ state.editorData }/>
-            <OptionDelete task={ state.editorData }/>
+            <OptionTags task={ state.editor.data }/>
+            <OptionType task={ state.editor.data }/>
+            <OptionPosition task={ state.editor.data }/>
+            <OptionDelete task={ state.editor.data }/>
           </SubMenusContext.Provider>
         </div>
       </div>

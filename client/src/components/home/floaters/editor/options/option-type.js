@@ -97,7 +97,7 @@ export default function OptionType({ task })
       {
         subMenus.types &&
         <TransitionOpacity className="type__select">
-          <div className="type__select__wrapper" style={{ width: state.editorParams.w }}>
+          <div className="type__select__wrapper" style={{ width: state.editor.params.w }}>
             <div className="type__header">Suggested</div>
             <List
               classes='type__locations'

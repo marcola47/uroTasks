@@ -67,12 +67,62 @@ export default function OptionTags({ task })
     .catch(err => setResponseError(err, dispatch))
   }
 
+  function createTag()
+  {
+    dispatch(
+    {
+      type: 'setProjTagsEditor',
+      payload: { id: null, name: null, color: null, position: null }
+    })
+
+    dispatch(
+    { 
+      type: 'setProjOptions', 
+      payload: 'tags-editor' 
+    })
+
+    dispatch(
+    {
+      type: 'setEditor',
+      payload: 
+      {
+        params: null,
+        data: null
+      }
+    })
+  }
+
   function Tag({ itemData })
   {
     const colors =
     {
       backgroundColor: itemData.color, 
       color: getTextColor(itemData.color)
+    }
+
+    function editTag()
+    {
+      dispatch(
+      {
+        type: 'setProjTagsEditor',
+        payload: itemData  
+      })
+
+      dispatch(
+      { 
+        type: 'setProjOptions', 
+        payload: 'tags-editor' 
+      })
+
+      dispatch(
+      {
+        type: 'setEditor',
+        payload: 
+        {
+          params: null,
+          data: null
+        }
+      })
     }
 
     return (
@@ -86,14 +136,12 @@ export default function OptionTags({ task })
           { itemData.name }
         </div>
         
-        <div className="tag__edit">
+        <div className="tag__edit" onClick={ editTag }>
           <FontAwesomeIcon icon={ faPencil }/>
         </div>
       </li>
     )
   }
-
-  console.log(state.editorParams.w);
 
   return (
     <>
@@ -109,7 +157,7 @@ export default function OptionTags({ task })
       {
         subMenus.tags &&
         <TransitionOpacity className="tags__settings">
-          <div className='tags__settings__wrapper' style={{ width: state.editorParams.w }}>
+          <div className='tags__settings__wrapper' style={{ width: state.editor.params.w }}>
             {
               orderedTagsList 
               ? <List
@@ -121,7 +169,7 @@ export default function OptionTags({ task })
 
               : <div className="tags__empty">No tags found.<br/>Create some!</div>
             }
-            <div className="tags__create">CREATE NEW TAG</div>
+            <div className="tags__create" onClick={ createTag }>CREATE NEW TAG</div>
           </div>
         </TransitionOpacity>
       }

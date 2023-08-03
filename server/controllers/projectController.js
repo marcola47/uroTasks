@@ -139,6 +139,52 @@ projectController.updateTypes = async (req, res, session) =>
     console.log(`${new Date()}: successfully updated project types`);
   }
 
+  else if (req.query.crud === 'moveList')
+  {
+    // implement cross project moving
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    const curProject = await Project.findOne({ id: data.curProjectID })
+    const typesList = curProject.types;
+
+    if (data.positions.new > data.positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== data.typeID && listType.position >= data.positions.old && listType.position <= data.positions.new)
+          listType.position--;
+
+        else if (listType.id === data.typeID)
+          listType.position = data.positions.new
+
+        return listType;
+      });
+    }
+
+    else if (data.positions.new < data.positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== data.typeID && listType.position <= data.positions.old && listType.position >= data.positions.new)
+          listType.position++;
+
+        else if (listType.id === data.typeID)
+          listType.position = data.positions.new
+
+        return listType;
+      })
+    }
+    
+    await Project.updateOne
+    (
+      { id: data.curProjectID }, 
+      { $set: { types: typesList } }
+    );
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project types`);
+  }
+
   else if (req.query.crud === 'deleteList')
   {
     const newAccessToken = req.newAccessToken ?? null;
@@ -161,52 +207,6 @@ projectController.updateTypes = async (req, res, session) =>
     console.log(`${new Date()}: successfully updated project types`);
   }
 
-  else if (req.query.crud === 'moveList')
-  {
-    // implement cross project moving
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
-    const curProject = await Project.findOne({ id: data.curProjectID })
-    const typesList = curProject.types;
-
-    if (data.positions.new > data.positions.old)
-    {
-      typesList.map(listType => 
-      {
-        if (listType.id !== data.typeID && listType.position >= data.positions.old && listType.position <= data.positions.new)
-          listType.position--;
-
-        else if (listType.id === data.typeID)
-          listType.position = data.positions.new
-
-        return listType;
-      })
-    }
-
-    else if (data.positions.new < data.positions.old)
-    {
-      typesList.map(listType => 
-      {
-        if (listType.id !== data.typeID && listType.position <= data.positions.old && listType.position >= data.positions.new)
-          listType.position++;
-
-        else if (listType.id === data.typeID)
-          listType.position = data.positions.new
-
-        return listType;
-      })
-    }
-    
-    await Project.updateOne
-    (
-      { id: data.curProjectID }, 
-      { $set: { types: typesList } }
-    )
-
-    res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${new Date()}: successfully updated project types`);
-  }
-
   else if (req.query.crud === 'deleteTasks')
   {
     const newAccessToken = req.newAccessToken ?? null;
@@ -220,6 +220,65 @@ projectController.updateTypes = async (req, res, session) =>
 
     res.status(200).send({ newAccessToken: newAccessToken });
     console.log(`${new Date()}: successfully deleted all tasks from list`);
+  }
+}
+
+/*********************************************************************************************************************************/
+projectController.updateTags = async (req, res, session) => 
+{
+  if (req.query.crud === 'create')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+
+    await Project.updateOne
+    (
+      { id: data.projectID },
+      { $push: { tags: data.newTag } },
+      { session }
+    );
+
+    res.status(201).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project tags`);
+  }
+
+  else if (req.query.crud === 'update')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+
+    await Project.updateOne
+    (
+      { id: data.projectID, 'tags.id': data.tagID }, 
+      { $set: { 'tags.$.name': data.tagName, 'tags.$.color': data.tagColor } },
+      { session }
+    );
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project tags`);
+  }
+
+  else if (req.query.crud = 'delete')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    
+    await Task.updateMany
+    (
+      { project: data.projectID, tags: { $elemMatch: { $eq: data.tagID } } }, 
+      { $pull: { tags: data.tagID } }, 
+      { multi: true, session },
+    );
+
+    await Project.updateOne
+    (
+      { id: data.projectID, 'tags.id': data.tagID },
+      { $pull: { tags: { id: data.tagID } } },
+      { session }
+    );
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully updated project tags`);
   }
 }
 
@@ -241,6 +300,9 @@ projectController.update = async (req, res) =>
     
     else if (type === 'types') 
       await projectController.updateTypes(req, res, session);
+
+    else if (type === 'tags')
+      await projectController.updateTags(req, res, session)
     
     else 
       throw new Error('Invalid type');

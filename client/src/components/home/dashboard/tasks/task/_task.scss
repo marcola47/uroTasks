@@ -11,6 +11,7 @@
 
   background-color: $bg-blue-light;
 
+  overflow-y: hidden;
   cursor: default;
 
   &__position
@@ -40,6 +41,9 @@
     
     font-size: 0.9rem;
     font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     @include transition;
 

@@ -90,7 +90,7 @@ input, button
 {
   &--dark
   {
-    z-index: 1000;
+    z-index: 100000;
     opacity: 1;
   
     position: absolute;
@@ -101,7 +101,7 @@ input, button
 
   &--mid
   {
-    z-index: 1000;
+    z-index: 10000;
     opacity: 1;
   
     position: absolute;

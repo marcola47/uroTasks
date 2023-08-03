@@ -40,8 +40,11 @@ export default function App()
     confirmation: null,
     confirmationShown: false,
 
-    projSettingsParams: null,
-    projSettingsData: null,
+    projOptions: null,
+    projTagsEditor: null,
+    cardOptions: { params: null, data: null },
+    editor: { params: null, data: null },
+
 
     editorParams: null,
     editorData: null,
@@ -84,14 +87,17 @@ export default function App()
       case 'setNotification': 
         return { ...state, notification: action.payload };
 
-      case 'setProjSettings':
-        return { ...state, projSettingsParams: action.payload.params, projSettingsData: action.payload.data }
+      case 'setProjOptions':
+        return { ...state, projOptions: action.payload }
 
-      case 'setEditor':
-        return { ...state, editorParams: action.payload.params, editorData: action.payload.data }
+      case 'setProjTagsEditor':
+        return { ...state, projTagsEditor: action.payload }
 
       case 'setCardOptions':
-        return { ...state, cardParams: action.payload.params, cardData: action.payload.data }
+        return { ...state, cardOptions: { params: action.payload.params, data: action.payload.data } }
+
+      case 'setEditor':
+        return { ...state, editor: { params: action.payload.params, data: action.payload.data } }
 
       default: return state;
     }
