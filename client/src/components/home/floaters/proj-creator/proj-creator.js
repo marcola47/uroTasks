@@ -18,8 +18,14 @@ export default function ProjCreator()
   const { projects, setProjects } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
-  const [color, setColor] = useState('#4b99cc');
+  const [newColor, setNewColor] = useState('#4b99cc');
   const [pickerActive, setPickerActive] = useState(false);
+
+  const colors = 
+  {
+    backgroundColor: newColor, 
+    color: newColor, 
+  };
 
   async function createProject()
   {
@@ -30,27 +36,15 @@ export default function ProjCreator()
     { 
       id: uuid(), 
       name: name,
-      color: color,
+      color: newColor,
       activeTasks: 0,
       users: [user.id],
       tags: [],
       types: 
       [
-        {
-          id: uuid(),
-          name: "todo",
-          position: 1
-        },
-        {
-          id: uuid(),
-          name: "doing",
-          position: 2
-        },
-        {
-          id: uuid(),
-          name: "done",
-          position: 3
-        }
+        { id: uuid(), name: "todo" , position: 1 },
+        { id: uuid(), name: "doing", position: 2 },
+        { id: uuid(), name: "done" , position: 3 }
       ]
     };
 
@@ -74,32 +68,12 @@ export default function ProjCreator()
     projectNameRef.current.value = '';
   }
 
-  function ColorPicker()
-  {
-    return (
-      <>
-        <div onClick={ () => {setPickerActive(!pickerActive)} } className='chrome-picker__bg'/>
-        <ChromePicker color={ color } onChangeComplete={ (color) => {setColor(color.hex)} }/> 
-      </>
-    )
-  }
-
-  function ColorInput()
-  {
-    const colorStyle = { backgroundColor: color, color: color, borderRadius: "3px" };
-    
-    return (
-      <button className="proj-creator__input" onClick={ () => {setPickerActive(!pickerActive)} }>
-        <div className='proj-creator__color' style={ colorStyle }>.</div>
-      </button>
-    ) 
-  }
-
   return (
     <TransitionOpacity className='overlay__bg--mid' onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
       <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
-        <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/> </h2>
-        <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } icon={ faXmark }/>
+        <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/></h2>
+        
+        <ButtonGlow icon={ faXmark } onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } />
         
         <input 
           className="proj-creator__input" 
@@ -111,8 +85,17 @@ export default function ProjCreator()
           autoComplete='off'
         />
 
-        <ColorInput/>
-        { pickerActive && <ColorPicker/> }
+        <button className="proj-creator__input" onClick={ () => {setPickerActive(!pickerActive)} }>
+          <div className='proj-creator__color' style={ colors }/>
+        </button>
+
+        { 
+          pickerActive && 
+          <div>
+            <div onClick={ () => {setPickerActive(!pickerActive)} } className='chrome-picker__bg'/>
+            <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+          </div>
+        }
         
         <button className="proj-creator__submit" onClick={ createProject }>CREATE</button>
       </div>

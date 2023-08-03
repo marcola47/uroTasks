@@ -49,20 +49,16 @@ export function HeaderColor()
     })
   }
 
-  function ColorPicker()
-  {
-    return (
-      <div>
-        <div onClick={ toggleColorPicker } className='chrome-picker__bg'/>
-        <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/> 
-      </div>
-    )
-  }
-
   return (
     <>
       <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}><FontAwesomeIcon icon={ faSquare }/></div>
-      {pickerActive ? <ColorPicker/> : null}
+      {
+        pickerActive && 
+        <div>
+          <div onClick={ toggleColorPicker } className='chrome-picker__bg'/>
+          <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+        </div>
+      }
     </>
   )
 }
