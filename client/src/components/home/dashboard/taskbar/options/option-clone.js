@@ -14,7 +14,7 @@ export default function OptionClone()
 
   function callCloneProject()
   {
-    const projectsContext = { projects, setProjects, activeProject, setActiveProject }
+    const projectsContext = { projects, setProjects, activeProject }
     const userContext = { user, setUser };
     const reducerContext = { state, dispatch };
 

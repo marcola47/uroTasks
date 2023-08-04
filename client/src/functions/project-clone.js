@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 export default function showConfirmation(projectsContext, userContext, reducerContext)
 {
-  const { projects, setProjects, activeProject, setActiveProject } = projectsContext;
+  const { projects, setProjects, activeProject } = projectsContext;
   const { user, setUser } = userContext;
   const { state, dispatch } = reducerContext;
 

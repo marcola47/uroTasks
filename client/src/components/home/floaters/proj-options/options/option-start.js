@@ -1,10 +1,11 @@
 import { useContext } from "react"
 import { ProjectsContext, UserContext, ReducerContext } from "app"
 
+import cloneProject from 'functions/project-clone'
 import deleteProject from 'functions/project-delete';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faArrowDownWideShort, faTag, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faArrowDownWideShort, faTag, faClone, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjStart()
 {
@@ -19,6 +20,15 @@ export default function ProjStart()
     const reducerContext = { state, dispatch };
 
     deleteProject(projectsContext, userContext, reducerContext)
+  }
+
+  function callCloneProject()
+  {
+    const projectsContext = { projects, setProjects, activeProject }
+    const userContext = { user, setUser };
+    const reducerContext = { state, dispatch };
+
+    cloneProject(projectsContext, userContext, reducerContext)
   }
 
   return (
@@ -38,6 +48,11 @@ export default function ProjStart()
         <span>TAGS</span>
       </div>
       
+      <div className="start__option" onClick={ callCloneProject }>
+        <FontAwesomeIcon icon={ faClone }/>
+        <span>CLONE PROJECT</span>
+      </div>
+
       <div className="start__option start__option--danger" onClick={ callDeleteProject }>
         <FontAwesomeIcon icon={ faTrash }/>
         <span>DELETE PROJECT</span>
