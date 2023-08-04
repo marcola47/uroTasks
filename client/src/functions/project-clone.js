@@ -18,6 +18,8 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     const newProject = JSON.parse(JSON.stringify(activeProject));
 
     newProject.tasks = taskList.map(task => { return { ...task, id: uuid() } });
+    newProject.created_at = Date.now();
+    newProject.updated_at = Date.now();
     newProject.name = newProject.name + ' copy';
     newProject.id = uuid();
     

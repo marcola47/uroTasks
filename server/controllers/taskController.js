@@ -48,7 +48,7 @@ taskController.create = async (req, res) =>
     await Project.updateOne
     (
       { id: data.projectID }, 
-      { $push: { tasks: newTask.id } }
+      { $push: { tasks: newTask.id }, $set: { updated_at: Date.now() } }
     );
    
     await session.commitTransaction();
@@ -79,7 +79,7 @@ taskController.updateContent = async (req, res) =>
   await Task.updateOne
   (
     { id: data.taskID }, 
-    { content: data.newContent, updated_at: new Date() }
+    { content: data.newContent, $set: { updated_at: new Date() } }
   );
   
   res.status(200).send({ newAccessToken: newAccessToken });
@@ -101,7 +101,7 @@ taskController.updateType = async (req, res) =>
       await Task.updateOne
       (
         { id: task.id },
-        { $inc: { position: -1 } }
+        { $inc: { position: -1 }, updated_at: Date.now() }
       );
     }
 

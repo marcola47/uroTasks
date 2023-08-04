@@ -113,7 +113,12 @@ projectController.updateName = async (req, res, session) =>
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
-  await Project.updateOne({ id: data.projectID }, { name: data.newName }, { session });
+  await Project.updateOne
+  (
+    { id: data.projectID }, 
+    { $set: { name: data.newName, updated_at: Date.now() } }, 
+    { session });
+  
   res.status(200).send({ newAccessToken: newAccessToken });
   console.log(`${new Date()}: successfully updated project name to: ${data.newName}`);
 }
@@ -127,7 +132,7 @@ projectController.updateColor = async (req, res, session) =>
   await Project.updateOne
   (
     { id: data.projectID }, 
-    { color: data.newColor }, 
+    { $set: { color: data.newColor, updated_at: Date.now() } }, 
     { session }
   );
   
@@ -146,7 +151,7 @@ projectController.updateTypes = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID }, 
-      { $push: { types: data.newType } }, 
+      { $push: { types: data.newType }, $set: { updated_at: Date.now() } }, 
       { session }
     );
     
@@ -162,7 +167,7 @@ projectController.updateTypes = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID, 'types.id': data.typeID }, 
-      { $set: { 'types.$.name': data.typeName } }, 
+      { $set: { 'types.$.name': data.typeName }, $set: { updated_at: Date.now() } }, 
       { session }
     );
     
@@ -216,7 +221,7 @@ projectController.updateTypes = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.curProjectID }, 
-      { $set: { types: typesList } }
+      { $set: { types: typesList }, $set: { updated_at: Date.now() } }
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
@@ -237,7 +242,7 @@ projectController.updateTypes = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID, 'types.id': data.typeID }, 
-      { $pull: { types: { id: data.typeID } } }, 
+      { $pull: { types: { id: data.typeID } }, $set: { updated_at: Date.now() } }, 
       { session }
     );
 
@@ -249,6 +254,13 @@ projectController.updateTypes = async (req, res, session) =>
   {
     const newAccessToken = req.newAccessToken ?? null;
     const data = req.body;
+
+    await Project.updateOne
+    (
+      { id: data.projectID },
+      { $set: { updated_at: Date.now() } },
+      { session }
+    )
 
     await Task.deleteMany
     (
@@ -272,7 +284,7 @@ projectController.updateTags = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID },
-      { $push: { tags: data.newTag } },
+      { $push: { tags: data.newTag }, $set: { updated_at: Date.now() } },
       { session }
     );
 
@@ -288,7 +300,7 @@ projectController.updateTags = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID, 'tags.id': data.tagID }, 
-      { $set: { 'tags.$.name': data.tagName, 'tags.$.color': data.tagColor } },
+      { $set: { 'tags.$.name': data.tagName, 'tags.$.color': data.tagColor, updated_at: Date.now() } },
       { session }
     );
 
@@ -311,7 +323,7 @@ projectController.updateTags = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.projectID, 'tags.id': data.tagID },
-      { $pull: { tags: { id: data.tagID } } },
+      { $pull: { tags: { id: data.tagID } }, $set: { updated_at: Date.now() } },
       { session }
     );
 
