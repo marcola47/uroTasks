@@ -6,15 +6,57 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
 
   width: 100%;
   height: 100%;
 
   color: $white-light;
 
-  font-size: 1.7rem;
   text-align: center;
+
+  &__header
+  { 
+    font-size: 2.2rem;
+    font-weight: 500;
+  }
+
+  &__btns
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__btn
+  {
+    width: 320px;
+    padding: 12px 32px;
+    border-radius: $br-big;
+
+    font-size: 1.3rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    @include transition;
+
+    &--choose
+    {
+      color: $bg-blue-dark;
+      background-color: $white-dark;
+    
+      &:hover
+      { background-color: $white-light }
+    }
+
+    &--create
+    {
+      background-color: $blue-dark;
+    
+      &:hover
+      { background-color: $blue-light }
+    }
+  }
 
   .spinning
   { 

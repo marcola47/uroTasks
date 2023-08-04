@@ -68,13 +68,43 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   width: 100%;
   height: 100%;
   color: hsl(0, 0%, 100%);
-  font-size: 1.7rem;
   text-align: center;
   transition: all 0.1s ease-in-out;
+}
+.screensaver__header {
+  font-size: 2.2rem;
+  font-weight: 500;
+}
+.screensaver__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.screensaver__btn {
+  width: 320px;
+  padding: 12px 32px;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.screensaver__btn--choose {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 85%);
+}
+.screensaver__btn--choose:hover {
+  background-color: hsl(0, 0%, 100%);
+}
+.screensaver__btn--create {
+  background-color: hsl(204, 70%, 55%);
+}
+.screensaver__btn--create:hover {
+  background-color: hsl(204, 70%, 60%);
 }
 .screensaver .spinning {
   width: 128px;
@@ -246,31 +276,27 @@
   gap: 8px;
 }
 .taskbar__option {
+  display: grid;
+  place-items: center;
   position: relative;
-  padding: 10px 14px;
+  width: 40px;
+  height: 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
+  font-size: 1.1rem;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
   transition: all 0.1s ease-in-out;
 }
-.taskbar__option--delete:hover, .taskbar__option--delete--active {
-  color: hsl(210, 13%, 5%);
-  background-color: hsl(0, 100%, 58%);
-}
-.taskbar__option--delete .fa-trash-can {
-  pointer-events: none;
-  font-size: 1.2rem;
-}
-.taskbar__option--tags:hover, .taskbar__option--tags--active {
+.taskbar__option:hover {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.taskbar__option--tags .fa-tag {
-  pointer-events: none;
-  font-size: 1.2rem;
+.taskbar__option--delete:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 100%, 58%);
 }
 
 @media screen and (max-width: 520px) {
@@ -1327,7 +1353,7 @@
   flex-direction: column;
   gap: 24px;
   position: absolute;
-  top: 160px;
+  top: 142px;
   bottom: 24px;
   right: 24px;
   width: 420px;
@@ -1351,12 +1377,39 @@
 .proj-options__content {
   flex-grow: 1;
 }
+.proj-options .start {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+.proj-options .start__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .start__option svg {
+  width: 24px;
+}
+.proj-options .start__option:hover {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 100%);
+}
+.proj-options .start__option--danger:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 80%, 51%);
+}
 .proj-options .tags__display {
   display: flex;
   flex-direction: column;
   gap: 16px;
   height: 100%;
-  background-color: hsl(210, 13%, 15%);
 }
 .proj-options .tags__display ::-webkit-scrollbar-track {
   margin: 0;
@@ -2257,18 +2310,18 @@
 .confirmation__btns .btn--confirmation--caution:hover {
   background-color: hsl(46, 93%, 48%);
 }
-.confirmation__btns .btn--confirmation--positive {
-  background-color: hsl(145, 77%, 41%);
-}
-.confirmation__btns .btn--confirmation--positive:hover {
-  background-color: hsl(145, 77%, 50%);
-}
 .confirmation__btns .btn--confirmation--neutral {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .confirmation__btns .btn--confirmation--neutral:hover {
   background-color: hsl(0, 0%, 100%);
+}
+.confirmation__btns .btn--confirmation--positive {
+  background-color: hsl(145, 77%, 41%);
+}
+.confirmation__btns .btn--confirmation--positive:hover {
+  background-color: hsl(145, 77%, 50%);
 }
 .confirmation__btns .btn--rejection {
   color: hsl(0, 0%, 72%);

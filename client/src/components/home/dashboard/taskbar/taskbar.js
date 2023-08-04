@@ -3,8 +3,12 @@ import { useContext } from 'react';
 import { ProjectsContext } from "app";
 
 import { HeaderColor, HeaderTitle } from './header/header'
+import OptionSort from './options/option-sort';
+import OptionFilter from './options/option-filter';
 import OptionTags from './options/option-tags';
+import OptionClone from './options/option-clone';
 import OptionDelete from './options/option-delete';
+import OptionEllipsis from './options/option-ellipsis'
 
 export default function Taskbar()
 {
@@ -18,8 +22,12 @@ export default function Taskbar()
       </h1>
 
       <div className="taskbar__options">
+        <OptionFilter/>
+        <OptionSort/>
         <OptionTags/>
+        <OptionClone/>
         <OptionDelete/>
+        <OptionEllipsis/>
       </div>
     </div>
   )

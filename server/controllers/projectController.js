@@ -68,6 +68,44 @@ projectController.create = async (req, res) =>
     })
   }
 }
+/*********************************************************************************************************************************/
+projectController.clone = async (req, res) => 
+{
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try 
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    const newProject = new Project(data.newProject);
+
+    const updatedUser = {};
+    updatedUser.$push = { projects: newProject.id };
+    updatedUser.$set = { activeProject: newProject.id };
+
+    await User.updateOne({ id: data.userID }, updatedUser);
+    await Task.insertMany(data.tasks);
+    await newProject.save();
+
+    await session.commitTransaction();
+    res.status(201).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
+  }
+
+  catch (error)
+  {
+    await session.abortTransaction();
+    session.endSession();
+    
+    console.log(error);
+    res.status(500).send(
+    {
+      header: "Failed to create project",
+      message: "Internal server error on creating project" 
+    })
+  }
+}
 
 /*********************************************************************************************************************************/
 projectController.updateName = async (req, res, session) => 

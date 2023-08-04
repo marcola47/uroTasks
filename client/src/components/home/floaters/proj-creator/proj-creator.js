@@ -69,7 +69,7 @@ export default function ProjCreator()
   }
 
   return (
-    <TransitionOpacity className='overlay__bg--mid' onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
+    <TransitionOpacity className='overlay__bg--dark' onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
       <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
         <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/></h2>
         

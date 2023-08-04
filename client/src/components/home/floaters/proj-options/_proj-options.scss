@@ -7,7 +7,7 @@
   gap: 24px;
 
   position: absolute;
-  top: 160px;
+  top: 142px;
   bottom: 24px;
   right: 24px;
   
@@ -38,6 +38,46 @@
   &__content
   { flex-grow: 1 }
 
+  .start
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    height: 100%;
+
+    &__option
+    {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 12px;
+      border-radius: $br-small;
+
+      font-weight: 500;
+      font-size: 1.2rem;
+
+      cursor: pointer;
+      @include transition;
+
+      & svg
+      { width: 24px }
+
+      &:hover
+      {
+        color: $bg-blue-dark;
+        background-color: $white-light;
+      }
+
+      &--danger:hover
+      {
+        color: $white-light;
+        background-color: $red-dark;
+      }
+    }
+  }
+
   .tags__display
   {
     display: flex;
@@ -45,8 +85,6 @@
     gap: 16px;
     
     height: 100%;
-
-    background-color: $bg-blue-mid-dim;
 
     ::-webkit-scrollbar-track
     { margin: 0 }

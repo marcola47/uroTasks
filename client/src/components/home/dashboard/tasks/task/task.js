@@ -11,8 +11,9 @@ export default function Task({ itemData })
   const { dispatch } = useContext(ReducerContext);
   const taskRef = useRef();
  
-  function toggleOptions()
+  function toggleOptions(e)
   { 
+    e.preventDefault();
     const params = {};
 
     let taskRect = taskRef.current.getBoundingClientRect();
@@ -29,14 +30,14 @@ export default function Task({ itemData })
   }
 
   return (
-    <li className="task" id={ itemData?.id } ref={ taskRef }>
+    <li className="task" id={ itemData?.id } ref={ taskRef } onContextMenu={ e => {toggleOptions(e)} }>
       {/* <div className='task__position'>{ itemData?.position }</div> */}
 
       <TaskTags task={ itemData }/>
 
       <div className='task__text'>{ itemData?.content }</div>
       
-      <div className='task__options' onClick={ toggleOptions }>
+      <div className='task__options' onClick={ e => {toggleOptions(e)} }>
         <div className='task__options__icon'><FontAwesomeIcon icon={ faEllipsisVertical }/></div>
       </div>
     </li>

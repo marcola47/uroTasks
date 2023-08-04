@@ -14,7 +14,10 @@ export function ProjTagsDisplay()
 {
   const { activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
-  const orderedTagsList = activeProject.tags.sort((a, b) => { return a.position - b.position })
+  
+  const orderedTagsList = activeProject.tags.length > 0
+    ? activeProject.tags.sort((a, b) => { return a.position - b.position })
+    : null
 
   function showTagsEditor(tag)
   {
@@ -23,7 +26,13 @@ export function ProjTagsDisplay()
       dispatch(
       {
         type: 'setProjTagsEditor',
-        payload: { id: null, name: null, color: null, position: null }
+        payload: 
+        { 
+          id: null, 
+          name: null, 
+          color: null, 
+          position: null 
+        }
       })
     }
 
