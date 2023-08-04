@@ -1,7 +1,3 @@
-
-import { useContext } from 'react';
-import { ProjectsContext } from "app";
-
 import { HeaderColor, HeaderTitle } from './header/header'
 import OptionSort from './options/option-sort';
 import OptionFilter from './options/option-filter';
@@ -12,13 +8,11 @@ import OptionEllipsis from './options/option-ellipsis'
 
 export default function Taskbar()
 {
-  const { activeProject } = useContext(ProjectsContext);
-
   return (
     <div className="taskbar">
       <h1 className="taskbar__header">
         <HeaderColor/>
-        <HeaderTitle title={ activeProject?.name }/>
+        <HeaderTitle/>
       </h1>
 
       <div className="taskbar__options">

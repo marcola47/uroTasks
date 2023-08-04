@@ -63,13 +63,16 @@ export function HeaderColor()
   )
 }
 
-export function HeaderTitle({ title }) 
+export function HeaderTitle() 
 {
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
   
   const [editing, setEditing] = useState(false);
-  const [inputValue, setInputValue] = useState(title);
+  const [inputValue, setInputValue] = useState(activeProject.name);
+
+  //would not change the fucking name unless I do this
+  useEffect(() => { setInputValue(activeProject.name) }, [activeProject])
 
   function handleNameChange(newName) 
   { 
@@ -128,7 +131,7 @@ export function HeaderTitle({ title })
           onKeyDown={ handleKeyDown }
         />
 
-      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ title }</div>
+      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ activeProject.name }</div>
     }
     </div>
   );
