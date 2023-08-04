@@ -25,21 +25,24 @@ const userSchema = new mongoose.Schema(
   password:
   {
     type: String,
-    required: true
+    required: true,
+    minlength: 8
   },
 
   activeProject: 
   {
     type: String,
     ref: 'Project',
-    default: null
+    default: null,
+    required: false
   },
   
   projects: 
   {
     type: [String],
     ref: 'Project',
-    default: []
+    default: [],
+    required: false
   }
 });
 

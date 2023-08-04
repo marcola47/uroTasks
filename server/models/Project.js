@@ -15,10 +15,15 @@ const typesSchema = new mongoose.Schema(
   name:
   {
     type: String,
-    required: true
+    required: true,
+    maxlength: 512
   },
 
-  position: Number
+  position: 
+  {
+    type: Number,
+    required: true
+  }
 }, { _id : false });
 
 const tagsSchema = new mongoose.Schema(
@@ -33,7 +38,8 @@ const tagsSchema = new mongoose.Schema(
   name:
   {
     type: String,
-    required: true
+    required: true,
+    maxlength: 512
   },
 
   color:
@@ -55,7 +61,7 @@ const projectSchema = new mongoose.Schema(
   { 
     type: String, 
     required: true,
-    maxlength: 128
+    maxlength: 256
   },
   
   color: 
@@ -68,30 +74,39 @@ const projectSchema = new mongoose.Schema(
   activeTasks:
   {
     type: Number,
-    default: -1
+    default: -1,
+    required: false
   },
 
   types:
   { 
     type: [typesSchema],
+    default: [],
+    required: false,
     maxlength: 1024
   },
 
   tags:
   {
     type: [tagsSchema],
+    default: [],
+    required: false,
     maxlength: 1024
   },
 
   tasks: 
   {
     type: [String],
+    default: [],
+    required: false,
     maxlength: 2048
   },
   
   users:
   {
     type: [String],
+    default: [],
+    required: false,
     maxlength: 1024
   },
 
