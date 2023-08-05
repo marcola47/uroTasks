@@ -12,10 +12,10 @@ export default function OptionDeleteList({ type })
 
   function deleteList()
   {
-    const taskList = activeProject.tasks.filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
-    const typesList = activeProject.types.filter(listType => { return listType.id !== type.id });
+    const taskList = structuredClone(activeProject.tasks).filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
+    const typesList = structuredClone(activeProject.types).filter(listType => { return listType.id !== type.id });
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
       {
@@ -35,7 +35,7 @@ export default function OptionDeleteList({ type })
     {
       setResponseConfirmation("Successfully deleted list", "", dispatch);
       setProjects(projectsCopy);
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tasks: taskList, types: typesList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList, types: typesList }))
     })
     .catch(err => setResponseError(err, dispatch))
 

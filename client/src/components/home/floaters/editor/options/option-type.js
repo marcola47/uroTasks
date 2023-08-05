@@ -15,11 +15,11 @@ export default function OptionType({ task })
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
   
-  const taskTypes = activeProject.types.filter(type => type.id !== task.type);
+  const taskTypes = structuredClone(activeProject.types).filter(type => type.id !== task.type);
 
   function updateTaskType(newType)
   { 
-    const taskList = activeProject.tasks;
+    const taskList = structuredClone(activeProject.tasks);
     const taskToMove = taskList.find(listTask => listTask.id === task.id);
     
     const tasksFiltered = taskList.filter(listTask => listTask.type === newType.id);
@@ -45,7 +45,7 @@ export default function OptionType({ task })
       return listTask;
     })
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;

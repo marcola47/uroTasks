@@ -13,22 +13,17 @@ export default function ProjStart()
   const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
-  function callDeleteProject()
+  function callFunction(func)
   {
     const projectsContext = { projects, setProjects, activeProject, setActiveProject }
     const userContext = { user, setUser };
     const reducerContext = { state, dispatch };
 
-    deleteProject(projectsContext, userContext, reducerContext)
-  }
+    if (func === 'delete')
+      deleteProject(projectsContext, userContext, reducerContext)
 
-  function callCloneProject()
-  {
-    const projectsContext = { projects, setProjects, activeProject }
-    const userContext = { user, setUser };
-    const reducerContext = { state, dispatch };
-
-    cloneProject(projectsContext, userContext, reducerContext)
+    else if (func === 'clone')
+      cloneProject(projectsContext, userContext, reducerContext)
   }
 
   return (
@@ -48,12 +43,12 @@ export default function ProjStart()
         <span>TAGS</span>
       </div>
       
-      <div className="start__option" onClick={ callCloneProject }>
+      <div className="start__option" onClick={ () => {callFunction('clone')} }>
         <FontAwesomeIcon icon={ faClone }/>
         <span>CLONE PROJECT</span>
       </div>
 
-      <div className="start__option start__option--danger" onClick={ callDeleteProject }>
+      <div className="start__option start__option--danger" onClick={ () => {callFunction('delete')} }>
         <FontAwesomeIcon icon={ faTrash }/>
         <span>DELETE PROJECT</span>
       </div>

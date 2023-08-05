@@ -9,9 +9,8 @@ export default function TaskTags({ task })
   const { activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
-  const taskTagsList = activeProject.tasks.filter(listTask => listTask.id === task.id)[0].tags ?? [];
-  const tags = JSON.parse(JSON.stringify(activeProject.tags));
-  const filteredTags = tags.filter(tag => taskTagsList.includes(tag.id));
+  const taskTagsList = structuredClone(activeProject.tasks).filter(listTask => listTask.id === task.id)[0].tags ?? [];
+  const filteredTags = structuredClone(activeProject.tags).filter(tag => taskTagsList.includes(tag.id));
   
   function TaskTag({ itemData })
   {

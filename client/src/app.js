@@ -170,7 +170,7 @@ export default function App()
         axios.post(`/a/task/get?projectID=${activeProject.id}`)
         .then(res => 
         {
-          const projectsCopy = [...projects].map(project => 
+          const projectsCopy = structuredClone(projects).map(project => 
           {
             if (project.id === activeProject.id)
               project.tasks = res.data.tasks;

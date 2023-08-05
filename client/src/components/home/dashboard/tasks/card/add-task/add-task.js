@@ -21,7 +21,7 @@ export default function AddTask({ type })
 
   function handleTextChange(content) 
   {     
-    const tasksOld = activeProject.tasks ?? [];
+    const tasksOld = structuredClone(activeProject.tasks) ?? [];
     
     const newPosition = tasksFiltered.length > 0 
       ? Math.max(...tasksFiltered.map(taskObj => taskObj.position)) + 1 
@@ -42,7 +42,7 @@ export default function AddTask({ type })
     tasksFiltered.push(newTask);
     const tasksUpdated = [...tasksOld, newTask];
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = [...tasksOld, newTask];

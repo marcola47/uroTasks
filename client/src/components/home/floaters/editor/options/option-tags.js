@@ -17,7 +17,7 @@ export default function OptionTags({ task })
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
 
   const orderedTagsList = activeProject.tags.length > 0
-    ? activeProject.tags.sort((a, b) => { return a.position - b.position })
+    ? structuredClone(activeProject.tags).sort((a, b) => { return a.position - b.position })
     : null
 
   function toggleTag(tag)
@@ -37,21 +37,21 @@ export default function OptionTags({ task })
       tagsList.push(tag.id)
     }
 
-    const taskList = activeProject.tasks.map(listTask => 
-      {
-        if (listTask.id === task.id)
-          listTask.tags = tagsList;
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
+    {
+      if (listTask.id === task.id)
+        listTask.tags = tagsList;
 
-        return listTask;
-      })
-    
-      const projectsCopy = projects.map(project => 
-      {
-        if (project.id === activeProject.id)
-          project.tasks = taskList
+      return listTask;
+    })
+  
+    const projectsCopy = structuredClone(projects).map(project => 
+    {
+      if (project.id === activeProject.id)
+        project.tasks = taskList
 
-        return project;
-      })
+      return project;
+    })
 
     axios.post(`/a/task/update?type=tags&method=${method}`,
     {
@@ -61,7 +61,7 @@ export default function OptionTags({ task })
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tasks: taskList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }))
       setProjects(projectsCopy)
     })
     .catch(err => setResponseError(err, dispatch))

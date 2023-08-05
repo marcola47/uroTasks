@@ -16,7 +16,7 @@ export function ProjTagsDisplay()
   const { dispatch } = useContext(ReducerContext);
   
   const orderedTagsList = activeProject.tags.length > 0
-    ? activeProject.tags.sort((a, b) => { return a.position - b.position })
+    ? structuredClone(activeProject.tags).sort((a, b) => { return a.position - b.position })
     : null
 
   function showTagsEditor(tag)
@@ -107,7 +107,7 @@ export function ProjTagsEditor()
 
   function createTag()
   {
-    const tagsList = activeProject.tags;
+    const tagsList = structuredClone(activeProject.tags);
 
     const newTag = 
     { 
@@ -119,7 +119,7 @@ export function ProjTagsEditor()
     
     tagsList.push(newTag)
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tags = tagsList;
@@ -134,7 +134,7 @@ export function ProjTagsEditor()
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: tagsList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tags: tagsList }))
       setProjects(projectsCopy);
   
       dispatch({ type: 'setProjOptions', payload: 'tags-display' })
@@ -145,7 +145,7 @@ export function ProjTagsEditor()
 
   function updateTag()
   {
-    const tagsList = activeProject.tags;
+    const tagsList = structuredClone(activeProject.tags);
 
     tagsList.map(listTag => 
     {
@@ -158,7 +158,7 @@ export function ProjTagsEditor()
       return listTag;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tags = tagsList;
@@ -175,7 +175,7 @@ export function ProjTagsEditor()
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: tagsList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tags: tagsList }))
       setProjects(projectsCopy);
   
       dispatch({ type: 'setProjOptions', payload: 'tags-display' })
@@ -188,9 +188,8 @@ export function ProjTagsEditor()
   {
     dispatch({ type: 'confirmationShown', payload: false })
 
-    const tagsList = activeProject.tags;
-    const filteredTagsList = tagsList.filter(listTag => listTag.id !== state.projTagsEditor.id)
-    const taskList = activeProject.tasks.map(listTask => 
+    const filteredTagsList = structuredClone(activeProject.tags).filter(listTag => listTag.id !== state.projTagsEditor.id)
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
     {
       if (listTask.tags.includes(state.projTagsEditor.id))
         listTask.tags = listTask.tags.filter(listTag => listTag !== state.projTagsEditor.id);
@@ -198,7 +197,7 @@ export function ProjTagsEditor()
         return listTask;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
       {
@@ -216,7 +215,7 @@ export function ProjTagsEditor()
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: filteredTagsList, tasks: taskList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tags: filteredTagsList, tasks: taskList }))
       setProjects(projectsCopy);
   
       dispatch({ type: 'setProjOptions', payload: 'tags-display' })
@@ -227,8 +226,7 @@ export function ProjTagsEditor()
 
   function showConfirmation()
   {
-    const taskList = activeProject.tasks;
-    console.log(taskList);
+    const taskList = structuredClone(activeProject.tasks);
 
     dispatch(
     { 

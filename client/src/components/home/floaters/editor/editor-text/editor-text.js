@@ -12,15 +12,13 @@ export default function EditorText()
 
   function handleContentChange(newContent)
   {
-    let isNewContent = false;
-    
     if (newContent === "")
       return;
-  
-    // has to be this way because whent it copies the current tasks, they're already altered
-    const tasksOld = JSON.parse(JSON.stringify(activeProject.tasks));
+    
+    let isNewContent = false;
 
-    const taskList = activeProject.tasks.map(taskObj => 
+    const tasksOld = structuredClone(activeProject.tasks);
+    const taskList = structuredClone(activeProject.tasks).map(taskObj => 
     {
       if (taskObj.id === state.editor.data.id && taskObj.content !== newContent)
       {
@@ -31,7 +29,7 @@ export default function EditorText()
       return taskObj;
     });
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;
@@ -39,7 +37,7 @@ export default function EditorText()
       return project;
     });
 
-    setActiveProject({ ...activeProject, tasks: taskList });
+    setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
 
     if (isNewContent)
     {

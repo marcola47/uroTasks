@@ -21,7 +21,7 @@ export default function OptionMoveList({ type })
   {
     // implement cross project moving
     const positions = { old: type.position, new: newPosition };
-    const typesList = activeProject.types;
+    const typesList = structuredClone(activeProject.types);
 
     if (positions.new > positions.old)
     {
@@ -51,7 +51,7 @@ export default function OptionMoveList({ type })
       })
     }
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.types = typesList;
@@ -68,7 +68,7 @@ export default function OptionMoveList({ type })
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: typesList }))
       setProjects(projectsCopy);
     })
     .catch(err => setResponseError(err, dispatch))

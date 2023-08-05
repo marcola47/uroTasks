@@ -26,7 +26,7 @@ export function HeaderColor()
     if (!pickerActive || newColor === oldColor)
       return;
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.color = newColor;
@@ -76,16 +76,15 @@ export function HeaderTitle()
 
   function handleNameChange(newName) 
   { 
-    // not setting the activeProject directly makes the name flicker when changing
     const oldName = activeProject.name;
 
     if (newName === oldName)
       return;
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        return { ...project, name: newName, tasks: activeProject.tasks }
+        return { ...project, name: newName }
 
       return project;
     });

@@ -27,7 +27,7 @@ export default function AddCard({ typesOrdered })
     const types = typesOrdered;
     types.push(newType);
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.types = types;
@@ -42,7 +42,7 @@ export default function AddCard({ typesOrdered })
     })
     .then(() => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: types }))
+      setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: types }))
       setProjects(projectsCopy);
     })
     .catch(err => setResponseError(err, dispatch))

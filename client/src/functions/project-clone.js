@@ -14,10 +14,10 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     if (state.projOptions)
       dispatch({ type: 'setProjOptions', payload: null })
 
-    const taskList = JSON.parse(JSON.stringify(activeProject.tasks));
-    const newProject = JSON.parse(JSON.stringify(activeProject));
+    const taskList = structuredClone(activeProject.tasks);
+    const newProject = structuredClone(activeProject);
 
-    newProject.tasks = taskList.map(task => { return { ...task, id: uuid() } });
+    newProject.tasks = taskList.map(task => { return { ...task, id: uuid(), created_at: Date.now(), updated_at: Date.now() } });
     newProject.created_at = Date.now();
     newProject.updated_at = Date.now();
     newProject.name = newProject.name + ' copy';
@@ -31,8 +31,6 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     })
     .then(() => 
     {
-      console.log(activeProject)
-      console.log(newProject)
       setProjects(prevProjects => ([...prevProjects, newProject]));
       setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newProject.id] }))
       setResponseConfirmation("Successfully cloned project", "", dispatch)

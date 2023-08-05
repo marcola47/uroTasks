@@ -12,7 +12,7 @@ export default function OptionPosition({ task })
  
   function updateTaskPosition(direction)
   { 
-    const tasksFiltered = activeProject.tasks.filter(taskObj => taskObj.type === task.type);
+    const tasksFiltered = structuredClone(activeProject.tasks).filter(taskObj => taskObj.type === task.type);
     const lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
     const updatedTask = tasksFiltered.find(taskObj => taskObj.id === task.id);
   
@@ -27,7 +27,7 @@ export default function OptionPosition({ task })
 
     const otherTask = tasksFiltered.find(taskObj => taskObj.position === updatedTask.position + offset);
     
-    const taskList = activeProject.tasks.map(taskObj => 
+    const taskList = structuredClone(activeProject.tasks).map(taskObj => 
     {
       if (taskObj.id === updatedTask.id)
         taskObj.position = taskObj.position + offset;
@@ -38,7 +38,7 @@ export default function OptionPosition({ task })
       return taskObj;
     })
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;

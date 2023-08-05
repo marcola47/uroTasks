@@ -1392,6 +1392,9 @@
   font-weight: 500;
   font-size: 1.2rem;
   cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   transition: all 0.1s ease-in-out;
 }
 .proj-options .start__option svg {

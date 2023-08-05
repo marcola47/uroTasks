@@ -12,7 +12,7 @@ export default function OptionDelete({ task })
 
   function deleteTask()
   {
-    const taskList = activeProject.tasks;    
+    const taskList = structuredClone(activeProject.tasks);    
     const taskToDelete = taskList.find(listTask => listTask.id === task.id);
     const filteredTasks = taskList.filter(listTask => listTask.id !== taskToDelete.id);
     filteredTasks.forEach(listTask => 
@@ -21,7 +21,7 @@ export default function OptionDelete({ task })
         listTask.position--;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
         project.tasks = taskList;

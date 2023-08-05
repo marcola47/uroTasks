@@ -18,7 +18,7 @@ export default function Card({ type })
   const optionsRef = useRef(null);
 
   const tasksFiltered = Array.isArray(activeProject.tasks) 
-    ? activeProject.tasks.filter(task => task.type === type.id).sort((a, b) => {return a.position - b.position})
+    ? structuredClone(activeProject.tasks).filter(task => task.type === type.id).sort((a, b) => { return a.position - b.position })
     : [];
 
   function toggleOptions()
