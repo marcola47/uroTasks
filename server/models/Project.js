@@ -1,57 +1,8 @@
 import mongoose from "mongoose";
+
 import idSchema from './_id.js';
-
-import { v4 as uuid } from 'uuid';
- 
-const typesSchema = new mongoose.Schema(
-{
-  id:
-  {
-    type: String,
-    default: uuid,
-    required: true
-  },
-
-  name:
-  {
-    type: String,
-    required: true,
-    maxlength: 512
-  },
-
-  position: 
-  {
-    type: Number,
-    required: true
-  }
-}, { _id : false });
-
-const tagsSchema = new mongoose.Schema(
-{
-  id:
-  {
-    type: String,
-    default: uuid,
-    required: true
-  },
-
-  name:
-  {
-    type: String,
-    required: true,
-    maxlength: 512
-  },
-
-  color:
-  {
-    type: String,
-    maxlength: 7,
-    default: '#ffffff',
-    required: true
-  },
-
-  position: Number
-}, { _id : false })
+import tagSchema from "./_tag.js";
+import typeSchema from "./_type.js";
 
 const projectSchema = new mongoose.Schema(
 {
@@ -80,7 +31,7 @@ const projectSchema = new mongoose.Schema(
 
   types:
   { 
-    type: [typesSchema],
+    type: [typeSchema],
     default: [],
     required: false,
     maxlength: 1024
@@ -88,7 +39,7 @@ const projectSchema = new mongoose.Schema(
 
   tags:
   {
-    type: [tagsSchema],
+    type: [tagSchema],
     default: [],
     required: false,
     maxlength: 1024

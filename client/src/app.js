@@ -134,27 +134,15 @@ export default function App()
 
   function fetchProjects()
   {
-    if (user !== null)
+    if (user !== null && state.fetchingProjects)
     {
-      if (state.fetchingProjects)
+      axios.post(`/a/project/get`, { projectIDs: user.projects })
+      .then(res =>
       {
-        axios.post(`/a/project/get`, { projectIDs: user.projects })
-        .then(res =>
-        {
-          setProjects(res.data.projectsMeta); 
-          dispatch({ type: 'fetchingProjects', payload: false })
-        })
-        .catch(err => setResponseError(err, dispatch))
-      }
-
-      else if (projects.length > 0)
-      {
-        const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
-
-        activeProjectIndex !== -1 
-          ? setActiveProject(projects[activeProjectIndex]) 
-          : setActiveProject(null);
-      }
+        setProjects(res.data.projectsMeta); 
+        dispatch({ type: 'fetchingProjects', payload: false })
+      })
+      .catch(err => setResponseError(err, dispatch))
     }
   }
 
@@ -179,7 +167,6 @@ export default function App()
           });
           
           setProjects(projectsCopy);
-          setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: res.data.tasks }));
           dispatch({ type: 'fetchingTasks', payload: false })
         })
         .catch(err => setResponseError(err, dispatch))
@@ -187,10 +174,23 @@ export default function App()
     }
   }
 
+  function activateProject()
+  {
+    if (projects.length > 0)
+    {
+      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+
+      activeProjectIndex > -1 
+        ? setActiveProject(projects[activeProjectIndex]) 
+        : setActiveProject(null);
+    }
+  }
+
   // eslint-disable-next-line
-  useEffect(() => { fetchUser()     }, [user])  // eslint-disable-next-line
-  useEffect(() => { fetchProjects() }, [user, state.fetchingProjects]); // eslint-disable-next-line
-  useEffect(() => { fetchTasks()    }, [activeProject, state.fetchingTasks]);
+  useEffect(() => { fetchUser()       }, [user])  // eslint-disable-next-line
+  useEffect(() => { fetchProjects()   }, [user, state.fetchingProjects]); // eslint-disable-next-line
+  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]);
+  useEffect(() => { activateProject() }, [user, projects])
 
   useEffect(() => // hide notification
   {

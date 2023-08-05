@@ -14,26 +14,30 @@ export default function OptionDeleteTasks({ type })
   {
     const taskList = structuredClone(activeProject.tasks).filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
-
+        project.updated_at = Date.now();
+      }
+      
       return project;
     });
 
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=types&crud=deleteTasks', 
     {
       projectID: activeProject.id,
       typeID: type.id
     })
-    .then(() => 
+    .then(() => setResponseConfirmation("Successfully deleted tasks", "", dispatch))
+    .catch(err => 
     {
-      setResponseConfirmation("Successfully deleted tasks", "", dispatch);
-      setProjects(projectsCopy);
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }))
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
 
     dispatch({ type: 'confirmationShown', payload: false })
   }

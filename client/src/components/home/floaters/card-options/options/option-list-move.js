@@ -51,14 +51,19 @@ export default function OptionMoveList({ type })
       })
     }
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.types = typesList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=types&crud=moveList', 
     {
       curProjectID: activeProject.id,
@@ -66,12 +71,11 @@ export default function OptionMoveList({ type })
       typeID: type.id,
       positions: positions
     })
-    .then(() => 
+    .catch(err =>
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: typesList }))
-      setProjects(projectsCopy);
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
 
     setParamsShown(false);
     setProjListShown(false);

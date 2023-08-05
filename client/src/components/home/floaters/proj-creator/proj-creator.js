@@ -39,12 +39,12 @@ export default function ProjCreator()
       color: newColor,
       activeTasks: 0,
       users: [user.id],
-      tags: [],
+      tags: [{ id: uuid(), name: "example tag", color: "#ffffff", position: 1 }],
       types: 
       [
-        { id: uuid(), name: "todo" , position: 1 },
-        { id: uuid(), name: "doing", position: 2 },
-        { id: uuid(), name: "done" , position: 3 }
+        { id: uuid(), name: "TO-DO" , position: 1 },
+        { id: uuid(), name: "DOING", position: 2 },
+        { id: uuid(), name: "DONE" , position: 3 }
       ]
     };
 

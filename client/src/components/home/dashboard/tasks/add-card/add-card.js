@@ -21,31 +21,37 @@ export default function AddCard({ typesOrdered })
     {
       id: uuid(),
       name: newTypeName,
-      position: typesOrdered.length + 1
+      position: typesOrdered.length + 1,
+      created_at: Date.now(),
+      updated_at: Date.now()
     }
 
     const types = typesOrdered;
     types.push(newType);
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.types = types;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=types&crud=create', 
     { 
       projectID: activeProject.id, 
       newType: newType 
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: types }))
-      setProjects(projectsCopy);
+      setResponseError(err, dispatch)
+      setProjects(projectsOld)
     })
-    .catch(err => setResponseError(err, dispatch))
 
     inputValueRef.current.value = '';
   }

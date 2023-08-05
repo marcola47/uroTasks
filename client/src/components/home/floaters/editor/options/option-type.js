@@ -45,14 +45,25 @@ export default function OptionType({ task })
       return listTask;
     })
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    dispatch(
+    { 
+      type: 'setEditor', 
+      payload: { params: null, data: null } 
+    })
+
+    setProjects(projectsCopy);
     axios.post(`/a/task/update?type=type`, 
     {
       projectID: activeProject.id, 
@@ -60,18 +71,11 @@ export default function OptionType({ task })
       types: types, 
       positions: positions
     })
-    .then(() => 
-    { 
-      dispatch(
-      { 
-        type: 'setEditor', 
-        payload: { params: null, data: null } 
-      })
-
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
-      setProjects(projectsCopy);
+    .catch(err =>
+    {
+      setResponseError(err, dispatch);
+      setProjects(projectsOld)
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function TypeLocation({ itemData })

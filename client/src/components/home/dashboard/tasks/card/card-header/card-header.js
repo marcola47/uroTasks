@@ -14,7 +14,6 @@ export default function CardHeader({ type })
   function handleNameChange(newName) 
   { 
     const oldTypes = structuredClone(activeProject.types);
-
     const typesList = structuredClone(activeProject.types).map(listType => 
     {
       if (listType.id === type.id)
@@ -23,27 +22,29 @@ export default function CardHeader({ type })
       return listType;
     })
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.types = typesList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: typesList }))
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=types&crud=updateName', 
     { 
       projectID: activeProject.id, 
       typeID: type.id, 
       typeName: newName 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch)
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, types: oldTypes }))
+      setProjects(projectsOld)
     })
 
     dispatch({ type: 'confirmationShown', payload: false })

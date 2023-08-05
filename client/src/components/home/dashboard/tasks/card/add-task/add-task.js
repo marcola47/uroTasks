@@ -16,12 +16,13 @@ export default function AddTask({ type })
   const inputValueRef = useRef();
 
   const tasksFiltered = Array.isArray(activeProject.tasks) 
-    ? activeProject.tasks.filter(task => task.type === type.id)
+    ? structuredClone(activeProject.tasks).filter(task => task.type === type.id)
     : [];
 
   function handleTextChange(content) 
   {     
-    const tasksOld = structuredClone(activeProject.tasks) ?? [];
+    const oldTasks = structuredClone(activeProject.tasks) ?? [];
+    const taskList = structuredClone(activeProject.tasks) ?? [];
     
     const newPosition = tasksFiltered.length > 0 
       ? Math.max(...tasksFiltered.map(taskObj => taskObj.position)) + 1 
@@ -35,36 +36,34 @@ export default function AddTask({ type })
       content: content, 
       project: activeProject.id,
       tags: [],
-      created_at: new Date(), 
-      updated_at: new Date() 
+      created_at: Date.now(), 
+      updated_at: Date.now() 
     }
 
-    tasksFiltered.push(newTask);
-    const tasksUpdated = [...tasksOld, newTask];
+    taskList.push(newTask);
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        project.tasks = [...tasksOld, newTask];
+      {
+        project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
       
-    setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksUpdated }));
-
+    setProjects(projectsCopy)
     axios.post('/a/task/create', 
     {
       projectID: activeProject.id, 
       newTask: newTask
     })
-    .then(() => 
-    {
-      setProjects(projectsCopy)
-    })
     .catch(err => 
     {
       setResponseError(err, dispatch);
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
+      setProjects(projectsOld)
     })
 
     setInputValue('');

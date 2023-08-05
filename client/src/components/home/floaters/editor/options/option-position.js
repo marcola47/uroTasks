@@ -38,10 +38,14 @@ export default function OptionPosition({ task })
       return taskObj;
     })
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
     
       return project;
     });
@@ -52,18 +56,18 @@ export default function OptionPosition({ task })
       payload: { params: null, dat: null } 
     })
 
+    setProjects(projectsCopy);
     axios.post('/a/task/update?type=position', 
     {
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
-      setProjects(projectsCopy);
-    })
-    .catch(err => setResponseError(err, dispatch));
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+    });
   }
 
   return (

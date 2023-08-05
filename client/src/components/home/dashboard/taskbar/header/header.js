@@ -26,32 +26,37 @@ export function HeaderColor()
     if (!pickerActive || newColor === oldColor)
       return;
     
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.color = newColor;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject({ ...activeProject, color: newColor });
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=color', 
     { 
       projectID: activeProject.id, 
       newColor: newColor 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch)
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, color: oldColor }))
+      setProjects(projectsOld);
     })
   }
 
   return (
     <>
-      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}><FontAwesomeIcon icon={ faSquare }/></div>
+      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}>
+        <FontAwesomeIcon icon={ faSquare }/>
+      </div>
+      
       {
         pickerActive && 
         <div>
@@ -81,26 +86,28 @@ export function HeaderTitle()
     if (newName === oldName)
       return;
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        return { ...project, name: newName }
+      {
+        project.name = newName;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: newName }));
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=name', 
     { 
       projectID: activeProject.id, 
       newName: newName 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch);
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: oldName }));
+      setProjects(projectsOld)
     })
   }
 
@@ -130,7 +137,7 @@ export function HeaderTitle()
           onKeyDown={ handleKeyDown }
         />
 
-      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ activeProject.name }</div>
+      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ inputValue }</div>
     }
     </div>
   );

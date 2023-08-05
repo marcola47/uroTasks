@@ -21,7 +21,6 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     .then(() => 
     {
       setProjects(projects.filter(project => project.id !== activeProject.id));
-      setActiveProject(null);
       setUser(prevUser => ({ ...prevUser, activeProject: "0" }));
       setResponseConfirmation("Succesfully deleted project", "", dispatch)
     })

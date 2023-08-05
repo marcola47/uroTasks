@@ -23,23 +23,35 @@ userController.login = async (req, res) =>
   try 
   {
     const user = await User.findOne({ email: userData.email });
+    if (!user)
+    {
+      return res.status(400).json(
+      { 
+        header: "Failed to login", 
+        message: 'Invalid email or password, make sure to type them correctly!'
+      });
+    }
 
-    if (!user) 
-      return res.status(400).json({ header: "Failed to login", message: 'Invalid email or password, make sure to type them correctly!'});
     
     const match = await bcrypt.compare(userData.password, user.password);
 
-    if (!match) 
-      return res.status(400).json({ header: "Failed to login", message: 'Invalid email or password, make sure to type them correctly!'});
+    if (!match)
+    {
+      return res.status(400).json(
+      { 
+        header: "Failed to login", 
+        message: 'Invalid email or password, make sure to type them correctly!'
+      });
+    }
 
     const accessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: user.id })
-      .catch(err => console.log(err))
+    .catch(err => console.log(err))
 
     user.password = null;
-    res.status(200).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken, result: user });
+    res.status(200).json({ auth: true, result: user, accessToken: accessToken, refreshToken: refreshToken });
   } 
 
   catch (error) 
@@ -94,7 +106,7 @@ userController.create = async (req, res) =>
     const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
     
     await Token.create({ token: refreshToken, userID: newUser.id })
-      .catch(err => console.log(err))
+    .catch(err => console.log(err))
 
     res.status(201).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken });
     console.log(`${new Date()}: Successfully created user ${newUser.name}`);
@@ -117,7 +129,12 @@ userController.updateActiveProject = async (req, res) =>
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
-  await User.updateOne({ id: data.userID }, { activeProject: data.projectID });
+  await User.updateOne
+  (
+    { id: data.userID }, 
+    { activeProject: data.projectID }
+  );
+  
   res.status(200).send({ newAccessToken: newAccessToken });
 }
 

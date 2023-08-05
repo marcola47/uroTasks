@@ -45,26 +45,30 @@ export default function OptionTags({ task })
       return listTask;
     })
   
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        project.tasks = taskList
+      {
+        project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    setProjects(projectsCopy)
     axios.post(`/a/task/update?type=tags&method=${method}`,
     {
       taskID: task.id,
       tagID: tag.id,
       method: method
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }))
-      setProjects(projectsCopy)
+      setResponseError(err, dispatch);
+      setProjects(projectsOld)
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function createTag()

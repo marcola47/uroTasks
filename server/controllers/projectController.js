@@ -221,7 +221,7 @@ projectController.updateTypes = async (req, res, session) =>
     await Project.updateOne
     (
       { id: data.curProjectID }, 
-      { $set: { types: typesList }, $set: { updated_at: Date.now() } }
+      { $set: { types: typesList } }
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });

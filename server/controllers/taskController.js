@@ -130,7 +130,7 @@ taskController.updatePosition = async (req, res, session) =>
     await Task.updateOne
     (
       { id: data.updatedTaskID },
-      { $inc: { position: -1 } },
+      { $inc: { position: -1 }, $set: { updated_at: Date.now() } },
       { session }
     );
     
@@ -147,7 +147,7 @@ taskController.updatePosition = async (req, res, session) =>
     await Task.updateOne
     (
       { id: data.updatedTaskID }, 
-      { $inc: { position: +1 } },
+      { $inc: { position: +1 }, $set: { updated_at: Date.now() }},
       { session }
     );
     
@@ -177,7 +177,7 @@ taskController.updateTags = async (req, res) =>
     await Task.updateOne
     (
       { id: data.taskID },
-      { $push: { tags: data.tagID } } 
+      { $push: { tags: data.tagID }, $set: { updated_at: Date.now() } } 
     )
   }
 
@@ -186,7 +186,7 @@ taskController.updateTags = async (req, res) =>
     await Task.updateOne
     (
       { id: data.taskID },
-      { $pull: { tags: data.tagID } } 
+      { $pull: { tags: data.tagID }, $set: { updated_at: Date.now() } } 
     )
   }
 
@@ -251,7 +251,7 @@ taskController.delete = async (req, res) =>
     await Project.updateOne
     (
       { id: data.projectID }, 
-      { $pull: { tasks: data.taskID } }
+      { $pull: { tasks: data.taskID }, $set: { updated_at: Date.now() } }
     );
   
     await Promise.all(taskList.map(async task => 

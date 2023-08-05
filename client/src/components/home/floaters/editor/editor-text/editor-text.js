@@ -29,28 +29,30 @@ export default function EditorText()
       return taskObj;
     });
 
+    const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
-
     if (isNewContent)
     {
+      setProjects(projectsCopy)
       axios.post(`/a/task/update?type=content`, 
       {
         taskID: state.editor.data.id, 
         newContent: newContent
       })
-      .then(() => setProjects(projectsCopy))
       .catch(err => 
       {
         setResponseError(err, dispatch);
-        setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
+        setProjects(projectsOld)
       })
     }
   }
