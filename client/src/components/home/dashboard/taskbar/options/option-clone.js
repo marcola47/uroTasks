@@ -9,7 +9,7 @@ import { faClone } from '@fortawesome/free-solid-svg-icons';
 export default function OptionClone()
 {
   const { user, setUser } = useContext(UserContext);
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
   function callCloneProject()

@@ -11,7 +11,7 @@ import { faArrowsLeftRight, faArrowTurnDown  } from '@fortawesome/free-solid-svg
 
 export default function OptionType({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
   

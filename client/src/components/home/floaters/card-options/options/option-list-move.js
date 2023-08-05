@@ -7,7 +7,7 @@ import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-
 
 export default function OptionMoveList({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext)
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext)
   const { dispatch } = useContext(ReducerContext);
   
   const [paramsShown, setParamsShown] = useState(false);

@@ -4,7 +4,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 
 export default function CardHeader({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
   const [editing, setEditing] = useState(false);

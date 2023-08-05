@@ -94,7 +94,7 @@ export function ProjTagsDisplay()
 
 export function ProjTagsEditor()
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const [newColor, setNewColor] = useState(state.projTagsEditor.color ?? '#ffffff');
   const [newName, setNewName] = useState(state.projTagsEditor.name ?? 'new tag');

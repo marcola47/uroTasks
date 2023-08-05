@@ -10,12 +10,12 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 export default function OptionDelete()
 {
   const { user, setUser } = useContext(UserContext);
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
   function callDeleteProject()
   {
-    const projectsContext = { projects, setProjects, activeProject, setActiveProject }
+    const projectsContext = { projects, setProjects, activeProject }
     const userContext = { user, setUser };
     const reducerContext = { state, dispatch };
 

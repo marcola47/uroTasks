@@ -2,7 +2,7 @@ import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosCon
 
 export default function showConfirmation(projectsContext, userContext, reducerContext)
 {
-  const { projects, setProjects, activeProject, setActiveProject } = projectsContext;
+  const { projects, setProjects, activeProject } = projectsContext;
   const { user, setUser } = userContext;
   const { state, dispatch } = reducerContext;
 

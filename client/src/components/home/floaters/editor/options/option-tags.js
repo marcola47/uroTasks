@@ -12,7 +12,7 @@ import { faTag, faPencil, faArrowTurnDown } from '@fortawesome/free-solid-svg-ic
 
 export default function OptionTags({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
 
@@ -24,6 +24,7 @@ export default function OptionTags({ task })
   {
     let method = 'push';
     let tagsList = [];
+    let tagsOld = structuredClone(task.tags);
 
     if (task.tags.includes(tag.id))
     {
@@ -57,9 +58,11 @@ export default function OptionTags({ task })
       return project;
     })
 
+    task.tags = tagsList;
     setProjects(projectsCopy)
     axios.post(`/a/task/update?type=tags&method=${method}`,
     {
+      projectID: activeProject.id,
       taskID: task.id,
       tagID: tag.id,
       method: method
@@ -68,6 +71,7 @@ export default function OptionTags({ task })
     {
       setResponseError(err, dispatch);
       setProjects(projectsOld)
+      task.tags = tagsOld;
     })
   }
 

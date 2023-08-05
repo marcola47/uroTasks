@@ -45,6 +45,7 @@ taskController.create = async (req, res) =>
     const newTask = new Task(data.newTask);
 
     await newTask.save();
+    
     await Project.updateOne
     (
       { id: data.projectID }, 
@@ -71,7 +72,7 @@ taskController.create = async (req, res) =>
 }
 
 /*********************************************************************************************************************************/
-taskController.updateContent = async (req, res) => 
+taskController.updateContent = async (req, res, session) => 
 {
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
@@ -79,8 +80,16 @@ taskController.updateContent = async (req, res) =>
   await Task.updateOne
   (
     { id: data.taskID }, 
-    { content: data.newContent, $set: { updated_at: new Date() } }
+    { content: data.newContent, $set: { updated_at: new Date() } },
+    { session }
   );
+
+  await Project.updateOne
+  (
+    { id: data.projectID },
+    { $set: { updated_at: Date.now() } },
+    { session }
+  )
   
   res.status(200).send({ newAccessToken: newAccessToken });
   console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
@@ -114,6 +123,12 @@ taskController.updateType = async (req, res) =>
       );
     }
   }));
+
+  await Project.updateOne
+  (
+    { id: data.projectID },
+    { $set: { updated_at: Date.now() } }
+  )
 
   res.status(200).send({ newAccessToken: newAccessToken });
   console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
@@ -162,12 +177,19 @@ taskController.updatePosition = async (req, res, session) =>
   else 
     throw new Error('Invalid direction');
 
+  await Project.updateOne
+  (
+    { id: data.projectID },
+    { $set: { updated_at: Date.now() } },
+    { session }
+  )
+
   res.status(200).send({ newAccessToken: newAccessToken })
   console.log(`${new Date()}: successfully updated task position`);
 }
 
 /*********************************************************************************************************************************/
-taskController.updateTags = async (req, res) =>
+taskController.updateTags = async (req, res, session) =>
 {
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
@@ -177,7 +199,8 @@ taskController.updateTags = async (req, res) =>
     await Task.updateOne
     (
       { id: data.taskID },
-      { $push: { tags: data.tagID }, $set: { updated_at: Date.now() } } 
+      { $push: { tags: data.tagID }, $set: { updated_at: Date.now() } },
+      { session } 
     )
   }
 
@@ -186,12 +209,20 @@ taskController.updateTags = async (req, res) =>
     await Task.updateOne
     (
       { id: data.taskID },
-      { $pull: { tags: data.tagID }, $set: { updated_at: Date.now() } } 
+      { $pull: { tags: data.tagID }, $set: { updated_at: Date.now() } },
+      { session }
     )
   }
 
   else 
     throw new Error('Invalid method');
+
+  await Project.updateOne
+  (
+    { id: data.projectID },
+    { $set: { updated_at: Date.now() } },
+    { session }
+  )
 
   res.status(200).send({ newAccessToken: newAccessToken })
   console.log(`${new Date()}: successfully updated task tags`);
@@ -208,16 +239,16 @@ taskController.update = async (req, res) =>
     const type = req.query.type;
 
     if (type === 'content')
-      await taskController.updateContent(req, res);
+      await taskController.updateContent(req, res, session);
 
-    else if (type === 'type') // sessions sometimes, for whatever reason, don't work here
-      await taskController.updateType(req, res);
+    else if (type === 'type') // sessions don't work here
+      await taskController.updateType(req, res, session);
 
     else if (type === 'position')
       await taskController.updatePosition(req, res, session);
 
     else if (type === 'tags')
-      await taskController.updateTags(req, res);
+      await taskController.updateTags(req, res, session);
 
     await session.commitTransaction();
   }

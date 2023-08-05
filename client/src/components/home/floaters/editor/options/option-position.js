@@ -7,7 +7,7 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionPosition({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
  
   function updateTaskPosition(direction)
@@ -59,6 +59,7 @@ export default function OptionPosition({ task })
     setProjects(projectsCopy);
     axios.post('/a/task/update?type=position', 
     {
+      projectID: activeProject.id,
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction

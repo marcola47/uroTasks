@@ -4,7 +4,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 
 export default function EditorText() 
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   
   const [inputValue, setInputValue] = useState(state.editor.data.content);
@@ -46,6 +46,7 @@ export default function EditorText()
       setProjects(projectsCopy)
       axios.post(`/a/task/update?type=content`, 
       {
+        projectID: activeProject.id,
         taskID: state.editor.data.id, 
         newContent: newContent
       })

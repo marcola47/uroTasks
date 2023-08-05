@@ -9,7 +9,7 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export function HeaderColor()
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext); 
   const { dispatch } = useContext(ReducerContext);
   
   const [newColor, setNewColor] = useState(activeProject.color);
@@ -70,7 +70,7 @@ export function HeaderColor()
 
 export function HeaderTitle() 
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
   
   const [editing, setEditing] = useState(false);
