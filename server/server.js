@@ -20,3 +20,5 @@ const dbHost = process.env.DB_HOST;
 mongoose.connect(dbHost);
 mongoose.connection.on("error", console.error.bind(console, "could not establish connection with mongodb"))
 mongoose.connection.once("open", () => {console.log("connected to mongodb\n")});
+
+// exec run-rs to enable transactions if using localhost

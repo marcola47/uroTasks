@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext, UserContext, ReducerContext } from "app";
-import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
 
 import deleteProject from 'functions/project-delete';
 
