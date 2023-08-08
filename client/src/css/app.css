@@ -1357,25 +1357,34 @@
   bottom: 24px;
   right: 24px;
   width: 420px;
-  padding: 24px;
+  padding-bottom: 24px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
   background-color: hsl(210, 13%, 15%);
-  overflow: auto;
+}
+.proj-options ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: hsl(210, 13%, 30%);
+}
+.proj-options ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
 }
 .proj-options__header {
   display: grid;
   grid-template-columns: 24px auto 24px;
   place-items: center;
   gap: 8px;
-  padding-inline: 8px;
-  padding-bottom: 16px;
+  padding-block: 24px;
+  margin-inline: 24px;
   border-radius: 3px;
   border-bottom: 3px solid hsl(210, 13%, 30%);
   text-align: center;
 }
 .proj-options__content {
   flex-grow: 1;
+  padding: 24px;
+  overflow: auto;
 }
 .proj-options .start {
   display: flex;
@@ -1407,6 +1416,110 @@
 .proj-options .start__option--danger:hover {
   color: hsl(0, 0%, 100%);
   background-color: hsl(0, 80%, 51%);
+}
+.proj-options .filter {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.proj-options .filter__header {
+  font-weight: 500;
+}
+.proj-options .filter__check {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 3px;
+  border: 2px solid hsl(211, 18%, 55%);
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .filter__check:hover {
+  background-color: hsl(211, 18%, 40%);
+}
+.proj-options .filter__check--checked {
+  background-color: hsl(211, 18%, 55%);
+}
+.proj-options .filter__check--checked:hover {
+  border-color: hsl(211, 18%, 60%);
+  background-color: hsl(211, 18%, 60%);
+}
+.proj-options .filter .keyword {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .keyword__input {
+  padding: 12px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 10%);
+  cursor: text;
+}
+.proj-options .filter .dates {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .dates .date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .filter .dates .date:hover {
+  background-color: #31383f;
+}
+.proj-options .filter .dates .date__overdue .fa-clock {
+  color: hsl(0, 100%, 58%);
+}
+.proj-options .filter .dates .date__today .fa-clock {
+  color: hsl(30, 100%, 58%);
+}
+.proj-options .filter .dates .date__tomorrow .fa-clock {
+  color: hsl(46, 93%, 48%);
+}
+.proj-options .filter .tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .tags ::-webkit-scrollbar {
+  width: 6px;
+}
+.proj-options .filter .tags ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: hsl(210, 13%, 30%);
+}
+.proj-options .filter .tags ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
+}
+.proj-options .filter .tags__list {
+  display: flex;
+  flex-direction: column;
+  max-height: 256px;
+  overflow: auto;
+}
+.proj-options .filter .tags__tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+}
+.proj-options .filter .tags__tag > * {
+  border-radius: 3px;
+  cursor: pointer;
+}
+.proj-options .filter .tags__tag .tag__name {
+  flex-grow: 1;
+  padding: 8px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: all 0.1s ease-in-out;
 }
 .proj-options .tags__display {
   display: flex;

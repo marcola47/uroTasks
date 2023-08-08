@@ -23,7 +23,7 @@ export default function Editor()
 
   const editorStyle = 
   {
-    left: state.editor.params?.x + 250 ?? 0, 
+    left: state.editor.params?.x ?? 0, 
     top: state.editor.params?.y ?? 0,
     width: state.editor.params?.w ?? 0,
     minHeight: state.editor.params?.h ?? 0

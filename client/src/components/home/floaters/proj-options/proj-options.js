@@ -21,6 +21,7 @@ export default function ProjOptions()
     switch (state.projOptions)
     {
       case 'tags-editor': setPrev('tags-display'); break;
+      case 'start'      : setPrev(null); break;
       default           : setPrev('start'); break;
     }
 
@@ -38,23 +39,12 @@ export default function ProjOptions()
       default            : return null;
     }
   }
-
-  function PrevButton()
-  {
-    return (
-      <ButtonGlow 
-        icon={ faArrowLeft } 
-        fontSize="1.8rem" 
-        onClick={ () => {dispatch({ type: 'setProjOptions', payload: prev })} }
-      />
-    )
-  }
-
+  
   return (
     <TransitionOpacity className="overlay__bg--mid" onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }>
       <div className="proj-options" onClick={ e => {e.stopPropagation()} }>
         <div className="proj-options__header">
-          { prev ? <PrevButton/> : <div/> }
+          <ButtonGlow icon={ faArrowLeft } fontSize="1.8rem" onClick={ () => {dispatch({ type: 'setProjOptions', payload: prev })} }/>
           <h2 className="proj-options__title">PROJECT SETTINGS</h2>
           <ButtonGlow icon={ faXmark } onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }/>
         </div>

@@ -10,15 +10,24 @@
   top: 142px;
   bottom: 24px;
   right: 24px;
-  
   width: 420px;
-  padding: 24px;
+  padding-bottom: 24px;
   border-radius: $br-big;
 
   color: $white-light;
   background-color: $bg-blue-mid-dim;
 
-  overflow: auto;
+  ::-webkit-scrollbar-thumb 
+  { 
+    border-radius: 2px;
+    background-color: $bg-blue-bright;
+  }
+
+  ::-webkit-scrollbar-track 
+  { 
+    margin: 0;
+    border-radius: 2px;
+  }
 
   &__header
   {
@@ -27,8 +36,8 @@
     place-items: center;
     gap: 8px;
 
-    padding-inline: 8px;
-    padding-bottom: 16px;
+    padding-block: 24px;
+    margin-inline: 24px;
     border-radius: $br-small;
     border-bottom: 3px solid $bg-blue-bright;
 
@@ -36,7 +45,11 @@
   }
 
   &__content
-  { flex-grow: 1 }
+  { 
+    flex-grow: 1;
+    padding: 24px;
+    overflow: auto;
+  }
 
   .start
   {
@@ -75,6 +88,149 @@
       {
         color: $white-light;
         background-color: $red-dark;
+      }
+    }
+  }
+
+  .filter
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    &__header
+    { font-weight: 500; }
+
+    &__check
+    {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      border-radius: $br-small;
+
+      border: 2px solid hsl(211, 18%, 55%); 
+      @include transition;
+
+      &:hover
+      { background-color: hsl(211, 18%, 40%) }
+
+      &--checked
+      { 
+        background-color: hsl(211, 18%, 55%);
+
+        &:hover
+        { 
+          border-color: hsl(211, 18%, 60%);
+          background-color: hsl(211, 18%, 60%);
+        }
+      }
+    }
+
+    .keyword
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &__input
+      {
+        padding: 12px;
+        border-radius: $br-small;
+
+        background-color: $bg-blue-dim;
+
+        cursor: text;
+      }
+    }
+
+    .dates
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .date
+      {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        padding: 8px;
+        border-radius: $br-small;
+
+        cursor: pointer;
+        @include transition;
+
+        &:hover
+        { background-color: lighten($bg-blue-mid-dim, 7%) }
+
+        &__overdue .fa-clock
+        { color: $red-light; }
+
+        &__today .fa-clock
+        { color: $orange-light; }
+
+        &__tomorrow .fa-clock
+        { color: $yellow-light; }
+      }
+    }
+
+    .tags
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      ::-webkit-scrollbar 
+      { width: 6px }
+
+      ::-webkit-scrollbar-thumb 
+      { 
+        border-radius: 2px;
+        background-color: $bg-blue-bright;
+      }
+
+      ::-webkit-scrollbar-track 
+      { 
+        margin: 0;
+        border-radius: 2px;
+      }
+
+      &__list
+      {
+        display: flex;
+        flex-direction: column;
+  
+        max-height: 256px;
+        overflow: auto;
+      }
+
+      &__tag
+      {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        padding: 4px 8px;
+
+        & > *
+        { 
+          border-radius: $br-small;
+          cursor: pointer;
+        }
+
+        .tag__name
+        {
+          flex-grow: 1;
+          padding: 8px;
+        
+          font-weight: 500;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+  
+          @include transition;
+        }
       }
     }
   }
