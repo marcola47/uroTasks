@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect, useRef } from "react"
 import { ProjectsContext, ReducerContext } from "app"
 
+import filterTasks from "functions/tasks-filter";
 import getTextColor from "utils/getTextColor";
 import List from 'components/utils/list/list'
 
@@ -11,53 +12,71 @@ export default function ProjFilter()
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ keywords: '', date: null, tags: [] });
 
   const tagsList = structuredClone(activeProject.tags);
 
-  function setFilter(filter)
+  const datesList = 
+  [
+    { type: 'overdue' , className: 'date__overdue' , name: 'overdue'        },
+    { type: 'today'   , className: 'date__today'   , name: 'Due today'      },
+    { type: 'tomorrow', className: 'date__tomorrow', name: 'Due tomorrow'   },
+    { type: 'week'    , className: 'date__week'    , name: 'Due next week'  },
+    { type: 'month'   , className: 'date__month'   , name: 'Due next month' }
+  ]
+
+  useEffect(() => { filterTasks({ projects, setProjects, activeProject }, filters, 'all') }, [filters])
+
+  function setDateFilter(dateType)
+  { 
+    if (filters.date && filters.date === dateType)
+      setFilters((prevFilters) => ({ ...prevFilters, date: null }))
+
+    else
+      setFilters((prevFilters) => ({ ...prevFilters, date: dateType }))
+  }
+
+  function setTagFilter(tag)
   {
     const filtersCopy = structuredClone(filters);
 
-    if (filter.type === 'tag')
+    if (filtersCopy.tags)
     {
-      if (filtersCopy.tags)
-      {
-        const tagIndex = filtersCopy.tags.findIndex(tag => tag === filter.tag);
+      const tagIndex = filtersCopy.tags.findIndex(listTag => listTag === tag);
 
-        if (tagIndex !== -1)
-          filtersCopy.tags.splice(tagIndex, 1)
-
-        else
-          filtersCopy.tags.push(filter.tag);
-      }
+      if (tagIndex !== -1)
+        filtersCopy.tags.splice(tagIndex, 1)
 
       else
-      {
-        filtersCopy.tags = [];
-        filtersCopy.tags.push(filter.tag);
-      }
+        filtersCopy.tags.push(tag);
     }
 
-    else if (filtersCopy[filter])
-      filtersCopy[filter] = null;
-
     else
-      filtersCopy[filter] = filter
+    {
+      filtersCopy.tags = [];
+      filtersCopy.tags.push(tag);
+    }
 
     setFilters(filtersCopy);
   }
 
-  useEffect(() => { console.log(filters) }, [filters])
+  function Date({ itemData })
+  {
+    const isChecked = filters.date
+    ? filters.date === itemData.type
+    : false
+
+    return (
+      <div className={`date ${itemData.className}`} onClick={ () => {setDateFilter(itemData.type)} }>
+        <div className={`filter__check ${isChecked && 'filter__check--checked'}`}/>
+        <FontAwesomeIcon icon={ faClock }/>
+        <span>{ itemData.name }</span>
+      </div>
+    )
+  }
 
   function Tag({ itemData })
   {
-    const filter = 
-    {
-      type: 'tag',
-      tag: itemData.id
-    }
-
     const colors =
     {
       backgroundColor: itemData.color, 
@@ -72,10 +91,10 @@ export default function ProjFilter()
       <li className='tags__tag'>
         <div 
           className={`filter__check ${isChecked && 'filter__check--checked'}`}
-          onClick={ () => {setFilter(filter)} }
+          onClick={ () => {setTagFilter(itemData.id)} }
         />
         
-        <div className="tag__name" style={ colors } onClick={ () => {setFilter(filter)} }>
+        <div className="tag__name" style={ colors } onClick={ () => {setTagFilter(itemData.id)} }>
           { itemData.name }
         </div>
       </li>
@@ -90,48 +109,26 @@ export default function ProjFilter()
           className="keyword__input" 
           id="keyword__input" 
           type="text"
+          value={ filters.keywords }
+          onChange={ e => setFilters((prevFilters) => ({ ...prevFilters, keywords: e.target.value })) }
         />
       </div>
 
       <div className="dates">
         <p className="filter__header">Dates</p>
-
-        <div className="date date__overdue">
-          <div className="filter__check"/>
-          <FontAwesomeIcon icon={ faClock }/>
-          <span>Overdue</span>
-        </div>
-
-        <div className="date date__today">
-          <div className="filter__check"/>
-          <FontAwesomeIcon icon={ faClock }/>
-          <span>Due today</span>
-        </div>
-
-        <div className="date date__tomorrow">
-          <div className="filter__check"/>
-          <FontAwesomeIcon icon={ faClock }/>
-          <span>Due tomorrow</span>
-        </div>
-
-        <div className="date date__next-week">
-          <div className="filter__check"/>
-          <FontAwesomeIcon icon={ faClock }/>
-          <span>Due next week</span>
-        </div>
-
-        <div className="date date__next-month">
-          <div className="filter__check"/>
-          <FontAwesomeIcon icon={ faClock }/>
-          <span>Due next month</span>
-        </div>
+        <List
+          classes="dates__list"
+          ids={`list-proj-options:filter:dates`}
+          elements={ datesList }
+          ListItem={ Date }
+        />
       </div>
 
       <div className="tags">
         <p className="filter__header">Tags</p>
         <List
           classes='tags__list'
-          ids={`list--proj-options:tags`} 
+          ids={`list--proj-options:filter:tags`} 
           elements={ tagsList } 
           ListItem={ Tag }
         />

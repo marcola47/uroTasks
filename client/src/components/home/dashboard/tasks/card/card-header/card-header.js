@@ -74,7 +74,7 @@ export default function CardHeader({ type })
           value={ inputValue } 
           ref={ inputRef } 
           style={ {width: '100%'} } 
-          onChange={ e => {setInputValue(e.target.value)} } 
+          onChange={ e => setInputValue(e.target.value) } 
           onBlur={ handleSave } 
           onKeyDown={ handleKeyDown }
         />

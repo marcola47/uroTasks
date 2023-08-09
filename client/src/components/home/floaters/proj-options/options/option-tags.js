@@ -269,7 +269,7 @@ export function ProjTagsEditor()
           className="tags__input__name" 
           id="tagsEditor--input--name" 
           value={ newName } 
-          onChange={ e => {setNewName(e.target.value)} }  
+          onChange={ e => setNewName(e.target.value) }  
           autoComplete="off"
         />
       </div>

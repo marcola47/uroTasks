@@ -1466,6 +1466,9 @@
   padding: 8px;
   border-radius: 3px;
   cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   transition: all 0.1s ease-in-out;
 }
 .proj-options .filter .dates .date:hover {

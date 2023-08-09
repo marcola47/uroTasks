@@ -109,7 +109,7 @@ export default function AddTask({ type })
           id='text-area' 
           ref={ inputValueRef } 
           value={ inputValue } 
-          onChange={ e => {setInputValue(e.target.value)} } 
+          onChange={ e => setInputValue(e.target.value) } 
           onBlur={ handleSave } 
           onKeyDown={ handleKeyDown }
           onInput={ handleInputGrowth }

@@ -121,7 +121,7 @@ export default function EditorText()
       id='editor__text-area' 
       ref={ taskTextRef } 
       value={ inputValue } 
-      onChange={ e => {setInputValue(e.target.value);} } 
+      onChange={ e => setInputValue(e.target.value) } 
       onBlur={ e => {handleSave(e)} } 
       onKeyDown={ handleKeyDown }
       onInput={ handleInputGrowth }

@@ -159,6 +159,7 @@
         border-radius: $br-small;
 
         cursor: pointer;
+        user-select: none;
         @include transition;
 
         &:hover
