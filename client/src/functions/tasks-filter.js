@@ -1,14 +1,23 @@
-export default function filterTasks(projectsContext, filters, list)
+export default function filterTasks(taskList, filters, type)
 {
-  const { projects, setProjects, activeProject } = projectsContext;
-  
-  if (list === 'all')
-    console.log('filtered all')
+  if (type !== 'all')
+    taskList = taskList.filter(task => task.type === type).sort((a, b) => { return a.position - b.position })
 
-  else
-    console.log(`filtered ${list}`)
+  if (filters.keywords !== '')
+  {
+    // implement exact or any match (current: any)
+    const trimmedKeywords = filters.keywords.trim();
+    const keywordsArray = trimmedKeywords.split(' ');
+    taskList = taskList.filter(listTask => { return keywordsArray.some(keyword => listTask.content.toLowerCase().includes(keyword)) })
+  }
 
-  console.log(filters);
+  // if (filters.date)
+  // {
 
-  return true;
+  // }
+
+  if (filters.tags.length > 0)
+    taskList = taskList.filter (listTask => { return filters.tags.every(tag => listTask.tags.includes(tag)) })
+
+  return taskList;
 }

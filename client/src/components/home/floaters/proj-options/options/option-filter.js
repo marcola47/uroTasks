@@ -10,35 +10,31 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 
 export default function ProjFilter()
 {
-  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
+  const { activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
-  const [filters, setFilters] = useState({ keywords: '', date: null, tags: [] });
-
   const tagsList = structuredClone(activeProject.tags);
 
   const datesList = 
   [
-    { type: 'overdue' , className: 'date__overdue' , name: 'overdue'        },
-    { type: 'today'   , className: 'date__today'   , name: 'Due today'      },
-    { type: 'tomorrow', className: 'date__tomorrow', name: 'Due tomorrow'   },
-    { type: 'week'    , className: 'date__week'    , name: 'Due next week'  },
-    { type: 'month'   , className: 'date__month'   , name: 'Due next month' }
+    { type: 'overdue' , name: 'Overdue'        },
+    { type: 'today'   , name: 'Due today'      },
+    { type: 'tomorrow', name: 'Due tomorrow'   },
+    { type: 'week'    , name: 'Due next week'  },
+    { type: 'month'   , name: 'Due next month' }
   ]
-
-  useEffect(() => { filterTasks({ projects, setProjects, activeProject }, filters, 'all') }, [filters])
 
   function setDateFilter(dateType)
   { 
-    if (filters.date && filters.date === dateType)
-      setFilters((prevFilters) => ({ ...prevFilters, date: null }))
+    if (state.filters.date && state.filters.date === dateType)
+      dispatch({ type: 'setFilters', payload: { ...state.filters, date: null } })
 
     else
-      setFilters((prevFilters) => ({ ...prevFilters, date: dateType }))
+      dispatch({ type: 'setFilters', payload: { ...state.filters, date: dateType } })
   }
 
   function setTagFilter(tag)
   {
-    const filtersCopy = structuredClone(filters);
+    const filtersCopy = structuredClone(state.filters);
 
     if (filtersCopy.tags)
     {
@@ -57,17 +53,17 @@ export default function ProjFilter()
       filtersCopy.tags.push(tag);
     }
 
-    setFilters(filtersCopy);
+    dispatch({ type: 'setFilters', payload: filtersCopy })
   }
 
   function Date({ itemData })
   {
-    const isChecked = filters.date
-    ? filters.date === itemData.type
+    const isChecked = state.filters.date
+    ? state.filters.date === itemData.type
     : false
 
     return (
-      <div className={`date ${itemData.className}`} onClick={ () => {setDateFilter(itemData.type)} }>
+      <div className={`date date__${itemData.type}`} onClick={ () => {setDateFilter(itemData.type)} }>
         <div className={`filter__check ${isChecked && 'filter__check--checked'}`}/>
         <FontAwesomeIcon icon={ faClock }/>
         <span>{ itemData.name }</span>
@@ -83,8 +79,8 @@ export default function ProjFilter()
       color: getTextColor(itemData.color)
     }
 
-    const isChecked = filters.tags 
-    ? filters.tags.includes(itemData.id) ? true : false
+    const isChecked = state.filters.tags 
+    ? state.filters.tags.includes(itemData.id) ? true : false
     : false
 
     return (
@@ -103,19 +99,22 @@ export default function ProjFilter()
 
   return (
     <div className="filter">
+      <h3 className="filter__header">FILTER TASKS</h3>
+
       <div className="keyword">
-        <label className="filter__header" htmlFor="keyword__input">Search for keywords</label>
+        <label className="filter__option__header" htmlFor="keyword__input">Search for keywords</label>
         <input 
           className="keyword__input" 
           id="keyword__input" 
           type="text"
-          value={ filters.keywords }
-          onChange={ e => setFilters((prevFilters) => ({ ...prevFilters, keywords: e.target.value })) }
+          value={ state.filters.keywords }
+          onChange={ e => dispatch({ type: 'setFilters', payload: { ...state.filters, keywords: e.target.value } }) }
+          autoFocus
         />
       </div>
 
       <div className="dates">
-        <p className="filter__header">Dates</p>
+        <p className="filter__option__header">Dates</p>
         <List
           classes="dates__list"
           ids={`list-proj-options:filter:dates`}
@@ -125,7 +124,7 @@ export default function ProjFilter()
       </div>
 
       <div className="tags">
-        <p className="filter__header">Tags</p>
+        <p className="filter__option__header">Tags</p>
         <List
           classes='tags__list'
           ids={`list--proj-options:filter:tags`} 

@@ -298,7 +298,42 @@
   color: hsl(0, 0%, 100%);
   background-color: hsl(0, 100%, 58%);
 }
+.taskbar__filter-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  border-radius: 3px;
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 85%);
+  overflow: hidden;
+  font-size: 1.1rem;
+}
+.taskbar__filter-active > * {
+  display: grid;
+  place-items: center;
+  width: 50%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.taskbar__filter-active .show:hover {
+  background-color: hsl(0, 0%, 100%);
+}
+.taskbar__filter-active .clear:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 100%, 58%);
+}
 
+@media screen and (max-width: 768px) {
+  .taskbar__option {
+    display: none;
+  }
+  .taskbar__option--ellipsis {
+    display: grid;
+  }
+}
 @media screen and (max-width: 520px) {
   .taskbar__header {
     font-size: 1.4rem;
@@ -1351,7 +1386,6 @@
 .proj-options {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   position: absolute;
   top: 142px;
   bottom: 24px;
@@ -1422,7 +1456,7 @@
   flex-direction: column;
   gap: 32px;
 }
-.proj-options .filter__header {
+.proj-options .filter__option__header {
   font-weight: 500;
 }
 .proj-options .filter__check {

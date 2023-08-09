@@ -4,7 +4,6 @@
 {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 
   position: absolute;
   top: 142px;
@@ -98,7 +97,7 @@
     flex-direction: column;
     gap: 32px;
 
-    &__header
+    &__option__header
     { font-weight: 500; }
 
     &__check

@@ -27,10 +27,17 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
+    filters: 
+    { 
+      keywords: '', 
+      date: null, 
+      tags: [] 
+    },
+    
     fetchingProjects: true,
-    fetchTasks: false,
+    fetchingTasks: false,
 
-    menuShown: JSON.parse(localStorage.getItem("menuOpen")),
+    menuShown: JSON.parse(localStorage.getItem("menuOpen")) ?? false,
     tagsNameShown: JSON.parse(localStorage.getItem("tagsNameShown")) ?? true,
     projCreatorShown: false,
 
@@ -42,21 +49,17 @@ export default function App()
 
     projOptions: null,
     projTagsEditor: null,
-    cardOptions: { params: null, data: null },
     editor: { params: null, data: null },
-
-
-    editorParams: null,
-    editorData: null,
-
-    cardParams: null,
-    cardData: null,
+    cardOptions: { params: null, data: null },
   });
       
   function reducer(state, action)
   {
     switch (action.type)
     {
+      case 'setFilters':
+        return { ...state, filters: action.payload }
+
       case 'fetchingProjects':
         return { ...state, fetchingProjects: action.payload }
 

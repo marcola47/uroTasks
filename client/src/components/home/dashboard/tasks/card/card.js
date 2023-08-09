@@ -6,6 +6,8 @@ import Task from '../task/task'
 import List from 'components/utils/list/list';
 import AddTask from "./add-task/add-task";
 
+import filterTasks from "functions/tasks-filter";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,9 +19,7 @@ export default function Card({ type })
   const { state, dispatch } = useContext(ReducerContext);
   const optionsRef = useRef(null);
 
-  const tasksFiltered = Array.isArray(activeProject.tasks) 
-    ? structuredClone(activeProject.tasks).filter(task => task.type === type.id).sort((a, b) => { return a.position - b.position })
-    : [];
+  const filteredTasks = filterTasks(activeProject.tasks, state.filters, type.id);
 
   function toggleOptions()
   { 
@@ -59,7 +59,7 @@ export default function Card({ type })
         <List 
           classes='card__list'
           ids={`list--${type.id}`} 
-          elements={ tasksFiltered } 
+          elements={ filteredTasks } 
           ListItem={ Task }
         /> 
       }
