@@ -109,7 +109,7 @@ userController.create = async (req, res) =>
     .catch(err => console.log(err))
 
     res.status(201).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken });
-    console.log(`${new Date()}: Successfully created user ${newUser.name}`);
+    console.log(`${Date.now()}: Successfully created user ${newUser.name}`);
   }
   
   catch (error) 
