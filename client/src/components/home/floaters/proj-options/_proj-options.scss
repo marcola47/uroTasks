@@ -98,7 +98,7 @@
     gap: 32px;
 
     &__option__header
-    { font-weight: 500; }
+    { font-weight: 500 }
 
     &__check
     {
@@ -231,6 +231,51 @@
   
           @include transition;
         }
+      }
+    }
+  }
+
+  .sort
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    &__option__header
+    { 
+      margin-bottom: 8px;
+      font-weight: 500; 
+    }
+
+    &__option
+    {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 12px;
+      border-radius: $br-small;
+
+      cursor: pointer;
+      user-select: none;
+      @include transition;
+
+      &:hover
+      {
+        color: $bg-blue-dark;
+        background-color: $white-light;
+      }
+
+      &--danger .fa-clock
+      { color: $red-light; }
+
+      &--safe .fa-clock
+      { color: $green-dark; }
+
+      &__icons
+      {
+        display: flex;
+        gap: 4px;
       }
     }
   }

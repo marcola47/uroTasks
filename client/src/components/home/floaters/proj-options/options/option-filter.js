@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect, useRef } from "react"
 import { ProjectsContext, ReducerContext } from "app"
 
-import filterTasks from "functions/tasks-filter";
 import getTextColor from "utils/getTextColor";
 import List from 'components/utils/list/list'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProjFilter()
 {
