@@ -576,6 +576,8 @@
   top: 0px;
 }
 .task__options {
+  display: grid;
+  place-items: center;
   opacity: 0;
   z-index: 5;
   position: absolute;
@@ -594,17 +596,7 @@
   transition: all 0.1s ease-in-out;
 }
 .task__options:hover {
-  color: hsl(210, 15%, 23%);
-  background-color: hsl(0, 0%, 100%);
-}
-.task__options__icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-}
-.task__options > * {
-  transition: all 0s 0s ease-in-out;
+  background-color: hsl(210, 13%, 30%);
 }
 
 @media screen and (max-width: 768px) {

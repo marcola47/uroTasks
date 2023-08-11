@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react"
+import { useContext } from "react"
 import { ProjectsContext, ReducerContext } from "app"
 
 import getTextColor from "utils/getTextColor";

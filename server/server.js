@@ -1,11 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import clear from 'clear';
 import { config } from 'dotenv';
 
 import router from './routes.js';
 
+clear();
 config();
+
 const app = express();
 const PORT = process.env.PORT || 9000;
 const corsOrigin = process.env.CORS_ORIGIN;

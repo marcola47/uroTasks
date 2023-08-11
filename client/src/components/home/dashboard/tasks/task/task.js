@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { ReducerContext } from 'app';
 
 import TaskTags from './tags/tags';
+import TaskBadges from './badges/badges';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
@@ -31,15 +32,17 @@ export default function Task({ itemData })
 
   return (
     <li className="task" id={ itemData?.id } ref={ taskRef } onContextMenu={ e => {toggleOptions(e)} }>
-      <div className='task__position'>{ itemData?.position }</div>
+      {/* <div className='task__position'>{ itemData?.position }</div> */}
 
       <TaskTags task={ itemData }/>
 
       <div className='task__text'>{ itemData?.content }</div>
       
       <div className='task__options' onClick={ e => {toggleOptions(e)} }>
-        <div className='task__options__icon'><FontAwesomeIcon icon={ faEllipsisVertical }/></div>
+        <FontAwesomeIcon icon={ faEllipsisVertical }/>
       </div>
+
+      <TaskBadges task={ itemData }/>
     </li>
   )
 }

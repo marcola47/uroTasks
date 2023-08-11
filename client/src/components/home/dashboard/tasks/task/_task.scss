@@ -71,6 +71,9 @@
 
   &__options
   {
+    display: grid;
+    place-items: center;
+
     opacity: 0; 
     z-index: 5;
 
@@ -92,22 +95,7 @@
     @include transition;
 
     &:hover
-    { 
-      color: $bg-blue-light;
-      background-color: $white-light;
-    }
-
-    &__icon
-    { 
-      display: grid;
-      place-items: center;
-    
-      width: 42px; 
-      height: 42px;
-    }
-
-    & > *
-    { transition: all 0s 0s ease-in-out; }
+    { background-color: $bg-blue-bright }
   }
 }
 
