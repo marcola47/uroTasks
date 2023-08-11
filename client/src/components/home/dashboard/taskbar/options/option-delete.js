@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ProjectsContext, UserContext, ReducerContext } from "app";
 
-import deleteProject from 'functions/project-delete';
+import deleteProject from 'operations/project-delete';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';

@@ -43,10 +43,17 @@ const taskSchema = new mongoose.Schema(
     maxlength: 1024
   },
 
+  completed:
+  {
+    type: Boolean,
+    default: false,
+    required: false
+  },
+
   start_date:
   {
     type: Date,
-    default: Date.now,
+    default: null,
     required: false
   },
 

@@ -87,9 +87,21 @@ export default function OptionType({ task })
     )
   }
 
+  function toggleSubMenus()
+  {
+    const newSubMenus = 
+    {
+      tags: false,
+      types: !subMenus.types,
+      dates: false
+    }
+
+    setSubMenus(newSubMenus);
+  }
+  
   return (
     <>
-      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
+      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ toggleSubMenus }>
       {
         subMenus.types
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -100,9 +112,9 @@ export default function OptionType({ task })
       <AnimateTransit>
       {
         subMenus.types &&
-        <TransitionOpacity className="type__select">
-          <div className="type__select__wrapper" style={{ width: state.editor.params.w }}>
-            <div className="type__header">Suggested</div>
+        <TransitionOpacity className="sub-menu type">
+          <div className="sub-menu__wrapper" style={{ width: state.editor.params.w }}>
+            <div className="sub-menu__header">TYPES</div>
             <List
               classes='type__locations'
               ids={`list--${task.id}:types`} 

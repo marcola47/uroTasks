@@ -151,9 +151,21 @@ export default function OptionTags({ task })
     )
   }
 
+  function toggleSubMenus()
+  {
+    const newSubMenus = 
+    {
+      tags: !subMenus.tags,
+      types: false,
+      dates: false
+    }
+
+    setSubMenus(newSubMenus);
+  }
+
   return (
     <>
-      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: !subMenus.tags, types: false })} }>
+      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ toggleSubMenus }>
       {
         subMenus.tags
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -164,8 +176,9 @@ export default function OptionTags({ task })
       <AnimateTransit>
       {
         subMenus.tags &&
-        <TransitionOpacity className="tags__settings">
-          <div className='tags__settings__wrapper' style={{ width: state.editor.params.w }}>
+        <TransitionOpacity className="sub-menu tags">
+          <div className='sub-menu__wrapper' style={{ width: state.editor.params.w }}>
+            <div className="sub-menu__header">TAGS</div>
             {
               orderedTagsList 
               ? <List

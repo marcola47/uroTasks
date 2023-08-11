@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import { ProjectsContext, UserContext, ReducerContext } from "app"
 
-import cloneProject from 'functions/project-clone'
-import deleteProject from 'functions/project-delete';
+import cloneProject from 'operations/project-clone'
+import deleteProject from 'operations/project-delete';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faArrowDownWideShort, faTag, faClone, faTrash } from '@fortawesome/free-solid-svg-icons';

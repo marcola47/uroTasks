@@ -8,6 +8,7 @@ import OptionEllipsis from './options/option-ellipsis'
 import OptionTags from './options/option-tags';
 import OptionType from './options/option-type';
 import OptionPosition from './options/option-position';  
+import OptionDates from './options/option-dates';
 import OptionDelete from './options/option-delete';
 
 export const SubMenusContext = React.createContext();
@@ -17,7 +18,7 @@ export default function Editor()
   const { state, dispatch } = useContext(ReducerContext);
   
   const [bottom, setBottom] = useState(0);
-  const [subMenus, setSubMenus] = useState({ tags: false, types: false })
+  const [subMenus, setSubMenus] = useState({ tags: false, types: false, dates: false })
   
   const optionsRef = useRef(null);
 
@@ -60,6 +61,7 @@ export default function Editor()
             <OptionTags task={ state.editor.data }/>
             <OptionType task={ state.editor.data }/>
             <OptionPosition task={ state.editor.data }/>
+            <OptionDates task={ state.editor.data }/>
             <OptionDelete task={ state.editor.data }/>
           </SubMenusContext.Provider>
         </div>

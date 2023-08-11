@@ -6,7 +6,7 @@ import Task from '../task/task'
 import List from 'components/utils/list/list';
 import AddTask from "./add-task/add-task";
 
-import filterTasks from "functions/tasks-filter";
+import filterTasks from "operations/tasks-filter";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
