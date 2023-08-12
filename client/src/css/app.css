@@ -571,6 +571,58 @@
   white-space: pre-wrap;
   box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
 }
+.task__badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0px 0px 8px 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.task__due-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 35%);
+  box-shadow: 0px 0px 5px hsla(211, 18%, 15%, 0.4);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.task__due-date:hover {
+  background-color: #596673;
+}
+.task__due-date--overdue {
+  background-color: hsl(0, 80%, 51%);
+}
+.task__due-date--overdue:hover {
+  background-color: hsl(0, 100%, 58%);
+}
+.task__due-date--today {
+  background-color: hsl(30, 80%, 51%);
+}
+.task__due-date--today:hover {
+  background-color: hsl(30, 100%, 58%);
+}
+.task__due-date--tomorrow {
+  background-color: hsl(46, 93%, 40%);
+}
+.task__due-date--tomorrow:hover {
+  background-color: hsl(46, 93%, 48%);
+}
+.task__due-date--completed {
+  background-color: hsl(145, 77%, 41%);
+}
+.task__due-date--completed:hover {
+  background-color: hsl(145, 77%, 50%);
+}
+.task__due-date .fa-clock, .task__due-date .fa-square-check {
+  width: 14px;
+}
 .task:hover > .task__options {
   opacity: 1;
   top: 0px;
@@ -1031,6 +1083,58 @@
   box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   font-family: inherit;
   font-size: inherit;
+}
+.editor__badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0px 0px 8px 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.editor__due-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 35%);
+  box-shadow: 0px 0px 5px hsla(211, 18%, 15%, 0.4);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.editor__due-date:hover {
+  background-color: #596673;
+}
+.editor__due-date--overdue {
+  background-color: hsl(0, 80%, 51%);
+}
+.editor__due-date--overdue:hover {
+  background-color: hsl(0, 100%, 58%);
+}
+.editor__due-date--today {
+  background-color: hsl(30, 80%, 51%);
+}
+.editor__due-date--today:hover {
+  background-color: hsl(30, 100%, 58%);
+}
+.editor__due-date--tomorrow {
+  background-color: hsl(46, 93%, 40%);
+}
+.editor__due-date--tomorrow:hover {
+  background-color: hsl(46, 93%, 48%);
+}
+.editor__due-date--completed {
+  background-color: hsl(145, 77%, 41%);
+}
+.editor__due-date--completed:hover {
+  background-color: hsl(145, 77%, 50%);
+}
+.editor__due-date .fa-clock, .editor__due-date .fa-square-check {
+  width: 14px;
 }
 .editor .sub-menu {
   z-index: 123;

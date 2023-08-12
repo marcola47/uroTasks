@@ -92,11 +92,7 @@ export default function OptionTags({ task })
     dispatch(
     {
       type: 'setEditor',
-      payload: 
-      {
-        params: null,
-        data: null
-      }
+      payload: { params: null, data: null }
     })
   }
 
@@ -125,11 +121,7 @@ export default function OptionTags({ task })
       dispatch(
       {
         type: 'setEditor',
-        payload: 
-        {
-          params: null,
-          data: null
-        }
+        payload: { params: null, data: null }
       })
     }
 

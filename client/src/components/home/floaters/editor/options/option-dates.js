@@ -4,7 +4,6 @@ import { SubMenusContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/transitions';
-import List from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
@@ -48,6 +47,8 @@ export default function OptionDates({ task })
       {
         listTask.start_date = datesEnabled.start ? startDate : null;
         listTask.due_date = datesEnabled.due ? dueDate : null;
+        task.start_date = datesEnabled.start ? startDate : null;
+        task.due_date = datesEnabled.due ? dueDate : null;
       }
 
       return listTask;
@@ -62,8 +63,8 @@ export default function OptionDates({ task })
       return project;
     })
 
-    setProjects(projectsCopy);
     toggleSubMenus();
+    setProjects(projectsCopy);
     axios.post('/a/task/update?type=dates', 
     {
       taskID: task.id,
@@ -97,7 +98,10 @@ export default function OptionDates({ task })
             <div className="dates__input">
               <label htmlFor="start-date">Start Date</label>
               <div className='dates__input__wrapper'>
-                <div className={`dates__input__toggle ${datesEnabled.start && 'dates__input__toggle--checked'}`} onClick={ () => {toggleDates('start')} }/>
+                <div 
+                  className={`dates__input__toggle ${datesEnabled.start && 'dates__input__toggle--checked'}`} 
+                  onClick={ () => {toggleDates('start')} }
+                />
               
                 <input 
                   type="date" 
@@ -114,7 +118,10 @@ export default function OptionDates({ task })
             <div className="dates__input">
               <label htmlFor="due-date">Due Date</label>
               <div className='dates__input__wrapper'>
-                <div className={`dates__input__toggle ${datesEnabled.due && 'dates__input__toggle--checked'}`} onClick={ () => {toggleDates('due')} }/>
+                <div 
+                  className={`dates__input__toggle ${datesEnabled.due && 'dates__input__toggle--checked'}`} 
+                  onClick={ () => {toggleDates('due')} }
+                />
                 
                 <input 
                   type="date" 

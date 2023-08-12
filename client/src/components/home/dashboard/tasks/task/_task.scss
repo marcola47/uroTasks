@@ -63,6 +63,65 @@
     box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   }
 
+  &__badges
+  {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 0px 0px 8px 8px;
+
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  &__due-date
+  {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 4px;
+    border-radius: $br-small;
+
+    background-color: $bg-blue-brighter;
+    box-shadow: 0px 0px 5px hsla(211, 18%, 15%, 0.4);
+
+    cursor: pointer;
+    user-select: none;
+    @include transition;
+
+    &:hover
+    { background-color: lighten($bg-blue-brighter, 5%); }
+
+    &--overdue
+    { 
+      background-color: $red-dark; 
+      &:hover { background-color: $red-light }
+    }
+
+    &--today
+    { 
+      background-color: $orange-dark; 
+      &:hover { background-color: $orange-light }
+    }
+    
+    &--tomorrow
+    { 
+      background-color: $yellow-dark; 
+      &:hover { background-color: $yellow-light }
+    }
+
+    &--completed
+    { 
+      background-color: $green-dark; 
+      &:hover { background-color: $green-light }
+    }
+
+    .fa-clock, .fa-square-check
+    { width: 14px; }
+  }
+
   &:hover > &__options
   { 
     opacity: 1; 

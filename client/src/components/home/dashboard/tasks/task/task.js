@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { ReducerContext } from 'app';
 
 import TaskTags from './tags/tags';
-import TaskBadges from './badges/badges';
+import TaskDueDate from './badges/due-date';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ export default function Task({ itemData })
     dispatch(
     {
       type: 'setEditor',
-      payload: { params: params, data: itemData }
+      payload: { params: params, data: itemData.id }
     })
   }
 
@@ -36,13 +36,17 @@ export default function Task({ itemData })
 
       <TaskTags task={ itemData }/>
 
-      <div className='task__text'>{ itemData?.content }</div>
+      <div className='task__text'>
+        { itemData?.content }
+      </div>
       
       <div className='task__options' onClick={ e => {toggleOptions(e)} }>
         <FontAwesomeIcon icon={ faEllipsisVertical }/>
       </div>
 
-      <TaskBadges task={ itemData }/>
+      <div className="task__badges">
+        { itemData.due_date && <TaskDueDate task={ itemData }/> }
+      </div>
     </li>
   )
 }

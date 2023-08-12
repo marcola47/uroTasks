@@ -2,12 +2,12 @@ import { useState, useContext, useEffect, useRef } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function EditorText() 
+export default function EditorText({ task }) 
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   
-  const [inputValue, setInputValue] = useState(state.editor.data.content);
+  const [inputValue, setInputValue] = useState(task.content);
   const taskTextRef = useRef();
 
   function handleContentChange(newContent)
@@ -17,16 +17,15 @@ export default function EditorText()
     
     let isNewContent = false;
 
-    const tasksOld = structuredClone(activeProject.tasks);
-    const taskList = structuredClone(activeProject.tasks).map(taskObj => 
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
     {
-      if (taskObj.id === state.editor.data.id && taskObj.content !== newContent)
+      if (listTask.id === task.id && listTask.content !== newContent)
       {
-        taskObj.content = newContent;
+        listTask.content = newContent;
         isNewContent = true;
       }
 
-      return taskObj;
+      return listTask;
     });
 
     const projectsOld = structuredClone(projects);
@@ -47,7 +46,7 @@ export default function EditorText()
       axios.post(`/a/task/update?type=content`, 
       {
         projectID: activeProject.id,
-        taskID: state.editor.data.id, 
+        taskID: task.id, 
         newContent: newContent
       })
       .catch(err => 
@@ -60,7 +59,7 @@ export default function EditorText()
 
   useEffect(() => // set editor styles when shown
   {
-    if (state.editor.data)
+    if (task)
     {
       const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
@@ -72,11 +71,11 @@ export default function EditorText()
       textArea.focus();
     }
 
-  }, [state.editor.data])
+  }, [task])
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== state.editor.data.content)
+    if (taskTextRef.current.value !== task.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');

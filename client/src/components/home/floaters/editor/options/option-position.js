@@ -53,7 +53,7 @@ export default function OptionPosition({ task })
     dispatch(
     { 
       type: 'setEditor', 
-      payload: { params: null, dat: null } 
+      payload: { params: null, data: null } 
     })
 
     setProjects(projectsCopy);

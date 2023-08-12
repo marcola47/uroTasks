@@ -43,6 +43,24 @@ const userSchema = new mongoose.Schema(
     ref: 'Project',
     default: [],
     required: false
+  },
+
+  settings:
+  {
+    date_format:
+    {
+      type: String,
+      enum: ['d/m/y', 'm/d/y', 'y/m/d'],
+      default: 'd/m/y',
+      required: false
+    },
+
+    open_last_proj:
+    {
+      type: Boolean,
+      default: true,
+      required: false
+    }
   }
 });
 

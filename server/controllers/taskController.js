@@ -247,12 +247,8 @@ taskController.updateDates = async (req, res, session) =>
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
-  const startDate = data.startDate === null ? null : new Date(data.startDate);
-  const dueDate = data.dueDate === null ? null : new Date(data.dueDate);
-
-  console.log(data.taskID)
-  console.log(startDate)
-  console.log(dueDate)
+  const startDate = data.startDate ? new Date(data.startDate) : null;
+  const dueDate = data.dueDate ? new Date(data.dueDate) : null;
 
   await Task.updateOne
   (
@@ -260,6 +256,25 @@ taskController.updateDates = async (req, res, session) =>
     { $set: { start_date: startDate, due_date: dueDate } },
     { session }
   )
+
+  res.status(200).send({ newAccessToken: newAccessToken })
+  console.log(`${Date.now()}: successfully updated task dates`);
+}
+
+/*********************************************************************************************************************************/
+taskController.updateCompleted = async (req, res, session) => 
+{
+  const newAccessToken = req.newAccessToken ?? null;
+  const data = req.body;
+
+  console.log(data.completed)
+
+  // await Task.updateOne
+  // (
+  //   { id: data.taskID },
+  //   { $set: { completed: data.completed } },
+  //   { session }
+  // )
 
   res.status(200).send({ newAccessToken: newAccessToken })
   console.log(`${Date.now()}: successfully updated task dates`);
@@ -278,7 +293,7 @@ taskController.update = async (req, res) =>
     if (type === 'content')
       await taskController.updateContent(req, res, session);
 
-    else if (type === 'type') // sessions don't work here
+    else if (type === 'type')
       await taskController.updateType(req, res, session);
 
     else if (type === 'position')
@@ -289,6 +304,9 @@ taskController.update = async (req, res) =>
 
     else if (type === 'dates')
       await taskController.updateDates(req, res, session);
+
+    else if (type === 'completed')
+      await taskController.updateCompleted(req, res, session);
 
     await session.commitTransaction();
     session.endSession();
