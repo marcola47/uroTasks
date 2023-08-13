@@ -196,7 +196,7 @@ export default function App()
   // eslint-disable-next-line
   useEffect(() => { fetchUser()       }, [user])  // eslint-disable-next-line
   useEffect(() => { fetchProjects()   }, [user, state.fetchingProjects]); // eslint-disable-next-line
-  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]);
+  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]); // eslint-disable-next-line
   useEffect(() => { activateProject() }, [user, projects])
 
   useEffect(() => // hide notification

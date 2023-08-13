@@ -18,44 +18,16 @@ export default function filterTasks(taskList, filters, type)
 
   if (filters.date)
   {
-    const curTimeStamp = new Date().setUTCHours(0, 0, 0, 0);
+    const curTime = new Date().setUTCHours(0, 0, 0, 0);
 
     switch (filters.date)
     {
-      case 'overdue':
-        taskList = taskList.filter(task => 
-        {
-          const dateDiff = getDateDiff(task.due_date, curTimeStamp);
-          if (dateDiff < 0 && dateDiff > -19300) return task;
-        }); break;
-
-      case 'today':
-        taskList = taskList.filter(task => 
-        {
-          const dateDiff = getDateDiff(task.due_date, curTimeStamp);
-          if (dateDiff === 0) return task;
-        }); break;
-      
-      case 'tomorrow':
-        taskList = taskList.filter(task => 
-        {
-          const dateDiff = getDateDiff(task.due_date, curTimeStamp);
-          if (dateDiff === 1) return task;
-        }); break;
-
-      case 'week':
-        taskList = taskList.filter(task => 
-        {
-          const dateDiff = getDateDiff(task.due_date, curTimeStamp);
-          if (dateDiff <= 7 && dateDiff >= 0) return task;
-        }); break;
-
-      case 'month':
-        taskList = taskList.filter(task => 
-        {
-          const dateDiff = getDateDiff(task.due_date, curTimeStamp);
-          if (dateDiff <= 30 && dateDiff >= 0) return task;
-        }); break;
+      case 'overdue' : taskList = taskList.filter(task => { const diff = getDateDiff(task.due_date, curTime); return diff < 0 && diff > -19300 }); break;
+      case 'today'   : taskList = taskList.filter(task => { const diff = getDateDiff(task.due_date, curTime); return diff === 0                }); break;
+      case 'tomorrow': taskList = taskList.filter(task => { const diff = getDateDiff(task.due_date, curTime); return diff === 1                }); break;
+      case 'week'    : taskList = taskList.filter(task => { const diff = getDateDiff(task.due_date, curTime); return diff <= 7 && diff > 1     }); break;
+      case 'month'   : taskList = taskList.filter(task => { const diff = getDateDiff(task.due_date, curTime); return diff <= 30 && diff > 7    }); break;
+      default        : break;
     }
   }
 
