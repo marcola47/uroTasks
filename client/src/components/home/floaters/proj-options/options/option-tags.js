@@ -14,7 +14,10 @@ export function ProjTagsDisplay()
 {
   const { activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
-  const orderedTagsList = activeProject.tags.sort((a, b) => { return a.position - b.position })
+  
+  const orderedTagsList = activeProject.tags.length > 0
+    ? structuredClone(activeProject.tags).sort((a, b) => { return a.position - b.position })
+    : null
 
   function showTagsEditor(tag)
   {
@@ -23,7 +26,13 @@ export function ProjTagsDisplay()
       dispatch(
       {
         type: 'setProjTagsEditor',
-        payload: { id: null, name: null, color: null, position: null }
+        payload: 
+        { 
+          id: null, 
+          name: null, 
+          color: null, 
+          position: null 
+        }
       })
     }
 
@@ -85,7 +94,7 @@ export function ProjTagsDisplay()
 
 export function ProjTagsEditor()
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const [newColor, setNewColor] = useState(state.projTagsEditor.color ?? '#ffffff');
   const [newName, setNewName] = useState(state.projTagsEditor.name ?? 'new tag');
@@ -98,7 +107,7 @@ export function ProjTagsEditor()
 
   function createTag()
   {
-    const tagsList = activeProject.tags;
+    const tagsList = structuredClone(activeProject.tags);
 
     const newTag = 
     { 
@@ -110,33 +119,37 @@ export function ProjTagsEditor()
     
     tagsList.push(newTag)
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tags = tagsList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    dispatch({ type: 'setProjOptions', payload: 'tags-display' })
+    dispatch({ type: 'setProjTagsEditor', payload: null })
+
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=tags&crud=create', 
     {
       projectID: activeProject.id, 
       newTag: newTag 
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: tagsList }))
-      setProjects(projectsCopy);
-  
-      dispatch({ type: 'setProjOptions', payload: 'tags-display' })
-      dispatch({ type: 'setProjTagsEditor', payload: null })
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function updateTag()
   {
-    const tagsList = activeProject.tags;
+    const tagsList = structuredClone(activeProject.tags);
 
     tagsList.map(listTag => 
     {
@@ -149,14 +162,22 @@ export function ProjTagsEditor()
       return listTag;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tags = tagsList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    dispatch({ type: 'setProjOptions', payload: 'tags-display' })
+    dispatch({ type: 'setProjTagsEditor', payload: null })
+
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=tags&crud=update',
     {
       projectID: activeProject.id,
@@ -164,24 +185,19 @@ export function ProjTagsEditor()
       tagName: newName,
       tagColor: newColor
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: tagsList }))
-      setProjects(projectsCopy);
-  
-      dispatch({ type: 'setProjOptions', payload: 'tags-display' })
-      dispatch({ type: 'setProjTagsEditor', payload: null })
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function deleteTag()
   {
     dispatch({ type: 'confirmationShown', payload: false })
 
-    const tagsList = activeProject.tags;
-    const filteredTagsList = tagsList.filter(listTag => listTag.id !== state.projTagsEditor.id)
-    const taskList = activeProject.tasks.map(listTask => 
+    const filteredTagsList = structuredClone(activeProject.tags).filter(listTag => listTag.id !== state.projTagsEditor.id)
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
     {
       if (listTask.tags.includes(state.projTagsEditor.id))
         listTask.tags = listTask.tags.filter(listTag => listTag !== state.projTagsEditor.id);
@@ -189,38 +205,37 @@ export function ProjTagsEditor()
         return listTask;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
       {
         project.tags = filteredTagsList;
         project.tasks = taskList;
+        project.updated_at = Date.now();
       }
 
       return project;
     })
 
+    dispatch({ type: 'setProjOptions', payload: 'tags-display' })
+    dispatch({ type: 'setProjTagsEditor', payload: null })
+
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=tags&crud=delete',
     {
       projectID: activeProject.id,
       tagID: state.projTagsEditor.id
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tags: filteredTagsList, tasks: taskList }))
-      setProjects(projectsCopy);
-  
-      dispatch({ type: 'setProjOptions', payload: 'tags-display' })
-      dispatch({ type: 'setProjTagsEditor', payload: null })
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function showConfirmation()
   {
-    const taskList = activeProject.tasks;
-    console.log(taskList);
-
     dispatch(
     { 
       type: 'setConfirmation',
@@ -245,9 +260,7 @@ export function ProjTagsEditor()
       </h3>
 
       <div className="tags__tag">
-        <div style={ colors }>
-          { newName }
-        </div>
+        <div style={ colors }>{ newName }</div>
       </div>
 
       <div className="tags__input">
@@ -256,7 +269,7 @@ export function ProjTagsEditor()
           className="tags__input__name" 
           id="tagsEditor--input--name" 
           value={ newName } 
-          onChange={ e => {setNewName(e.target.value)} }  
+          onChange={ e => setNewName(e.target.value) }  
           autoComplete="off"
         />
       </div>

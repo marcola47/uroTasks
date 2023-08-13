@@ -2,64 +2,64 @@ import { useState, useContext, useEffect, useRef } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function EditorText() 
+export default function EditorText({ task }) 
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   
-  const [inputValue, setInputValue] = useState(state.editor.data.content);
+  const [inputValue, setInputValue] = useState(task.content);
   const taskTextRef = useRef();
 
   function handleContentChange(newContent)
   {
-    let isNewContent = false;
-    
     if (newContent === "")
       return;
-  
-    // has to be this way because whent it copies the current tasks, they're already altered
-    const tasksOld = JSON.parse(JSON.stringify(activeProject.tasks));
+    
+    let isNewContent = false;
 
-    const taskList = activeProject.tasks.map(taskObj => 
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
     {
-      if (taskObj.id === state.editor.data.id && taskObj.content !== newContent)
+      if (listTask.id === task.id && listTask.content !== newContent)
       {
-        taskObj.content = newContent;
+        listTask.content = newContent;
         isNewContent = true;
       }
 
-      return taskObj;
+      return listTask;
     });
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject({ ...activeProject, tasks: taskList });
-
     if (isNewContent)
     {
+      setProjects(projectsCopy)
       axios.post(`/a/task/update?type=content`, 
       {
-        taskID: state.editor.data.id, 
+        projectID: activeProject.id,
+        taskID: task.id, 
         newContent: newContent
       })
-      .then(() => setProjects(projectsCopy))
       .catch(err => 
       {
         setResponseError(err, dispatch);
-        setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: tasksOld }));
+        setProjects(projectsOld)
       })
     }
   }
 
   useEffect(() => // set editor styles when shown
   {
-    if (state.editor.data)
+    if (task)
     {
       const textArea = document.getElementById('editor__text-area');
       const end = textArea.value.length;
@@ -71,11 +71,11 @@ export default function EditorText()
       textArea.focus();
     }
 
-  }, [state.editor.data])
+  }, [task])
 
   function handleSave(e) 
   {
-    if (taskTextRef.current.value !== state.editor.data.content)
+    if (taskTextRef.current.value !== task.content)
       handleContentChange(inputValue);
 
     const editorBg = document.querySelector('.editor__bg');
@@ -120,7 +120,7 @@ export default function EditorText()
       id='editor__text-area' 
       ref={ taskTextRef } 
       value={ inputValue } 
-      onChange={ e => {setInputValue(e.target.value);} } 
+      onChange={ e => setInputValue(e.target.value) } 
       onBlur={ e => {handleSave(e)} } 
       onKeyDown={ handleKeyDown }
       onInput={ handleInputGrowth }

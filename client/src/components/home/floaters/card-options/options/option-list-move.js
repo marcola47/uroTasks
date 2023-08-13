@@ -7,7 +7,7 @@ import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-
 
 export default function OptionMoveList({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext)
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext)
   const { dispatch } = useContext(ReducerContext);
   
   const [paramsShown, setParamsShown] = useState(false);
@@ -21,7 +21,7 @@ export default function OptionMoveList({ type })
   {
     // implement cross project moving
     const positions = { old: type.position, new: newPosition };
-    const typesList = activeProject.types;
+    const typesList = structuredClone(activeProject.types);
 
     if (positions.new > positions.old)
     {
@@ -51,14 +51,19 @@ export default function OptionMoveList({ type })
       })
     }
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.types = typesList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    setProjects(projectsCopy);
     axios.post('/a/project/update?type=types&crud=moveList', 
     {
       curProjectID: activeProject.id,
@@ -66,12 +71,11 @@ export default function OptionMoveList({ type })
       typeID: type.id,
       positions: positions
     })
-    .then(() => 
+    .catch(err =>
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
-      setProjects(projectsCopy);
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
 
     setParamsShown(false);
     setProjListShown(false);

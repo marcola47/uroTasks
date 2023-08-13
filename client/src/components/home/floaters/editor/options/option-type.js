@@ -11,15 +11,15 @@ import { faArrowsLeftRight, faArrowTurnDown  } from '@fortawesome/free-solid-svg
 
 export default function OptionType({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
   
-  const taskTypes = activeProject.types.filter(type => type.id !== task.type);
+  const taskTypes = structuredClone(activeProject.types).filter(type => type.id !== task.type);
 
   function updateTaskType(newType)
   { 
-    const taskList = activeProject.tasks;
+    const taskList = structuredClone(activeProject.tasks);
     const taskToMove = taskList.find(listTask => listTask.id === task.id);
     
     const tasksFiltered = taskList.filter(listTask => listTask.type === newType.id);
@@ -45,14 +45,25 @@ export default function OptionType({ task })
       return listTask;
     })
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
 
+    dispatch(
+    { 
+      type: 'setEditor', 
+      payload: { params: null, data: null } 
+    })
+
+    setProjects(projectsCopy);
     axios.post(`/a/task/update?type=type`, 
     {
       projectID: activeProject.id, 
@@ -60,18 +71,11 @@ export default function OptionType({ task })
       types: types, 
       positions: positions
     })
-    .then(() => 
-    { 
-      dispatch(
-      { 
-        type: 'setEditor', 
-        payload: { params: null, data: null } 
-      })
-
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
-      setProjects(projectsCopy);
+    .catch(err =>
+    {
+      setResponseError(err, dispatch);
+      setProjects(projectsOld)
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function TypeLocation({ itemData })
@@ -83,9 +87,21 @@ export default function OptionType({ task })
     )
   }
 
+  function toggleSubMenus()
+  {
+    const newSubMenus = 
+    {
+      tags: false,
+      types: !subMenus.types,
+      dates: false
+    }
+
+    setSubMenus(newSubMenus);
+  }
+  
   return (
     <>
-      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: false, types: !subMenus.types })} }>
+      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ toggleSubMenus }>
       {
         subMenus.types
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -96,9 +112,9 @@ export default function OptionType({ task })
       <AnimateTransit>
       {
         subMenus.types &&
-        <TransitionOpacity className="type__select">
-          <div className="type__select__wrapper" style={{ width: state.editor.params.w }}>
-            <div className="type__header">Suggested</div>
+        <TransitionOpacity className="sub-menu type">
+          <div className="sub-menu__wrapper" style={{ width: state.editor.params.w }}>
+            <div className="sub-menu__header">TYPES</div>
             <List
               classes='type__locations'
               ids={`list--${task.id}:types`} 

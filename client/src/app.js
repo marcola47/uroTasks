@@ -27,10 +27,18 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
+    sort: '',
+    filters: 
+    { 
+      keywords: '', 
+      date: null, 
+      tags: [] 
+    },
+    
     fetchingProjects: true,
-    fetchTasks: false,
+    fetchingTasks: false,
 
-    menuShown: JSON.parse(localStorage.getItem("menuOpen")),
+    menuShown: JSON.parse(localStorage.getItem("menuOpen")) ?? false,
     tagsNameShown: JSON.parse(localStorage.getItem("tagsNameShown")) ?? true,
     projCreatorShown: false,
 
@@ -42,21 +50,20 @@ export default function App()
 
     projOptions: null,
     projTagsEditor: null,
-    cardOptions: { params: null, data: null },
     editor: { params: null, data: null },
-
-
-    editorParams: null,
-    editorData: null,
-
-    cardParams: null,
-    cardData: null,
+    cardOptions: { params: null, data: null },
   });
       
   function reducer(state, action)
   {
     switch (action.type)
     {
+      case 'setSort':
+        return { ...state, sort: action.payload }
+
+      case 'setFilters':
+        return { ...state, filters: action.payload }
+
       case 'fetchingProjects':
         return { ...state, fetchingProjects: action.payload }
 
@@ -134,27 +141,15 @@ export default function App()
 
   function fetchProjects()
   {
-    if (user !== null)
+    if (user !== null && state.fetchingProjects)
     {
-      if (state.fetchingProjects)
+      axios.post(`/a/project/get`, { projectIDs: user.projects })
+      .then(res =>
       {
-        axios.post(`/a/project/get`, { projectIDs: user.projects })
-        .then(res =>
-        {
-          setProjects(res.data.projectsMeta); 
-          dispatch({ type: 'fetchingProjects', payload: false })
-        })
-        .catch(err => setResponseError(err, dispatch))
-      }
-
-      else if (projects.length > 0)
-      {
-        const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
-
-        activeProjectIndex !== -1 
-          ? setActiveProject(projects[activeProjectIndex]) 
-          : setActiveProject(null);
-      }
+        setProjects(res.data.projectsMeta); 
+        dispatch({ type: 'fetchingProjects', payload: false })
+      })
+      .catch(err => setResponseError(err, dispatch))
     }
   }
 
@@ -170,7 +165,7 @@ export default function App()
         axios.post(`/a/task/get?projectID=${activeProject.id}`)
         .then(res => 
         {
-          const projectsCopy = [...projects].map(project => 
+          const projectsCopy = structuredClone(projects).map(project => 
           {
             if (project.id === activeProject.id)
               project.tasks = res.data.tasks;
@@ -179,7 +174,6 @@ export default function App()
           });
           
           setProjects(projectsCopy);
-          setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: res.data.tasks }));
           dispatch({ type: 'fetchingTasks', payload: false })
         })
         .catch(err => setResponseError(err, dispatch))
@@ -187,10 +181,23 @@ export default function App()
     }
   }
 
+  function activateProject()
+  {
+    if (projects.length > 0)
+    {
+      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
+
+      activeProjectIndex > -1 
+        ? setActiveProject(projects[activeProjectIndex]) 
+        : setActiveProject(null);
+    }
+  }
+
   // eslint-disable-next-line
-  useEffect(() => { fetchUser()     }, [user])  // eslint-disable-next-line
-  useEffect(() => { fetchProjects() }, [user, state.fetchingProjects]); // eslint-disable-next-line
-  useEffect(() => { fetchTasks()    }, [activeProject, state.fetchingTasks]);
+  useEffect(() => { fetchUser()       }, [user])  // eslint-disable-next-line
+  useEffect(() => { fetchProjects()   }, [user, state.fetchingProjects]); // eslint-disable-next-line
+  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]); // eslint-disable-next-line
+  useEffect(() => { activateProject() }, [user, projects])
 
   useEffect(() => // hide notification
   {

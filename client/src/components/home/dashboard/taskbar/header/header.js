@@ -9,7 +9,7 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 export function HeaderColor()
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext); 
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext); 
   const { dispatch } = useContext(ReducerContext);
   
   const [newColor, setNewColor] = useState(activeProject.color);
@@ -26,32 +26,37 @@ export function HeaderColor()
     if (!pickerActive || newColor === oldColor)
       return;
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.color = newColor;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject({ ...activeProject, color: newColor });
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=color', 
     { 
       projectID: activeProject.id, 
       newColor: newColor 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch)
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, color: oldColor }))
+      setProjects(projectsOld);
     })
   }
 
   return (
     <>
-      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}><FontAwesomeIcon icon={ faSquare }/></div>
+      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}>
+        <FontAwesomeIcon icon={ faSquare }/>
+      </div>
+      
       {
         pickerActive && 
         <div>
@@ -63,42 +68,46 @@ export function HeaderColor()
   )
 }
 
-export function HeaderTitle({ title }) 
+export function HeaderTitle() 
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
   
   const [editing, setEditing] = useState(false);
-  const [inputValue, setInputValue] = useState(title);
+  const [inputValue, setInputValue] = useState(activeProject.name);
+
+  //would not change the fucking name unless I do this
+  useEffect(() => { setInputValue(activeProject.name) }, [activeProject])
 
   function handleNameChange(newName) 
   { 
-    // not setting the activeProject directly makes the name flicker when changing
     const oldName = activeProject.name;
 
     if (newName === oldName)
       return;
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        return { ...project, name: newName, tasks: activeProject.tasks }
+      {
+        project.name = newName;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: newName }));
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=name', 
     { 
       projectID: activeProject.id, 
       newName: newName 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch);
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, name: oldName }));
+      setProjects(projectsOld)
     })
   }
 
@@ -123,12 +132,12 @@ export function HeaderTitle({ title })
           type="text" 
           value={ inputValue } 
           style={ {width: '100%'} } 
-          onChange={ e => {setInputValue(e.target.value)} } 
+          onChange={ e => setInputValue(e.target.value) } 
           onBlur={ handleSave } 
           onKeyDown={ handleKeyDown }
         />
 
-      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ title }</div>
+      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ inputValue }</div>
     }
     </div>
   );

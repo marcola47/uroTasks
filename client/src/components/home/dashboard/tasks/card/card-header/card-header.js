@@ -4,7 +4,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 
 export default function CardHeader({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
   const [editing, setEditing] = useState(false);
@@ -13,38 +13,38 @@ export default function CardHeader({ type })
 
   function handleNameChange(newName) 
   { 
-    const oldTypes = [...activeProject.types];
-
-    const typesList = activeProject.types.map(listType => 
+    const oldTypes = structuredClone(activeProject.types);
+    const typesList = structuredClone(activeProject.types).map(listType => 
     {
       if (listType.id === type.id)
-        return { ...listType, name: newName }
+        listType.name = newName;
 
-      else
-        return listType;
+      return listType;
     })
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.types = typesList;
+        project.updated_at = Date.now();
+      }
 
       return project;
     });
 
-    setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: typesList }))
-
+    setProjects(projectsCopy)
     axios.post('/a/project/update?type=types&crud=updateName', 
     { 
       projectID: activeProject.id, 
       typeID: type.id, 
       typeName: newName 
     })
-    .then(() => setProjects(projectsCopy))
     .catch(err => 
     {
       setResponseError(err, dispatch)
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, types: oldTypes }))
+      setProjects(projectsOld)
     })
 
     dispatch({ type: 'confirmationShown', payload: false })
@@ -74,7 +74,7 @@ export default function CardHeader({ type })
           value={ inputValue } 
           ref={ inputRef } 
           style={ {width: '100%'} } 
-          onChange={ e => {setInputValue(e.target.value)} } 
+          onChange={ e => setInputValue(e.target.value) } 
           onBlur={ handleSave } 
           onKeyDown={ handleKeyDown }
         />

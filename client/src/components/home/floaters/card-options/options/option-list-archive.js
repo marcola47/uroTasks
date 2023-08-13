@@ -6,7 +6,7 @@ import { faArchive } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionArchiveList({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
   function archiveList()
@@ -14,7 +14,6 @@ export default function OptionArchiveList({ type })
     console.log(projects)
     console.log(setProjects)
     console.log(activeProject)
-    console.log(setActiveProject)
   }
 
   function showConfirmation()

@@ -5,18 +5,49 @@ const taskSchema = new mongoose.Schema(
 {
   id: idSchema,
 
-  position: Number,
+  position:
+  {
+    type: Number,
+    required: true
+  },
 
-  type: String,
+  type: 
+  {
+    type: String,
+    required: true
+  },
 
-  project: String,
+  project: 
+  {
+    type: String,
+    required: true
+  },
 
-  tags: [String],
+  tags: 
+  {
+    type: [String],
+    default: [],
+    required: false
+  },
+
+  archived:
+  {
+    type: Boolean,
+    default: false
+  },
 
   content:
   {
     type: String,
+    required: true,
     maxlength: 1024
+  },
+
+  completed:
+  {
+    type: Boolean,
+    default: false,
+    required: false
   },
 
   start_date:
@@ -36,13 +67,13 @@ const taskSchema = new mongoose.Schema(
   created_at:
   {
     type: Date,
-    default: new Date()
+    default: Date.now
   }, 
 
   updated_at:
   {
     type: Date,
-    default: new Date()
+    default: Date.now
   }
 }, { strict: false });
 

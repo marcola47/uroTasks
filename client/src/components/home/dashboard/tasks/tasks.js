@@ -7,7 +7,7 @@ import Card from './card/card';
 export default function Tasks()
 {
   const { activeProject } = useContext(ProjectsContext);
-  const typesOrdered = activeProject.types.sort((a, b) => {return a.position - b.position})
+  const typesOrdered = structuredClone(activeProject.types).sort((a, b) => {return a.position - b.position})
   const listRef = useRef(null);
 
   // don't judge me

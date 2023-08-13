@@ -1,56 +1,28 @@
 import { useContext } from 'react';
 import { ProjectsContext, UserContext, ReducerContext } from "app";
-import axios, { setResponseConfirmation, setResponseError } from 'utils/axiosConfig';
+
+import deleteProject from 'operations/project-delete';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export default function OptionsDelete()
+export default function OptionDelete()
 {
   const { user, setUser } = useContext(UserContext);
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
-  const { dispatch } = useContext(ReducerContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
+  const { state, dispatch } = useContext(ReducerContext);
 
-  function deleteProject()
-  {  
-    dispatch({ type: 'confirmationShown', payload: false })
-
-    axios.post(`/a/project/delete`, 
-    { 
-      userID: user.id, 
-      projectID: activeProject.id
-    })
-    .then(() => 
-    {
-      setProjects(projects.filter(project => project.id !== activeProject.id));
-      setActiveProject(null);
-      setUser(prevUser => ({ ...prevUser, activeProject: "0" }));
-      setResponseConfirmation("Succesfully deleted project", "Open another project from the menu or create a new one", dispatch)
-    })
-    .catch(err => setResponseError(err, dispatch))
-  }
-
-  function showConfirmation()
+  function callDeleteProject()
   {
-    dispatch(
-    { 
-      type: 'setConfirmation',
-      payload: 
-      {
-        header: "Are you sure you want to delete this project?",
-        message: "This action is not reversible and all project data will be lost forever.",
-        className: 'btn--confirmation--danger',
-        confirmation: "Yes, I want to delete this project",
-        rejection: "No, I'm keeping this project",
-        function: deleteProject
-      } 
-    })
+    const projectsContext = { projects, setProjects, activeProject }
+    const userContext = { user, setUser };
+    const reducerContext = { state, dispatch };
 
-    dispatch({ type: 'confirmationShown', payload: true })
+    deleteProject(projectsContext, userContext, reducerContext)
   }
 
   return (
-    <div className="taskbar__option taskbar__option--delete" onClick={ showConfirmation }>
+    <div className="taskbar__option taskbar__option--delete" onClick={ callDeleteProject }>
       <FontAwesomeIcon icon={ faTrashCan }/>  
     </div>
   )

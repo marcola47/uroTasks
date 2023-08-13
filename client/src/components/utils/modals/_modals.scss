@@ -155,14 +155,6 @@
         &:hover
         { background-color: $yellow-light }
       }
-      
-      &--confirmation--positive
-      {
-        background-color: $green-dark;
-
-        &:hover
-        { background-color: $green-light; }
-      }
 
       &--confirmation--neutral
       {
@@ -171,6 +163,14 @@
 
         &:hover
         { background-color: $white-light; }
+      }
+
+      &--confirmation--positive
+      {
+        background-color: $green-dark;
+
+        &:hover
+        { background-color: $green-light; }
       }
 
       &--rejection

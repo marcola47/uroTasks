@@ -7,12 +7,12 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionPosition({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
  
   function updateTaskPosition(direction)
   { 
-    const tasksFiltered = activeProject.tasks.filter(taskObj => taskObj.type === task.type);
+    const tasksFiltered = structuredClone(activeProject.tasks).filter(taskObj => taskObj.type === task.type);
     const lastTaskPos = Math.max(...tasksFiltered.map(taskObj => taskObj.position));
     const updatedTask = tasksFiltered.find(taskObj => taskObj.id === task.id);
   
@@ -27,7 +27,7 @@ export default function OptionPosition({ task })
 
     const otherTask = tasksFiltered.find(taskObj => taskObj.position === updatedTask.position + offset);
     
-    const taskList = activeProject.tasks.map(taskObj => 
+    const taskList = structuredClone(activeProject.tasks).map(taskObj => 
     {
       if (taskObj.id === updatedTask.id)
         taskObj.position = taskObj.position + offset;
@@ -38,10 +38,14 @@ export default function OptionPosition({ task })
       return taskObj;
     })
 
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
+      {
         project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
     
       return project;
     });
@@ -49,21 +53,22 @@ export default function OptionPosition({ task })
     dispatch(
     { 
       type: 'setEditor', 
-      payload: { params: null, dat: null } 
+      payload: { params: null, data: null } 
     })
 
+    setProjects(projectsCopy);
     axios.post('/a/task/update?type=position', 
     {
+      projectID: activeProject.id,
       updatedTaskID: updatedTask.id, 
       otherTaskID: otherTask.id, 
       direction: direction
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: taskList }));
-      setProjects(projectsCopy);
-    })
-    .catch(err => setResponseError(err, dispatch));
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+    });
   }
 
   return (

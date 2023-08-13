@@ -7,24 +7,27 @@ import { faMultiply } from '@fortawesome/free-solid-svg-icons';
 
 export default function OptionDelete({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
   function deleteTask()
   {
-    const taskList = activeProject.tasks;    
-    const taskToDelete = taskList.find(listTask => listTask.id === task.id);
-    const filteredTasks = taskList.filter(listTask => listTask.id !== taskToDelete.id);
+    const taskList = structuredClone(activeProject.tasks);    
+    const filteredTasks = taskList.filter(listTask => listTask.id !== task.id);
     filteredTasks.forEach(listTask => 
     { 
-      if (listTask.type === taskToDelete.type && listTask.position > taskToDelete.position) 
+      if (listTask.type === task.type && listTask.position > task.position) 
         listTask.position--;
     })
     
-    const projectsCopy = [...projects].map(project => 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
     {
       if (project.id === activeProject.id)
-        project.tasks = taskList;
+      {
+        project.tasks = filteredTasks;
+        project.updated_at = Date.now();
+      }
 
       return project;
     })
@@ -32,22 +35,22 @@ export default function OptionDelete({ task })
     dispatch(
     {
       type: 'setEditor',
-      payload: { params: null, dat: null }
+      payload: { params: null, data: null }
     })
 
+    setProjects(projectsCopy);
     axios.post('/a/task/delete', 
     { 
       projectID: activeProject.id, 
       taskID: task.id, 
       taskType: task.type, 
-      position: taskToDelete.position
+      position: task.position
     })
-    .then(() => 
+    .catch(err =>
     {
-      setActiveProject(prevActiveProject => ({ ...prevActiveProject, tasks: filteredTasks }));
-      setProjects(projectsCopy);
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   return (

@@ -73,47 +73,81 @@
 
   &__option
   {
+    display: grid;
+    place-items: center;
+
     position: relative;
-    padding: 10px 14px;
+    width: 40px;
+    height: 40px;
     border-radius: $br-small;
 
     color: $white-light;
 
+    font-size: 1.1rem;
     cursor: pointer;
     user-select: none;
 
     @include transition;
 
-    &--delete
+    &:hover
     {
-      &:hover, &--active
-      { 
-        color: $bg-blue-dark;
-        background-color: $red-light;
-      }
-      
-      .fa-trash-can
-      {
-        pointer-events: none;
-        font-size: 1.2rem; 
-      }
+      color: $bg-blue-dark;
+      background-color: $white-light;
     }
 
-    &--tags
+    &--delete:hover
     {
-      &:hover, &--active
-      { 
-        color: $bg-blue-dark;
-        background-color: $white-light;
-      }
-      
-      .fa-tag
-      {
-        pointer-events: none;
-        font-size: 1.2rem; 
-      }
+      color: $white-light;
+      background-color: $red-light;
     }
   }
+
+  &__filter-active
+  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 80px;
+    height: 40px;
+    border-radius: $br-small;
+
+    color: $bg-blue-dark;
+    background-color: $white-dark;
+
+    overflow: hidden;
+    font-size: 1.1rem;
+
+    & > * 
+    {
+      display: grid;
+      place-items: center;
+
+      width: 50%;
+      height: 100%;
+
+      cursor: pointer;
+      @include transition;
+    }
+
+    .show:hover
+    { background-color: $white-light }
+
+    .clear:hover
+    { 
+      color: $white-light;
+      background-color: $red-light;
+    }
+  }
+}
+
+@media screen and (max-width: 768px)
+{
+  .taskbar__option
+  { display: none }
+
+  .taskbar__option--ellipsis
+  { display: grid }
 }
 
 @media screen and (max-width: 520px) 

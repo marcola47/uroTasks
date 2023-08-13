@@ -1,13 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import clear from 'clear';
 import { config } from 'dotenv';
 
 import router from './routes.js';
 
-// ***************************************************************************************
-// server settings
+clear();
 config();
+
 const app = express();
 const PORT = process.env.PORT || 9000;
 const corsOrigin = process.env.CORS_ORIGIN;
@@ -18,9 +19,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use('/', router);
 
-// ***************************************************************************************
-// mongodb connection
 const dbHost = process.env.DB_HOST;
 mongoose.connect(dbHost);
-mongoose.connection.on("error", console.error.bind(console, "could not establish connection with mongdb"))
+mongoose.connection.on("error", console.error.bind(console, "could not establish connection with mongodb"))
 mongoose.connection.once("open", () => {console.log("connected to mongodb\n")});

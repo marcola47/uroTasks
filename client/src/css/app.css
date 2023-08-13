@@ -68,13 +68,43 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   width: 100%;
   height: 100%;
   color: hsl(0, 0%, 100%);
-  font-size: 1.7rem;
   text-align: center;
   transition: all 0.1s ease-in-out;
+}
+.screensaver__header {
+  font-size: 2.2rem;
+  font-weight: 500;
+}
+.screensaver__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.screensaver__btn {
+  width: 320px;
+  padding: 12px 32px;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.screensaver__btn--choose {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 85%);
+}
+.screensaver__btn--choose:hover {
+  background-color: hsl(0, 0%, 100%);
+}
+.screensaver__btn--create {
+  background-color: hsl(204, 70%, 55%);
+}
+.screensaver__btn--create:hover {
+  background-color: hsl(204, 70%, 60%);
 }
 .screensaver .spinning {
   width: 128px;
@@ -246,33 +276,64 @@
   gap: 8px;
 }
 .taskbar__option {
+  display: grid;
+  place-items: center;
   position: relative;
-  padding: 10px 14px;
+  width: 40px;
+  height: 40px;
   border-radius: 3px;
   color: hsl(0, 0%, 100%);
+  font-size: 1.1rem;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
   transition: all 0.1s ease-in-out;
 }
-.taskbar__option--delete:hover, .taskbar__option--delete--active {
-  color: hsl(210, 13%, 5%);
-  background-color: hsl(0, 100%, 58%);
-}
-.taskbar__option--delete .fa-trash-can {
-  pointer-events: none;
-  font-size: 1.2rem;
-}
-.taskbar__option--tags:hover, .taskbar__option--tags--active {
+.taskbar__option:hover {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.taskbar__option--tags .fa-tag {
-  pointer-events: none;
-  font-size: 1.2rem;
+.taskbar__option--delete:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 100%, 58%);
+}
+.taskbar__filter-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  border-radius: 3px;
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 85%);
+  overflow: hidden;
+  font-size: 1.1rem;
+}
+.taskbar__filter-active > * {
+  display: grid;
+  place-items: center;
+  width: 50%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.taskbar__filter-active .show:hover {
+  background-color: hsl(0, 0%, 100%);
+}
+.taskbar__filter-active .clear:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 100%, 58%);
 }
 
+@media screen and (max-width: 768px) {
+  .taskbar__option {
+    display: none;
+  }
+  .taskbar__option--ellipsis {
+    display: grid;
+  }
+}
 @media screen and (max-width: 520px) {
   .taskbar__header {
     font-size: 1.4rem;
@@ -510,11 +571,66 @@
   white-space: pre-wrap;
   box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
 }
+.task__badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.task__due-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 35%);
+  box-shadow: 0px 0px 5px hsla(211, 18%, 15%, 0.4);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.task__due-date:hover {
+  background-color: #596673;
+}
+.task__due-date--overdue {
+  background-color: hsl(0, 80%, 51%);
+}
+.task__due-date--overdue:hover {
+  background-color: hsl(0, 100%, 58%);
+}
+.task__due-date--today {
+  background-color: hsl(30, 80%, 51%);
+}
+.task__due-date--today:hover {
+  background-color: hsl(30, 100%, 58%);
+}
+.task__due-date--tomorrow {
+  background-color: hsl(46, 93%, 40%);
+}
+.task__due-date--tomorrow:hover {
+  background-color: hsl(46, 93%, 48%);
+}
+.task__due-date--completed {
+  background-color: hsl(145, 77%, 41%);
+}
+.task__due-date--completed:hover {
+  background-color: hsl(145, 77%, 50%);
+}
+.task__due-date .fa-clock, .task__due-date .fa-square-check {
+  width: 14px;
+}
 .task:hover > .task__options {
   opacity: 1;
   top: 0px;
 }
 .task__options {
+  display: grid;
+  place-items: center;
   opacity: 0;
   z-index: 5;
   position: absolute;
@@ -533,17 +649,7 @@
   transition: all 0.1s ease-in-out;
 }
 .task__options:hover {
-  color: hsl(210, 15%, 23%);
-  background-color: hsl(0, 0%, 100%);
-}
-.task__options__icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-}
-.task__options > * {
-  transition: all 0s 0s ease-in-out;
+  background-color: hsl(210, 13%, 30%);
 }
 
 @media screen and (max-width: 768px) {
@@ -979,6 +1085,92 @@
   font-family: inherit;
   font-size: inherit;
 }
+.editor__badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0px 0px 8px 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.editor__due-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 35%);
+  box-shadow: 0px 0px 5px hsla(211, 18%, 15%, 0.4);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.editor__due-date:hover {
+  background-color: #596673;
+}
+.editor__due-date--overdue {
+  background-color: hsl(0, 80%, 51%);
+}
+.editor__due-date--overdue:hover {
+  background-color: hsl(0, 100%, 58%);
+}
+.editor__due-date--today {
+  background-color: hsl(30, 80%, 51%);
+}
+.editor__due-date--today:hover {
+  background-color: hsl(30, 100%, 58%);
+}
+.editor__due-date--tomorrow {
+  background-color: hsl(46, 93%, 40%);
+}
+.editor__due-date--tomorrow:hover {
+  background-color: hsl(46, 93%, 48%);
+}
+.editor__due-date--completed {
+  background-color: hsl(145, 77%, 41%);
+}
+.editor__due-date--completed:hover {
+  background-color: hsl(145, 77%, 50%);
+}
+.editor__due-date .fa-clock, .editor__due-date .fa-square-check {
+  width: 14px;
+}
+.editor .sub-menu {
+  z-index: 123;
+  position: absolute;
+  top: 0px;
+  right: 46px;
+  height: 100%;
+}
+.editor .sub-menu__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  padding: 12px 8px;
+  border-radius: 6px;
+  background-color: hsl(210, 15%, 23%);
+  overflow: hidden;
+  transition: all 0.1s ease-in-out;
+}
+.editor .sub-menu__wrapper ::-webkit-scrollbar {
+  width: 6px;
+}
+.editor .sub-menu__wrapper ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: hsl(210, 13%, 30%);
+}
+.editor .sub-menu__wrapper ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
+}
+.editor .sub-menu__header {
+  padding: 4px 4px 0px 4px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
 .editor .options {
   display: flex;
   flex-direction: column;
@@ -1034,47 +1226,18 @@
 .editor .options .option__icon .fa-arrow-turn-down {
   transform: rotate(90deg);
 }
-.editor .options .type__select {
-  position: absolute;
-  top: 0px;
-  right: 46px;
-  height: 100%;
-}
-.editor .options .type__select__wrapper {
-  height: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  background-color: hsl(210, 15%, 23%);
-  font-size: 1.2rem;
-  font-weight: 400;
-  overflow: hidden;
-  transition: all 0.1s ease-in-out;
-}
-.editor .options .type__select__wrapper ::-webkit-scrollbar {
-  width: 6px;
-}
-.editor .options .type__select__wrapper ::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background-color: hsl(210, 13%, 30%);
-}
-.editor .options .type__select__wrapper ::-webkit-scrollbar-track {
-  margin: 0;
-  border-radius: 2px;
-}
-.editor .options .type__select .type__header {
-  padding: 4px;
-  margin-bottom: 4px;
-}
-.editor .options .type__select .type__locations {
+.editor .options .type .type__locations {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 220px;
+  max-height: 240px;
   padding: 4px;
   border-radius: 3px;
+  font-size: 1.2rem;
+  font-weight: 400;
   overflow-y: auto;
 }
-.editor .options .type__select .type__locations .type__location {
+.editor .options .type .type__locations .type__location {
   flex: 0 0 36px;
   width: 100%;
   padding: 8px;
@@ -1089,64 +1252,41 @@
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .type__select .type__locations .type__location:hover {
+.editor .options .type .type__locations .type__location:hover {
   background-color: hsl(0, 0%, 100%);
 }
-.editor .options .tags__settings {
-  z-index: 123;
-  position: absolute;
-  top: 0px;
-  right: 46px;
-  height: 100%;
-}
-.editor .options .tags__settings__wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  height: 100%;
-  padding: 12px 8px;
-  border-radius: 6px;
-  background-color: hsl(210, 15%, 23%);
-}
-.editor .options .tags__settings__wrapper ::-webkit-scrollbar-track {
-  margin: 0;
-}
-.editor .options .tags__settings__wrapper ::-webkit-scrollbar-thumb {
-  background: hsl(210, 13%, 30%);
-}
-.editor .options .tags__settings .tags__list {
+.editor .options .tags .tags__list {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 4px;
   overflow: auto;
 }
-.editor .options .tags__settings .tags__list .tags__tag {
+.editor .options .tags .tags__list .tags__tag {
   display: grid;
   grid-template-columns: 24px auto 24px;
   gap: 6px;
 }
-.editor .options .tags__settings .tags__list .tags__tag > * {
+.editor .options .tags .tags__list .tags__tag > * {
   height: 24px;
   border-radius: 3px;
   cursor: pointer;
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__operation {
+.editor .options .tags .tags__list .tags__tag .tag__operation {
   border: 2px solid hsl(211, 18%, 55%);
   transition: all 0.1s ease-in-out;
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__operation:hover {
+.editor .options .tags .tags__list .tags__tag .tag__operation:hover {
   background-color: hsl(211, 18%, 40%);
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__operation--checked {
+.editor .options .tags .tags__list .tags__tag .tag__operation--checked {
   background-color: hsl(211, 18%, 55%);
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__operation--checked:hover {
+.editor .options .tags .tags__list .tags__tag .tag__operation--checked:hover {
   border-color: hsl(211, 18%, 60%);
   background-color: hsl(211, 18%, 60%);
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__name {
+.editor .options .tags .tags__list .tags__tag .tag__name {
   padding: 3px 4px;
   font-weight: 500;
   overflow: hidden;
@@ -1154,22 +1294,22 @@
   text-overflow: ellipsis;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__edit {
+.editor .options .tags .tags__list .tags__tag .tag__edit {
   display: grid;
   place-items: center;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .tags__settings .tags__list .tags__tag .tag__edit:hover {
+.editor .options .tags .tags__list .tags__tag .tag__edit:hover {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.editor .options .tags__settings .tags__empty {
+.editor .options .tags .tags__empty {
   padding: 8px;
   border-radius: 3px;
   text-align: center;
   background-color: hsl(210, 13%, 15%);
 }
-.editor .options .tags__settings .tags__create {
+.editor .options .tags .tags__create {
   margin-top: auto;
   padding: 8px;
   border-radius: 3px;
@@ -1179,7 +1319,55 @@
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.editor .options .tags__settings .tags__create:hover {
+.editor .options .tags .tags__create:hover {
+  background-color: hsl(204, 70%, 60%);
+}
+.editor .options .dates__input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.editor .options .dates__input__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.editor .options .dates__input__toggle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6f8090;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.editor .options .dates__input__toggle--checked {
+  background-color: #6f8090;
+}
+.editor .options .dates__input__toggle--checked:hover {
+  border: 2px solid #7d8c9b;
+  background-color: #7d8c9b;
+}
+.editor .options .dates__input label {
+  font-weight: 500;
+}
+.editor .options .dates__input input {
+  flex-grow: 1;
+  padding: 8px;
+  border-radius: 3px;
+  color-scheme: dark;
+  background-color: hsl(210, 13%, 10%);
+}
+.editor .options .dates__save {
+  margin-top: auto;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: hsl(204, 70%, 55%);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.editor .options .dates__save:hover {
   background-color: hsl(204, 70%, 60%);
 }
 
@@ -1325,38 +1513,218 @@
 .proj-options {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   position: absolute;
-  top: 160px;
+  top: 142px;
   bottom: 24px;
   right: 24px;
   width: 420px;
-  padding: 24px;
+  padding-bottom: 24px;
   border-radius: 6px;
   color: hsl(0, 0%, 100%);
   background-color: hsl(210, 13%, 15%);
-  overflow: auto;
+}
+.proj-options ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: hsl(210, 13%, 30%);
+}
+.proj-options ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
 }
 .proj-options__header {
   display: grid;
   grid-template-columns: 24px auto 24px;
   place-items: center;
   gap: 8px;
-  padding-inline: 8px;
-  padding-bottom: 16px;
+  padding-block: 24px;
+  margin-inline: 24px;
   border-radius: 3px;
   border-bottom: 3px solid hsl(210, 13%, 30%);
   text-align: center;
 }
 .proj-options__content {
   flex-grow: 1;
+  padding: 24px;
+  overflow: auto;
+}
+.proj-options .start {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+.proj-options .start__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .start__option svg {
+  width: 24px;
+}
+.proj-options .start__option:hover {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 100%);
+}
+.proj-options .start__option--danger:hover {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 80%, 51%);
+}
+.proj-options .filter {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.proj-options .filter__option__header {
+  font-weight: 500;
+}
+.proj-options .filter__check {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 3px;
+  border: 2px solid hsl(211, 18%, 55%);
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .filter__check:hover {
+  background-color: hsl(211, 18%, 40%);
+}
+.proj-options .filter__check--checked {
+  background-color: hsl(211, 18%, 55%);
+}
+.proj-options .filter__check--checked:hover {
+  border-color: hsl(211, 18%, 60%);
+  background-color: hsl(211, 18%, 60%);
+}
+.proj-options .filter .keyword {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .keyword__input {
+  padding: 12px;
+  border-radius: 3px;
+  background-color: hsl(210, 13%, 10%);
+  cursor: text;
+}
+.proj-options .filter .dates {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .dates .date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .filter .dates .date:hover {
+  background-color: #31383f;
+}
+.proj-options .filter .dates .date__overdue .fa-clock {
+  color: hsl(0, 100%, 58%);
+}
+.proj-options .filter .dates .date__today .fa-clock {
+  color: hsl(30, 100%, 58%);
+}
+.proj-options .filter .dates .date__tomorrow .fa-clock {
+  color: hsl(46, 93%, 48%);
+}
+.proj-options .filter .tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proj-options .filter .tags ::-webkit-scrollbar {
+  width: 6px;
+}
+.proj-options .filter .tags ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: hsl(210, 13%, 30%);
+}
+.proj-options .filter .tags ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
+}
+.proj-options .filter .tags__list {
+  display: flex;
+  flex-direction: column;
+  max-height: 256px;
+  overflow: auto;
+}
+.proj-options .filter .tags__tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+}
+.proj-options .filter .tags__tag > * {
+  border-radius: 3px;
+  cursor: pointer;
+}
+.proj-options .filter .tags__tag .tag__name {
+  flex-grow: 1;
+  padding: 8px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .sort {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.proj-options .sort__option__header {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.proj-options .sort__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+.proj-options .sort__option:hover {
+  color: hsl(210, 13%, 5%);
+  background-color: hsl(0, 0%, 100%);
+}
+.proj-options .sort__option--danger .fa-clock {
+  color: hsl(0, 100%, 58%);
+}
+.proj-options .sort__option--safe .fa-clock {
+  color: hsl(145, 77%, 41%);
+}
+.proj-options .sort__option__icons {
+  display: flex;
+  gap: 4px;
 }
 .proj-options .tags__display {
   display: flex;
   flex-direction: column;
   gap: 16px;
   height: 100%;
-  background-color: hsl(210, 13%, 15%);
 }
 .proj-options .tags__display ::-webkit-scrollbar-track {
   margin: 0;
@@ -2257,18 +2625,18 @@
 .confirmation__btns .btn--confirmation--caution:hover {
   background-color: hsl(46, 93%, 48%);
 }
-.confirmation__btns .btn--confirmation--positive {
-  background-color: hsl(145, 77%, 41%);
-}
-.confirmation__btns .btn--confirmation--positive:hover {
-  background-color: hsl(145, 77%, 50%);
-}
 .confirmation__btns .btn--confirmation--neutral {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
 .confirmation__btns .btn--confirmation--neutral:hover {
   background-color: hsl(0, 0%, 100%);
+}
+.confirmation__btns .btn--confirmation--positive {
+  background-color: hsl(145, 77%, 41%);
+}
+.confirmation__btns .btn--confirmation--positive:hover {
+  background-color: hsl(145, 77%, 50%);
 }
 .confirmation__btns .btn--rejection {
   color: hsl(0, 0%, 72%);

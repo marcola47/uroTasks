@@ -7,7 +7,7 @@ import { faArrowsLeftRight, faArrowLeft, faArrowRight } from '@fortawesome/free-
 
 export default function OptionMoveList({ type })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext)
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext)
   const { state, dispatch } = useContext(ReducerContext);
   const { optionsShown, setOptionsShown } = useContext(OptionsContext);
   
@@ -20,10 +20,68 @@ export default function OptionMoveList({ type })
 
   function moveList()
   {
-    setOptionsShown(false);
+    // implement cross project moving
+    const positions = { old: type.position, new: newPosition };
+    const typesList = structuredClone(activeProject.types);
+
+    if (positions.new > positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== type.id && listType.position >= positions.old && listType.position <= positions.new)
+          listType.position--;
+
+        else if (listType.id === type.id)
+          listType.position = positions.new
+
+        return listType;
+      })
+    }
+
+    else if (positions.new < positions.old)
+    {
+      typesList.map(listType => 
+      {
+        if (listType.id !== type.id && listType.position <= positions.old && listType.position >= positions.new)
+          listType.position++;
+
+        else if (listType.id === type.id)
+          listType.position = positions.new
+
+        return listType;
+      })
+    }
+
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
+    {
+      if (project.id === activeProject.id)
+      {
+        project.types = typesList;
+        project.updated_at = Date.now();
+      }
+
+      return project;
+    })
+
+    setProjects(projectsCopy);
+    axios.post('/a/project/update?type=types&crud=moveList', 
+    {
+      curProjectID: activeProject.id,
+      newProjectID: newProject.id,
+      typeID: type.id,
+      positions: positions
+    })
+    .catch(err => 
+    {
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+    })
+
     setParamsShown(false);
     setProjListShown(false);
     setPosListShown(false);
+    dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
   }
 
   function iterateListPosition(mode)

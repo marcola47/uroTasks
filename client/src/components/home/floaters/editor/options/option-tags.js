@@ -12,18 +12,19 @@ import { faTag, faPencil, faArrowTurnDown } from '@fortawesome/free-solid-svg-ic
 
 export default function OptionTags({ task })
 {
-  const { projects, setProjects, activeProject, setActiveProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
 
   const orderedTagsList = activeProject.tags.length > 0
-    ? activeProject.tags.sort((a, b) => { return a.position - b.position })
+    ? structuredClone(activeProject.tags).sort((a, b) => { return a.position - b.position })
     : null
 
   function toggleTag(tag)
   {
     let method = 'push';
     let tagsList = [];
+    let tagsOld = structuredClone(task.tags);
 
     if (task.tags.includes(tag.id))
     {
@@ -37,34 +38,41 @@ export default function OptionTags({ task })
       tagsList.push(tag.id)
     }
 
-    const taskList = activeProject.tasks.map(listTask => 
+    const taskList = structuredClone(activeProject.tasks).map(listTask => 
+    {
+      if (listTask.id === task.id)
+        listTask.tags = tagsList;
+
+      return listTask;
+    })
+  
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project => 
+    {
+      if (project.id === activeProject.id)
       {
-        if (listTask.id === task.id)
-          listTask.tags = tagsList;
+        project.tasks = taskList;
+        project.updated_at = Date.now();
+      }
 
-        return listTask;
-      })
-    
-      const projectsCopy = projects.map(project => 
-      {
-        if (project.id === activeProject.id)
-          project.tasks = taskList
+      return project;
+    })
 
-        return project;
-      })
-
+    task.tags = tagsList;
+    setProjects(projectsCopy)
     axios.post(`/a/task/update?type=tags&method=${method}`,
     {
+      projectID: activeProject.id,
       taskID: task.id,
       tagID: tag.id,
       method: method
     })
-    .then(() => 
+    .catch(err => 
     {
-      setActiveProject((prevActiveProject) => ({ ...prevActiveProject, tasks: taskList }))
-      setProjects(projectsCopy)
+      setResponseError(err, dispatch);
+      setProjects(projectsOld)
+      task.tags = tagsOld;
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   function createTag()
@@ -84,11 +92,7 @@ export default function OptionTags({ task })
     dispatch(
     {
       type: 'setEditor',
-      payload: 
-      {
-        params: null,
-        data: null
-      }
+      payload: { params: null, data: null }
     })
   }
 
@@ -117,11 +121,7 @@ export default function OptionTags({ task })
       dispatch(
       {
         type: 'setEditor',
-        payload: 
-        {
-          params: null,
-          data: null
-        }
+        payload: { params: null, data: null }
       })
     }
 
@@ -143,9 +143,21 @@ export default function OptionTags({ task })
     )
   }
 
+  function toggleSubMenus()
+  {
+    const newSubMenus = 
+    {
+      tags: !subMenus.tags,
+      types: false,
+      dates: false
+    }
+
+    setSubMenus(newSubMenus);
+  }
+
   return (
     <>
-      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ () => {setSubMenus({ tags: !subMenus.tags, types: false })} }>
+      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ toggleSubMenus }>
       {
         subMenus.tags
         ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
@@ -156,8 +168,9 @@ export default function OptionTags({ task })
       <AnimateTransit>
       {
         subMenus.tags &&
-        <TransitionOpacity className="tags__settings">
-          <div className='tags__settings__wrapper' style={{ width: state.editor.params.w }}>
+        <TransitionOpacity className="sub-menu tags">
+          <div className='sub-menu__wrapper' style={{ width: state.editor.params.w }}>
+            <div className="sub-menu__header">TAGS</div>
             {
               orderedTagsList 
               ? <List
