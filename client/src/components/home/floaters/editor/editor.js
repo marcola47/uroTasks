@@ -52,8 +52,6 @@ export default function Editor()
     {
       state.editor.data && // many errors when not doing this
       <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
-        <div className='editor__position'>{ task?.position }</div>
-
         <div className="editor__content">
           <EditorTags task={ task }/>
           <EditorText task={ task }/> 

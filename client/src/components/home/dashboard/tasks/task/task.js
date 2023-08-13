@@ -44,9 +44,12 @@ export default function Task({ itemData })
         <FontAwesomeIcon icon={ faEllipsisVertical }/>
       </div>
 
-      <div className="task__badges">
-        { itemData.due_date && <TaskDueDate task={ itemData }/> }
-      </div>
+      {
+        itemData.due_date && // refactor to account for other badges
+        <div className="task__badges">
+          <TaskDueDate task={ itemData }/>
+        </div>
+      }
     </li>
   )
 }

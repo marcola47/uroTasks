@@ -6,6 +6,7 @@ import Task from '../task/task'
 import List from 'components/utils/list/list';
 import AddTask from "./add-task/add-task";
 
+import sortTasks from "operations/tasks-sort";
 import filterTasks from "operations/tasks-filter";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +21,8 @@ export default function Card({ type })
   const optionsRef = useRef(null);
 
   const filteredTasks = filterTasks(activeProject.tasks, state.filters, type.id);
+  const sortedTasks = sortTasks(filteredTasks, state.sort);
+
 
   function toggleOptions()
   { 
@@ -59,7 +62,7 @@ export default function Card({ type })
         <List 
           classes='card__list'
           ids={`list--${type.id}`} 
-          elements={ filteredTasks } 
+          elements={ sortedTasks } 
           ListItem={ Task }
         /> 
       }

@@ -74,7 +74,7 @@ taskController.create = async (req, res) =>
 }
 
 /*********************************************************************************************************************************/
-taskController.updateContent = async (req, res, session) => 
+taskController.updateContent = async (req, res) => 
 {
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
@@ -82,15 +82,13 @@ taskController.updateContent = async (req, res, session) =>
   await Task.updateOne
   (
     { id: data.taskID }, 
-    { content: data.newContent, $set: { updated_at: Date.now() } },
-    { session }
+    { $set: { content: data.newContent, updated_at: Date.now() } }
   );
 
   await Project.updateOne
   (
     { id: data.projectID },
-    { $set: { updated_at: Date.now() } },
-    { session }
+    { $set: { updated_at: Date.now() } }
   )
   
   res.status(200).send({ newAccessToken: newAccessToken });
@@ -267,17 +265,15 @@ taskController.updateCompleted = async (req, res, session) =>
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
-  console.log(data.completed)
-
-  // await Task.updateOne
-  // (
-  //   { id: data.taskID },
-  //   { $set: { completed: data.completed } },
-  //   { session }
-  // )
+  await Task.updateOne
+  (
+    { id: data.taskID },
+    { $set: { completed: data.completed } },
+    { session }
+  )
 
   res.status(200).send({ newAccessToken: newAccessToken })
-  console.log(`${Date.now()}: successfully updated task dates`);
+  console.log(`${Date.now()}: successfully updated task completed status`);
 }
 
 /*********************************************************************************************************************************/
@@ -290,8 +286,8 @@ taskController.update = async (req, res) =>
   {
     const type = req.query.type;
 
-    if (type === 'content')
-      await taskController.updateContent(req, res, session);
+    if (type === 'content') //for some god forsaken reason this runs twice. Eventually I'll fix it.
+      await taskController.updateContent(req, res);
 
     else if (type === 'type')
       await taskController.updateType(req, res, session);

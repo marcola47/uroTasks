@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { ProjectsContext, UserContext, ReducerContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig'
 
@@ -30,11 +30,10 @@ export default function TaskDueDate({ task })
   }
   
   const curTimeStamp = new Date().setUTCHours(0, 0, 0, 0);
-  const dueTImeStamp = dueDate.getTime();
-  const dateDiff = (dueTImeStamp - curTimeStamp) / 1000 / 60 / 60 / 24;
+  const dueTimeStamp = dueDate.getTime();
+  const dateDiff = (dueTimeStamp - curTimeStamp) / 1000 / 60 / 60 / 24;
   
   let className = '';
-
   switch (true) 
   {
     case task.completed === true: 
@@ -86,7 +85,7 @@ export default function TaskDueDate({ task })
       setResponseError(err, dispatch)
     })
   }
-  
+
   const icon = task.completed 
     ? faSquareCheckSolid
     : isHovered 

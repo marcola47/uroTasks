@@ -27,6 +27,7 @@ export default function App()
 
   const [state, dispatch] = useReducer(reducer, 
   {
+    sort: '',
     filters: 
     { 
       keywords: '', 
@@ -57,6 +58,9 @@ export default function App()
   {
     switch (action.type)
     {
+      case 'setSort':
+        return { ...state, sort: action.payload }
+
       case 'setFilters':
         return { ...state, filters: action.payload }
 
