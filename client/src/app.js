@@ -183,7 +183,7 @@ export default function App()
 
   function activateProject()
   {
-    if (projects.length > 0)
+    if (projects.length >= 0)
     {
       const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
 
@@ -193,12 +193,16 @@ export default function App()
     }
   }
 
-  // eslint-disable-next-line
-  useEffect(() => { fetchUser()       }, [user])  // eslint-disable-next-line
-  useEffect(() => { fetchProjects()   }, [user, state.fetchingProjects]); // eslint-disable-next-line
-  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]); // eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchUser()       }, [user])
+  // eslint-disable-next-line react-hooks/exhaustive-deps  
+  useEffect(() => { fetchProjects()   }, [user, state.fetchingProjects]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { activateProject() }, [user, projects])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => // hide notification
   {
     const timer = setTimeout(() => { if (state.notificationShown) dispatch({ type: 'notificationShown', payload: false }) }, 5000);

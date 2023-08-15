@@ -77,4 +77,6 @@ const taskSchema = new mongoose.Schema(
   }
 }, { strict: false });
 
+taskSchema.index({ id: 1 }, { unique: true });
+
 export default mongoose.model("Task", taskSchema);

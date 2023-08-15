@@ -74,4 +74,6 @@ const projectSchema = new mongoose.Schema(
   }
 }, { strict: false });
 
+projectSchema.index({ id: 1 }, { unique: true });
+
 export default mongoose.model("Project", projectSchema);

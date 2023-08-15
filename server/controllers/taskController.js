@@ -56,7 +56,7 @@ taskController.create = async (req, res) =>
     session.endSession();
 
     res.status(201).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully inserted task to project |${data.projectID}|`)
+    console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
   }
 
   catch (error)
@@ -92,7 +92,7 @@ taskController.updateContent = async (req, res) =>
   )
   
   res.status(200).send({ newAccessToken: newAccessToken });
-  console.log(`${Date.now()}: successfully updated task |${data.taskID}|`);
+  console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
 }
 
 /*********************************************************************************************************************************/
@@ -143,7 +143,7 @@ taskController.updateType = async (req, res,  session) =>
   )
 
   res.status(200).send({ newAccessToken: newAccessToken });
-  console.log(`${Date.now()}: successfully moved task to |${data.types.new}|`);
+  console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
 }
 
 /*********************************************************************************************************************************/
@@ -197,7 +197,7 @@ taskController.updatePosition = async (req, res, session) =>
   )
 
   res.status(200).send({ newAccessToken: newAccessToken })
-  console.log(`${Date.now()}: successfully updated task position`);
+  console.log(`${new Date()}: successfully updated task position`);
 }
 
 /*********************************************************************************************************************************/
@@ -237,7 +237,7 @@ taskController.updateTags = async (req, res, session) =>
   )
 
   res.status(200).send({ newAccessToken: newAccessToken })
-  console.log(`${Date.now()}: successfully updated task tags`);
+  console.log(`${new Date()}: successfully updated task tags`);
 }
 /*********************************************************************************************************************************/
 taskController.updateDates = async (req, res, session) => 
@@ -256,7 +256,7 @@ taskController.updateDates = async (req, res, session) =>
   )
 
   res.status(200).send({ newAccessToken: newAccessToken })
-  console.log(`${Date.now()}: successfully updated task dates`);
+  console.log(`${new Date()}: successfully updated task dates`);
 }
 
 /*********************************************************************************************************************************/
@@ -273,7 +273,7 @@ taskController.updateCompleted = async (req, res, session) =>
   )
 
   res.status(200).send({ newAccessToken: newAccessToken })
-  console.log(`${Date.now()}: successfully updated task completed status`);
+  console.log(`${new Date()}: successfully updated task completed status`);
 }
 
 /*********************************************************************************************************************************/
@@ -369,7 +369,7 @@ taskController.delete = async (req, res) =>
     session.endSession();
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully deleted task |${data.taskID}|`);
+    console.log(`${new Date()}: successfully deleted task |${data.taskID}|`);
   }
 
   catch (error)
@@ -382,6 +382,83 @@ taskController.delete = async (req, res) =>
     { 
       header: "Failed to delete task",
       message: "Internal server error on deleting task" 
+    })
+  }
+}
+
+/*********************************************************************************************************************************/
+taskController.order = async (req, res) => 
+{
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+    const bulkOps = [];
+  
+    const query = data.typeID === 'all'
+      ? { project: data.projectID }
+      : { project: data.projectID, type: data.typeID }
+
+
+    const sortMethods = 
+    {
+      alpha_asc     : { content: 1     },
+      alpha_desc    : { content: -1    },
+      due_close     : { due_date: 1    },
+      due_far       : { due_date: -1   },
+      creation_close: { created_at: 1  },
+      creation_far  : { created_at: -1 },
+      update_close  : { updated_at: 1  },
+      update_far    : { updated_at: -1 }
+    }
+    
+    const taskList = await Task.find(query).sort('type').sort(sortMethods[data.method] || sortMethods['alpha_asc'])
+    
+    let curPosition = 1;
+    let curType = taskList[0].type;
+
+    taskList.forEach(listTask => 
+    {
+      if (listTask.type !== curType) 
+      {
+        curPosition = 1;
+        curType = listTask.type;
+      }
+
+      listTask.position = curPosition;
+      curPosition++;
+
+      bulkOps.push({
+        updateOne: 
+        {
+          filter: { id: listTask.id },
+          update: { $set: { position: listTask.position } }
+        }
+      })
+    });
+
+    await Task.bulkWrite(bulkOps);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully ordered task list |${data.typeID}|`);
+  }
+
+  catch (error)
+  {
+    await session.commitTransaction();
+    session.endSession();
+
+    console.log(error)
+    res.status(500).send(
+    { 
+      header: "Failed to order tasks",
+      message: "Internal server error on ordering tasks" 
     })
   }
 }
