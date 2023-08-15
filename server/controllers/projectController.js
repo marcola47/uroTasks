@@ -54,7 +54,7 @@ projectController.create = async (req, res) =>
     session.endSession();
 
     res.status(201).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully created project: ${data.newProject.name}`);
+    console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
   }
 
   catch (error)
@@ -94,7 +94,7 @@ projectController.clone = async (req, res) =>
     session.endSession();
     
     res.status(201).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully created project: ${data.newProject.name}`);
+    console.log(`${new Date()}: successfully created project: ${data.newProject.name}`);
   }
 
   catch (error)
@@ -124,7 +124,7 @@ projectController.updateName = async (req, res, session) =>
     { session });
   
   res.status(200).send({ newAccessToken: newAccessToken });
-  console.log(`${Date.now()}: successfully updated project name to: ${data.newName}`);
+  console.log(`${new Date()}: successfully updated project name to: ${data.newName}`);
 }
 
 /*********************************************************************************************************************************/
@@ -141,7 +141,7 @@ projectController.updateColor = async (req, res, session) =>
   );
   
   res.status(200).send({ newAccessToken: newAccessToken });
-  console.log(`${Date.now()}: successfully updated project color to: ${data.newColor}`);
+  console.log(`${new Date()}: successfully updated project color to: ${data.newColor}`);
 }
 
 /*********************************************************************************************************************************/
@@ -160,7 +160,7 @@ projectController.updateTypes = async (req, res, session) =>
     );
     
     res.status(201).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project types`);
+    console.log(`${new Date()}: successfully updated project types`);
   }
 
   else if (req.query.crud === 'updateName')
@@ -183,7 +183,7 @@ projectController.updateTypes = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project types`);
+    console.log(`${new Date()}: successfully updated project types`);
   }
 
   else if (req.query.crud === 'moveList')
@@ -229,7 +229,24 @@ projectController.updateTypes = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project types`);
+    console.log(`${new Date()}: successfully updated project types`);
+  }
+
+  else if (req.query.crud === 'cloneList')
+  {
+    const newAccessToken = req.newAccessToken ?? null;
+    const data = req.body;
+
+    await Project.updateOne
+    (
+      { id: data.projectID },
+      { $push: { types: data.newType, tasks: data.taskList.map(listTask => listTask.id) } }
+    )
+
+    await Task.insertMany(data.taskList);
+
+    res.status(201).send({ newAccessToken: newAccessToken });
+    console.log(`${new Date()}: successfully cloned task list`);
   }
 
   else if (req.query.crud === 'deleteList')
@@ -251,7 +268,7 @@ projectController.updateTypes = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project types`);
+    console.log(`${new Date()}: successfully updated project types`);
   }
 
   else if (req.query.crud === 'deleteTasks')
@@ -273,7 +290,7 @@ projectController.updateTypes = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully deleted all tasks from list`);
+    console.log(`${new Date()}: successfully deleted all tasks from list`);
   }
 }
 
@@ -293,7 +310,7 @@ projectController.updateTags = async (req, res, session) =>
     );
 
     res.status(201).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project tags`);
+    console.log(`${new Date()}: successfully updated project tags`);
   }
 
   else if (req.query.crud === 'update')
@@ -309,7 +326,7 @@ projectController.updateTags = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project tags`);
+    console.log(`${new Date()}: successfully updated project tags`);
   }
 
   else if (req.query.crud = 'delete')
@@ -332,7 +349,7 @@ projectController.updateTags = async (req, res, session) =>
     );
 
     res.status(200).send({ newAccessToken: newAccessToken });
-    console.log(`${Date.now()}: successfully updated project tags`);
+    console.log(`${new Date()}: successfully updated project tags`);
   }
 }
 
@@ -398,7 +415,7 @@ projectController.delete = async (req, res) =>
     await Project.deleteOne({ id: data.projectID });
     await User.updateOne({ id: data.userID }, updatedUser);
 
-    console.log(`${Date.now()}: successfully deleted project: ${data.projectID}`);
+    console.log(`${new Date()}: successfully deleted project: ${data.projectID}`);
     res.status(200).send({ newAccessToken: newAccessToken });
   }
 

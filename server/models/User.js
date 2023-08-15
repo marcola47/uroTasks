@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     type: [String],
     ref: 'Project',
     default: [],
-    required: false
+    required: true
   },
 
   settings:
@@ -52,16 +52,39 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['d/m/y', 'm/d/y', 'y/m/d'],
       default: 'd/m/y',
-      required: false
+      required: true
     },
 
     open_last_proj:
     {
       type: Boolean,
       default: true,
-      required: false
+      required: true
+    },
+
+    save_general_ordering:
+    {
+      type: Boolean,
+      default: true,
+      required: true
+    },
+
+    open_last_used_project:
+    {
+      type: Boolean,
+      default: true,
+      required: true
+    },
+
+    display_tasks_per_type:
+    {
+      type: Boolean,
+      default: false,
+      required: true
     }
   }
 });
+
+userSchema.index({ id: 1 }, { unique: true });
 
 export default mongoose.model("User", userSchema);

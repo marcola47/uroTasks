@@ -9,7 +9,7 @@ import OptionCopyTasks from "./options/option-tasks-copy";
 import OptionArchiveTasks from "./options/option-tasks-archive";
 import OptionDeleteTasks from "./options/option-tasks-delete";
 import OptionMoveList from "./options/option-list-move";
-import OptionCopyList from "./options/option-list-copy";
+import OptionCloneList from "./options/option-list-clone";
 import OptionArchiveList from "./options/option-list-archive";
 import OptionDeleteList from "./options/option-list-delete";
 
@@ -50,7 +50,7 @@ export default function CardOptions()
         <OptionDeleteTasks type={ state.cardOptions.data }/>
         <div className="separator"/>
         <OptionMoveList type={ state.cardOptions.data }/>
-        <OptionCopyList type={ state.cardOptions.data }/>
+        <OptionCloneList type={ state.cardOptions.data }/>
         <OptionArchiveList type={ state.cardOptions.data }/>
         <OptionDeleteList type={ state.cardOptions.data }/>
       </div>

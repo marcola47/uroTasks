@@ -23,6 +23,7 @@ authRouter.post('/task/get', taskController.get);
 authRouter.post('/task/create', taskController.create);
 authRouter.post('/task/update', taskController.update);
 authRouter.post('/task/delete', taskController.delete);
+authRouter.post('/task/order', taskController.order);
 
 /***********************************************************************/
 guestRouter.post('/user/login', userController.login);
