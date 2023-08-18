@@ -13,7 +13,6 @@ export default function CardHeader({ type })
 
   function handleNameChange(newName) 
   { 
-    const oldTypes = structuredClone(activeProject.types);
     const typesList = structuredClone(activeProject.types).map(listType => 
     {
       if (listType.id === type.id)

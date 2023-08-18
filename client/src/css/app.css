@@ -1273,6 +1273,9 @@
   cursor: pointer;
 }
 .editor .options .tags .tags__list .tags__tag .tag__operation {
+  place-self: center;
+  width: 16px;
+  height: 16px;
   border: 2px solid hsl(211, 18%, 55%);
   transition: all 0.1s ease-in-out;
 }

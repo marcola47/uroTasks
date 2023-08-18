@@ -5,7 +5,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 export default function EditorText({ task }) 
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
-  const { state, dispatch } = useContext(ReducerContext);
+  const { dispatch } = useContext(ReducerContext);
   
   const [inputValue, setInputValue] = useState(task.content);
   const taskTextRef = useRef();
