@@ -305,6 +305,9 @@
 
           .tag__operation
           { 
+            place-self: center;
+            width: 16px;
+            height: 16px;
             border: 2px solid hsl(211, 18%, 55%); 
             @include transition;
 

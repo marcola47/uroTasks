@@ -11,11 +11,11 @@
   width: 280px;
   height: fit-content;
   padding: 4px;
+  margin-right: 16px;
   border-radius: $br-big;
 
   background-color: $bg-blue-mid-dim;
-
-  @include transition;
+  
   
   ::-webkit-scrollbar-track 
   { 
@@ -68,14 +68,11 @@
   }
 
   &__list
-  {
-    grid-row: 2;
-    grid-column: span 2;
-    
+  {    
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
 
+    min-height: 24px;
     max-height: 640px;
     padding-inline: 4px;
     margin-bottom: 8px;

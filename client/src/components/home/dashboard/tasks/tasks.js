@@ -1,14 +1,22 @@
 import React, { useContext, useRef, useLayoutEffect } from "react";
-import { ProjectsContext } from "app";
+import { ProjectsContext, ReducerContext } from "app";
+import axios, { setResponseError } from 'utils/axiosConfig'
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import AddCard from "./add-card/add-card";
 import Card from './card/card';
 
-export default function Tasks()
+import repositionLists from "operations/lists-reposition";
+import repositionTasks from "operations/tasks-reposition";
+
+function Tasks()
 {
-  const { activeProject } = useContext(ProjectsContext);
-  const typesOrdered = structuredClone(activeProject.types).sort((a, b) => {return a.position - b.position})
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
+  const { dispatch } = useContext(ReducerContext);
+
   const listRef = useRef(null);
+
+  const typesOrdered = structuredClone(activeProject.types).sort((a, b) => {return a.position - b.position})
 
   // don't judge me
   useLayoutEffect(() => 
@@ -33,10 +41,44 @@ export default function Tasks()
     }
   };
 
+  const onDragEnd = result =>
+  {
+    if (!result.destination || (result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index))
+      return;
+
+    const projectsContext = { projects, setProjects, activeProject };
+    const opContext = { dispatch, result, axios, setResponseError }
+
+    if (result.type === "type-list")
+      repositionLists(projectsContext, opContext)
+
+    else if (result.type === "task-list")
+      repositionTasks(projectsContext, opContext)
+  }
+
   return (
-    <div className="tasks" id="tasks" ref={ listRef } onScroll={ handleScroll }>
-      { typesOrdered ? typesOrdered.map(type => {return <Card key={ type.id } type={ type }/>}) : null }
-      <AddCard typesOrdered={ typesOrdered }/>
-    </div>
+    <DragDropContext onDragEnd={ onDragEnd }>
+      <Droppable droppableId="tasks" direction="horizontal" type="type-list">
+      {
+        (provided) => 
+        (
+          <div 
+            className="tasks" 
+            id="tasks" 
+            ref={ el => {listRef.current = el; provided.innerRef(el)} }
+            onScroll={ handleScroll }
+            { ...provided.droppableProps }
+          >
+            { typesOrdered && typesOrdered.map(type => {return <Card key={ type.id } type={ type }/>}) }
+            { provided.placeholder }
+            <AddCard typesOrdered={ typesOrdered }/>
+          </div>
+        )
+      }
+      </Droppable>
+    </DragDropContext>
   )
 }
+
+const MemoizedTasks = React.memo(Tasks);
+export default MemoizedTasks;

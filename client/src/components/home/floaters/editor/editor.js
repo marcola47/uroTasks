@@ -9,7 +9,7 @@ import EditorDueDate from './badges/due-date';
 import OptionEllipsis from './options/option-ellipsis'
 import OptionTags from './options/option-tags';
 import OptionType from './options/option-type';
-import OptionPosition from './options/option-position';  
+import OptionPosition from './options/option-position';
 import OptionDates from './options/option-dates';
 import OptionDelete from './options/option-delete';
 
@@ -66,8 +66,8 @@ export default function Editor()
             <OptionEllipsis/>
             <OptionTags task={ task }/>
             <OptionType task={ task }/>
-            <OptionPosition task={ task }/>
             <OptionDates task={ task }/>
+            <OptionPosition task={ task }/>
             <OptionDelete task={ task }/>
           </SubMenusContext.Provider>
         </div>

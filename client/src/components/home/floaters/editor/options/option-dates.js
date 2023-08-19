@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { ProjectsContext, ReducerContext } from 'app';
 import { SubMenusContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';

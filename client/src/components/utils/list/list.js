@@ -1,7 +1,8 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { v4 as uuid } from 'uuid';
+import { Droppable } from 'react-beautiful-dnd';
 
-function List({ elements, ListItem, onClick, styles = null, classes = "", ids = "" })
+function List({ elements, ListItem, onClick, styles = null, classes = "", ids = "", unwrapped = false, dnd = false })
 {
   const listRef = useRef(null);
 
@@ -35,6 +36,10 @@ function List({ elements, ListItem, onClick, styles = null, classes = "", ids = 
       sessionStorage.setItem(`${ids}:x`, scrollOffsetX);
     }
   };
+
+  if (unwrapped)
+    return <>{ elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }</>
+
 
   return (
     <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll } onClick={ onClick } styles={ styles }>

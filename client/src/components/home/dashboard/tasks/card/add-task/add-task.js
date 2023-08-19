@@ -21,7 +21,6 @@ export default function AddTask({ type })
 
   function handleTextChange(content) 
   {     
-    const oldTasks = structuredClone(activeProject.tasks) ?? [];
     const taskList = structuredClone(activeProject.tasks) ?? [];
     
     const newPosition = tasksFiltered.length > 0 
