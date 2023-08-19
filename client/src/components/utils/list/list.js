@@ -40,22 +40,6 @@ function List({ elements, ListItem, onClick, styles = null, classes = "", ids = 
   if (unwrapped)
     return <>{ elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }</>
 
-  if (dnd)
-  {
-    return (
-      <Droppable droppableId="tasks-container">
-      {
-        (provided) => 
-        (
-          <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll } onClick={ onClick } styles={ styles }>
-            { elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }
-          </ul>
-        )
-      }
-      </Droppable>
-    )
-  }
-
 
   return (
     <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll } onClick={ onClick } styles={ styles }>

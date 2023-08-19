@@ -380,9 +380,9 @@
   height: -moz-fit-content;
   height: fit-content;
   padding: 4px;
+  margin-right: 16px;
   border-radius: 6px;
   background-color: hsl(210, 13%, 15%);
-  transition: all 0.1s ease-in-out;
 }
 .card ::-webkit-scrollbar-track {
   margin: 0;
@@ -422,11 +422,9 @@
   text-overflow: ellipsis;
 }
 .card__list {
-  grid-row: 2;
-  grid-column: span 2;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  min-height: 24px;
   max-height: 640px;
   padding-inline: 4px;
   margin-bottom: 8px;
@@ -532,6 +530,7 @@
   flex-direction: column;
   position: relative;
   width: 100%;
+  margin-bottom: 12px;
   border-radius: 3px;
   background-color: hsl(210, 15%, 23%);
   overflow-y: hidden;
@@ -701,7 +700,6 @@
 .tasks {
   flex: 1;
   display: flex;
-  gap: 16px;
   width: 100%;
   padding: 0px 24px;
   overflow: auto;
@@ -1202,13 +1200,6 @@
 }
 .editor .options .option:hover, .editor .options .option--selected {
   background-color: hsl(0, 0%, 100%);
-}
-.editor .options .option--position--up {
-  border-radius: 3px 3px 0 0;
-}
-.editor .options .option--position--down {
-  margin-top: -4px;
-  border-radius: 0 0 3px 3px;
 }
 .editor .options .option--remove {
   color: hsl(0, 0%, 100%);

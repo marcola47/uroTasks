@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { ReducerContext } from 'app';
+import { Draggable } from 'react-beautiful-dnd';
 
 import TaskTags from './tags/tags';
 import TaskDueDate from './badges/due-date';
@@ -31,25 +32,38 @@ export default function Task({ itemData })
   }
 
   return (
-    <li className="task" id={ itemData?.id } ref={ taskRef } onContextMenu={ e => {toggleOptions(e)} }>
-      {/* <div className='task__position'>{ itemData?.position }</div> */}
-
-      <TaskTags task={ itemData }/>
-
-      <div className='task__text'>
-        { itemData?.content }
-      </div>
-      
-      <div className='task__options' onClick={ e => {toggleOptions(e)} }>
-        <FontAwesomeIcon icon={ faEllipsisVertical }/>
-      </div>
-
-      {
-        itemData.due_date && // refactor to account for other badges
-        <div className="task__badges">
-          <TaskDueDate task={ itemData }/>
-        </div>
-      }
-    </li>
+    <Draggable draggableId={ itemData.id } index={ itemData.position }>
+    {
+      (provided) => 
+      (
+        <li 
+          className="task" 
+          id={ itemData?.id } 
+          onContextMenu={ e => {toggleOptions(e)} }
+          ref={ el => {taskRef.current = el; provided.innerRef(el)} } 
+          { ...provided.draggableProps }
+          { ...provided.dragHandleProps }
+        >
+           <div className='task__position'>{ itemData?.position }</div>
+          <TaskTags task={ itemData }/>
+    
+          <div className='task__text'>
+            { itemData?.content }
+          </div>
+          
+          <div className='task__options' onClick={ e => {toggleOptions(e)} }>
+            <FontAwesomeIcon icon={ faEllipsisVertical }/>
+          </div>
+    
+          {
+            itemData.due_date && // refactor to account for other badges
+            <div className="task__badges">
+              <TaskDueDate task={ itemData }/>
+            </div>
+          }
+        </li>
+      )
+    }
+    </Draggable>
   )
 }

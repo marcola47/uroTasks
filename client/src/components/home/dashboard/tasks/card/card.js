@@ -1,10 +1,10 @@
 import React, { useContext, useRef } from "react";
 import { ProjectsContext, ReducerContext } from "app";
-import { Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import axios, { setResponseError } from 'utils/axiosConfig';
 
 import CardHeader from "./card-header/card-header";
 import Task from '../task/task'
-import List from 'components/utils/list/list';
 import AddTask from "./add-task/add-task";
 
 import filterTasks from "operations/tasks-filter";
@@ -14,7 +14,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 export const OptionsContext = React.createContext();
 
-export default function Card({ type })
+function Card({ type })
 {
   const { activeProject } = useContext(ProjectsContext); 
   const { state, dispatch } = useContext(ReducerContext);
@@ -65,15 +65,22 @@ export default function Card({ type })
             <FontAwesomeIcon icon={ faEllipsis }/>
           </div>
 
-          { 
-            activeProject?.tasks && 
-            <List 
-              classes='card__list'
-              ids={`list--${type.id}`} 
-              elements={ filteredTasks } 
-              ListItem={ Task }
-            /> 
+          <Droppable droppableId={ type.id } type="task-list">
+          {
+            (provided) =>
+            (
+              activeProject?.tasks &&
+              <div 
+                className="card__list"
+                ref={ provided.innerRef }
+                { ...provided.droppableProps }
+              >
+                { filteredTasks.map(listTask => { return <Task itemData={ listTask } key={ listTask.id }/> }) }
+                { provided.placeholder }
+              </div>
+            )
           }
+          </Droppable>
 
           <AddTask type={ type }/>
         </div>
@@ -82,3 +89,6 @@ export default function Card({ type })
     </Draggable>
   )
 }
+
+const MemoizedCard = React.memo(Card);
+export default MemoizedCard;

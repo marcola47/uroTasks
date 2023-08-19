@@ -147,56 +147,68 @@ taskController.updateType = async (req, res,  session) =>
 }
 
 /*********************************************************************************************************************************/
-taskController.updatePosition = async (req, res, session) =>
+taskController.updatePosition = async (req, res, session) => 
 {
   const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
+  const { source, destination } = data.result;
+  const positions = { old: source.index, new: destination.index };
+  const bulkOps = [];
 
-  if (data.direction === 'up')
+  const taskList = await Task.find({ project: data.projectID, type: { $in: [source.droppableId, destination.droppableId] }});
+  taskList.forEach(listTask => 
   {
-    await Task.updateOne
-    (
-      { id: data.updatedTaskID },
-      { $inc: { position: -1 }, $set: { updated_at: Date.now() } },
-      { session }
-    );
+    const isSource = listTask.type === source.droppableId;
+    const isDestination = listTask.type === destination.droppableId;
+
+    if (listTask.id === data.taskID) 
+    {
+      bulkOps.push(
+      {
+        updateOne: 
+        {
+          filter: { id: data.taskID },
+          update: 
+          {
+            $set: 
+            {
+              type: destination.droppableId,
+              position: positions.new,
+              updated_at: Date.now(),
+            },
+          },
+        },
+      });
+    }
+     
+    else if (isSource && listTask.position > positions.old) 
+    {
+      bulkOps.push(
+      {
+        updateOne: 
+        {
+          filter: { id: listTask.id },
+          update: { $inc: { position: -1 } },
+        },
+      });
+    } 
     
-    await Task.updateOne
-    (
-      { id: data.otherTaskID }, 
-      { $inc: { position: +1 } },
-      { session }
-    );
-  }
+    else if (isDestination && listTask.position >= positions.new) 
+    {
+      bulkOps.push(
+      {
+        updateOne: 
+        {
+          filter: { id: listTask.id },
+          update: { $inc: { position: 1 } },
+        },
+      });
+    }
+  });
 
-  else if (data.direction === 'down')
-  {
-    await Task.updateOne
-    (
-      { id: data.updatedTaskID }, 
-      { $inc: { position: +1 }, $set: { updated_at: Date.now() }},
-      { session }
-    );
-    
-    await Task.updateOne
-    (
-      { id: data.otherTaskID }, 
-      { $inc: { position: -1 } },
-      { session }
-    );
-  }
+  await Task.bulkWrite(bulkOps, { session });
 
-  else 
-    throw new Error('Invalid direction');
-
-  await Project.updateOne
-  (
-    { id: data.projectID },
-    { $set: { updated_at: Date.now() } },
-    { session }
-  )
-
-  res.status(200).send({ newAccessToken: newAccessToken })
+  res.status(200).send({ newAccessToken });
   console.log(`${new Date()}: successfully updated task position`);
 }
 
