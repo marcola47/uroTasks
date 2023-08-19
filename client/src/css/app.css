@@ -1201,6 +1201,13 @@
 .editor .options .option:hover, .editor .options .option--selected {
   background-color: hsl(0, 0%, 100%);
 }
+.editor .options .option--position--up {
+  border-radius: 3px 3px 0 0;
+}
+.editor .options .option--position--down {
+  margin-top: -4px;
+  border-radius: 0 0 3px 3px;
+}
 .editor .options .option--remove {
   color: hsl(0, 0%, 100%);
   background-color: hsl(0, 80%, 51%);

@@ -202,6 +202,18 @@
       &:hover, &--selected
       { background-color: $white-light; }
 
+      &--position
+      { 
+        &--up
+        { border-radius: $br-small $br-small 0 0; }
+
+        &--down
+        {
+          margin-top: -4px;
+          border-radius: 0 0 $br-small $br-small;
+        }
+      }
+
       &--remove
       { 
         color: $white-light;
