@@ -35,10 +35,14 @@ export default function repositionLists(projectsContext, opContext)
   setProjects(projectsCopy);
   axios.post('/a/list/update/position', 
   {
-    curProjectID: activeProject.id,
-    newProjectID: activeProject.id,
     typeID: type.id,
-    positions: positions,
+    params: 
+    {
+      sourceID: activeProject.id,
+      sourcePosition: result.source.index,
+      destinationID: activeProject.id,
+      destinationPosition: result.destination.index,
+    }
   })
   .catch(err => 
   {

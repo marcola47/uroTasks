@@ -150,29 +150,29 @@ taskController.updateType = async (req, res,  session) =>
 taskController.updatePosition = async (req, res, session) => 
 {
   const newAccessToken = req.newAccessToken ?? null;
-  const data = req.body;
-  const { source, destination } = data.result;
-  const positions = { old: source.index, new: destination.index };
+  const { projectID, taskID, params } = req.body;
+
+  const positions = { old: params.sourcePosition, new: params.destinationPosition };
   const bulkOps = [];
 
-  const taskList = await Task.find({ project: data.projectID, type: { $in: [source.droppableId, destination.droppableId] }});
+  const taskList = await Task.find({ project: projectID, type: { $in: [params.sourceID, params.destinationID] }});
   taskList.forEach(listTask => 
   {
-    const isSource = listTask.type === source.droppableId;
-    const isDestination = listTask.type === destination.droppableId;
+    const isSource = listTask.type === params.sourceID;
+    const isDestination = listTask.type === params.destinationID;
 
-    if (listTask.id === data.taskID) 
+    if (listTask.id === taskID) 
     {
       bulkOps.push(
       {
         updateOne: 
         {
-          filter: { id: data.taskID },
+          filter: { id: taskID },
           update: 
           {
             $set: 
             {
-              type: destination.droppableId,
+              type: params.destinationID,
               position: positions.new,
               updated_at: Date.now(),
             },

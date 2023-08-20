@@ -19,14 +19,11 @@ instance.interceptors.request.use(config =>
 instance.interceptors.response.use(
   (res) => 
   {
-    const newAccessToken = res.data.newAccessToken;
-
-    if (newAccessToken)
-      localStorage.setItem('accessToken', newAccessToken);
+    if (res.data.newAccessToken)
+      localStorage.setItem('accessToken', res.data.newAccessToken);
 
     return res;
   },
-
   (err) => { return Promise.reject(err) }
 );
 
