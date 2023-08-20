@@ -1,9 +1,8 @@
 import React, { useContext, useRef } from "react";
 import { ProjectsContext, ReducerContext } from "app";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import axios, { setResponseError } from 'utils/axiosConfig';
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-import CardHeader from "./card-header/card-header";
+import TaskListHeader from "./task-list-header/task-list-header";
 import Task from '../task/task'
 import AddTask from "./add-task/add-task";
 
@@ -14,7 +13,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 export const OptionsContext = React.createContext();
 
-function Card({ type })
+function TaskList({ type })
 {
   const { activeProject } = useContext(ProjectsContext); 
   const { state, dispatch } = useContext(ReducerContext);
@@ -24,8 +23,8 @@ function Card({ type })
 
   function toggleOptions()
   { 
-    if (state.cardOptions.data)
-      dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
+    if (state.taskListOptions.data)
+      dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
     
     else
     {
@@ -37,7 +36,7 @@ function Card({ type })
   
       dispatch(
       {
-        type: 'setCardOptions',
+        type: 'setTaskListOptions',
         payload: 
         { 
           params: params, 
@@ -53,13 +52,13 @@ function Card({ type })
       (provided) => 
       (
         <div 
-          className="card" 
+          className="task-list" 
           id={ type.name } 
           ref={ provided.innerRef }
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
         >
-          <CardHeader type={ type }/>
+          <TaskListHeader type={ type }/>
 
           <div className='options' onClick={ toggleOptions } ref={ optionsRef }>
             <FontAwesomeIcon icon={ faEllipsis }/>
@@ -71,7 +70,7 @@ function Card({ type })
             (
               activeProject?.tasks &&
               <div 
-                className="card__list"
+                className="task-list__list"
                 ref={ provided.innerRef }
                 { ...provided.droppableProps }
               >
@@ -90,5 +89,5 @@ function Card({ type })
   )
 }
 
-const MemoizedCard = React.memo(Card);
-export default MemoizedCard;
+const MemoizedTaskList = React.memo(TaskList);
+export default MemoizedTaskList;

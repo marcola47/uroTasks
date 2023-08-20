@@ -5,7 +5,7 @@ import { AnimateTransit } from 'components/utils/transitions/transitions';
 import Menu from '../components/home/menu/menu';
 import Dashboard from '../components/home/dashboard/dashboard';
 import Editor from '../components/home/floaters/editor/editor';
-import CardOptions from 'components/home/floaters/card-options/card-options';
+import TaskListOptions from 'components/home/floaters/task-list-options/task-list-options';
 import ProjCreator from '../components/home/floaters/proj-creator/proj-creator';
 import ProjOptions from 'components/home/floaters/proj-options/proj-options';
 import { Screensaver } from 'components/home/dashboard/screensaver/screensaver';
@@ -28,7 +28,7 @@ export default function HomePage()
       <AnimateTransit children={ state.projCreatorShown && <ProjCreator/> }/>
       <AnimateTransit children={ state.projOptions && <ProjOptions/> }/>
       <AnimateTransit children={ state.editor.params && <Editor/> }/>
-      <AnimateTransit children={ state.cardOptions.params && <CardOptions/> }/>
+      <AnimateTransit children={ state.taskListOptions.params && <TaskListOptions/> }/>
 
       <div className='dashboard__burger' onClick={ () => {dispatch({ type: 'menuShown', payload: true })} }>
         <FontAwesomeIcon icon={ faBars }/>

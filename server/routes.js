@@ -2,7 +2,8 @@ import express from 'express';
 
 import verifyToken from './middleware/verifyToken.js';
 
-import projectController from './controllers/projectController.js'
+import projectController from './controllers/projectController.js';
+import listController from './controllers/listController.js';
 import taskController from './controllers/taskController.js';
 import userController from './controllers/userController.js';
 
@@ -17,6 +18,14 @@ authRouter.post('/project/create', projectController.create);
 authRouter.post('/project/clone', projectController.clone);
 authRouter.post('/project/update', projectController.update);
 authRouter.post('/project/delete', projectController.delete);
+
+/***********************************************************************/
+authRouter.post('/list/create', listController.create);
+authRouter.post('/list/clone', listController.clone);
+authRouter.post('/list/update/name', listController.updateName);
+authRouter.post('/list/update/position', listController.updatePosition);
+authRouter.post('/list/delete/list', listController.deleteList);
+authRouter.post('/list/delete/tasks', listController.deleteTasks);
 
 /***********************************************************************/
 authRouter.post('/task/get', taskController.get);

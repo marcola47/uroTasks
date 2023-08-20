@@ -11,7 +11,7 @@
   overflow: auto;
   @include transition;
 
-  &__add-card
+  .add-task-list
   {
     flex: 0 0 280px;
     width: 280px;
@@ -68,7 +68,7 @@
     scroll-snap-type: inline mandatory;
   }
 
-  .tasks__add-card
+  .add-task-list
   {
     width: auto;
     

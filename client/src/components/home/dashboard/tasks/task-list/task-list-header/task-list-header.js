@@ -2,7 +2,7 @@ import { useState, useContext, useRef } from "react"
 import { ProjectsContext, ReducerContext } from "app";
 import axios, { setResponseError } from 'utils/axiosConfig';
 
-export default function CardHeader({ type })
+export default function TaskListHeader({ type })
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
@@ -34,7 +34,7 @@ export default function CardHeader({ type })
     });
 
     setProjects(projectsCopy)
-    axios.post('/a/project/update?type=types&crud=updateName', 
+    axios.post('/a/list/update/name', 
     { 
       projectID: activeProject.id, 
       typeID: type.id, 
@@ -64,7 +64,7 @@ export default function CardHeader({ type })
   }
 
   return (
-    <div className='card__header'>
+    <div className='task-list__header'>
     {
       editing 
       ? <input 

@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-export default function AddCard({ typesOrdered })
+export default function AddTaskList({ typesOrdered })
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
@@ -42,7 +42,7 @@ export default function AddCard({ typesOrdered })
     })
 
     setProjects(projectsCopy)
-    axios.post('/a/project/update?type=types&crud=create', 
+    axios.post('/a/list/create', 
     { 
       projectID: activeProject.id, 
       newType: newType 
@@ -74,7 +74,7 @@ export default function AddCard({ typesOrdered })
   }
 
   return (
-    <div className="tasks__add-card">
+    <div className="add-task-list">
     {
       editing 
       ? <input
