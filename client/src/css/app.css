@@ -371,160 +371,6 @@
     transform: rotate(0deg);
   }
 }
-.card {
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 280px;
-  height: -moz-fit-content;
-  height: fit-content;
-  padding: 4px;
-  margin-right: 16px;
-  border-radius: 6px;
-  background-color: hsl(210, 13%, 15%);
-}
-.card ::-webkit-scrollbar-track {
-  margin: 0;
-  border-radius: 2px;
-  background: hsl(210, 13%, 10%);
-}
-.card ::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background: hsl(210, 15%, 23%);
-}
-.card .options {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  font-size: 1.5rem;
-  padding: 6px 8px 4px 8px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-}
-.card .options:hover {
-  background-color: hsl(210, 13%, 30%);
-}
-.card__header {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 16px 48px 0px 16px;
-  margin-bottom: 16px;
-}
-.card__header input {
-  font-weight: 500;
-}
-.card__header > * {
-  cursor: text;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.card__list {
-  display: grid;
-  grid-template-columns: 1fr;
-  min-height: 24px;
-  max-height: 640px;
-  padding-inline: 4px;
-  margin-bottom: 8px;
-  border-radius: 3px;
-  overflow-y: auto;
-}
-.card__add-task {
-  grid-column: span 2;
-  padding: 4px;
-}
-.card__add-task textarea {
-  padding: 12px;
-  border-radius: 3px;
-  color: inherit;
-  background-color: hsl(210, 15%, 23%);
-  font-family: inherit;
-  font-size: inherit;
-}
-.card__add-task button {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid rgba(0, 0, 0, 0);
-  border-radius: 3px;
-  color: hsl(0, 0%, 72%);
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-}
-.card__add-task button:hover {
-  border: 2px solid hsl(145, 77%, 50%);
-  color: hsl(145, 77%, 50%);
-}
-.card__add-task button .fa-plus {
-  transition: all 0s ease-in-out;
-}
-
-@media screen and (max-width: 768px) {
-  .card {
-    width: auto;
-    scroll-margin: 24px;
-    scroll-snap-align: start;
-  }
-}
-@media screen and (max-height: 883px) {
-  .card__list {
-    max-height: 480px;
-  }
-}
-@media screen and (max-height: 774px) {
-  .card__list {
-    max-height: 420px;
-  }
-}
-@media screen and (max-height: 711px) {
-  .card__list {
-    max-height: 360px;
-  }
-}
-@media screen and (max-height: 651px) {
-  .card__list {
-    max-height: 300px;
-  }
-}
-@media screen and (max-height: 592px) {
-  .card__list {
-    max-height: 240px;
-  }
-}
-@keyframes fade_in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fade_out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes rotate_cw {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotate_ccw {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
 .task {
   display: flex;
   flex-direction: column;
@@ -697,6 +543,160 @@
     transform: rotate(0deg);
   }
 }
+.task-list {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 280px;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 4px;
+  margin-right: 16px;
+  border-radius: 6px;
+  background-color: hsl(210, 13%, 15%);
+}
+.task-list ::-webkit-scrollbar-track {
+  margin: 0;
+  border-radius: 2px;
+  background: hsl(210, 13%, 10%);
+}
+.task-list ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: hsl(210, 15%, 23%);
+}
+.task-list .options {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: 1.5rem;
+  padding: 6px 8px 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.task-list .options:hover {
+  background-color: hsl(210, 13%, 30%);
+}
+.task-list__header {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 16px 48px 0px 16px;
+  margin-bottom: 16px;
+}
+.task-list__header input {
+  font-weight: 500;
+}
+.task-list__header > * {
+  cursor: text;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.task-list__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 24px;
+  max-height: 640px;
+  padding-inline: 4px;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  overflow-y: auto;
+}
+.task-list .add-task {
+  grid-column: span 2;
+  padding: 4px;
+}
+.task-list .add-task textarea {
+  padding: 12px;
+  border-radius: 3px;
+  color: inherit;
+  background-color: hsl(210, 15%, 23%);
+  font-family: inherit;
+  font-size: inherit;
+}
+.task-list .add-task button {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  color: hsl(0, 0%, 72%);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.task-list .add-task button:hover {
+  border: 2px solid hsl(145, 77%, 50%);
+  color: hsl(145, 77%, 50%);
+}
+.task-list .add-task button .fa-plus {
+  transition: all 0s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  .task-list {
+    width: auto;
+    scroll-margin: 24px;
+    scroll-snap-align: start;
+  }
+}
+@media screen and (max-height: 883px) {
+  .task-list__list {
+    max-height: 480px;
+  }
+}
+@media screen and (max-height: 774px) {
+  .task-list__list {
+    max-height: 420px;
+  }
+}
+@media screen and (max-height: 711px) {
+  .task-list__list {
+    max-height: 360px;
+  }
+}
+@media screen and (max-height: 651px) {
+  .task-list__list {
+    max-height: 300px;
+  }
+}
+@media screen and (max-height: 592px) {
+  .task-list__list {
+    max-height: 240px;
+  }
+}
+@keyframes fade_in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade_out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes rotate_cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate_ccw {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
 .tasks {
   flex: 1;
   display: flex;
@@ -705,11 +705,11 @@
   overflow: auto;
   transition: all 0.1s ease-in-out;
 }
-.tasks__add-card {
+.tasks .add-task-list {
   flex: 0 0 280px;
   width: 280px;
 }
-.tasks__add-card input {
+.tasks .add-task-list input {
   padding: 14px;
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 6px;
@@ -718,7 +718,7 @@
   font-family: inherit;
   font-size: inherit;
 }
-.tasks__add-card button {
+.tasks .add-task-list button {
   width: 100%;
   padding: 14px;
   border: 2px solid rgba(0, 0, 0, 0);
@@ -731,11 +731,11 @@
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.tasks__add-card button:hover {
+.tasks .add-task-list button:hover {
   border: 2px solid hsl(145, 77%, 50%);
   color: hsl(145, 77%, 50%);
 }
-.tasks__add-card button .fa-plus {
+.tasks .add-task-list button .fa-plus {
   transition: all 0s ease-in-out;
 }
 
@@ -746,7 +746,7 @@
     grid-auto-columns: 100%;
     scroll-snap-type: inline mandatory;
   }
-  .tasks__add-card {
+  .add-task-list {
     width: auto;
     scroll-margin: 24px;
     scroll-snap-align: start;
@@ -860,7 +860,7 @@
     transform: rotate(0deg);
   }
 }
-.card__options {
+.task-list__options {
   display: flex;
   flex-direction: column;
   z-index: 99;
@@ -876,12 +876,12 @@
   font-size: 1rem;
   transition: all 0.1s ease-in-out;
 }
-.card__options .separator {
+.task-list__options .separator {
   border-radius: 2px;
   border: 1px solid hsl(0, 0%, 60%);
   margin-block: 4px;
 }
-.card__options .option {
+.task-list__options .option {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -895,22 +895,22 @@
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.card__options .option:hover {
+.task-list__options .option:hover {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.card__options .option--caution:hover {
+.task-list__options .option--caution:hover {
   color: hsl(0, 0%, 100%);
   background-color: hsl(46, 93%, 48%);
 }
-.card__options .option--danger:hover {
+.task-list__options .option--danger:hover {
   color: hsl(0, 0%, 100%);
   background-color: hsl(0, 80%, 51%);
 }
-.card__options .option > svg {
+.task-list__options .option > svg {
   width: 16px;
 }
-.card__options .option .move {
+.task-list__options .option .move {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -924,35 +924,35 @@
   background-color: hsl(210, 13%, 15%);
   transition: all 0.1s ease-in-out;
 }
-.card__options .option .move--shown {
+.task-list__options .option .move--shown {
   z-index: 2;
   opacity: 1;
   pointer-events: all;
 }
-.card__options .option .move--hidden {
+.task-list__options .option .move--hidden {
   z-index: -100;
   opacity: 0;
   pointer-events: none;
 }
-.card__options .option .move__container {
+.task-list__options .option .move__container {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.card__options .option .move__param {
+.task-list__options .option .move__param {
   position: relative;
   padding: 4px;
   border-radius: 3px;
   background-color: hsl(210, 15%, 23%);
 }
-.card__options .option .move__param ::-webkit-scrollbar-thumb {
+.task-list__options .option .move__param ::-webkit-scrollbar-thumb {
   background: hsl(210, 13%, 30%);
 }
-.card__options .option .move__header {
+.task-list__options .option .move__header {
   color: hsl(0, 0%, 72%);
   font-size: 0.85rem;
 }
-.card__options .option .move__list {
+.task-list__options .option .move__list {
   display: flex;
   flex-direction: column;
   z-index: 2;
@@ -965,10 +965,10 @@
   border-radius: 3px;
   background-color: hsl(210, 15%, 23%);
 }
-.card__options .option .move__list--proj {
+.task-list__options .option .move__list--proj {
   z-index: 3;
 }
-.card__options .option .move__list__item {
+.task-list__options .option .move__list__item {
   flex: 0 0 32px;
   width: 100%;
   padding: 8px 4px;
@@ -978,35 +978,35 @@
   text-overflow: ellipsis;
   transition: all 0.1s ease-in-out;
 }
-.card__options .option .move__list__item:hover {
+.task-list__options .option .move__list__item:hover {
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 100%);
 }
-.card__options .option .move__btns {
+.task-list__options .option .move__btns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
-.card__options .option .move__btns > * {
+.task-list__options .option .move__btns > * {
   display: grid;
   place-items: center;
   height: 24px;
   transition: all 0.1s ease-in-out;
 }
-.card__options .option .move__btn {
+.task-list__options .option .move__btn {
   border-radius: 3px;
   color: hsl(210, 13%, 5%);
   background-color: hsl(0, 0%, 85%);
 }
-.card__options .option .move__btn:hover {
+.task-list__options .option .move__btn:hover {
   background-color: hsl(0, 0%, 100%);
 }
-.card__options .option .move__submit {
+.task-list__options .option .move__submit {
   grid-column: span 2;
   border-radius: 3px;
   background-color: hsl(204, 70%, 55%);
 }
-.card__options .option .move__submit:hover {
+.task-list__options .option .move__submit:hover {
   background-color: hsl(204, 70%, 60%);
 }
 

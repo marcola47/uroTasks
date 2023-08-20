@@ -2,17 +2,17 @@ import { useContext } from 'react';
 import { ReducerContext } from 'app';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
-export default function OptionSort()
+export default function OptionFilter()
 {
   const { dispatch } = useContext(ReducerContext);
 
-  function toggleSortMenu()
+  function toggleFilterMenu()
   {
     dispatch(
     { 
-      type: 'setCardOptions', 
+      type: 'setTaskListOptions', 
       payload: 
       { 
         params: null, 
@@ -23,14 +23,14 @@ export default function OptionSort()
     dispatch(
     {
       type: 'setProjOptions', 
-      payload: 'sort' 
+      payload: 'filter' 
     })
   }
 
   return (
-    <div className="option" onClick={ toggleSortMenu }>
-      <FontAwesomeIcon icon={ faSort } />
-      <span>Sort by</span>
+    <div className="option" onClick={ toggleFilterMenu }>
+      <FontAwesomeIcon icon={ faFilter } />
+      <span>Filter by</span>
     </div>
   )
 }

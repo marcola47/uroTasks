@@ -51,7 +51,7 @@ export default function App()
     projOptions: null,
     projTagsEditor: null,
     editor: { params: null, data: null },
-    cardOptions: { params: null, data: null },
+    taskListOptions: { params: null, data: null },
   });
       
   function reducer(state, action)
@@ -100,8 +100,8 @@ export default function App()
       case 'setProjTagsEditor':
         return { ...state, projTagsEditor: action.payload }
 
-      case 'setCardOptions':
-        return { ...state, cardOptions: { params: action.payload.params, data: action.payload.data } }
+      case 'setTaskListOptions':
+        return { ...state, taskListOptions: { params: action.payload.params, data: action.payload.data } }
 
       case 'setEditor':
         return { ...state, editor: { params: action.payload.params, data: action.payload.data } }

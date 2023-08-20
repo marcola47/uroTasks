@@ -3,8 +3,8 @@ import { ProjectsContext, ReducerContext } from "app";
 import axios, { setResponseError } from 'utils/axiosConfig'
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import AddCard from "./add-card/add-card";
-import Card from './card/card';
+import AddTaskList from "./add-task-list/add-task-list";
+import TaskList from './task-list/task-list';
 
 import repositionLists from "operations/lists-reposition";
 import repositionTasks from "operations/tasks-reposition";
@@ -69,9 +69,9 @@ function Tasks()
             onScroll={ handleScroll }
             { ...provided.droppableProps }
           >
-            { typesOrdered && typesOrdered.map(type => {return <Card key={ type.id } type={ type }/>}) }
+            { typesOrdered && typesOrdered.map(type => {return <TaskList key={ type.id } type={ type }/>}) }
             { provided.placeholder }
-            <AddCard typesOrdered={ typesOrdered }/>
+            <AddTaskList typesOrdered={ typesOrdered }/>
           </div>
         )
       }

@@ -1,6 +1,6 @@
 @import '../../../../../css/_variables.scss';
 
-.card
+.task-list
 {
   flex: 0 0 280px;
 
@@ -81,7 +81,7 @@
     overflow-y: auto;
   }
 
-  &__add-task
+  .add-task
   {
     grid-column: span 2;
     padding: 4px;
@@ -127,7 +127,7 @@
 
 @media screen and (max-width: 768px) 
 {
-  .card
+  .task-list
   {
     width: auto;
     scroll-margin: 24px;
@@ -135,8 +135,8 @@
   }
 }
 
-@media screen and (max-height: 883px) { .card__list { max-height: 480px } }
-@media screen and (max-height: 774px) { .card__list { max-height: 420px } }
-@media screen and (max-height: 711px) { .card__list { max-height: 360px } }
-@media screen and (max-height: 651px) { .card__list { max-height: 300px } }
-@media screen and (max-height: 592px) { .card__list { max-height: 240px } }
+@media screen and (max-height: 883px) { .task-list__list { max-height: 480px } }
+@media screen and (max-height: 774px) { .task-list__list { max-height: 420px } }
+@media screen and (max-height: 711px) { .task-list__list { max-height: 360px } }
+@media screen and (max-height: 651px) { .task-list__list { max-height: 300px } }
+@media screen and (max-height: 592px) { .task-list__list { max-height: 240px } }

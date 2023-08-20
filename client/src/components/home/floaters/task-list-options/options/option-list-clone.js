@@ -15,12 +15,12 @@ export default function OptionCloneList()
   {
     const typesList = structuredClone(activeProject.types);
     const taskList = structuredClone(activeProject.tasks);
-    const filteredTasks = taskList.filter(listTask => listTask.type === state.cardOptions.data.id);
+    const filteredTasks = taskList.filter(listTask => listTask.type === state.taskListOptions.data.id);
 
     const newType = 
     {
       id: uuid(),
-      name: state.cardOptions.data.name + ' copy',
+      name: state.taskListOptions.data.name + ' copy',
       position: activeProject.types.length + 1,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -51,7 +51,7 @@ export default function OptionCloneList()
     })
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=types&crud=cloneList', 
+    axios.post('/a/list/clone', 
     {
       projectID: activeProject.id,
       newType: newType,
@@ -63,6 +63,8 @@ export default function OptionCloneList()
       setResponseError(err, dispatch);
       setProjects(projectsOld);
     })
+
+    dispatch({ type: 'confirmationShown', payload: false })
   }
 
   function showConfirmation()
@@ -82,7 +84,7 @@ export default function OptionCloneList()
     })
 
     dispatch({ type: 'confirmationShown', payload: true })
-    dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
+    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
   }
 
   return (

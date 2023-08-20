@@ -100,7 +100,7 @@ export default function AddTask({ type })
   }
 
   return (
-    <div className="card__add-task">
+    <div className="add-task">
     {
       editing 
       ? <textarea 

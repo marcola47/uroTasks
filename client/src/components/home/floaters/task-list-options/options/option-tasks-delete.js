@@ -5,15 +5,14 @@ import axios, { setResponseError, setResponseConfirmation } from 'utils/axiosCon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export default function OptionDeleteList({ type })
+export default function OptionDeleteTasks({ type })
 {
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
-  function deleteList()
+  function deleteTasks()
   {
     const taskList = structuredClone(activeProject.tasks).filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
-    const typesList = structuredClone(activeProject.types).filter(listType => { return listType.id !== type.id });
 
     const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
@@ -21,21 +20,20 @@ export default function OptionDeleteList({ type })
       if (project.id === activeProject.id)
       {
         project.tasks = taskList;
-        project.types = typesList;
         project.updated_at = Date.now();
       }
-
+      
       return project;
     });
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=types&crud=deleteList', 
+    axios.post('/a/list/delete/tasks', 
     {
       projectID: activeProject.id,
       typeID: type.id
     })
-    .then(() => setResponseConfirmation("Successfully deleted list", "", dispatch))
-    .catch(err =>
+    .then(() => setResponseConfirmation("Successfully deleted tasks", "", dispatch))
+    .catch(err => 
     {
       setResponseError(err, dispatch);
       setProjects(projectsOld);
@@ -51,23 +49,23 @@ export default function OptionDeleteList({ type })
       type: 'setConfirmation',
       payload: 
       {
-        header: "Are you sure you want to delete this task list?",
-        message: "This action is not reversible and all tasks inside this list will be lost forever.",
+        header: "Are you sure you want to delete all task from this list?",
+        message: "This action is not reversible and all tasks will be lost forever.",
         className: 'btn--confirmation--danger',
-        confirmation: "Yes, I want to delete this list",
-        rejection: "No, I'm keeping this list",
-        function: deleteList
+        confirmation: "Yes, I want to delete all tasks",
+        rejection: "No, I'm keeping these tasks",
+        function: deleteTasks
       } 
     })
 
     dispatch({ type: 'confirmationShown', payload: true })
-    dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
+    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
   }
-  
+
   return (
     <div className="option option--danger" onClick={ showConfirmation }>
       <FontAwesomeIcon icon={ faTrash }/>
-      <span>Delete list</span>
+      <span>Delete all tasks</span>
     </div>
   )
 }

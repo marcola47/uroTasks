@@ -13,21 +13,21 @@ import OptionCloneList from "./options/option-list-clone";
 import OptionArchiveList from "./options/option-list-archive";
 import OptionDeleteList from "./options/option-list-delete";
 
-export default function CardOptions()
+export default function TaskListOptions()
 {
   const { state, dispatch } = useContext(ReducerContext);
 
   const optionsStyle = 
   {
-    left: state.cardOptions.params?.x ?? 0, 
-    top: state.cardOptions.params?.y ?? 0,
+    left: state.taskListOptions.params?.x ?? 0, 
+    top: state.taskListOptions.params?.y ?? 0,
   }
 
   function hideOptions()
   {
     dispatch(
     { 
-      type: 'setCardOptions', 
+      type: 'setTaskListOptions', 
       payload: 
       { 
         params: null, 
@@ -37,22 +37,22 @@ export default function CardOptions()
   }
 
   return (
-    <TransitionOpacity className="overlay__bg--light" onClick={ hideOptions } id='card-options'>
+    <TransitionOpacity className="overlay__bg--light" onClick={ hideOptions } id='task-list-options'>
     {
-      state.cardOptions.data && 
-      <div className='card__options' style={ optionsStyle } onClick={ e => {e.stopPropagation()} }>
-        <OptionSort type={ state.cardOptions.data }/>
-        <OptionFilter type={ state.cardOptions.data }/>
+      state.taskListOptions.data && 
+      <div className='task-list__options' style={ optionsStyle } onClick={ e => {e.stopPropagation()} }>
+        <OptionSort type={ state.taskListOptions.data }/>
+        <OptionFilter type={ state.taskListOptions.data }/>
         <div className="separator"/>
-        <OptionMoveTasks type={ state.cardOptions.data }/>
-        <OptionCopyTasks type={ state.cardOptions.data }/>
-        <OptionArchiveTasks type={ state.cardOptions.data }/>
-        <OptionDeleteTasks type={ state.cardOptions.data }/>
+        <OptionMoveTasks type={ state.taskListOptions.data }/>
+        <OptionCopyTasks type={ state.taskListOptions.data }/>
+        <OptionArchiveTasks type={ state.taskListOptions.data }/>
+        <OptionDeleteTasks type={ state.taskListOptions.data }/>
         <div className="separator"/>
-        <OptionMoveList type={ state.cardOptions.data }/>
-        <OptionCloneList type={ state.cardOptions.data }/>
-        <OptionArchiveList type={ state.cardOptions.data }/>
-        <OptionDeleteList type={ state.cardOptions.data }/>
+        <OptionMoveList type={ state.taskListOptions.data }/>
+        <OptionCloneList type={ state.taskListOptions.data }/>
+        <OptionArchiveList type={ state.taskListOptions.data }/>
+        <OptionDeleteList type={ state.taskListOptions.data }/>
       </div>
     }
     </TransitionOpacity>

@@ -64,7 +64,7 @@ export default function OptionMoveList({ type })
     })
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=types&crud=moveList', 
+    axios.post('/a/list/update/position', 
     {
       curProjectID: activeProject.id,
       newProjectID: newProject.id,
@@ -80,7 +80,7 @@ export default function OptionMoveList({ type })
     setParamsShown(false);
     setProjListShown(false);
     setPosListShown(false);
-    dispatch({ type: 'setCardOptions', payload: { params: null, data: null } })
+    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
   }
 
   function iterateListPosition(mode)
