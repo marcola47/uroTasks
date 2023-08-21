@@ -3,11 +3,11 @@ export default function repositionLists(projectsContext, opContext)
   const { projects, setProjects, activeProject } = projectsContext;
   const { dispatch, result, axios, setResponseError } = opContext;
 
-  const typesList = structuredClone(activeProject.types);
-  const type = typesList.find(listType => listType.id === result.draggableId);
+  const typeList = structuredClone(activeProject.types);
+  const type = typeList.find(listType => listType.id === result.draggableId);
   const positions = { old: result.source.index, new: result.destination.index };
 
-  typesList.forEach(listType => 
+  typeList.forEach(listType => 
   {
     const isBetween =
       listType.position >= Math.min(positions.old, positions.new) && 
@@ -25,7 +25,7 @@ export default function repositionLists(projectsContext, opContext)
   {
     if (project.id === activeProject.id)
     {
-      project.types = typesList;
+      project.types = typeList;
       project.updated_at = Date.now();
     }
 

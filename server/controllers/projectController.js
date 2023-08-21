@@ -10,8 +10,11 @@ projectController.get = async (req, res) =>
 {
   try
   {
-    const projectsMeta = await Project.find({ id: { $in: req.body.projectIDs } }).lean().select('-tasks -created_at -updated_at -_id -__v');
-    res.status(200).send({ newAccessToken: req.newAccessToken, projectsMeta: projectsMeta });
+    const projects = await Project
+      .find({ id: { $in: req.body.projectIDs } })
+      .select('-tasks -_id -__v');
+    
+    res.status(200).send({ newAccessToken: req.newAccessToken, projects: projects });
   }
 
   catch (error)
@@ -38,7 +41,7 @@ projectController.create = async (req, res) =>
     if (type === 'clone')
       await Task.insertMany(req.body.tasks);
 
-    await project.save();
+    await Project.create(project);
     await User.updateOne
     (
       { id: userID }, 
