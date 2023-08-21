@@ -9,12 +9,9 @@ taskController.get = async (req, res) =>
 {
   try
   {
-
     const projectID = req.query.projectID;
-    const project = await Project.findOne({ id: projectID }).select('tasks -_id');
-    
-    const taskIDs = project.tasks;
-    const tasks = await Task.find({ id: { $in: taskIDs } }).lean().select('-_id -__v');
+    const taskIDs = (await Project.findOne({ id: projectID }).select('tasks -_id')).tasks;
+    const tasks = await Task.find({ id: { $in: taskIDs } }).select('-_id -__v');
   
     res.status(200).send({ newAccessToken: req.newAccessToken, tasks: tasks });
   }
@@ -40,8 +37,7 @@ taskController.create = async (req, res) =>
     const data = req.body;
     const newTask = new Task(data.newTask);
 
-    await newTask.save();
-    
+    await Task.create(newTask);
     await Project.updateOne
     (
       { id: data.projectID }, 
@@ -324,7 +320,7 @@ taskController.updatePosition = async (req, res) =>
     await session.commitTransaction();
     await session.endSession();
 
-    res.status(200).send({ newAccessToken });
+    res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated task position`);
   }
 

@@ -13,7 +13,7 @@ export default function TaskListHeader({ type })
 
   function handleNameChange(newName) 
   { 
-    const typesList = structuredClone(activeProject.types).map(listType => 
+    const typeList = structuredClone(activeProject.types).map(listType => 
     {
       if (listType.id === type.id)
         listType.name = newName;
@@ -26,7 +26,7 @@ export default function TaskListHeader({ type })
     {
       if (project.id === activeProject.id)
       {
-        project.types = typesList;
+        project.types = typeList;
         project.updated_at = Date.now();
       }
 

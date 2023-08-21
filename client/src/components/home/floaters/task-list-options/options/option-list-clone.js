@@ -13,7 +13,7 @@ export default function OptionCloneList()
 
   function cloneList()
   {
-    const typesList = structuredClone(activeProject.types);
+    const typeList = structuredClone(activeProject.types);
     const taskList = structuredClone(activeProject.tasks);
     const filteredTasks = taskList.filter(listTask => listTask.type === state.taskListOptions.data.id);
 
@@ -26,7 +26,7 @@ export default function OptionCloneList()
       updated_at: new Date().toISOString()
     }
   
-    typesList.push(newType);
+    typeList.push(newType);
 
     filteredTasks.map(listTask => 
     {
@@ -44,7 +44,7 @@ export default function OptionCloneList()
         for (let i = 0; i < filteredTasks.length; i ++)
           project.tasks.push(filteredTasks[i]);
 
-        project.types = typesList;
+        project.types = typeList;
       }
 
       return project;

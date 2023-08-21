@@ -12,8 +12,12 @@ export default function OptionDeleteList({ type })
 
   function deleteList()
   {
-    const taskList = structuredClone(activeProject.tasks).filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
-    const typesList = structuredClone(activeProject.types).filter(listType => { return listType.id !== type.id });
+    const taskList = structuredClone(activeProject.tasks)
+      .filter(listTask => { return listTask.project !== activeProject.id || listTask.type !== type.id });
+    
+    const typeList = structuredClone(activeProject.types)
+      .filter(listType => listType.id !== type.id)
+      .map(listType => ({ ...listType, position: listType.position > type.position ? listType.position - 1 : listType.position }));
 
     const projectsOld = structuredClone(projects);
     const projectsCopy = structuredClone(projects).map(project => 
@@ -21,7 +25,7 @@ export default function OptionDeleteList({ type })
       if (project.id === activeProject.id)
       {
         project.tasks = taskList;
-        project.types = typesList;
+        project.types = typeList;
         project.updated_at = Date.now();
       }
 
