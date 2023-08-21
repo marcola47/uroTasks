@@ -146,7 +146,7 @@ export default function App()
       axios.post(`/a/project/get`, { projectIDs: user.projects })
       .then(res =>
       {
-        setProjects(res.data.projectsMeta); 
+        setProjects(res.data.projects); 
         dispatch({ type: 'fetchingProjects', payload: false })
       })
       .catch(err => setResponseError(err, dispatch))
