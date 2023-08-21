@@ -96,11 +96,14 @@ userController.create = async (req, res) =>
   if (await User.findOne({ email: userData.email })) 
     return res.status(400).send({ header: "Failed to register", message: "Email already in use" });
 
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try 
   {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const newUser = new User({ ...userData, password: hashedPassword });
-    await newUser.save();
+    await User.create(newUser);
 
     const accessToken = jwt.sign({ id: newUser.id }, process.env.JWT_ACCESS, { expiresIn: '15m' })
     const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH, { expiresIn: '30d' })
@@ -108,12 +111,18 @@ userController.create = async (req, res) =>
     await Token.create({ token: refreshToken, userID: newUser.id })
     .catch(err => console.log(err))
 
+    await session.commitTransaction();
+    await session.endSession();
+
     res.status(201).json({ auth: true, accessToken: accessToken, refreshToken: refreshToken });
     console.log(`${new Date()}: Successfully created user ${newUser.name}`);
   }
   
   catch (error) 
   {
+    await session.abortTransaction();
+    await session.endSession();
+
     console.error("Error creating user:", error);
     res.status(500).send(
     {
@@ -126,7 +135,6 @@ userController.create = async (req, res) =>
 /*****************************************************************************************************************/
 userController.updateActiveProject = async (req, res) => 
 {
-  const newAccessToken = req.newAccessToken ?? null;
   const data = req.body;
 
   await User.updateOne
@@ -135,29 +143,7 @@ userController.updateActiveProject = async (req, res) =>
     { activeProject: data.projectID }
   );
   
-  res.status(200).send({ newAccessToken: newAccessToken });
-}
-
-/*****************************************************************************************************************/
-userController.update = async (req, res) =>
-{
-  try 
-  {
-    const type = req.query.type;
-  
-    if (type === 'activeProject')
-      await userController.updateActiveProject(req, res);
-  }
-
-  catch (error)
-  {
-    console.log(error);
-    res.status(500).send(
-    {
-      header: "Failed to update user data", 
-      message: "Internal server error on updating user data"
-    })
-  }
+  res.status(200).send({ newAccessToken: req.newAccessToken });
 }
 
 export default userController;

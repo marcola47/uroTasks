@@ -75,7 +75,7 @@ export default function EditorDueDate({ task })
     });
 
     setProjects(projectsCopy)
-    axios.post('/a/task/update?type=completed',
+    axios.post('/a/task/update/status',
     {
       taskID: task.id,
       completed: task.completed

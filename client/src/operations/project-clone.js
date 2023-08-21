@@ -23,11 +23,12 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     newProject.name = newProject.name + ' copy';
     newProject.id = uuid();
     
-    axios.post(`/a/project/clone`, 
+    axios.post(`/a/project/create`, 
     {
       userID: user.id, 
       newProject: { ...newProject, tasks: newProject.tasks.map(task => task.id) },
-      tasks: newProject.tasks
+      tasks: newProject.tasks,
+      type: 'clone'
     })
     .then(() => 
     {

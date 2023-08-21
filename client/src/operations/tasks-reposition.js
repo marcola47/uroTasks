@@ -51,11 +51,17 @@ export default function repositionTasks(projectsContext, opContext)
   })
 
   setProjects(projectsCopy);
-  axios.post('/a/task/update?type=position', 
+  axios.post('/a/task/update/position', 
   {
     projectID: activeProject.id,
     taskID: task.id,
-    result: { source: result.source, destination: result.destination }
+    params: 
+    {
+      sourceID: result.source.droppableId,
+      sourcePosition: result.source.index,
+      destinationID: result.destination.droppableId,
+      destinationPosition: result.destination.index,
+    }
   })
   .catch(err => 
   {

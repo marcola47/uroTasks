@@ -81,6 +81,20 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
       required: true
+    }, 
+
+    display_task_position:
+    {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+
+    display_task_list_position:
+    {
+      type: Boolean,
+      default: false,
+      required: true
     }
   }
 });

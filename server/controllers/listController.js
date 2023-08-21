@@ -12,26 +12,28 @@ listController.create = async (req, res) =>
 
   try
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
+    const { projectID, newType } = req.body;
     
     await Project.updateOne
     (
-      { id: data.projectID }, 
-      { $push: { types: data.newType }, $set: { updated_at: Date.now() } }
+      { id: projectID }, 
+      { 
+        $set: { updated_at: Date.now() },
+        $push: { types: newType } 
+      }
     );
     
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(201).send({ newAccessToken: newAccessToken });
+    res.status(201).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -49,29 +51,29 @@ listController.clone = async (req, res) =>
 
   try
   {
-    // TODO: get tasks from db instead of request
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
+    const { projectID, newType, taskList } = req.body;
 
+    await Task.insertMany(taskList);
     await Project.updateOne
     (
-      { id: data.projectID },
-      { $push: { types: data.newType, tasks: data.taskList.map(listTask => listTask.id) } }
+      { id: projectID },
+      { 
+        $set: { updated_at: Date.now() },
+        $push: { types: newType, tasks: taskList.map(listTask => listTask.id) } 
+      }
     )
 
-    await Task.insertMany(data.taskList);
-
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(201).send({ newAccessToken: newAccessToken });
+    res.status(201).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully cloned task list`);
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -89,34 +91,31 @@ listController.updateName = async (req, res) =>
 
   try
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
-
-    console.log(data);
+    const { projectID, typeID, typeName } = req.body;
 
     await Project.updateOne
     (
-      { id: data.projectID, 'types.id': data.typeID }, 
-      { $set: { 'types.$.name': data.typeName, updated_at: Date.now() } }
+      { id: projectID, 'types.id': typeID }, 
+      { $set: { 'types.$.name': typeName, updated_at: Date.now() } }
     );
     
     await Task.updateMany
     (
-      { project: data.projectID, type: data.typeID },
-      { $set: { type: data.typeName } }
+      { project: projectID, type: typeID },
+      { $set: { type: typeName } }
     );
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(200).send({ newAccessToken: newAccessToken });
+    res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`); 
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -134,58 +133,49 @@ listController.updatePosition = async (req, res) =>
 
   try
   {
-    // implement cross project moving
-    // refactor
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
-    const curProject = await Project.findOne({ id: data.curProjectID })
-    const typesList = curProject.types;
-
-    if (data.positions.new > data.positions.old)
+    const { typeID, params } = req.body;
+    const typesList = (await Project.findOne({ id: params.sourceID }).select('types -_id')).types;
+    const positions = { old: params.sourcePosition, new: params.destinationPosition };
+    
+    if (params.sourceID === params.destinationID)
     {
-      typesList.map(listType => 
+      typesList.forEach(listType => 
       {
-        if (listType.id !== data.typeID && listType.position >= data.positions.old && listType.position <= data.positions.new)
-          listType.position--;
-
-        else if (listType.id === data.typeID)
-          listType.position = data.positions.new
-
-        return listType;
+        const isBetween =
+          listType.position >= Math.min(positions.old, positions.new) && 
+          listType.position <= Math.max(positions.old, positions.new)
+    
+        if (listType.id === typeID) 
+          listType.position = positions.new;
+        
+        else if (listType.id !== typeID && isBetween)
+          listType.position += positions.new > positions.old ? -1 : 1;
       });
+
+      await Project.updateOne
+      (
+        { id: params.sourceID }, 
+        { $set: { types: typesList } }
+      );
     }
 
-    else if (data.positions.new < data.positions.old)
-    {
-      typesList.map(listType => 
-      {
-        if (listType.id !== data.typeID && listType.position <= data.positions.old && listType.position >= data.positions.new)
-          listType.position++;
-
-        else if (listType.id === data.typeID)
-          listType.position = data.positions.new
-
-        return listType;
-      })
+    
+    else
+    { // implement cross project moving
+      console.log('fodase')
     }
-
-    await Project.updateOne
-    (
-      { id: data.curProjectID }, 
-      { $set: { types: typesList } }
-    );
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(200).send({ newAccessToken: newAccessToken });
+    res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -203,28 +193,30 @@ listController.deleteList = async (req, res) =>
 
   try 
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
+    const { projectID, typeID } = req.body;
+    const taskIDs = (await Task.find({ type: typeID, project: projectID })).map(task => task.id);
 
-    await Task.deleteMany({ type: data.typeID, project: data.projectID });
-    
+    await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.updateOne
     (
-      { id: data.projectID, 'types.id': data.typeID }, 
-      { $pull: { types: { id: data.typeID } }, $set: { updated_at: Date.now() } }
+      { id: projectID, 'types.id': typeID }, 
+      { 
+        $set: { updated_at: Date.now() },
+        $pull: { types: { id: typeID }, tasks: { $in: taskIDs } }
+      }
     );
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(200).send({ newAccessToken: newAccessToken });
+    res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -242,28 +234,30 @@ listController.deleteTasks = async (req, res) =>
 
   try 
   {
-    const newAccessToken = req.newAccessToken ?? null;
-    const data = req.body;
+    const { projectID, typeID } = req.body;
+    const taskIDs = (await Task.find({ type: typeID, project: projectID })).map(task => task.id);
 
-    await Task.deleteMany({ type: data.typeID, project: data.projectID });
-
+    await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.updateOne
     (
-      { id: data.projectID },
-      { $set: { updated_at: Date.now() } }
+      { id: projectID },
+      { 
+        $set: { updated_at: Date.now() }, 
+        $pull: { tasks: { $in: taskIDs } } 
+      }
     )
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(200).send({ newAccessToken: newAccessToken });
+    res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully deleted all tasks from list`);
   }
 
-  catch
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
