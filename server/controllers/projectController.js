@@ -6,7 +6,6 @@ import User from '../models/User.js';
 
 const projectController = {};
 
-/*********************************************************************************************************************************/
 projectController.get = async (req, res) => 
 {
   try
@@ -26,7 +25,6 @@ projectController.get = async (req, res) =>
   }
 }
 
-/*********************************************************************************************************************************/
 projectController.create = async (req, res) =>
 {
   const session = await mongoose.startSession();
@@ -51,7 +49,7 @@ projectController.create = async (req, res) =>
     );
     
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(201).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully created project: ${newProject.name}`);
@@ -60,7 +58,7 @@ projectController.create = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
     
     console.log(error);
     res.status(500).send(
@@ -71,139 +69,83 @@ projectController.create = async (req, res) =>
   }
 }
 
-/*********************************************************************************************************************************/
-projectController.updateName = async (req, res, session) => 
-{
-  const { projectID, newName } = req.body;
-
-  await Project.updateOne
-  (
-    { id: projectID }, 
-    { $set: { name: newName, updated_at: Date.now() } }, 
-    { session });
-  
-  res.status(200).send({ newAccessToken: req.newAccessToken });
-  console.log(`${new Date()}: successfully updated project name to: ${newName}`);
-}
-
-/*********************************************************************************************************************************/
-projectController.updateColor = async (req, res, session) => 
-{
-  const { projectID, newColor } = req.body;
-  
-  await Project.updateOne
-  (
-    { id: projectID }, 
-    { $set: { color: newColor, updated_at: Date.now() } }, 
-    { session }
-  );
-  
-  res.status(200).send({ newAccessToken: req.newAccessToken });
-  console.log(`${new Date()}: successfully updated project color to: ${newColor}`);
-}
-
-/*********************************************************************************************************************************/
-projectController.updateTags = async (req, res, session) => 
-{
-  if (req.query.crud === 'create')
-  {
-    const { projectID, newTag } = req.body;
-
-    await Project.updateOne
-    (
-      { id: projectID },
-      { 
-        $set: { updated_at: Date.now() },
-        $push: { tags: newTag }
-      },
-      { session }
-    );
-
-    res.status(201).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully updated project tags`);
-  }
-
-  else if (req.query.crud === 'update')
-  {
-    const { projectID, tagID, tagName, tagColor } = req.body;
-
-    await Project.updateOne
-    (
-      { id: projectID, 'tags.id': tagID }, 
-      { $set: { 'tags.$.name': tagName, 'tags.$.color': tagColor, updated_at: Date.now() } },
-      { session }
-    );
-
-    res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully updated project tags`);
-  }
-
-  else if (req.query.crud = 'delete')
-  {
-    const { projectID, tagID } = req.body;
-    
-    await Task.updateMany
-    (
-      { project: projectID, tags: { $elemMatch: { $eq: tagID } } }, 
-      { $pull: { tags: tagID } }, 
-      { multi: true, session },
-    );
-
-    await Project.updateOne
-    (
-      { id: projectID, 'tags.id': tagID },
-      { $pull: { tags: { id: tagID } }, $set: { updated_at: Date.now() } },
-      { session }
-    );
-
-    res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully updated project tags`);
-  }
-}
-
-/*********************************************************************************************************************************/
-projectController.update = async (req, res) => 
+projectController.updateName = async (req, res) => 
 {
   const session = await mongoose.startSession();
   session.startTransaction();
 
-  try 
+  try
   {
-    const type = req.query.type;
+    const { projectID, newName } = req.body;
 
-    if (type === 'name') 
-      await projectController.updateName(req, res, session);
-    
-    else if (type === 'color') 
-      await projectController.updateColor(req, res, session);
-
-    else if (type === 'tags')
-      await projectController.updateTags(req, res, session)
-    
-    else 
-      throw new Error('Invalid type');
+    await Project.updateOne
+    (
+      { id: projectID }, 
+      { $set: { name: newName, updated_at: Date.now() } }
+  );
 
     await session.commitTransaction();
-    session.endSession();
-  } 
-  
-  catch (error) 
+    await session.endSession();
+
+    res.status(200).send({ newAccessToken: req.newAccessToken });
+    console.log(`${new Date()}: successfully updated project name to: ${newName}`);
+  }
+
+  catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
     
     console.log(error);
     res.status(500).send(
     {
-      header: 'Failed to update project',
-      message: 'Internal server error on updating project',
-    });
+      header: "Failed to create project",
+      message: "Internal server error on creating project" 
+    })
   }
 }
 
-/*********************************************************************************************************************************/
+projectController.updateColor = async (req, res) => 
+{
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try
+  {
+    const { projectID, newColor } = req.body;
+  
+    await Project.updateOne
+    (
+      { id: projectID }, 
+      { $set: { color: newColor, updated_at: Date.now() } }
+    );
+    
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).send({ newAccessToken: req.newAccessToken });
+    console.log(`${new Date()}: successfully updated project color to: ${newColor}`);
+  }
+
+  catch (error)
+  {
+    await session.abortTransaction();
+    await session.endSession();
+    
+    console.log(error);
+    res.status(500).send(
+    {
+      header: "Failed to create project",
+      message: "Internal server error on creating project" 
+    })
+  }
+}
+
 projectController.delete = async (req, res) =>
 {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try 
   {
     const { projectID, userID } = req.body;
@@ -220,12 +162,18 @@ projectController.delete = async (req, res) =>
       }
     );
 
+    await session.commitTransaction();
+    await session.endSession();
+
     console.log(`${new Date()}: successfully deleted project: ${projectID}`);
     res.status(200).send({ newAccessToken: req.newAccessToken });
   }
 
   catch (error)
   {
+    await session.abortTransaction();
+    await session.endSession();
+
     console.log(error);
     res.status(500).send(
     {

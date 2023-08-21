@@ -24,7 +24,7 @@ listController.create = async (req, res) =>
     );
     
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(201).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
@@ -33,7 +33,7 @@ listController.create = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -64,7 +64,7 @@ listController.clone = async (req, res) =>
     )
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(201).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully cloned task list`);
@@ -73,7 +73,7 @@ listController.clone = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -106,7 +106,7 @@ listController.updateName = async (req, res) =>
     );
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`); 
@@ -115,7 +115,7 @@ listController.updateName = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -166,7 +166,7 @@ listController.updatePosition = async (req, res) =>
     }
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
@@ -175,7 +175,7 @@ listController.updatePosition = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -207,7 +207,7 @@ listController.deleteList = async (req, res) =>
     );
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully updated project types`);
@@ -216,7 +216,7 @@ listController.deleteList = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(
@@ -248,7 +248,7 @@ listController.deleteTasks = async (req, res) =>
     )
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
     console.log(`${new Date()}: successfully deleted all tasks from list`);
@@ -257,7 +257,7 @@ listController.deleteTasks = async (req, res) =>
   catch (error)
   {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
 
     console.log(error);
     res.status(500).send(

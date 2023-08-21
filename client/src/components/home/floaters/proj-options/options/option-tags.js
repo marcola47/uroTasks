@@ -135,7 +135,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=tags&crud=create', 
+    axios.post('/a/tag/create', 
     {
       projectID: activeProject.id, 
       newTag: newTag 
@@ -178,7 +178,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=tags&crud=update',
+    axios.post('/a/tag/update',
     {
       projectID: activeProject.id,
       tagID: state.projTagsEditor.id,
@@ -222,7 +222,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/project/update?type=tags&crud=delete',
+    axios.post('/a/tag/delete',
     {
       projectID: activeProject.id,
       tagID: state.projTagsEditor.id
