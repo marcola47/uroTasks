@@ -38,12 +38,17 @@ const userSchema = new mongoose.Schema(
   },
   
   projects: 
-  {
-    type: [String],
-    ref: 'Project',
-    default: [],
-    required: true
-  },
+  [
+    {
+      id: String,
+
+      position: 
+      {
+        type: String,
+        required: true
+      }
+    }
+  ],
 
   settings:
   {

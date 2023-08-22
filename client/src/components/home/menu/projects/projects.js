@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext, UserContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { ButtonGlow } from 'components/utils/buttons/buttons';
 import List from 'components/utils/list/list';
@@ -31,14 +32,25 @@ function MenuProject({ itemData })
   }
 
   return (
-    <li className='project' onClick={ activateProject }>
-      <div className='project__data'>
-        <span style={{ color: itemData?.color }}><FontAwesomeIcon icon={ faSquare }/></span> 
-        <div className='project__name'>{ itemData?.name }</div>
-      </div> 
-  
-      {/* <div className='project__total-tasks'>?</div> */}
-    </li>
+    <Draggable draggableId={ itemData.id } index={ itemData.position }>
+    {
+      (provided) =>
+      (
+        <li 
+          className='project' 
+          onClick={ activateProject } 
+          ref={ provided.innerRef }
+          { ...provided.draggableProps } 
+          { ...provided.dragHandleProps }
+        >
+          <div className='project__data'>
+            <span style={{ color: itemData?.color }}><FontAwesomeIcon icon={ faSquare }/></span> 
+            <div className='project__name'>{ itemData?.name }</div>
+          </div> 
+        </li>
+      )
+    }
+    </Draggable>
   )
 }
 
@@ -56,16 +68,33 @@ export default function MenuProjects()
     projectsListElement.classList.toggle('projects__list--hidden')
   }
 
+  const onDragEnd = result => 
+  {
+    console.log(result)
+  }
+
+  // implement drag and drop
+  // wrap list in the context
+  // make the list a droppable
+  // make the list items draggable 
+
   return (
     <div className='projects'>
       <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
       <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } icon={ faPlus } fontSize='1.5rem'/>
-      <List 
-        classes="projects__list" 
-        ids="list--projects"
-        elements={ projects } 
-        ListItem={ MenuProject } 
-      />
+      <DragDropContext onDragEnd={ onDragEnd }>
+        <Droppable droppableId='user-project-list' type="user-type-list">
+          { 
+            (provided) => 
+            (
+              <ul className='projects__list' ref={ provided.innerRef } { ...provided.droppableProps }>
+                { projects.map(project => <MenuProject key={ project.id } itemData={ project } index={ project.position }/>) }
+                { provided.placeholder }
+              </ul>
+            )
+          }
+        </Droppable>
+      </DragDropContext>
     </div>
   ) 
 }
