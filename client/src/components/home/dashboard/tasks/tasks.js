@@ -1,10 +1,11 @@
-import React, { useContext, useRef, useLayoutEffect } from "react";
+import React, { useContext } from "react";
 import { ProjectsContext, ReducerContext } from "app";
 import axios, { setResponseError } from 'utils/axiosConfig'
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import AddTaskList from "./add-task-list/add-task-list";
 import TaskList from './task-list/task-list';
+import { DroppableList } from "components/utils/list/list";
 
 import repositionLists from "operations/lists-reposition";
 import repositionTasks from "operations/tasks-reposition";
@@ -14,32 +15,7 @@ function Tasks()
   const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
 
-  const listRef = useRef(null);
-
   const typesOrdered = structuredClone(activeProject.types).sort((a, b) => {return a.position - b.position})
-
-  // don't judge me
-  useLayoutEffect(() => 
-  {
-    const listElement = listRef.current;
-    const storedScrollOffsetX = sessionStorage.getItem(`list--${activeProject.id}:x`);
-    
-    if (listElement)
-      listElement.scrollLeft = Number(storedScrollOffsetX);
-
-  }, [activeProject.id]);
-
-  // don't judge me
-  function handleScroll() 
-  {
-    const listElement = listRef.current;
-    
-    if (listElement)
-    {
-      const scrollOffsetX = listElement.scrollLeft;
-      sessionStorage.setItem(`list--${activeProject.id}:x`, scrollOffsetX);
-    }
-  };
 
   const onDragEnd = result =>
   {
@@ -58,24 +34,16 @@ function Tasks()
 
   return (
     <DragDropContext onDragEnd={ onDragEnd }>
-      <Droppable droppableId="tasks" direction="horizontal" type="type-list">
-      {
-        (provided) => 
-        (
-          <div 
-            className="tasks" 
-            id="tasks" 
-            ref={ el => {listRef.current = el; provided.innerRef(el)} }
-            onScroll={ handleScroll }
-            { ...provided.droppableProps }
-          >
-            { typesOrdered && typesOrdered.map(type => {return <TaskList key={ type.id } type={ type }/>}) }
-            { provided.placeholder }
-            <AddTaskList typesOrdered={ typesOrdered }/>
-          </div>
-        )
-      }
-      </Droppable>
+      <DroppableList
+        droppableId="tasks"
+        direction="horizontal"
+        type="type-list"
+        ListItem={ TaskList }
+        elements={ typesOrdered }
+        className="tasks"
+        id="tasks"
+        extraChildren={ <AddTaskList typesOrdered={ typesOrdered }/> }
+      />
     </DragDropContext>
   )
 }

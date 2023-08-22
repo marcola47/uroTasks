@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { ProjectsContext, ReducerContext } from "app"
 
 import getTextColor from "utils/getTextColor";
-import List from 'components/utils/list/list'
+import { List } from 'components/utils/list/list'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
@@ -55,42 +55,42 @@ export default function ProjFilter()
     dispatch({ type: 'setFilters', payload: filtersCopy })
   }
 
-  function Date({ itemData })
+  function Date({ itemData: date })
   {
     const isChecked = state.filters.date
-    ? state.filters.date === itemData.type
+    ? state.filters.date === date.type
     : false
 
     return (
-      <div className={`date date__${itemData.type}`} onClick={ () => {setDateFilter(itemData.type)} }>
+      <div className={`date date__${date.type}`} onClick={ () => {setDateFilter(date.type)} }>
         <div className={`filter__check ${isChecked && 'filter__check--checked'}`}/>
         <FontAwesomeIcon icon={ faClock }/>
-        <span>{ itemData.name }</span>
+        <span>{ date.name }</span>
       </div>
     )
   }
 
-  function Tag({ itemData })
+  function Tag({ itemData: tag })
   {
     const colors =
     {
-      backgroundColor: itemData.color, 
-      color: getTextColor(itemData.color)
+      backgroundColor: tag.color, 
+      color: getTextColor(tag.color)
     }
 
     const isChecked = state.filters.tags 
-    ? state.filters.tags.includes(itemData.id) ? true : false
+    ? state.filters.tags.includes(tag.id) ? true : false
     : false
 
     return (
       <li className='tags__tag'>
         <div 
           className={`filter__check ${isChecked && 'filter__check--checked'}`}
-          onClick={ () => {setTagFilter(itemData.id)} }
+          onClick={ () => {setTagFilter(tag.id)} }
         />
         
-        <div className="tag__name" style={ colors } onClick={ () => {setTagFilter(itemData.id)} }>
-          { itemData.name }
+        <div className="tag__name" style={ colors } onClick={ () => {setTagFilter(tag.id)} }>
+          { tag.name }
         </div>
       </li>
     )

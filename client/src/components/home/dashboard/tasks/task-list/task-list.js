@@ -1,10 +1,11 @@
 import React, { useContext, useRef } from "react";
 import { ProjectsContext, ReducerContext } from "app";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 import TaskListHeader from "./task-list-header/task-list-header";
 import Task from '../task/task'
 import AddTask from "./add-task/add-task";
+import { DroppableList } from "components/utils/list/list";
 
 import filterTasks from "operations/tasks-filter";
 
@@ -13,7 +14,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 export const OptionsContext = React.createContext();
 
-function TaskList({ type })
+function TaskList({ itemData: type })
 {
   const { activeProject } = useContext(ProjectsContext); 
   const { state, dispatch } = useContext(ReducerContext);
@@ -64,22 +65,13 @@ function TaskList({ type })
             <FontAwesomeIcon icon={ faEllipsis }/>
           </div>
 
-          <Droppable droppableId={ type.id } type="task-list">
-          {
-            (provided) =>
-            (
-              activeProject?.tasks &&
-              <div 
-                className="task-list__list"
-                ref={ provided.innerRef }
-                { ...provided.droppableProps }
-              >
-                { filteredTasks.map(listTask => { return <Task itemData={ listTask } key={ listTask.id }/> }) }
-                { provided.placeholder }
-              </div>
-            )
-          }
-          </Droppable>
+          <DroppableList
+            droppableId={ type.id }
+            type="task-list"
+            ListItem={ Task }
+            elements={ filteredTasks }
+            className="task-list__list"
+          />
 
           <AddTask type={ type }/>
         </div>

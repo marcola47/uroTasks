@@ -6,7 +6,6 @@ import Token from '../models/Token.js';
 
 const userController = {};
 
-/*****************************************************************************************************************/
 userController.token = async (req, res) =>
 {
   const user = await User.findOne({ id: req.body.userID });
@@ -15,7 +14,6 @@ userController.token = async (req, res) =>
   res.status(200).json({ auth: true, accessToken: req.body.accessToken, result: user });
 };
 
-/*****************************************************************************************************************/
 userController.login = async (req, res) => 
 {
   const userData = req.body;
@@ -65,7 +63,6 @@ userController.login = async (req, res) =>
   }
 };
 
-/*****************************************************************************************************************/
 userController.logout = async (req, res) => 
 {
   try 
@@ -88,7 +85,6 @@ userController.logout = async (req, res) =>
   }
 };
 
-/*****************************************************************************************************************/
 userController.create = async (req, res) => 
 {
   const userData = req.body;
@@ -132,15 +128,14 @@ userController.create = async (req, res) =>
   }
 };
 
-/*****************************************************************************************************************/
 userController.updateActiveProject = async (req, res) => 
 {
-  const data = req.body;
+  const { userID, projectID } = req.body;
 
   await User.updateOne
   (
-    { id: data.userID }, 
-    { activeProject: data.projectID }
+    { id: userID }, 
+    { activeProject: projectID }
   );
   
   res.status(200).send({ newAccessToken: req.newAccessToken });

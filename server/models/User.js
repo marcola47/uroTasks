@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 import idSchema from './_id.js';
 
+const userProjectSchema = new mongoose.Schema(
+{
+  id: String,
+
+  position:
+  {
+    type: Number,
+    required: true
+  }
+}, { _id: false });
+
 const userSchema = new mongoose.Schema(
 {
   id: idSchema,
@@ -38,17 +49,12 @@ const userSchema = new mongoose.Schema(
   },
   
   projects: 
-  [
-    {
-      id: String,
-
-      position: 
-      {
-        type: String,
-        required: true
-      }
-    }
-  ],
+  {
+    type: [userProjectSchema],
+    default: [],
+    required: false,
+    maxlength: 512
+  },
 
   settings:
   {

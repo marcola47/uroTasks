@@ -50,7 +50,7 @@ projectController.create = async (req, res) =>
       { id: userID },
       {
         $set: { activeProject: project.id },
-        $push: { projects: { id: project.id, projectPosition } }
+        $push: { projects: { id: project.id, position: projectPosition } }
       }
     );
     
@@ -154,7 +154,7 @@ projectController.updatePosition = async (req, res) =>
 
   try
   {
-    const { userID, params } = req.body;
+    const { projectID, userID, params } = req.body;
     const projectList = (await User.findOne({ id: userID }).select('projects -_id')).projects;
     const positions = { old: params.sourcePosition, new: params.destinationPosition };
     
@@ -164,10 +164,10 @@ projectController.updatePosition = async (req, res) =>
         listProject.position >= Math.min(positions.old, positions.new) && 
         listProject.position <= Math.max(positions.old, positions.new)
   
-      if (listProject.id === typeID) 
+      if (listProject.id === projectID) 
         listProject.position = positions.new;
       
-      else if (listProject.id !== typeID && isBetween)
+      else if (listProject.id !== projectID && isBetween)
         listProject.position += positions.new > positions.old ? -1 : 1;
     });
 
@@ -205,18 +205,25 @@ projectController.delete = async (req, res) =>
 
   try 
   {
-    const { projectID, userID } = req.body;
+    const { userID, projectID, projectPosition } = req.body;
     const taskIDs = (await Project.findOne({ id: projectID }).lean().select('tasks -_id')).tasks;
+    const userProjects = (await User.findOne({ id: userID }).lean().select('projects -_id')).projects;
     
+    const filteredUserProjects = userProjects.filter(project => project.id !== projectID);
+    filteredUserProjects.map(project => 
+    {
+      if (project.position > projectPosition)
+        project.position--;
+
+      return project;
+    })
+  
     await Task.deleteMany({ id: { $in: taskIDs } });
     await Project.deleteOne({ id: projectID });
     await User.updateOne
     (
       { id: userID },
-      {
-        $set: { activeProject: null },
-        $pull: { projects: projectID }
-      }
+      { $set: { activeProject: null, projects: filteredUserProjects } }
     );
 
     await session.commitTransaction();

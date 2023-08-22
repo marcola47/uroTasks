@@ -1,22 +1,22 @@
 import { useContext } from 'react';
 import { ProjectsContext, ReducerContext, UserContext } from 'app';
 import axios, { setResponseError } from 'utils/axiosConfig';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 
 import { ButtonGlow } from 'components/utils/buttons/buttons';
-import List from 'components/utils/list/list';
+import { DroppableList } from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faPlus, faSquare } from '@fortawesome/free-solid-svg-icons';
-
-function MenuProject({ itemData })
+  
+function MenuProject({ itemData: project })
 { 
   const { user, setUser } = useContext(UserContext);
   const { state, dispatch } = useContext(ReducerContext);
 
   function activateProject()
   {
-    if (itemData.id !== user.activeProject)
+    if (project.id !== user.activeProject)
     {
       if (window.innerWidth < 1337 && state.menuShown === true)
         dispatch({ type: 'menuShown', payload: false });
@@ -24,15 +24,15 @@ function MenuProject({ itemData })
       axios.post('/a/user/update/activeProject', 
       {
         userID: user.id, 
-        projectID: itemData.id
+        projectID: project.id
       })
-      .then(() => setUser(prevUser => ({ ...prevUser, activeProject: itemData.id })))
+      .then(() => setUser(prevUser => ({ ...prevUser, activeProject: project.id })))
       .catch(err => setResponseError(err, dispatch))
     }
   }
 
   return (
-    <Draggable draggableId={ itemData.id } index={ itemData.position }>
+    <Draggable draggableId={ project.id } index={ project.position }>
     {
       (provided) =>
       (
@@ -40,12 +40,12 @@ function MenuProject({ itemData })
           className='project' 
           onClick={ activateProject } 
           ref={ provided.innerRef }
-          { ...provided.draggableProps } 
+          { ...provided.draggableProps }
           { ...provided.dragHandleProps }
         >
           <div className='project__data'>
-            <span style={{ color: itemData?.color }}><FontAwesomeIcon icon={ faSquare }/></span> 
-            <div className='project__name'>{ itemData?.name }</div>
+            <span style={{ color: project?.color }}><FontAwesomeIcon icon={ faSquare }/></span> 
+            <div className='project__name'>{ project?.name }</div>
           </div> 
         </li>
       )
@@ -56,8 +56,10 @@ function MenuProject({ itemData })
 
 export default function MenuProjects()
 {
-  const { projects } = useContext(ProjectsContext);
+  const { projects, setProjects } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
+  const { user, setUser } = useContext(UserContext);
+  const sortedProjects = structuredClone(projects).sort((a, b) => a.position - b.position);
 
   function toggleProjectList()
   {
@@ -70,30 +72,83 @@ export default function MenuProjects()
 
   const onDragEnd = result => 
   {
-    console.log(result)
-  }
+    if (!result.destination || (result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index))
+      return;
+  
+    const userProjectsOld = structuredClone(user.projects);
+    const userProjectsCopy = structuredClone(user.projects);
+    const project = userProjectsCopy.find(listProject => listProject.id === result.draggableId);
+    const positions = { old: result.source.index, new: result.destination.index };
+  
+    userProjectsCopy.forEach(listProject => 
+    {
+      const isBetween =
+        listProject.position >= Math.min(positions.old, positions.new) && 
+        listProject.position <= Math.max(positions.old, positions.new)
+  
+      if (listProject.id === project.id) 
+        listProject.position = positions.new;
+      
+      else if (listProject.id !== project.id && isBetween)
+        listProject.position += positions.new > positions.old ? -1 : 1;
+    });
+  
+    let projectPositions = {};
+    userProjectsCopy.forEach(project => projectPositions[project.id] = project.position);
 
-  // implement drag and drop
-  // wrap list in the context
-  // make the list a droppable
-  // make the list items draggable 
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project =>
+    {
+      if (project.id === result.draggableId)
+        project.position = result.destination.index;
+      
+      else if (project.id !== result.draggableId && projectPositions[project.id] !== undefined)
+        project.position = projectPositions[project.id];
+
+      return project;
+    });
+  
+    setUser(prevUser => ({ ...prevUser, projects: userProjectsCopy }));
+    setProjects(projectsCopy)
+    axios.post('/a/project/update/position', 
+    {
+      projectID: project.id,
+      userID: user.id,
+      params: 
+      {
+        sourcePosition: result.source.index,
+        destinationPosition: result.destination.index,
+      }
+    })
+    .catch(err => 
+    {
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+      setUser(prevUser => ({ ...prevUser, projects: userProjectsOld }));
+    });
+  }
 
   return (
     <div className='projects'>
-      <h2 className='projects__header' onClick={ toggleProjectList }>Projects <FontAwesomeIcon icon={ faChevronUp }/></h2>
-      <ButtonGlow onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } icon={ faPlus } fontSize='1.5rem'/>
+      <h2 className='projects__header' onClick={ toggleProjectList }>
+        <span>Projects</span><FontAwesomeIcon icon={ faChevronUp }/>
+      </h2>
+      
+      <ButtonGlow 
+        onClick={ () => {dispatch({ type: 'projCreatorShown', payload: true })} } 
+        icon={ faPlus } 
+        fontSize='1.5rem'
+      />
+      
       <DragDropContext onDragEnd={ onDragEnd }>
-        <Droppable droppableId='user-project-list' type="user-type-list">
-          { 
-            (provided) => 
-            (
-              <ul className='projects__list' ref={ provided.innerRef } { ...provided.droppableProps }>
-                { projects.map(project => <MenuProject key={ project.id } itemData={ project } index={ project.position }/>) }
-                { provided.placeholder }
-              </ul>
-            )
-          }
-        </Droppable>
+        <DroppableList
+          droppableId='user-project-list'
+          direction='vertical'
+          type="user-type-list"
+          elements={ sortedProjects }
+          ListItem={ MenuProject }
+          className='projects__list'
+        />
       </DragDropContext>
     </div>
   ) 

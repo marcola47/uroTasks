@@ -13,18 +13,49 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
     if (state.projOptions)
       dispatch({ type: 'setProjOptions', payload: null })
 
+    const userProjectsOld = structuredClone(user.projects);
+    const userProjectsCopy = structuredClone(user.projects).filter(project => 
+    {
+      if (project.id !== activeProject.id) 
+      {
+        if (project.position > activeProject.position) 
+          project.position--;
+        
+        return true;
+      }
+
+      return false;
+    });
+
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).filter(project => 
+    {
+      if (project.id !== activeProject.id) 
+      {
+        if (project.position > activeProject.position) 
+          project.position--;
+
+        return true;
+      }
+
+      return false;
+    });
+
+    setProjects(projectsCopy);
+    setUser(prevUser => ({ ...prevUser, activeProject: "0", projects: userProjectsCopy }));
     axios.post(`/a/project/delete`, 
     { 
       userID: user.id, 
-      projectID: activeProject.id
+      projectID: activeProject.id,
+      projectPosition: activeProject.position
     })
-    .then(() => 
+    .then(() => setResponseConfirmation("Succesfully deleted project", "", dispatch))
+    .catch(err => 
     {
-      setProjects(projects.filter(project => project.id !== activeProject.id));
-      setUser(prevUser => ({ ...prevUser, activeProject: "0" }));
-      setResponseConfirmation("Succesfully deleted project", "", dispatch)
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+      setUser(prevUser => ({ ...prevUser, projects: userProjectsOld }));
     })
-    .catch(err => setResponseError(err, dispatch))
   }
 
   dispatch(

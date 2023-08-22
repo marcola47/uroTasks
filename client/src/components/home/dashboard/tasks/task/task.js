@@ -8,7 +8,7 @@ import TaskDueDate from './badges/due-date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
-export default function Task({ itemData })
+export default function Task({ itemData: task })
 {
   const { dispatch } = useContext(ReducerContext);
   const taskRef = useRef();
@@ -27,28 +27,28 @@ export default function Task({ itemData })
     dispatch(
     {
       type: 'setEditor',
-      payload: { params: params, data: itemData.id }
+      payload: { params: params, data: task.id }
     })
   }
 
   return (
-    <Draggable draggableId={ itemData.id } index={ itemData.position }>
+    <Draggable draggableId={ task.id } index={ task.position }>
     {
       (provided) => 
       (
         <li 
           className="task" 
-          id={ itemData?.id } 
+          id={ task?.id } 
           onContextMenu={ e => {toggleOptions(e)} }
           ref={ el => {taskRef.current = el; provided.innerRef(el)} } 
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
         >
-           <div className='task__position'>{ itemData?.position }</div>
-          <TaskTags task={ itemData }/>
+           <div className='task__position'>{ task?.position }</div>
+          <TaskTags task={ task }/>
     
           <div className='task__text'>
-            { itemData?.content }
+            { task?.content }
           </div>
           
           <div className='task__options' onClick={ e => {toggleOptions(e)} }>
@@ -56,9 +56,9 @@ export default function Task({ itemData })
           </div>
     
           {
-            itemData.due_date && // refactor to account for other badges
+            task.due_date && // refactor to account for other badges
             <div className="task__badges">
-              <TaskDueDate task={ itemData }/>
+              <TaskDueDate task={ task }/>
             </div>
           }
         </li>

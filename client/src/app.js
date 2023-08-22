@@ -185,11 +185,8 @@ export default function App()
   {
     if (projects.length >= 0)
     {
-      const activeProjectIndex = projects.findIndex(project => project.id === user.activeProject);
-
-      activeProjectIndex > -1 
-        ? setActiveProject(projects[activeProjectIndex]) 
-        : setActiveProject(null);
+      const activeProject = projects.find(project => project.id === user.activeProject);
+      setActiveProject(activeProject);
     }
   }
 
@@ -201,8 +198,6 @@ export default function App()
   useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { activateProject() }, [user, projects])
-
-  useEffect(() => { console.log(projects) }, [projects])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => // hide notification

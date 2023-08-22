@@ -23,7 +23,7 @@ const seedProjects = async () =>
       projects: userSeed.projects,
     });
 
-    await user.save();
+    await User.create(user);
   }
 };
 

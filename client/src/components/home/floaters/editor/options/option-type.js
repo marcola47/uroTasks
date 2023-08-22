@@ -4,7 +4,7 @@ import { SubMenusContext } from '../editor';
 import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/transitions';
-import List from 'components/utils/list/list';
+import { List } from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsLeftRight, faArrowTurnDown  } from '@fortawesome/free-solid-svg-icons';
@@ -78,11 +78,11 @@ export default function OptionType({ task })
     })
   }
 
-  function TypeLocation({ itemData })
+  function TypeLocation({ itemData: type })
   {
     return (
-      <div key={ itemData.id } className='type__location' onClick={ () => {updateTaskType(itemData)} }>
-        { itemData.name.toUpperCase() }
+      <div key={ type.id } className='type__location' onClick={ () => {updateTaskType(type)} }>
+        { type.name.toUpperCase() }
       </div>
     )
   }

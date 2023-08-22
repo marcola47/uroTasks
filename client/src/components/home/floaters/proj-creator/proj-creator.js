@@ -15,7 +15,7 @@ export default function ProjCreator()
   const projectNameRef = useRef();
   
   const { user, setUser } = useContext(UserContext);
-  const { projects, setProjects } = useContext(ProjectsContext);
+  const { setProjects } = useContext(ProjectsContext);
   const { state, dispatch } = useContext(ReducerContext);
 
   const [newColor, setNewColor] = useState('#4b99cc');
@@ -38,6 +38,7 @@ export default function ProjCreator()
       name: name,
       color: newColor,
       activeTasks: 0,
+      position: user.projects.length + 1,
       users: [user.id],
       tags: [{ id: uuid(), name: "example tag", color: "#ffffff", position: 1 }],
       types: 
@@ -48,17 +49,17 @@ export default function ProjCreator()
       ]
     };
 
-    const newUserProject = { id: newProject.id, position: user.projects.length + 1 };
+    const newUserProject = { id: newProject.id, position: newProject.position };
 
     axios.post(`/a/project/create`, 
     {
       userID: user.id, 
-      newProject: { ...newProject, position: newUserProject.position },
+      newProject: newProject,
     })
     .then(() => 
     {
       setProjects(prevProjects => ([...prevProjects, newProject]));
-      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newUserProject] }))
+      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...user.projects, newUserProject] }))
       setResponseConfirmation("Successfully created project", "", dispatch)
     })
     .catch(err => setResponseError(err, dispatch))

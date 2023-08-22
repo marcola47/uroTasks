@@ -5,7 +5,7 @@ import axios, { setResponseError } from 'utils/axiosConfig';
 
 import { TransitionOpacity, AnimateTransit } from 'components/utils/transitions/transitions';
 import getTextColor from 'utils/getTextColor';
-import List from 'components/utils/list/list';
+import { List } from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag, faPencil, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
@@ -96,12 +96,12 @@ export default function OptionTags({ task })
     })
   }
 
-  function Tag({ itemData })
+  function Tag({ itemData: tag })
   {
     const colors =
     {
-      backgroundColor: itemData.color, 
-      color: getTextColor(itemData.color)
+      backgroundColor: tag.color, 
+      color: getTextColor(tag.color)
     }
 
     function editTag()
@@ -109,7 +109,7 @@ export default function OptionTags({ task })
       dispatch(
       {
         type: 'setProjTagsEditor',
-        payload: itemData  
+        payload: tag  
       })
 
       dispatch(
@@ -128,12 +128,12 @@ export default function OptionTags({ task })
     return (
       <li className='tags__tag'>
         <div 
-          className={`tag__operation ${task.tags.includes(itemData.id) && 'tag__operation--checked'}` }
-          onClick={() => {toggleTag(itemData)}}
+          className={`tag__operation ${task.tags.includes(tag.id) && 'tag__operation--checked'}` }
+          onClick={() => {toggleTag(tag)}}
         />
         
-        <div className="tag__name" style={ colors } onClick={() => {toggleTag(itemData)}}>
-          { itemData.name }
+        <div className="tag__name" style={ colors } onClick={() => {toggleTag(tag)}}>
+          { tag.name }
         </div>
         
         <div className="tag__edit" onClick={ editTag }>

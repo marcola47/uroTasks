@@ -13,9 +13,9 @@ const guestRouter = express.Router();
 const authRouter = express.Router();
 authRouter.use(verifyToken);
 
+guestRouter.post('/user/create', userController.create);
 guestRouter.post('/user/login', userController.login);
 guestRouter.post('/user/logout', userController.logout);
-guestRouter.post('/user/create', userController.create);
 authRouter.post('/user/update/activeProject', userController.updateActiveProject);
 authRouter.post('/user/token', userController.token);
 
@@ -23,6 +23,7 @@ authRouter.post('/project/get', projectController.get);
 authRouter.post('/project/create', projectController.create);
 authRouter.post('/project/update/name', projectController.updateName);
 authRouter.post('/project/update/color', projectController.updateColor);
+authRouter.post('/project/update/position', projectController.updatePosition);
 authRouter.post('/project/delete', projectController.delete);
 
 authRouter.post('/list/create', listController.create);

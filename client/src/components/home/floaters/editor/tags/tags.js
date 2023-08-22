@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { ProjectsContext } from 'app'
 
 import getTextColor from 'utils/getTextColor';
-import List from 'components/utils/list/list'
+import { List } from 'components/utils/list/list'
 
 export default function EditorTags({ task })
 {
@@ -11,15 +11,15 @@ export default function EditorTags({ task })
   const taskTagsList = structuredClone(activeProject.tasks).filter(listTask => listTask.id === task.id)[0].tags ?? [];
   const filteredTags = structuredClone(activeProject.tags).filter(tag => taskTagsList.includes(tag.id));
   
-  function TaskTag({ itemData })
+  function TaskTag({ itemData: tag })
   {
     const style = 
     {
-      backgroundColor: itemData.color,
-      color: getTextColor(itemData.color)
+      backgroundColor: tag.color,
+      color: getTextColor(tag.color)
     };
 
-    return <li className='editor__tag' style={ style }>{ itemData.name }</li>
+    return <li className='editor__tag' style={ style }>{ tag.name }</li>
   }
 
   if (filteredTags.length < 1)

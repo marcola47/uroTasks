@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 
 import { ChromePicker } from 'react-color';
 import getTextColor from "utils/getTextColor";
-import List from 'components/utils/list/list';
+import { List } from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -52,18 +52,18 @@ export function ProjTagsDisplay()
     })
   }
 
-  function Tag({ itemData })
+  function Tag({ itemData: tag })
   {
     const colors =
     {
-      backgroundColor: itemData.color, 
-      color: getTextColor(itemData.color)
+      backgroundColor: tag.color, 
+      color: getTextColor(tag.color)
     }
 
     return (
-      <li className='tags__tag' onClick={ () => { showTagsEditor(itemData) } }>
+      <li className='tags__tag' onClick={ () => { showTagsEditor(tag) } }>
         <div className="tag__name" style={ colors }>
-          { itemData.name }
+          { tag.name }
         </div>
         
         <div className="tag__edit">
