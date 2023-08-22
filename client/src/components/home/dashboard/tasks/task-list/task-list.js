@@ -66,7 +66,7 @@ function TaskList({ itemData: type })
           </div>
 
           <DroppableList
-            droppableId={ type.id }
+            droppableId={ `list--type:${type.id}` }
             type="task-list"
             ListItem={ Task }
             elements={ filteredTasks }

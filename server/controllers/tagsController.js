@@ -57,8 +57,7 @@ tagsController.update = async (req, res) =>
     await Project.updateOne
     (
       { id: projectID, 'tags.id': tagID }, 
-      { $set: { 'tags.$.name': tagName, 'tags.$.color': tagColor, updated_at: Date.now() } },
-      { session }
+      { $set: { 'tags.$.name': tagName, 'tags.$.color': tagColor, updated_at: Date.now() } }
     );
 
     await session.commitTransaction();

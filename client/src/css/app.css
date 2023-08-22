@@ -1557,7 +1557,6 @@
 .proj-options .tags__display .tags__list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   max-height: 512px;
   overflow: auto;
 }
@@ -1565,6 +1564,7 @@
   display: grid;
   grid-template-columns: auto 32px;
   gap: 6px;
+  margin-bottom: 8px;
 }
 .proj-options .tags__display .tags__list .tags__tag > * {
   border-radius: 3px;

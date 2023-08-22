@@ -142,7 +142,7 @@ export default function MenuProjects()
       
       <DragDropContext onDragEnd={ onDragEnd }>
         <DroppableList
-          droppableId='user-project-list'
+          droppableId={`list--${user.id}:projects}`}
           direction='vertical'
           type="user-type-list"
           elements={ sortedProjects }
