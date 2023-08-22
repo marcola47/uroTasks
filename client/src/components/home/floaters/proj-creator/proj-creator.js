@@ -43,20 +43,22 @@ export default function ProjCreator()
       types: 
       [
         { id: uuid(), name: "TO-DO" , position: 1 },
-        { id: uuid(), name: "DOING", position: 2 },
+        { id: uuid(), name: "DOING", position: 2  },
         { id: uuid(), name: "DONE" , position: 3 }
       ]
     };
 
+    const newUserProject = { id: newProject.id, position: user.projects.length + 1 };
+
     axios.post(`/a/project/create`, 
     {
       userID: user.id, 
-      newProject: newProject
+      newProject: { ...newProject, position: newUserProject.position },
     })
     .then(() => 
     {
       setProjects(prevProjects => ([...prevProjects, newProject]));
-      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newProject.id] }))
+      setUser(prevUser => ({ ...prevUser, activeProject: newProject.id, projects: [...projects, newUserProject] }))
       setResponseConfirmation("Successfully created project", "", dispatch)
     })
     .catch(err => setResponseError(err, dispatch))

@@ -36,6 +36,9 @@ projectController.create = async (req, res) =>
   try 
   {
     const { userID, newProject, type } = req.body;
+    const projectPosition = newProject.position;
+
+    delete newProject.position;
     const project = new Project(newProject);
 
     if (type === 'clone')
@@ -44,10 +47,10 @@ projectController.create = async (req, res) =>
     await Project.create(project);
     await User.updateOne
     (
-      { id: userID }, 
+      { id: userID },
       {
         $set: { activeProject: project.id },
-        $push: { projects: project.id }
+        $push: { projects: { id: project.id, projectPosition } }
       }
     );
     
@@ -141,6 +144,57 @@ projectController.updateColor = async (req, res) =>
       header: "Failed to create project",
       message: "Internal server error on creating project" 
     })
+  }
+}
+
+projectController.updatePosition = async (req, res) => 
+{
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try
+  {
+    const { userID, params } = req.body;
+    const projectList = (await User.findOne({ id: userID }).select('projects -_id')).projects;
+    const positions = { old: params.sourcePosition, new: params.destinationPosition };
+    
+    projectList.forEach(listProject => 
+    {
+      const isBetween =
+        listProject.position >= Math.min(positions.old, positions.new) && 
+        listProject.position <= Math.max(positions.old, positions.new)
+  
+      if (listProject.id === typeID) 
+        listProject.position = positions.new;
+      
+      else if (listProject.id !== typeID && isBetween)
+        listProject.position += positions.new > positions.old ? -1 : 1;
+    });
+
+    await User.updateOne
+    (
+      { id: userID }, 
+      { $set: { projects: projectList } }
+    );
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).send({ newAccessToken: req.newAccessToken });
+    console.log(`${new Date()}: successfully updated project positions`);
+  }
+
+  catch (error)
+  {
+    await session.abortTransaction();
+    await session.endSession();
+
+    console.log(error);
+    res.status(500).send(
+    {
+      header: 'Failed to update project',
+      message: 'Internal server error on updating project',
+    });
   }
 }
 

@@ -120,11 +120,7 @@ export default function App()
       if (accessToken && refreshToken)
       {
         axios.post(`/a/user/token`, { reqType: 'login' })
-        .then(res => 
-        { 
-          localStorage.setItem("accessToken", res.data.accessToken);
-          setUser(res.data.result);
-        })
+        .then(res => setUser(res.data.result))
         .catch(err => 
         {
           navigate('login');
@@ -143,10 +139,14 @@ export default function App()
   {
     if (user !== null && state.fetchingProjects)
     {
-      axios.post(`/a/project/get`, { projectIDs: user.projects })
+      axios.post(`/a/project/get`, { projectIDs: user.projects.map(project => project.id) })
       .then(res =>
       {
-        setProjects(res.data.projects); 
+        let projectPositions = {}
+        user.projects.forEach(project => projectPositions[project.id] = project.position);
+        const projects = res.data.projects.map(project => ({ ...project, position: Number(projectPositions[project.id]) }));
+
+        setProjects(projects); 
         dispatch({ type: 'fetchingProjects', payload: false })
       })
       .catch(err => setResponseError(err, dispatch))
@@ -201,6 +201,8 @@ export default function App()
   useEffect(() => { fetchTasks()      }, [activeProject, state.fetchingTasks]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { activateProject() }, [user, projects])
+
+  useEffect(() => { console.log(projects) }, [projects])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => // hide notification

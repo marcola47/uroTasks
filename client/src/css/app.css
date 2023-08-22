@@ -2006,6 +2006,8 @@
 }
 .projects__list {
   grid-column: span 2;
+  display: flex;
+  flex-direction: column;
   opacity: 1;
   max-height: 512px;
   font-size: 0.9rem;
