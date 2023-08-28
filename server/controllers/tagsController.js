@@ -20,8 +20,7 @@ tagsController.create = async (req, res) =>
       { 
         $set: { updated_at: Date.now() },
         $push: { tags: newTag }
-      },
-      { session }
+      }
     );
 
     await session.commitTransaction();
@@ -151,8 +150,10 @@ tagsController.delete = async (req, res) =>
     await Project.updateOne
     (
       { id: projectID, 'tags.id': tagID },
-      { $pull: { tags: { id: tagID } }, $set: { updated_at: Date.now() } },
-      { session }
+      { 
+        $pull: { tags: { id: tagID } }, 
+        $set: { updated_at: Date.now() } 
+      }
     );
 
     await session.commitTransaction();

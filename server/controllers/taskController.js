@@ -41,7 +41,10 @@ taskController.create = async (req, res) =>
     await Project.updateOne
     (
       { id: data.projectID }, 
-      { $push: { tasks: newTask.id }, $set: { updated_at: Date.now() } }
+      { 
+        $push: { tasks: newTask.id }, 
+        $set: { updated_at: Date.now() } 
+      }
     );
    
     await session.commitTransaction();
@@ -92,7 +95,9 @@ taskController.order = async (req, res) =>
       update_far    : { updated_at: -1 }
     }
     
-    const taskList = await Task.find(query).sort('type').sort(sortMethods[data.method] || sortMethods['alpha_asc'])
+    const taskList = await Task
+      .find(query).sort('type')
+      .sort(sortMethods[data.method] || sortMethods['alpha_asc'])
     
     let curPosition = 1;
     let curType = taskList[0].type;
@@ -108,7 +113,8 @@ taskController.order = async (req, res) =>
       listTask.position = curPosition;
       curPosition++;
 
-      bulkOps.push({
+      bulkOps.push(
+      {
         updateOne: 
         {
           filter: { id: listTask.id },
@@ -277,16 +283,8 @@ taskController.updatePosition = async (req, res) =>
           updateOne: 
           {
             filter: { id: taskID },
-            update: 
-            {
-              $set: 
-              {
-                type: params.destinationID,
-                position: positions.new,
-                updated_at: Date.now(),
-              },
-            },
-          },
+            update: { $set: { type: params.destinationID, position: positions.new, updated_at: Date.now() } } 
+          }
         });
       }
        
@@ -352,8 +350,10 @@ taskController.updateTags = async (req, res) =>
       await Task.updateOne
       (
         { id: data.taskID },
-        { $push: { tags: data.tagID }, $set: { updated_at: Date.now() } },
-        { session } 
+        { 
+          $push: { tags: data.tagID }, 
+          $set: { updated_at: Date.now() } 
+        }
       )
     }
   
@@ -362,8 +362,10 @@ taskController.updateTags = async (req, res) =>
       await Task.updateOne
       (
         { id: data.taskID },
-        { $pull: { tags: data.tagID }, $set: { updated_at: Date.now() } },
-        { session }
+        { 
+          $pull: { tags: data.tagID }, 
+          $set: { updated_at: Date.now() } 
+        }
       )
     }
   
@@ -511,7 +513,10 @@ taskController.delete = async (req, res) =>
     await Project.updateOne
     (
       { id: data.projectID }, 
-      { $pull: { tasks: data.taskID }, $set: { updated_at: Date.now() } }
+      { 
+        $pull: { tasks: data.taskID }, 
+        $set: { updated_at: Date.now() } 
+      }
     );
 
     await session.commitTransaction();
