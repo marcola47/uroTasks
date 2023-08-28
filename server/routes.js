@@ -34,7 +34,8 @@ authRouter.post('/list/delete/list', listController.deleteList);
 authRouter.post('/list/delete/tasks', listController.deleteTasks);
 
 authRouter.post('/tag/create', tagsController.create);
-authRouter.post('/tag/update', tagsController.update);
+authRouter.post('/tag/update/content', tagsController.updateContent);
+authRouter.post('/tag/update/position', tagsController.updatePosition);
 authRouter.post('/tag/delete', tagsController.delete);
 
 authRouter.post('/task/get', taskController.get);

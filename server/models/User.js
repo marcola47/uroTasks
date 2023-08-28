@@ -87,6 +87,13 @@ const userSchema = new mongoose.Schema(
       required: true
     },
 
+    display_tag_name:
+    {
+      type: Boolean,
+      default: true,
+      required: true
+    },
+
     display_tasks_per_type:
     {
       type: Boolean,

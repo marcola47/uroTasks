@@ -223,7 +223,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/tag/update',
+    axios.post('/a/tag/update/content',
     {
       projectID: activeProject.id,
       tagID: state.projTagsEditor.id,
