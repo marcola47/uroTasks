@@ -146,7 +146,7 @@ export default function OptionMoveList({ type })
     function updateListProject()
     {
       setNewProject(project);
-      setNewPosition(project.types.length + 1);
+      setNewPosition(project.types.length);
       setProjListShown(false);
     }
 
@@ -210,7 +210,7 @@ export default function OptionMoveList({ type })
               
               {
                 newProject.id !== activeProject.id &&
-                <ListPosition key={ 'last' } position={ newProject.types.length + 1 }/>
+                <ListPosition key={ 'last' } position={ newProject.types.length }/>
               }
             </ul>
           }

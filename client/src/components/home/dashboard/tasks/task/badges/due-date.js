@@ -94,7 +94,7 @@ export default function TaskDueDate({ task })
 
   return (
     <div 
-      className={`task__due-date task__due-date--${className}`} 
+      className={`task__badge task__due-date task__due-date--${className}`} 
       onClick={ toggleCompleteTask }
       onMouseEnter={ () => {setIsHovered(true)} }
       onMouseLeave={ () => {setIsHovered(false)} }

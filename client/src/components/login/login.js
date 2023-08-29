@@ -13,8 +13,8 @@ export default function Login()
   const { setUser } = useContext(UserContext);
   const { dispatch } = useContext(ReducerContext);
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   function login()
   {

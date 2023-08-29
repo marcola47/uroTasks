@@ -12,7 +12,7 @@ import { faBarsProgress, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProjCreator()
 {
-  const projectNameRef = useRef();
+  const projectNameRef = useRef(null);
   
   const { user, setUser } = useContext(UserContext);
   const { setProjects } = useContext(ProjectsContext);
@@ -38,7 +38,7 @@ export default function ProjCreator()
       name: name,
       color: newColor,
       activeTasks: 0,
-      position: user.projects.length + 1,
+      position: user.projects.length,
       users: [user.id],
       tags: [{ id: uuid(), name: "example tag", color: "#ffffff", position: 1 }],
       types: 

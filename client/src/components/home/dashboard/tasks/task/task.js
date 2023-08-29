@@ -11,7 +11,8 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 export default function Task({ itemData: task })
 {
   const { dispatch } = useContext(ReducerContext);
-  const taskRef = useRef();
+  const taskRef = useRef(null);
+  const badgesRef = useRef(null);
  
   function toggleOptions(e)
   { 
@@ -44,7 +45,7 @@ export default function Task({ itemData: task })
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
         >
-           <div className='task__position'>{ task?.position }</div>
+           <div className='task__position'>{ task?.position + 1 }</div>
           <TaskTags task={ task }/>
     
           <div className='task__text'>
@@ -54,13 +55,10 @@ export default function Task({ itemData: task })
           <div className='task__options' onClick={ e => {toggleOptions(e)} }>
             <FontAwesomeIcon icon={ faEllipsisVertical }/>
           </div>
-    
-          {
-            task.due_date && // refactor to account for other badges
-            <div className="task__badges">
-              <TaskDueDate task={ task }/>
-            </div>
-          }
+
+          <div className="task__badges" ref={ badgesRef } style={ badgesRef.current?.children.length > 0 ? { marginBottom: '8px' } : {} }>
+            { task.due_date && <TaskDueDate task={ task }/> }
+          </div>
         </li>
       )
     }

@@ -21,7 +21,7 @@ export default function OptionCloneList()
     {
       id: uuid(),
       name: state.taskListOptions.data.name + ' copy',
-      position: activeProject.types.length + 1,
+      position: activeProject.types.length,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }

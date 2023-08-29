@@ -159,7 +159,7 @@ export function ProjTagsEditor()
       id: uuid(), 
       name: newName, 
       color: newColor, 
-      position: tagsList.length + 1
+      position: tagsList.length
     }
     
     tagsList.push(newTag)

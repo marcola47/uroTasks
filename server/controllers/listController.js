@@ -172,7 +172,7 @@ listController.updatePosition = async (req, res) =>
       filteredSourceTypeList.forEach(listType => 
       { 
         if (listType.position > positions.old) 
-        listType.position-- 
+          listType.position-- 
       });
       
       destinationTypeList.push(sourceTypeList.find(listType => listType.id === typeID));

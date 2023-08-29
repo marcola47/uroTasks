@@ -13,7 +13,7 @@ export default function AddTask({ type })
   
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const inputValueRef = useRef();
+  const inputValueRef = useRef(null);
 
   const tasksFiltered = Array.isArray(activeProject.tasks) 
     ? structuredClone(activeProject.tasks).filter(task => task.type === type.id)
