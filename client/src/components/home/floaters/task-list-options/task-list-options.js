@@ -28,19 +28,22 @@ export default function TaskListOptions()
     dispatch(
     { 
       type: 'setTaskListOptions', 
-      payload: 
-      { 
-        params: null, 
-        data: null 
-      } 
+      payload: { params: null, data: null } 
     })
   }
 
   return (
-    <TransitionOpacity className="overlay__bg--light" onClick={ hideOptions } id='task-list-options'>
+    <TransitionOpacity 
+      className="overlay__bg--light" 
+      onClick={ hideOptions } id='task-list-options'
+    >
     {
       state.taskListOptions.data && 
-      <div className='task-list__options' style={ optionsStyle } onClick={ e => {e.stopPropagation()} }>
+      <div 
+        className='task-list__options' 
+        style={ optionsStyle } 
+        onClick={ e => {e.stopPropagation()} }
+      >
         <OptionSort type={ state.taskListOptions.data }/>
         <OptionFilter type={ state.taskListOptions.data }/>
         <div className="separator"/>

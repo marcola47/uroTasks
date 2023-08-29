@@ -81,8 +81,11 @@ export default function OptionType({ task })
   function TypeLocation({ itemData: type })
   {
     return (
-      <div key={ type.id } className='type__location' onClick={ () => {updateTaskType(type)} }>
-        { type.name.toUpperCase() }
+      <div 
+        key={ type.id } 
+        className='type__location' 
+        onClick={ () => {updateTaskType(type)} }
+      > { type.name.toUpperCase() }
       </div>
     )
   }
@@ -101,11 +104,21 @@ export default function OptionType({ task })
   
   return (
     <>
-      <div className={`option option--type ${subMenus.types && 'option--selected'}`} onClick={ toggleSubMenus }>
+      <div 
+        className={`option option--type ${subMenus.types && 'option--selected'}`} 
+        onClick={ toggleSubMenus }
+      >
       {
         subMenus.types
-        ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
-        : <div className='option__icon'><FontAwesomeIcon icon={ faArrowsLeftRight }/></div>
+        ? <div 
+        className='option__icon' 
+        children={ <FontAwesomeIcon icon={ faArrowTurnDown }/> }
+          />
+        
+        : <div 
+            className='option__icon' 
+            children={ <FontAwesomeIcon icon={ faArrowsLeftRight }/> }
+          />
       }
       </div>
 
@@ -113,8 +126,14 @@ export default function OptionType({ task })
       {
         subMenus.types &&
         <TransitionOpacity className="sub-menu type">
-          <div className="sub-menu__wrapper" style={{ width: state.editor.params.w }}>
-            <div className="sub-menu__header">TYPES</div>
+          <div 
+            className="sub-menu__wrapper" 
+            style={{ width: state.editor.params.w }}
+          >
+            <div className="sub-menu__header">
+              TYPES
+            </div>
+            
             <List
               classes='type__locations'
               ids={`list--${task.id}:types`} 

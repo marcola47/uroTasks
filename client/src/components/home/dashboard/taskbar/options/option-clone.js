@@ -22,8 +22,10 @@ export default function OptionClone()
   }
 
   return (
-    <div className="taskbar__option taskbar__option--clone" onClick={ callCloneProject }>
-      <FontAwesomeIcon icon={ faClone }/>  
-    </div>
+    <div 
+      className="taskbar__option taskbar__option--clone" 
+      onClick={ callCloneProject }
+      children={ <FontAwesomeIcon icon={ faClone }/> }
+    />
   )
 }

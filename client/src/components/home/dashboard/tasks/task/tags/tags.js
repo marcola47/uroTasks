@@ -25,10 +25,25 @@ export default function TaskTags({ task })
     };
 
     if (state.tagsNameShown)
-      return <li className='task__tag' style={ style }>{ tag.name }</li>
+    {
+      return (
+        <li 
+          className='task__tag' 
+          style={ style } 
+          children={ tag.name }
+        />
+      )
+    }
 
     else
-      return <li className='task__tag task__tag--hidden' style={ style }/>
+    {
+      return (
+        <li 
+          className='task__tag task__tag--hidden' 
+          style={ style }
+        />
+      )
+    }
   }
 
   if (orderedTags.length < 1)

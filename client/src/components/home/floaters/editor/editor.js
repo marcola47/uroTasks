@@ -25,6 +25,7 @@ export default function Editor()
   const [subMenus, setSubMenus] = useState({ tags: false, types: false, dates: false })
   
   const optionsRef = useRef(null);
+  const badgesRef = useRef(null);
 
   const editorStyle = 
   {
@@ -51,17 +52,28 @@ export default function Editor()
     <TransitionOpacity onClick={ () => {dispatch({ type: 'setEditor', payload: { params: null, data: null } })} } id='editor'>
     {
       state.editor.data && // many errors when not doing this
-      <div className="editor" style={ editorStyle } onClick={ e => {e.stopPropagation()} }>
+      <div 
+        className="editor" 
+        style={ editorStyle } 
+        onClick={ e => {e.stopPropagation()} }
+      >
         <div className="editor__content">
           <EditorTags task={ task }/>
           <EditorText task={ task }/> 
         </div>
 
-        <div className="editor__badges">
-          { task.due_date && <EditorDueDate task={ task }/> }
-        </div>
+        <div // will redo later to accommodate to other badges
+          className="editor__badges" 
+          ref={ badgesRef } 
+          style={ badgesRef.current?.children.length > 0 ? { marginBottom: '8px' } : {} }
+          children={ task.due_date && <EditorDueDate task={ task }/> }
+        /> 
 
-        <div className="options" ref={ optionsRef } style={ optionsStyle }>
+        <div 
+          className="options" 
+          ref={ optionsRef } 
+          style={ optionsStyle }
+        >
           <SubMenusContext.Provider value={{ subMenus, setSubMenus }}>
             <OptionEllipsis/>
             <OptionTags task={ task }/>

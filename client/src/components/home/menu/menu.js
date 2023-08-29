@@ -10,7 +10,10 @@ export default function Menu()
   const { state } = useContext(ReducerContext);
 
   return (
-    <div className={`menu ${state.menuShown ? 'menu--shown' : 'menu--hidden'}`} id='menu'>
+    <div 
+      className={`menu ${state.menuShown ? 'menu--shown' : 'menu--hidden'}`} 
+      id='menu'
+    >
       <Header/>
       <Projects/>
       <User/>

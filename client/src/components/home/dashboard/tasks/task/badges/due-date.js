@@ -37,18 +37,23 @@ export default function TaskDueDate({ task })
   switch (true) 
   {
     case task.completed === true: 
-      className = 'completed'; break;
+      className = 'completed'; 
+      break;
     
     case dateDiff < 0: 
-      className = 'overdue'; break;
+      className = 'overdue'; 
+      break;
     
     case dateDiff === 0: 
-      className = 'today'; break;
+      className = 'today'; 
+      break;
     
     case dateDiff === 1: 
-      className = 'tomorrow'; break;
+      className = 'tomorrow'; 
+      break;
   
-    default: className = 'far';
+    default: 
+      className = 'far';
   }
 
   function toggleCompleteTask()

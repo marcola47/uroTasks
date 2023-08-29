@@ -40,7 +40,7 @@ export default function App()
     menuShown: JSON.parse(localStorage.getItem("menuOpen")) ?? false,
     tagsNameShown: JSON.parse(localStorage.getItem("tagsNameShown")) ?? true,
     projCreatorShown: false,
-
+    
     notification: null,
     notificationShown: false,
 

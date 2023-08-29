@@ -43,9 +43,9 @@ export default function ProjCreator()
       tags: [{ id: uuid(), name: "example tag", color: "#ffffff", position: 1 }],
       types: 
       [
-        { id: uuid(), name: "TO-DO" , position: 1 },
-        { id: uuid(), name: "DOING", position: 2  },
-        { id: uuid(), name: "DONE" , position: 3 }
+        { id: uuid(), name: "TO-DO" , position: 0 },
+        { id: uuid(), name: "DOING", position: 1 },
+        { id: uuid(), name: "DONE" , position: 2 }
       ]
     };
 
@@ -72,11 +72,24 @@ export default function ProjCreator()
   }
 
   return (
-    <TransitionOpacity className='overlay__bg--dark' onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } id='proj-creator'>
-      <div className="proj-creator" onClick={ e => {e.stopPropagation()} }>
-        <h2 className="proj-creator__title">CREATE PROJECT <FontAwesomeIcon icon={ faBarsProgress }/></h2>
+    <TransitionOpacity 
+      className='overlay__bg--dark' 
+      onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } 
+      id='proj-creator'
+    >
+      <div 
+        className="proj-creator" 
+        onClick={ e => {e.stopPropagation()} }
+      >
+        <h2 className="proj-creator__title">
+          <span>CREATE PROJECT</span> 
+          <FontAwesomeIcon icon={ faBarsProgress }/>
+        </h2>
         
-        <ButtonGlow icon={ faXmark } onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } />
+        <ButtonGlow 
+          icon={ faXmark } 
+          onClick={ () => {dispatch({ type: 'projCreatorShown', payload: false })} } 
+        />
         
         <input 
           className="proj-creator__input" 
@@ -88,19 +101,32 @@ export default function ProjCreator()
           autoComplete='off'
         />
 
-        <button className="proj-creator__input" onClick={ () => {setPickerActive(!pickerActive)} }>
-          <div className='proj-creator__color' style={ colors }/>
-        </button>
+        <button 
+          className="proj-creator__input" 
+          onClick={ () => {setPickerActive(!pickerActive)} }
+          children={ <div className='proj-creator__color' style={ colors }/> }
+        />
 
         { 
           pickerActive && 
           <div>
-            <div onClick={ () => {setPickerActive(!pickerActive)} } className='chrome-picker__bg'/>
-            <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+            <div 
+              onClick={ () => {setPickerActive(!pickerActive)} } 
+              className='chrome-picker__bg'
+            />
+            
+            <ChromePicker 
+              color={ newColor } 
+              onChange={ color => {setNewColor(color.hex)} }
+            />
           </div>
         }
         
-        <button className="proj-creator__submit" onClick={ createProject }>CREATE</button>
+        <button 
+          className="proj-creator__submit" 
+          onClick={ createProject } 
+          children="CREATE"
+        />
       </div>
     </TransitionOpacity>
 )

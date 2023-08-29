@@ -132,12 +132,17 @@ export default function OptionTags({ task })
           onClick={() => {toggleTag(tag)}}
         />
         
-        <div className="tag__name" style={ colors } onClick={() => {toggleTag(tag)}}>
-          { tag.name }
+        <div 
+          className="tag__name" 
+          style={ colors } 
+          onClick={() => {toggleTag(tag)}}
+        > { tag.name }
         </div>
         
-        <div className="tag__edit" onClick={ editTag }>
-          <FontAwesomeIcon icon={ faPencil }/>
+        <div 
+          className="tag__edit" 
+          onClick={ editTag }
+        > <FontAwesomeIcon icon={ faPencil }/>
         </div>
       </li>
     )
@@ -157,11 +162,21 @@ export default function OptionTags({ task })
 
   return (
     <>
-      <div className={`option option--tags ${subMenus.tags && 'option--selected'}`} onClick={ toggleSubMenus }>
+      <div 
+        className={`option option--tags ${subMenus.tags && 'option--selected'}`} 
+        onClick={ toggleSubMenus }
+      >
       {
         subMenus.tags
-        ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
-        : <div className='option__icon'><FontAwesomeIcon icon={ faTag }/></div>
+        ? <div 
+            className='option__icon' 
+            children={ <FontAwesomeIcon icon={ faArrowTurnDown }/> }
+          />
+        
+        : <div 
+            className='option__icon' 
+            children={ <FontAwesomeIcon icon={ faTag }/> }
+          />
       }
       </div>
 
@@ -169,8 +184,14 @@ export default function OptionTags({ task })
       {
         subMenus.tags &&
         <TransitionOpacity className="sub-menu tags">
-          <div className='sub-menu__wrapper' style={{ width: state.editor.params.w }}>
-            <div className="sub-menu__header">TAGS</div>
+          <div 
+            className='sub-menu__wrapper' 
+            style={{ width: state.editor.params.w }}
+          >
+            <div className="sub-menu__header">
+              TAGS
+            </div>
+
             {
               orderedTagsList 
               ? <List
@@ -180,9 +201,16 @@ export default function OptionTags({ task })
                   ListItem={ Tag }
                 />
 
-              : <div className="tags__empty">No tags found.<br/>Create some!</div>
+              : <div className="tags__empty">
+                  No tags found.<br/>Create some!
+                </div>
             }
-            <div className="tags__create" onClick={ createTag }>CREATE NEW TAG</div>
+
+            <div 
+              className="tags__create" 
+              onClick={ createTag }
+              children="CREATE NEW TAG"
+            /> 
           </div>
         </TransitionOpacity>
       }

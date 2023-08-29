@@ -86,7 +86,10 @@ export default function AddTaskList({ typesOrdered })
           autoFocus
         />
       
-      : <button onClick={ () => {setEditing(true)} }><FontAwesomeIcon icon={ faPlus }/><span> ADD TASK LIST</span></button>
+      : <button onClick={ () => {setEditing(true)} }>
+          <FontAwesomeIcon icon={ faPlus }/>
+          <span> ADD TASK LIST</span>
+        </button>
     }
     </div>
   )

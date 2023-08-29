@@ -41,17 +41,36 @@ export default function ProjOptions()
   }
   
   return (
-    <TransitionOpacity className="overlay__bg--mid" onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }>
-      <div className="proj-options" onClick={ e => {e.stopPropagation()} }>
+    <TransitionOpacity 
+      className="overlay__bg--mid" 
+      onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }
+    >
+      <div 
+        className="proj-options" 
+        onClick={ e => {e.stopPropagation()} }
+      >
         <div className="proj-options__header">
-          <ButtonGlow icon={ faArrowLeft } fontSize="1.8rem" onClick={ () => {dispatch({ type: 'setProjOptions', payload: prev })} }/>
-          <h2 className="proj-options__title">PROJECT SETTINGS</h2>
-          <ButtonGlow icon={ faXmark } onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }/>
+          <ButtonGlow 
+            icon={ faArrowLeft } 
+            fontSize="1.8rem" 
+            onClick={ () => {dispatch({ type: 'setProjOptions', payload: prev })} }
+          />
+
+          <h2 
+            className="proj-options__title"
+            children="PROJECT SETTINGS"
+          />
+
+          <ButtonGlow 
+            icon={ faXmark } 
+            onClick={ () => {dispatch({ type: 'setProjOptions', payload: null })} }
+          />
         </div>
 
-        <div className="proj-options__content">
-          <ProjOptionsContent/>
-        </div>
+        <div 
+          className="proj-options__content"
+          children={ <ProjOptionsContent/> }
+        />
       </div>
     </TransitionOpacity>
   )

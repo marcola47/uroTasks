@@ -69,7 +69,10 @@ export default function OptionDeleteList({ type })
   }
   
   return (
-    <div className="option option--danger" onClick={ showConfirmation }>
+    <div 
+      className="option option--danger" 
+      onClick={ showConfirmation }
+    >
       <FontAwesomeIcon icon={ faTrash }/>
       <span>Delete list</span>
     </div>

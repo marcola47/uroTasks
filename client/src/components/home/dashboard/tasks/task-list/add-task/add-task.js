@@ -25,7 +25,7 @@ export default function AddTask({ type })
     
     const newPosition = tasksFiltered.length > 0 
       ? Math.max(...tasksFiltered.map(taskObj => taskObj.position)) + 1 
-      : 1;
+      : 0;
 
     const newTask = 
     { 
@@ -115,7 +115,10 @@ export default function AddTask({ type })
           autoFocus
         />
       
-      : <button onClick={ () => {setEditing(true)} }><FontAwesomeIcon icon={ faPlus }/><span> Add task</span></button>
+      : <button onClick={ () => {setEditing(true)} }>
+          <FontAwesomeIcon icon={ faPlus }/>
+          <span> Add task</span>
+        </button>
     }
     </div>
   )

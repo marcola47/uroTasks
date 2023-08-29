@@ -130,8 +130,13 @@ export default function MenuProjects()
 
   return (
     <div className='projects'>
-      <h2 className='projects__header' onClick={ toggleProjectList }>
-        <span>Projects</span><FontAwesomeIcon icon={ faChevronUp }/>
+      <h2 
+        className='projects__header' 
+        onClick={ toggleProjectList }
+      >
+        <span>Projects</span>
+        <FontAwesomeIcon icon={ faChevronUp }
+      />
       </h2>
       
       <ButtonGlow 

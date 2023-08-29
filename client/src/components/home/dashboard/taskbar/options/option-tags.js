@@ -18,8 +18,10 @@ export default function OptionTags()
   }
 
   return (
-    <div className="taskbar__option taskbar__option--tags" onClick={ toggleTagsOptions }>
-      <FontAwesomeIcon icon={ faTag }/>  
-    </div>
+    <div 
+      className="taskbar__option taskbar__option--tags" 
+      onClick={ toggleTagsOptions }
+      children={ <FontAwesomeIcon icon={ faTag }/> }
+    />
   )
 }

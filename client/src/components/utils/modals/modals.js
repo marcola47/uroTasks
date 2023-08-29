@@ -19,16 +19,34 @@ export function Notification()
     : faCircleXmark
 
   return (
-    <TransitionOpacityHorizontal className={ classes } id="notification">
-      <div className="notification__close" onClick={ () => {dispatch({ type: 'notificationShown', payload: false })} }>x</div>
+    <TransitionOpacityHorizontal 
+      className={ classes } 
+      id="notification"
+    >
+      <div 
+        className="notification__close" 
+        onClick={ () => {dispatch({ type: 'notificationShown', payload: false })} }
+        children="x"
+      />
 
-      <div className="notification__icon">
-        <FontAwesomeIcon icon={ icon }/>
-      </div>
+      <div 
+        className="notification__icon"
+        children={ <FontAwesomeIcon icon={ icon }/> }
+      />
       
       <div className="notification__data">
-        <p className="notification__header">{ state.notification.header }</p>
-        { state.notification.message !== '' && <p className="notification__msg">{ state.notification.message }</p> }
+        <p 
+          className="notification__header"
+          children={ state.notification.header }
+        />
+        
+        { 
+          state.notification.message !== '' && 
+          <p 
+            className="notification__msg" 
+            children={ state.notification.message }
+          />
+        }
       </div>
     </TransitionOpacityHorizontal>
   )
@@ -39,16 +57,38 @@ export function Confirmation()
   const { state, dispatch } = useContext(ReducerContext);
 
   return (
-    <TransitionOpacity onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} } id="confirmation">
-      <div className="confirmation" onClick={ e => {e.stopPropagation()} }>
+    <TransitionOpacity 
+      onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} } 
+      id="confirmation"
+    >
+      <div 
+        className="confirmation" 
+        onClick={ e => {e.stopPropagation()} }
+      >
         <div className="confirmation__data">
-          <p className="confirmation__header">{ state.confirmation?.header }</p>
-          <p className="confirmation__msg">{ state.confirmation?.message }</p>
+          <p 
+            className="confirmation__header"
+            children={ state.confirmation?.header }
+          />
+          
+          <p 
+            className="confirmation__msg"
+            children={ state.confirmation?.message }
+          />
         </div>
 
         <div className="confirmation__btns">
-          <div className={`btn ${state.confirmation?.className}`} onClick={ state.confirmation?.function }>{ state.confirmation?.confirmation }</div>
-          <div className="btn btn--rejection" onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} }>{ state.confirmation?.rejection }</div>
+          <div 
+            className={`btn ${state.confirmation?.className}`} 
+            onClick={ state.confirmation?.function }
+            children={ state.confirmation?.confirmation }
+          />
+
+          <div 
+            className="btn btn--rejection" 
+            onClick={ () => {dispatch({ type: 'confirmationShown', payload: false })} }
+            children={ state.confirmation?.rejection }
+          />
         </div>
       </div>
     </TransitionOpacity>

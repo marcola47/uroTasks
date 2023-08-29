@@ -78,7 +78,10 @@ export default function TaskListHeader({ type })
           onKeyDown={ handleKeyDown }
         />
 
-      : <div onClick={ () => {setEditing(true)} }>{ type.name }</div>
+      : <div 
+          onClick={ () => {setEditing(true)} } 
+          children={ type.name }
+        />
     }
     </div>
   )

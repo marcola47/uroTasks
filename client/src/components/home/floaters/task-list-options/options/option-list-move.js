@@ -30,7 +30,10 @@ export default function OptionMoveList({ type })
         destination: { index: newPosition }
       }
 
-      repositionLists({ projects, setProjects, activeProject }, { dispatch, result, axios, setResponseError });
+      const projectsContext = { projects, setProjects, activeProject };
+      const opContext = { dispatch, result, axios, setResponseError };
+
+      repositionLists(projectsContext, opContext);
     }
     
     else
@@ -102,18 +105,22 @@ export default function OptionMoveList({ type })
     setParamsShown(false);
     setProjListShown(false);
     setPosListShown(false);
-    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
+    dispatch(
+    { 
+      type: 'setTaskListOptions', 
+      payload: { params: null, data: null } 
+    })
   }
 
   function iterateListPosition(mode)
   {
     const lastPos = Math.max(...activeProject.types.map(type => type.position))
 
-    if (mode === 'increment')
-      return newPosition >= lastPos ? null : setNewPosition(newPosition + 1);
+    if (mode === 'increment' && newPosition < lastPos)
+      setNewPosition(newPosition + 1);
 
-    else if (mode === 'decrement')
-      return newPosition <= 1 ? null : setNewPosition(newPosition - 1);
+    else if (mode === 'decrement' && newPosition > 1)
+      setNewPosition(newPosition - 1);
   }
 
   function showList(show)
@@ -151,10 +158,11 @@ export default function OptionMoveList({ type })
     }
 
     return (
-      <li className='move__list__item' onClick={ updateListProject }>
-        { project.name }
-        { project.name === activeProject.name ? ' (current)' : null }
-      </li>
+      <li 
+        className='move__list__item' 
+        onClick={ updateListProject }
+        children={ project.name }
+      />
     )
   }
 
@@ -167,22 +175,40 @@ export default function OptionMoveList({ type })
     }
 
     return (
-      <li className='move__list__item' onClick={ updateListPosition }>
-        { position }
-      </li>
+      <li 
+        className='move__list__item' 
+        onClick={ updateListPosition }
+        children={ position }
+      />
     )
   }
 
   return (
-    <div className="option" onClick={ () => {setParamsShown(!paramsShown)} }>
+    <div 
+      className="option" 
+      onClick={ () => {setParamsShown(!paramsShown)} }
+    >
       <FontAwesomeIcon icon={ faArrowsLeftRight }/>
       <span>Move list</span>
 
-      <div className={`move ${paramsShown ? 'move--shown' : 'move--hidden'}`} onClick={ e => { e.stopPropagation() }}>
+      <div 
+        className={`move ${paramsShown ? 'move--shown' : 'move--hidden'}`} 
+        onClick={ e => { e.stopPropagation() }}
+      >
         <div className="move__param move__project">
-          <div className='move__container' onClick={ () => {showList('proj')} }>
-            <div className="move__header">Project</div>
-            <div className="move__content">{ newProject.name }</div>
+          <div 
+            className='move__container' 
+            onClick={ () => {showList('proj')} }
+          >
+            <div 
+              className="move__header"
+              children="Project"
+            />
+            
+            <div
+              className="move__content"
+              children={ newProject.name }
+            />
           </div>
 
           {
@@ -194,38 +220,59 @@ export default function OptionMoveList({ type })
         </div>
         
         <div className="move__param move__position">
-          <div className='move__container' onClick={ () => {showList('pos')} }>
-            <div className="move__header">Position</div>
-            <div className="move__content">{ newPosition }</div>
+          <div 
+            className='move__container' 
+            onClick={ () => {showList('pos')} }
+          >
+            <div 
+              className="move__header"
+              children="Position"
+            />
+
+            <div 
+              className="move__content"
+              children={ newPosition }
+            />
           </div>
 
           {
             posListShown &&
             <ul className="move__list move__list--pos">
-              { 
-                newProject.types
-                  .sort((a, b) => { return a.position - b.position })
-                  .map(type => { return <ListPosition key={ type.id } position={ type.position }/> }) 
-              }
-              
-              {
-                newProject.id !== activeProject.id &&
-                <ListPosition key={ 'last' } position={ newProject.types.length }/>
-              }
+            { 
+              newProject.types
+                .sort((a, b) => { return a.position - b.position })
+                .map(type => { return <ListPosition key={ type.id } position={ type.position }/> }) 
+            }
+            
+            {
+              newProject.id !== activeProject.id &&
+              <ListPosition 
+                key={ 'last' } 
+                position={ newProject.types.length }
+              />
+            }
             </ul>
           }
         </div>
 
         <div className="move__btns">
-          <div className="move__btn" onClick={ () => {iterateListPosition('decrement')} }>
-            <FontAwesomeIcon icon={ faArrowLeft }/>
-          </div>
+          <div 
+            className="move__btn" 
+            onClick={ () => {iterateListPosition('decrement')} }
+            children={ <FontAwesomeIcon icon={ faArrowLeft }/> }
+          />
 
-          <div className="move__btn" onClick={ () => {iterateListPosition('increment')} }>
-          <FontAwesomeIcon icon={ faArrowRight }/>
-          </div>
+          <div 
+            className="move__btn" 
+            onClick={ () => {iterateListPosition('increment')} }
+            children={ <FontAwesomeIcon icon={ faArrowRight }/> }
+          />
 
-          <div className="move__submit" onClick={ moveList }>MOVE</div>
+          <div 
+            className="move__submit" 
+            onClick={ moveList }
+            children="MOVE"
+          />
         </div>
       </div>
     </div>

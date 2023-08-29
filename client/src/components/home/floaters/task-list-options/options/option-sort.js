@@ -13,11 +13,7 @@ export default function OptionSort()
     dispatch(
     { 
       type: 'setTaskListOptions', 
-      payload: 
-      { 
-        params: null, 
-        data: null 
-      } 
+      payload: { params: null, data: null } 
     })
     
     dispatch(
@@ -28,7 +24,10 @@ export default function OptionSort()
   }
 
   return (
-    <div className="option" onClick={ toggleSortMenu }>
+    <div 
+      className="option" 
+      onClick={ toggleSortMenu }
+    >
       <FontAwesomeIcon icon={ faSort } />
       <span>Sort by</span>
     </div>

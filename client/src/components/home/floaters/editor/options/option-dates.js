@@ -14,7 +14,7 @@ export default function OptionDates({ task })
   const { state, dispatch } = useContext(ReducerContext);
   const { subMenus, setSubMenus } = useContext(SubMenusContext);
 
-  const [datesEnabled, setDatesEnabled] = useState({ start: task.start_date ? true: false, due: task.due_date ? true : false })
+  const [datesEnabled, setDatesEnabled] = useState({ start: task.start_date ? true : false, due: task.due_date ? true : false })
   const [startDate, setStartDate] = useState(task.start_date ? task.start_date.slice(0, 10) : null);
   const [dueDate, setDueDate] = useState(task.due_date ? task.due_date.slice(0, 10) : null);
 
@@ -80,23 +80,41 @@ export default function OptionDates({ task })
 
   return (
     <>
-      <div className={`option option--type ${subMenus.dates && 'option--selected'}`} onClick={ toggleSubMenus }>
-      {
-        subMenus.dates
-        ? <div className='option__icon'><FontAwesomeIcon icon={ faArrowTurnDown }/></div>
-        : <div className='option__icon'><FontAwesomeIcon icon={ faClock }/></div>
-      }
+      <div 
+        className={`option option--type ${subMenus.dates && 'option--selected'}`} 
+        onClick={ toggleSubMenus }
+      >
+        {
+          subMenus.dates
+          ? <div 
+              className='option__icon' 
+              children={ <FontAwesomeIcon icon={ faArrowTurnDown }/> }
+            />
+          
+          : <div 
+              className='option__icon' 
+              children={ <FontAwesomeIcon icon={ faClock }/> }
+            />
+        }
       </div>
 
       <AnimateTransit>
       {
         subMenus.dates &&
         <TransitionOpacity className="sub-menu dates">
-          <div className="sub-menu__wrapper" style={{ width: state.editor.params.w }}>
-            <div className="sub-menu__header">DATES</div>
+          <div 
+            className="sub-menu__wrapper" 
+            style={{ width: state.editor.params.w }}
+          >
+            <div className="sub-menu__header">
+              DATES
+            </div>
 
             <div className="dates__input">
-              <label htmlFor="start-date">Start Date</label>
+              <label htmlFor="start-date">
+                Start Date
+              </label>
+
               <div className='dates__input__wrapper'>
                 <div 
                   className={`dates__input__toggle ${datesEnabled.start && 'dates__input__toggle--checked'}`} 
@@ -116,7 +134,10 @@ export default function OptionDates({ task })
             </div>
 
             <div className="dates__input">
-              <label htmlFor="due-date">Due Date</label>
+              <label htmlFor="due-date">
+                Due Date
+              </label>
+
               <div className='dates__input__wrapper'>
                 <div 
                   className={`dates__input__toggle ${datesEnabled.due && 'dates__input__toggle--checked'}`} 
@@ -135,7 +156,9 @@ export default function OptionDates({ task })
               </div>
             </div>
 
-            <div className="dates__save" onClick={ saveDates }>SAVE DATES</div>
+            <div className="dates__save" onClick={ saveDates }>
+              SAVE DATES
+            </div>
           </div>
         </TransitionOpacity>
       }

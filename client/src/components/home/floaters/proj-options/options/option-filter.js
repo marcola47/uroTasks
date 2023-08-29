@@ -58,11 +58,14 @@ export default function ProjFilter()
   function Date({ itemData: date })
   {
     const isChecked = state.filters.date
-    ? state.filters.date === date.type
-    : false
+      ? state.filters.date === date.type
+      : false
 
     return (
-      <div className={`date date__${date.type}`} onClick={ () => {setDateFilter(date.type)} }>
+      <div 
+        className={`date date__${date.type}`} 
+        onClick={ () => {setDateFilter(date.type)} }
+      >
         <div className={`filter__check ${isChecked && 'filter__check--checked'}`}/>
         <FontAwesomeIcon icon={ faClock }/>
         <span>{ date.name }</span>
@@ -79,8 +82,8 @@ export default function ProjFilter()
     }
 
     const isChecked = state.filters.tags 
-    ? state.filters.tags.includes(tag.id) ? true : false
-    : false
+      ? state.filters.tags.includes(tag.id) ? true : false
+      : false
 
     return (
       <li className='tags__tag'>
@@ -89,19 +92,30 @@ export default function ProjFilter()
           onClick={ () => {setTagFilter(tag.id)} }
         />
         
-        <div className="tag__name" style={ colors } onClick={ () => {setTagFilter(tag.id)} }>
-          { tag.name }
-        </div>
+        <div 
+          className="tag__name" 
+          style={ colors } 
+          onClick={ () => {setTagFilter(tag.id)} }
+          children={ tag.name }
+        />
       </li>
     )
   }
 
   return (
     <div className="filter">
-      <h3 className="filter__header">FILTER TASKS</h3>
+      <h3 
+        className="filter__header"
+        children="FILTER TASKS"
+      />
 
       <div className="keyword">
-        <label className="filter__option__header" htmlFor="keyword__input">Search for keywords</label>
+        <label 
+          className="filter__option__header" 
+          htmlFor="keyword__input"
+          children="Search for keywords"
+        />
+
         <input 
           className="keyword__input" 
           id="keyword__input" 
@@ -113,7 +127,11 @@ export default function ProjFilter()
       </div>
 
       <div className="dates">
-        <p className="filter__option__header">Dates</p>
+        <p 
+          className="filter__option__header" 
+          children="Dates"
+        />
+
         <List
           classes="dates__list"
           ids={`list-proj-options:filter:dates`}
@@ -123,7 +141,11 @@ export default function ProjFilter()
       </div>
 
       <div className="tags">
-        <p className="filter__option__header">Tags</p>
+        <p 
+          className="filter__option__header" 
+          children="Tags"
+        />
+        
         <List
           classes='tags__list'
           ids={`list--proj-options:filter:tags`} 

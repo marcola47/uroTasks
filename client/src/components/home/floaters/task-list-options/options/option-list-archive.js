@@ -35,7 +35,10 @@ export default function OptionArchiveList({ type })
     dispatch({ type: 'confirmationShown', payload: true })
   }
   return (
-    <div className="option option--caution" onClick={ showConfirmation }>
+    <div 
+      className="option option--caution" 
+      onClick={ showConfirmation }
+    >
       <FontAwesomeIcon icon={ faArchive }/>
       <span>Archive list</span>
     </div>

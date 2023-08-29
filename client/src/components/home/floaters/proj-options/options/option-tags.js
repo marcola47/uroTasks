@@ -117,8 +117,7 @@ export function ProjTagsDisplay()
       <h3 className="tags__header">TAGS</h3>
       {
         orderedTagsList 
-        ? (
-          <DragDropContext onDragEnd={ onDragEnd }>
+        ? <DragDropContext onDragEnd={ onDragEnd }>
             <DroppableList
               droppableId={`list--${activeProject.id}:tags`}
               direction='vertical'
@@ -128,11 +127,19 @@ export function ProjTagsDisplay()
               className='tags__list'
             />
           </DragDropContext>
-        )
-
-        : <div className="tags__empty">No tags found.<br/>Create some!</div>
+        
+        : <div className="tags__empty">
+            No tags found.
+            <br/>
+            Create some!
+          </div>
       }
-      <div className="tags__create" onClick={ () => { showTagsEditor(null) } }>CREATE NEW TAG</div>
+
+      <div 
+        className="tags__create" 
+        onClick={ () => { showTagsEditor(null) } }
+        children="CREATE NEW TAG"
+      />
     </div>
   )
 }
@@ -300,16 +307,23 @@ export function ProjTagsEditor()
 
   return (
     <div className="tags__editor">
-      <h3 className="tags__header">
-        { state.projTagsEditor.name ? 'EDIT TAG' : 'CREATE TAG' }
-      </h3>
+      <h3 
+        className="tags__header"
+        children={ state.projTagsEditor.name ? 'EDIT TAG' : 'CREATE TAG' }
+      />
 
       <div className="tags__tag">
-        <div style={ colors }>{ newName }</div>
+        <div 
+          style={ colors }
+          children={ newName }
+        />
       </div>
 
       <div className="tags__input">
-        <label htmlFor="tagsEditor--input--name">TAG NAME</label>
+        <label htmlFor="tagsEditor--input--name">
+          TAG NAME
+        </label>
+
         <input 
           className="tags__input__name" 
           id="tagsEditor--input--name" 
@@ -320,24 +334,34 @@ export function ProjTagsEditor()
       </div>
       
       <div className="tags__color-picker">
-        <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+        <ChromePicker 
+          color={ newColor } 
+          onChange={ color => {setNewColor(color.hex)} }
+        />
         
-        <div className="tags__rem-color" onClick={ () => {setNewColor('#21262b')} }>
+        <div 
+          className="tags__rem-color" 
+          onClick={ () => {setNewColor('#21262b')} }
+        >
           <FontAwesomeIcon icon={ faXmark }/>
           <span>REMOVE COLOR</span>
         </div>
       </div>
 
       <div className="tags__submit">
-        <div className="tags__create" onClick={ state.projTagsEditor.id ? updateTag : createTag }>
-          { state.projTagsEditor.name ? 'UPDATE TAG' : 'CREATE TAG' }
-        </div>
+        <div 
+          className="tags__create" 
+          onClick={ state.projTagsEditor.id ? updateTag : createTag }
+          children={ state.projTagsEditor.name ? 'UPDATE TAG' : 'CREATE TAG' }
+        />
 
         {
           state.projTagsEditor.id &&
-          <div className="tags__delete" onClick={ showConfirmation }>
-            DELETE TAG
-          </div>
+          <div 
+            className="tags__delete" 
+            onClick={ showConfirmation }
+            children="DELETE TAG"
+          />
         }
       </div>
     </div>

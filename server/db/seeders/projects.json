@@ -8,17 +8,17 @@
       {
         "id": "407b1576-1d56-490b-bd02-917fcef662e8",
         "name": "todo",
-        "position": 1
+        "position": 0
       },
       {
         "id": "544f6181-d326-4577-ac54-a7b2b08f58ba",
         "name": "doing",
-        "position": 2
+        "position": 1
       },
       {
         "id": "3bed6846-2510-4545-9796-962e508ed6e6",
         "name": "done",
-        "position": 3
+        "position": 2
       }
     ],
     "tags":
@@ -27,19 +27,19 @@
         "id": "1c12d439-e4b6-41ed-a05e-3ccb342ee88a",
         "name": "Front-end",
         "color": "#2A9ADF",
-        "position": 1
+        "position": 0
       },
       {
         "id": "e0bafa1e-13b9-4c47-b154-16265a27624d",
         "name": "Back-end",
         "color": "#2FF78C",
-        "position": 2
+        "position": 1
       },
       {
         "id": "dbd143df-fb68-42be-bdbb-4bc72cfd78a7",
         "name": "Critical",
         "color": "#FF2D2D",
-        "position": 3
+        "position": 2
       }
     ],
     "tasks":
@@ -66,17 +66,17 @@
       {
         "id": "fd5fe109-ddc9-4268-8ff3-3db2a7547f5d",
         "name": "todo",
-        "position": 1
+        "position": 0
       },
       {
         "id": "28c2ba59-26e9-4663-b8f9-60f83d2a9910",
         "name": "doing",
-        "position": 2
+        "position": 1
       },
       {
         "id": "09912699-f705-4bc4-98f6-1dcd1db81d51",
         "name": "done",
-        "position": 3
+        "position": 2
       }
     ],
     "tags":
@@ -85,19 +85,19 @@
         "id": "d9ed92e5-7ea5-4f0a-947f-568dff9a23f6",
         "name": "Assignment",
         "color": "#2A9ADF",
-        "position": 1
+        "position": 0
       },
       {
         "id": "7aa96f7b-b4e9-41ce-8384-25c7dce69313",
         "name": "Test",
         "color": "#2FF78C",
-        "position": 2
+        "position": 1
       },
       {
         "id": "3461a3d7-f384-420e-a1dd-ab3bf3c11b1b",
         "name": "Finals",
         "color": "#FF2D2D",
-        "position": 3
+        "position": 2
       }
     ],
     "tasks":
@@ -124,17 +124,17 @@
       {
         "id": "e62f9872-b10b-4833-bd54-af2ccc82750d",
         "name": "todo",
-        "position": 1
+        "position": 0
       },
       {
         "id": "5b4402a2-33a8-4e7c-98c6-89b9deafd99e",
         "name": "doing",
-        "position": 2
+        "position": 1
       },
       {
         "id": "b63ae287-94cb-40de-8756-e9e140490e1f",
         "name": "done",
-        "position": 3
+        "position": 2
       }
     ],
     "tags":
@@ -143,19 +143,19 @@
         "id": "567c5352-025b-4ef9-a762-3bdbac08068a",
         "name": "Recording",
         "color": "#FF2D2D",
-        "position": 1
+        "position": 0
       },
       {
         "id": "87674e4f-3c00-4a65-b8e6-4ee22f52f337",
         "name": "Mixing",
         "color": "#2FF78C",
-        "position": 2
+        "position": 1
       },
       {
         "id": "6bcff5c8-4bc7-4fe4-8937-056e10463b05",
         "name": "Editing",
         "color": "#2A9ADF",
-        "position": 3
+        "position": 2
       }
     ],
     "tasks":

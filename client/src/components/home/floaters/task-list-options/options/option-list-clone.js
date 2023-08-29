@@ -83,12 +83,24 @@ export default function OptionCloneList()
       } 
     })
 
-    dispatch({ type: 'confirmationShown', payload: true })
-    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
+    dispatch(
+    { 
+      type: 'confirmationShown', 
+      payload: true 
+    })
+    
+    dispatch(
+    { 
+      type: 'setTaskListOptions', 
+      payload: { params: null, data: null } 
+    })
   }
 
   return (
-    <div className="option" onClick={ showConfirmation }>
+    <div 
+      className="option" 
+      onClick={ showConfirmation }
+    >
       <FontAwesomeIcon icon={ faClone }/>
       <span>Clone list</span>
     </div>
