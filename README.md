@@ -18,7 +18,7 @@ Task manager inspired by Trello and Click Up, combining what each of them do bes
 - MongoDBCompass
 - MongoDBAtlas
 
-### CODE FORMATTING
+#### CODE FORMATTING
 
 - CURLY BRACES:
   Space them, like: `{ blablabla }`
@@ -89,9 +89,9 @@ Task manager inspired by Trello and Click Up, combining what each of them do bes
       <div 
         className='user-info' 
         id='user-name'
-      > { user.name }
-      </div>
-
+        children={ user.name }
+      /> 
+      
       <div 
         className='user-info' 
         id='user-email'
