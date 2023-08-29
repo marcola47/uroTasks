@@ -54,8 +54,13 @@ export default function OptionDelete({ task })
   }
 
   return (
-    <div className='option option--remove' onClick={ deleteTask }>
-      <div className='option__icon'><FontAwesomeIcon icon={ faMultiply }/></div>
+    <div 
+      className='option option--remove' 
+      onClick={ deleteTask }
+    > 
+      <div className='option__icon'>
+        <FontAwesomeIcon icon={ faMultiply }/>
+      </div>
     </div>
   )
 }

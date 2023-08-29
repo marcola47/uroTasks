@@ -2,17 +2,18 @@ import { useState, useContext } from "react"
 import { ProjectsContext, ReducerContext } from "app"
 import axios, { setResponseError } from 'utils/axiosConfig';
 import { v4 as uuid } from 'uuid';
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
 
 import { ChromePicker } from 'react-color';
 import getTextColor from "utils/getTextColor";
-import { List } from 'components/utils/list/list';
+import { DroppableList } from 'components/utils/list/list';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export function ProjTagsDisplay()
 {
-  const { activeProject } = useContext(ProjectsContext);
+  const { projects, setProjects, activeProject } = useContext(ProjectsContext);
   const { dispatch } = useContext(ReducerContext);
   
   const orderedTagsList = activeProject.tags.length > 0
@@ -22,34 +23,12 @@ export function ProjTagsDisplay()
   function showTagsEditor(tag)
   {
     if (!tag)
-    {
-      dispatch(
-      {
-        type: 'setProjTagsEditor',
-        payload: 
-        { 
-          id: null, 
-          name: null, 
-          color: null, 
-          position: null 
-        }
-      })
-    }
+      dispatch({ type: 'setProjTagsEditor', payload: { id: null, name: null, color: null, position: null } })
 
     else
-    {
-      dispatch(
-      {
-        type: 'setProjTagsEditor',
-        payload: tag
-      })
-    }
+      dispatch({ type: 'setProjTagsEditor', payload: tag })
 
-    dispatch(
-    {
-      type: 'setProjOptions',
-      payload: 'tags-editor'
-    })
+    dispatch({ type: 'setProjOptions', payload: 'tags-editor' })
   }
 
   function Tag({ itemData: tag })
@@ -61,16 +40,76 @@ export function ProjTagsDisplay()
     }
 
     return (
-      <li className='tags__tag' onClick={ () => { showTagsEditor(tag) } }>
-        <div className="tag__name" style={ colors }>
-          { tag.name }
-        </div>
-        
-        <div className="tag__edit">
-          <FontAwesomeIcon icon={ faPencil }/>
-        </div>
-      </li>
+      <Draggable draggableId={ tag.id } index={ tag.position }>
+      {
+        (provided) =>
+        (
+          <li 
+            className='tags__tag' 
+            onClick={ () => { showTagsEditor(tag) } }
+            ref={ provided.innerRef }
+            { ...provided.draggableProps }
+            { ...provided.dragHandleProps }
+          >
+            <div className="tag__name" style={ colors }>{ tag.name }</div>
+            <div className="tag__edit"><FontAwesomeIcon icon={ faPencil }/></div>
+          </li>
+        )
+      }
+      </Draggable>
     )
+  }
+
+  const onDragEnd = result =>
+  {
+    if (!result.destination || (result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index))
+      return;
+
+    const tagsList = structuredClone(activeProject.tags);
+    const tag = tagsList.find(listTag => listTag.id === result.draggableId);
+    const positions = { old: result.source.index, new: result.destination.index };
+
+    tagsList.forEach(listTag =>
+    {
+      const isBetween =
+        listTag.position >= Math.min(positions.old, positions.new) &&
+        listTag.position <= Math.max(positions.old, positions.new)
+
+      if (listTag.id === tag.id)
+        listTag.position = positions.new;
+
+      else if (listTag.id !== tag.id && isBetween)
+        listTag.position += positions.new > positions.old ? -1 : 1;
+    });
+
+    const projectsOld = structuredClone(projects);
+    const projectsCopy = structuredClone(projects).map(project =>
+    {
+      if (project.id === activeProject.id)
+      {
+        project.tags = tagsList;
+        project.updated_at = Date.now();
+      }
+
+      return project;
+    })
+
+    setProjects(projectsCopy);
+    axios.post('/a/tag/update/position', 
+    {
+      projectID: activeProject.id,
+      tagID: tag.id,
+      params:
+      {
+        sourcePosition: result.source.index,
+        destinationPosition: result.destination.index,
+      }
+    })
+    .catch(err => 
+    {
+      setResponseError(err, dispatch);
+      setProjects(projectsOld);
+    })
   }
 
   return (
@@ -78,16 +117,29 @@ export function ProjTagsDisplay()
       <h3 className="tags__header">TAGS</h3>
       {
         orderedTagsList 
-        ? <List
-            classes='tags__list'
-            ids={`list--${activeProject.id}:tags`}
-            elements={ orderedTagsList }
-            ListItem={ Tag }
-          />
-
-        : <div className="tags__empty">No tags found.<br/>Create some!</div>
+        ? <DragDropContext onDragEnd={ onDragEnd }>
+            <DroppableList
+              droppableId={`list--${activeProject.id}:tags`}
+              direction='vertical'
+              type="options-tag-list"
+              elements={ orderedTagsList }
+              ListItem={ Tag }
+              className='tags__list'
+            />
+          </DragDropContext>
+        
+        : <div className="tags__empty">
+            No tags found.
+            <br/>
+            Create some!
+          </div>
       }
-      <div className="tags__create" onClick={ () => { showTagsEditor(null) } }>CREATE NEW TAG</div>
+
+      <div 
+        className="tags__create" 
+        onClick={ () => { showTagsEditor(null) } }
+        children="CREATE NEW TAG"
+      />
     </div>
   )
 }
@@ -114,7 +166,7 @@ export function ProjTagsEditor()
       id: uuid(), 
       name: newName, 
       color: newColor, 
-      position: tagsList.length + 1
+      position: tagsList.length
     }
     
     tagsList.push(newTag)
@@ -178,7 +230,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/tag/update',
+    axios.post('/a/tag/update/content',
     {
       projectID: activeProject.id,
       tagID: state.projTagsEditor.id,
@@ -255,16 +307,23 @@ export function ProjTagsEditor()
 
   return (
     <div className="tags__editor">
-      <h3 className="tags__header">
-        { state.projTagsEditor.name ? 'EDIT TAG' : 'CREATE TAG' }
-      </h3>
+      <h3 
+        className="tags__header"
+        children={ state.projTagsEditor.name ? 'EDIT TAG' : 'CREATE TAG' }
+      />
 
       <div className="tags__tag">
-        <div style={ colors }>{ newName }</div>
+        <div 
+          style={ colors }
+          children={ newName }
+        />
       </div>
 
       <div className="tags__input">
-        <label htmlFor="tagsEditor--input--name">TAG NAME</label>
+        <label htmlFor="tagsEditor--input--name">
+          TAG NAME
+        </label>
+
         <input 
           className="tags__input__name" 
           id="tagsEditor--input--name" 
@@ -275,24 +334,34 @@ export function ProjTagsEditor()
       </div>
       
       <div className="tags__color-picker">
-        <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+        <ChromePicker 
+          color={ newColor } 
+          onChange={ color => {setNewColor(color.hex)} }
+        />
         
-        <div className="tags__rem-color" onClick={ () => {setNewColor('#21262b')} }>
+        <div 
+          className="tags__rem-color" 
+          onClick={ () => {setNewColor('#21262b')} }
+        >
           <FontAwesomeIcon icon={ faXmark }/>
           <span>REMOVE COLOR</span>
         </div>
       </div>
 
       <div className="tags__submit">
-        <div className="tags__create" onClick={ state.projTagsEditor.id ? updateTag : createTag }>
-          { state.projTagsEditor.name ? 'UPDATE TAG' : 'CREATE TAG' }
-        </div>
+        <div 
+          className="tags__create" 
+          onClick={ state.projTagsEditor.id ? updateTag : createTag }
+          children={ state.projTagsEditor.name ? 'UPDATE TAG' : 'CREATE TAG' }
+        />
 
         {
           state.projTagsEditor.id &&
-          <div className="tags__delete" onClick={ showConfirmation }>
-            DELETE TAG
-          </div>
+          <div 
+            className="tags__delete" 
+            onClick={ showConfirmation }
+            children="DELETE TAG"
+          />
         }
       </div>
     </div>

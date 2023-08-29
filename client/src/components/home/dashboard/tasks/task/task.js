@@ -11,7 +11,8 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 export default function Task({ itemData: task })
 {
   const { dispatch } = useContext(ReducerContext);
-  const taskRef = useRef();
+  const taskRef = useRef(null);
+  const badgesRef = useRef(null);
  
   function toggleOptions(e)
   { 
@@ -32,7 +33,10 @@ export default function Task({ itemData: task })
   }
 
   return (
-    <Draggable draggableId={ task.id } index={ task.position }>
+    <Draggable 
+      draggableId={ task.id } 
+      index={ task.position }
+    >
     {
       (provided) => 
       (
@@ -44,23 +48,30 @@ export default function Task({ itemData: task })
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
         >
-           <div className='task__position'>{ task?.position }</div>
+          <div 
+            className='task__position' 
+            children={ task?.position + 1 }
+          />
+
           <TaskTags task={ task }/>
     
-          <div className='task__text'>
-            { task?.content }
-          </div>
-          
-          <div className='task__options' onClick={ e => {toggleOptions(e)} }>
-            <FontAwesomeIcon icon={ faEllipsisVertical }/>
-          </div>
-    
-          {
-            task.due_date && // refactor to account for other badges
-            <div className="task__badges">
-              <TaskDueDate task={ task }/>
-            </div>
-          }
+          <div 
+            className='task__text' 
+            children={ task?.content }
+          />
+
+          <div 
+            className='task__options' 
+            onClick={ e => {toggleOptions(e)} }
+            children={ <FontAwesomeIcon icon={ faEllipsisVertical }/> }
+          /> 
+
+          <div // will redo later to accommodate to other badges
+            className="task__badges" 
+            ref={ badgesRef } 
+            style={ badgesRef.current?.children.length > 0 ? { marginBottom: '8px' } : {} }
+            children={ task.due_date && <TaskDueDate task={ task }/> }
+          />
         </li>
       )
     }

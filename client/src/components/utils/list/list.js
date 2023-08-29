@@ -39,9 +39,15 @@ export function List({ elements, ListItem, onClick, styles = null, classes = "",
     return <>{ elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }</>
 
   return (
-    <ul className={ classes } id={ ids } ref={ listRef } onScroll={ handleScroll } onClick={ onClick } styles={ styles }>
-      { elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }
-    </ul>
+    <ul 
+      className={ classes } 
+      id={ ids } 
+      ref={ listRef } 
+      onScroll={ handleScroll } 
+      onClick={ onClick } 
+      styles={ styles }
+      children={ elements.map(element => { return <ListItem itemData={ element } key={ element.id ?? uuid() }/> }) }
+    />
   )
 }
 
@@ -79,7 +85,11 @@ export function DroppableList({ droppableId, direction, type, extraChildren = nu
   }
 
   return (
-    <Droppable droppableId={ droppableId } direction={ direction } type={ type }>
+    <Droppable 
+      droppableId={ droppableId } 
+      direction={ direction } 
+      type={ type }
+    >
     {
       (provided) =>
       (

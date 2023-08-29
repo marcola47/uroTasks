@@ -13,8 +13,8 @@ export default function Login()
   const { setUser } = useContext(UserContext);
   const { dispatch } = useContext(ReducerContext);
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   function login()
   {
@@ -62,23 +62,47 @@ export default function Login()
   return (
     <div className="login">
       <div className="login__form">
-        <img src="img/logo--written--dark.svg" className="login__logo" alt="" />
+        <img 
+          src="img/logo--written--dark.svg" 
+          className="login__logo" 
+          alt="" 
+        />
 
         <div className="login__inputs">
           <div className="login__input">
             <FontAwesomeIcon icon={ faEnvelope }/>
-            <input type="email" ref={ emailRef } name="email" id="email" placeholder="Email"/>
+            <input 
+              type="email" 
+              ref={ emailRef } 
+              name="email" 
+              id="email" 
+              placeholder="Email"
+            />
           </div>
 
           <div className="login__input">
             <FontAwesomeIcon icon={ faKey }/>
-            <input type="password" ref={ passwordRef } name="password" id="password" placeholder="password" />
+            <input 
+              type="password" 
+              ref={ passwordRef } 
+              name="password" 
+              id="password" 
+              placeholder="password" 
+            />
           </div>
 
-          <p className='login__navigate' onClick={ () => {navigate('/register')} }>Not registed yet? Click me</p>
+          <p 
+            className='login__navigate' 
+            onClick={ () => {navigate('/register')} }
+            children="Not registed yet? Click me"
+          />
         </div>
 
-        <button className="login__auth" onClick={ login }>LOGIN</button>
+        <button 
+          className="login__auth" 
+          onClick={ login }
+          children="LOGIN"
+        />
       </div>
 
       <div className="login__background">

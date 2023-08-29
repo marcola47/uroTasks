@@ -130,8 +130,13 @@ export default function MenuProjects()
 
   return (
     <div className='projects'>
-      <h2 className='projects__header' onClick={ toggleProjectList }>
-        <span>Projects</span><FontAwesomeIcon icon={ faChevronUp }/>
+      <h2 
+        className='projects__header' 
+        onClick={ toggleProjectList }
+      >
+        <span>Projects</span>
+        <FontAwesomeIcon icon={ faChevronUp }
+      />
       </h2>
       
       <ButtonGlow 
@@ -142,7 +147,7 @@ export default function MenuProjects()
       
       <DragDropContext onDragEnd={ onDragEnd }>
         <DroppableList
-          droppableId='user-project-list'
+          droppableId={`list--${user.id}:projects}`}
           direction='vertical'
           type="user-type-list"
           elements={ sortedProjects }

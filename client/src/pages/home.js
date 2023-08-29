@@ -30,9 +30,11 @@ export default function HomePage()
       <AnimateTransit children={ state.editor.params && <Editor/> }/>
       <AnimateTransit children={ state.taskListOptions.params && <TaskListOptions/> }/>
 
-      <div className='dashboard__burger' onClick={ () => {dispatch({ type: 'menuShown', payload: true })} }>
-        <FontAwesomeIcon icon={ faBars }/>
-      </div>
+      <div 
+        className='dashboard__burger' 
+        onClick={ () => {dispatch({ type: 'menuShown', payload: true })} }
+        children={ <FontAwesomeIcon icon={ faBars }/> }
+      />
     </>
   )
 }

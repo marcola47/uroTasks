@@ -20,8 +20,7 @@ tagsController.create = async (req, res) =>
       { 
         $set: { updated_at: Date.now() },
         $push: { tags: newTag }
-      },
-      { session }
+      }
     );
 
     await session.commitTransaction();
@@ -45,7 +44,7 @@ tagsController.create = async (req, res) =>
   }
 }
 
-tagsController.update = async (req, res) =>
+tagsController.updateContent = async (req, res) =>
 {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -57,8 +56,7 @@ tagsController.update = async (req, res) =>
     await Project.updateOne
     (
       { id: projectID, 'tags.id': tagID }, 
-      { $set: { 'tags.$.name': tagName, 'tags.$.color': tagColor, updated_at: Date.now() } },
-      { session }
+      { $set: { 'tags.$.name': tagName, 'tags.$.color': tagColor, updated_at: Date.now() } }
     );
 
     await session.commitTransaction();
@@ -82,6 +80,57 @@ tagsController.update = async (req, res) =>
   }
 }
 
+tagsController.updatePosition = async (req, res) =>
+{
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try
+  {
+    const { projectID, tagID, params } = req.body;
+    const tagList = (await Project.findOne({ id: projectID }).select('tags -_id')).tags;
+    const positions = { old: params.sourcePosition, new: params.destinationPosition };
+    
+    tagList.forEach(listTag => 
+    {
+      const isBetween =
+        listTag.position >= Math.min(positions.old, positions.new) && 
+        listTag.position <= Math.max(positions.old, positions.new)
+  
+      if (listTag.id === tagID) 
+        listTag.position = positions.new;
+      
+      else if (listTag.id !== tagID && isBetween)
+        listTag.position += positions.new > positions.old ? -1 : 1;
+    });
+
+    await Project.updateOne
+    (
+      { id: projectID }, 
+      { $set: { tags: tagList } }
+    );
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).send({ newAccessToken: req.newAccessToken });
+    console.log(`${new Date()}: successfully updated project tags`);
+  }
+
+  catch (error)
+  {
+    await session.abortTransaction();
+    await session.endSession();
+
+    console.log(error);
+    res.status(500).send(
+    {
+      header: "Failed to create project",
+      message: "Internal server error on creating project"
+    })
+  }
+}
+
 tagsController.delete = async (req, res) =>
 {
   const session = await mongoose.startSession();
@@ -101,8 +150,10 @@ tagsController.delete = async (req, res) =>
     await Project.updateOne
     (
       { id: projectID, 'tags.id': tagID },
-      { $pull: { tags: { id: tagID } }, $set: { updated_at: Date.now() } },
-      { session }
+      { 
+        $pull: { tags: { id: tagID } }, 
+        $set: { updated_at: Date.now() } 
+      }
     );
 
     await session.commitTransaction();

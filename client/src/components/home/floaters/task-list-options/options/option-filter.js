@@ -28,7 +28,10 @@ export default function OptionFilter()
   }
 
   return (
-    <div className="option" onClick={ toggleFilterMenu }>
+    <div 
+      className="option" 
+      onClick={ toggleFilterMenu }
+    >
       <FontAwesomeIcon icon={ faFilter } />
       <span>Filter by</span>
     </div>

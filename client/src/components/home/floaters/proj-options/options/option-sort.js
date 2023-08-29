@@ -93,72 +93,115 @@ export default function ProjSort()
 
   return (
     <div className="sort">
-      <h3 className="sort__header">SORT TASKS</h3>
+      <h3 
+        className="sort__header" 
+        children="SORT TASKS"
+      />
 
       <div className="sort__alpha">
-        <p className="sort__option__header">Alphabetically</p>
+        <p 
+          className="sort__option__header" 
+          children="Alphabetically"
+        />
         
-        <div className="sort__option" onClick={ () => {sortAllTasks('alpha_asc')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('alpha_asc')} }
+        >
           <FontAwesomeIcon icon={ faArrowDownAZ }/>
           <span>Sort alphabetically from A to Z</span>
         </div>
 
-        <div className="sort__option" onClick={ () => {sortAllTasks('alpha_desc')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('alpha_desc')} }
+        >
           <FontAwesomeIcon icon={ faArrowUpAZ }/>
           <span>Sort alphabetically from Z to A</span>
         </div>
       </div>
 
       <div className="sort__dates">
-        <p className="sort__option__header">Due Date</p>
+        <p 
+          className="sort__option__header" 
+          children="Due Date"
+        />
 
-        <div className="sort__option sort__option--danger" onClick={ () => {sortAllTasks('due_close')} }>
+        <div 
+          className="sort__option sort__option--danger" 
+          onClick={ () => {sortAllTasks('due_close')} }
+        >
           <FontAwesomeIcon icon={ faClock }/>
           <span>Sort by closest to due date</span>
         </div>
 
-        <div className="sort__option sort__option--safe" onClick={ () => {sortAllTasks('due_far')} }>
+        <div 
+          className="sort__option sort__option--safe" 
+          onClick={ () => {sortAllTasks('due_far')} }
+        >
           <FontAwesomeIcon icon={ faClock }/>
           <span>Sort by farthest to due date</span>
         </div>
       </div>
 
       <div className="sort__creation">
-        <p className="sort__option__header">Creation Date</p>
+        <p 
+          className="sort__option__header"
+          children="Creation Date"
+        />
 
-        <div className="sort__option" onClick={ () => {sortAllTasks('creation_close')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('creation_close')} }
+        >
           <div className="sort__option__icons">
             <FontAwesomeIcon icon={ faArrowUp }/>
             <FontAwesomeIcon icon={ faFile }/>
           </div>
+
           <span>Sort by creation date ascending</span>
         </div>
 
-        <div className="sort__option" onClick={ () => {sortAllTasks('creation_far')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('creation_far')} }
+        >
           <div className="sort__option__icons">
             <FontAwesomeIcon icon={ faArrowDown }/>
             <FontAwesomeIcon icon={ faFile }/>
           </div>
+
           <span>Sort by creation date descending</span>
         </div>
       </div>
 
       <div className="sort__update">
-        <p className="sort__option__header">Update Date</p>
+        <p 
+          className="sort__option__header"
+          children="Update Date"
+        />
 
-        <div className="sort__option" onClick={ () => {sortAllTasks('update_close')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('update_close')} }
+        >
           <div className="sort__option__icons">
             <FontAwesomeIcon icon={ faArrowUp }/>
             <FontAwesomeIcon icon={ faFilePen }/>
           </div>
+          
           <span>Sort by last update ascending</span>
         </div>
 
-        <div className="sort__option" onClick={ () => {sortAllTasks('update_far')} }>
+        <div 
+          className="sort__option" 
+          onClick={ () => {sortAllTasks('update_far')} }
+        >
           <div className="sort__option__icons">
             <FontAwesomeIcon icon={ faArrowDown }/>
             <FontAwesomeIcon icon={ faFilePen }/>
           </div>
+          
           <span>Sort by last update descending</span>
         </div>
       </div>

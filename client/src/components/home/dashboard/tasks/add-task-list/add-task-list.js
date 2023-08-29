@@ -12,7 +12,7 @@ export default function AddTaskList({ typesOrdered })
   const { dispatch } = useContext(ReducerContext);
 
   const [editing, setEditing] = useState(false);
-  const inputValueRef = useRef();
+  const inputValueRef = useRef(null);
 
   function handleTextChange() 
   {     
@@ -21,7 +21,7 @@ export default function AddTaskList({ typesOrdered })
     {
       id: uuid(),
       name: newTypeName,
-      position: typesOrdered.length + 1,
+      position: typesOrdered.length,
       created_at: Date.now(),
       updated_at: Date.now()
     }
@@ -86,7 +86,10 @@ export default function AddTaskList({ typesOrdered })
           autoFocus
         />
       
-      : <button onClick={ () => {setEditing(true)} }><FontAwesomeIcon icon={ faPlus }/><span> ADD TASK LIST</span></button>
+      : <button onClick={ () => {setEditing(true)} }>
+          <FontAwesomeIcon icon={ faPlus }/>
+          <span> ADD TASK LIST</span>
+        </button>
     }
     </div>
   )

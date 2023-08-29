@@ -9,8 +9,10 @@ export default function OptionFilter()
   const { dispatch } = useContext(ReducerContext);
 
   return (
-    <div className="taskbar__option taskbar__option--ellipsis" onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'start' })} }>
-      <FontAwesomeIcon icon={ faEllipsisVertical }/>
-    </div>
+    <div 
+      className="taskbar__option taskbar__option--ellipsis" 
+      onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'start' })} }
+      children={ <FontAwesomeIcon icon={ faEllipsisVertical }/> }
+    /> 
   )
 }

@@ -11,6 +11,7 @@
 
   color: $white-light;
   background-color: $bg-blue-light;
+  box-shadow: 0px 16px 16px hsl(0, 0%, 1%);
 
   @include transition;
 
@@ -52,7 +53,6 @@
 
     color: inherit;
     background-color: inherit;
-    box-shadow: 0px -5px 10px hsla(211, 18%, 15%, 0.35);
   
     font-family: inherit;
     font-size: inherit;
@@ -61,10 +61,11 @@
   &__badges
   {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 4px;
 
-    padding: 0px 0px 8px 8px;
+    padding-inline: 8px;
 
     font-weight: 500;
     font-size: 0.9rem;

@@ -21,7 +21,7 @@ export default function OptionCloneList()
     {
       id: uuid(),
       name: state.taskListOptions.data.name + ' copy',
-      position: activeProject.types.length + 1,
+      position: activeProject.types.length,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }
@@ -83,12 +83,24 @@ export default function OptionCloneList()
       } 
     })
 
-    dispatch({ type: 'confirmationShown', payload: true })
-    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
+    dispatch(
+    { 
+      type: 'confirmationShown', 
+      payload: true 
+    })
+    
+    dispatch(
+    { 
+      type: 'setTaskListOptions', 
+      payload: { params: null, data: null } 
+    })
   }
 
   return (
-    <div className="option" onClick={ showConfirmation }>
+    <div 
+      className="option" 
+      onClick={ showConfirmation }
+    >
       <FontAwesomeIcon icon={ faClone }/>
       <span>Clone list</span>
     </div>

@@ -11,9 +11,8 @@ export function TransitionOpacity({ id, children, onClick, className = "overlay_
       exit={{ opacity: 0 }}
       transition={{ duration: 0.1, ease: "easeInOut" }}
       onClick={ onClick }
-    >
-      { children }
-    </motion.div>
+      children={ children }
+    />
   );
 }
 
@@ -27,9 +26,8 @@ export function TransitionOpacityHorizontal({ id, children, onClick, className =
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, x: '400px' }}
       onClick={ onClick }
-    >
-      { children }
-    </motion.div>
+      children={ children }
+    />
   );
 }
 
@@ -40,8 +38,7 @@ export function AnimateTransit({ children })
       initial={ false } 
       mode='wait' 
       onExitComplete={ () => null }
-    >
-      { children }
-    </AnimatePresence>
+      children={ children }
+    />
   )
 }

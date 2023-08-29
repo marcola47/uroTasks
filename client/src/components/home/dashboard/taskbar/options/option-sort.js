@@ -9,8 +9,10 @@ export default function OptionSort()
   const { dispatch } = useContext(ReducerContext);
 
   return (
-    <div className="taskbar__option taskbar__option--sort" onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'sort' })} }>
-      <FontAwesomeIcon icon={ faArrowDownWideShort }/>
-    </div>
+    <div 
+      className="taskbar__option taskbar__option--sort" 
+      onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'sort' })} }
+      children={ <FontAwesomeIcon icon={ faArrowDownWideShort }/> }
+    /> 
   )
 }

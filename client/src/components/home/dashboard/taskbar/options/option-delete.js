@@ -22,8 +22,10 @@ export default function OptionDelete()
   }
 
   return (
-    <div className="taskbar__option taskbar__option--delete" onClick={ callDeleteProject }>
-      <FontAwesomeIcon icon={ faTrashCan }/>  
-    </div>
+    <div 
+      className="taskbar__option taskbar__option--delete" 
+      onClick={ callDeleteProject }
+      children={ <FontAwesomeIcon icon={ faTrashCan }/> }
+    />   
   )
 }

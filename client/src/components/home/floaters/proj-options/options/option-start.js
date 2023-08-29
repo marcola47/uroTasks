@@ -28,27 +28,42 @@ export default function ProjStart()
 
   return (
     <div className="start">
-      <div className="start__option" onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'filter' })} }>
+      <div 
+        className="start__option" 
+        onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'filter' })} }
+      >
         <FontAwesomeIcon icon={ faFilter }/>
         <span>FILTER</span>
       </div>
 
-      <div className="start__option" onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'sort' })} }>
+      <div 
+        className="start__option" 
+        onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'sort' })} }
+      >
         <FontAwesomeIcon icon={ faArrowDownWideShort }/>
         <span>SORT</span>
       </div>
 
-      <div className="start__option" onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'tags-display' })} }>
+      <div 
+        className="start__option" 
+        onClick={ () => {dispatch({ type: 'setProjOptions', payload: 'tags-display' })} }
+      >
         <FontAwesomeIcon icon={ faTag }/>
         <span>TAGS</span>
       </div>
       
-      <div className="start__option" onClick={ () => {callFunction('clone')} }>
+      <div 
+        className="start__option" 
+        onClick={ () => {callFunction('clone')} }
+      >
         <FontAwesomeIcon icon={ faClone }/>
         <span>CLONE PROJECT</span>
       </div>
 
-      <div className="start__option start__option--danger" onClick={ () => {callFunction('delete')} }>
+      <div 
+        className="start__option start__option--danger" 
+        onClick={ () => {callFunction('delete')} }
+      >
         <FontAwesomeIcon icon={ faTrash }/>
         <span>DELETE PROJECT</span>
       </div>

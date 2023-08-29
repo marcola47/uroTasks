@@ -58,12 +58,24 @@ export default function OptionDeleteTasks({ type })
       } 
     })
 
-    dispatch({ type: 'confirmationShown', payload: true })
-    dispatch({ type: 'setTaskListOptions', payload: { params: null, data: null } })
+    dispatch(
+    { 
+      type: 'confirmationShown', 
+      payload: true 
+    })
+
+    dispatch(
+    { 
+      type: 'setTaskListOptions', 
+      payload: { params: null, data: null } 
+    })
   }
 
   return (
-    <div className="option option--danger" onClick={ showConfirmation }>
+    <div 
+      className="option option--danger" 
+      onClick={ showConfirmation }
+    >
       <FontAwesomeIcon icon={ faTrash }/>
       <span>Delete all tasks</span>
     </div>

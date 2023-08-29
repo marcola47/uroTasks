@@ -48,11 +48,24 @@ export default function MenuUser()
 
   return (
     <div className='user'>
-      <a className='user__data' href='/'>
-        <img className='user__img' src='img/capybara.jpg' alt='user_pic'></img>
-        <div className='user__name'>{ user?.name }</div>
+      <a className='user__data'>
+        <img 
+          className='user__img' 
+          src='img/capybara.jpg' 
+          alt='user_pic'
+        />
+        
+        <div 
+          className='user__name'
+          children={ user?.name }
+        />
       </a>
-      <ButtonGlow onClick={ showConfirmation } icon={ faRightFromBracket } fontSize='1.8rem'/>
+
+      <ButtonGlow 
+        onClick={ showConfirmation } 
+        icon={ faRightFromBracket } 
+        fontSize='1.8rem'
+      />
     </div>
   )
 }

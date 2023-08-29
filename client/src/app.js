@@ -10,7 +10,6 @@ import NotFoundPage from 'pages/404'
 import HomePage from 'pages/home'
 import LoginPage from 'pages/login'
 import RegisterPage from 'pages/register'
-import SettingsPage from 'pages/settings'
 
 export const UserContext = React.createContext();
 export const ProjectsContext = React.createContext();
@@ -41,7 +40,7 @@ export default function App()
     menuShown: JSON.parse(localStorage.getItem("menuOpen")) ?? false,
     tagsNameShown: JSON.parse(localStorage.getItem("tagsNameShown")) ?? true,
     projCreatorShown: false,
-
+    
     notification: null,
     notificationShown: false,
 
@@ -218,7 +217,6 @@ export default function App()
                 <Route exact path='/' element={ <HomePage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>
                 <Route path='/register' element={ <RegisterPage/> }/>
-                <Route path='/settings' element={ <SettingsPage/> }/>
                 <Route path='*' element={ <NotFoundPage/> }/>
               </Routes>
           </ReducerContext.Provider>

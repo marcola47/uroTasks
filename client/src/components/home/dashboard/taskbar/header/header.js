@@ -53,15 +53,26 @@ export function HeaderColor()
 
   return (
     <>
-      <div className='taskbar__color' onClick={ toggleColorPicker } style={{ color: newColor }}>
+      <div 
+        className='taskbar__color' 
+        onClick={ toggleColorPicker } 
+        style={{ color: newColor }}
+      >
         <FontAwesomeIcon icon={ faSquare }/>
       </div>
       
       {
         pickerActive && 
         <div>
-          <div onClick={ toggleColorPicker } className='chrome-picker__bg'/>
-          <ChromePicker color={ newColor } onChange={ color => {setNewColor(color.hex)} }/>
+          <div 
+            onClick={ toggleColorPicker } 
+            className='chrome-picker__bg'
+          />
+
+          <ChromePicker 
+            color={ newColor } 
+            onChange={ color => {setNewColor(color.hex)} }
+          />
         </div>
       }
     </>
@@ -137,7 +148,10 @@ export function HeaderTitle()
           onKeyDown={ handleKeyDown }
         />
 
-      : <div style={{ width: '100%' }} onClick={ () => {setEditing(true)} }>{ inputValue }</div>
+      : <div 
+          style={{ width: '100%' }} 
+          children={ inputValue }
+        />
     }
     </div>
   );

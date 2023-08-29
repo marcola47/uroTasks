@@ -86,33 +86,69 @@ export default function Register()
   return (
     <div className="reg">
       <div className="reg__form">
-        <img src="img/logo--written--dark.svg" className="reg__logo" alt="" />
+        <img 
+          src="img/logo--written--dark.svg" 
+          className="reg__logo" 
+          alt="" 
+        />
 
         <div className="reg__inputs">
           <div className="reg__input reg__input--name">
             <FontAwesomeIcon icon={ faUser }/>
-            <input type="text" ref={ nameRef } name="name" id="name" placeholder="Name"/>
+            <input 
+              type="text" 
+              ref={ nameRef } 
+              name="name" 
+              id="name" 
+              placeholder="Name"
+            />
           </div>
 
           <div className="reg__input reg__input--email">
             <FontAwesomeIcon icon={ faEnvelope }/>
-            <input type="email" ref={ emailRef } name="email" id="email" placeholder="Email"/>
+            <input 
+              type="email" 
+              ref={ emailRef } 
+              name="email" 
+              id="email" 
+              placeholder="Email"
+            />
           </div>
 
           <div className="reg__input reg__input--password">
             <FontAwesomeIcon icon={ faKey }/>
-            <input type="password" ref={ passwordRef } name="password--confirm" id="password--confirm" placeholder="Password" />
+            <input 
+              type="password" 
+              ref={ passwordRef } 
+              name="password--confirm" 
+              id="password--confirm" 
+              placeholder="Password"
+            />
           </div>
 
           <div className="reg__input reg__input--password">
             <FontAwesomeIcon icon={ faKey }/>
-            <input type="password" ref={ passwordConfirmRef } name="password" id="password" placeholder="Confirm your password" />
+            <input
+              type="password" 
+              ref={ passwordConfirmRef } 
+              name="password" 
+              id="password" 
+              placeholder="Confirm your password"
+            />
           </div>
 
-          <p className='reg__navigate' onClick={ () => {navigate('/login')} }>Have an account already? Click me</p> 
+          <p 
+            className='reg__navigate' 
+            onClick={ () => {navigate('/login')} }
+            children="Already have an account? Click me"
+          />
         </div>
 
-        <button className="reg__auth" onClick={ register }>REGISTER</button>
+        <button 
+          className="reg__auth" 
+          onClick={ register }
+          children="REGISTER"
+        />
       </div>
 
       <div className="reg__background">

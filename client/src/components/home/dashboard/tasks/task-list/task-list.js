@@ -61,9 +61,12 @@ function TaskList({ itemData: type })
         >
           <TaskListHeader type={ type }/>
 
-          <div className='options' onClick={ toggleOptions } ref={ optionsRef }>
-            <FontAwesomeIcon icon={ faEllipsis }/>
-          </div>
+          <div 
+            className='options' 
+            onClick={ toggleOptions } 
+            ref={ optionsRef }
+            children={ <FontAwesomeIcon icon={ faEllipsis }/> }
+          />
 
           <DroppableList
             droppableId={ type.id }

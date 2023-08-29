@@ -8,7 +8,7 @@ export default function EditorText({ task })
   const { dispatch } = useContext(ReducerContext);
   
   const [inputValue, setInputValue] = useState(task.content);
-  const taskTextRef = useRef();
+  const taskTextRef = useRef(null);
 
   function handleContentChange(newContent)
   {

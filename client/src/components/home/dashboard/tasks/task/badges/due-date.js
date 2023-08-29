@@ -37,18 +37,23 @@ export default function TaskDueDate({ task })
   switch (true) 
   {
     case task.completed === true: 
-      className = 'completed'; break;
+      className = 'completed'; 
+      break;
     
     case dateDiff < 0: 
-      className = 'overdue'; break;
+      className = 'overdue'; 
+      break;
     
     case dateDiff === 0: 
-      className = 'today'; break;
+      className = 'today'; 
+      break;
     
     case dateDiff === 1: 
-      className = 'tomorrow'; break;
+      className = 'tomorrow'; 
+      break;
   
-    default: className = 'far';
+    default: 
+      className = 'far';
   }
 
   function toggleCompleteTask()
@@ -94,7 +99,7 @@ export default function TaskDueDate({ task })
 
   return (
     <div 
-      className={`task__due-date task__due-date--${className}`} 
+      className={`task__badge task__due-date task__due-date--${className}`} 
       onClick={ toggleCompleteTask }
       onMouseEnter={ () => {setIsHovered(true)} }
       onMouseLeave={ () => {setIsHovered(false)} }

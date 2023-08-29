@@ -19,7 +19,13 @@ export default function EditorTags({ task })
       color: getTextColor(tag.color)
     };
 
-    return <li className='editor__tag' style={ style }>{ tag.name }</li>
+    return (
+      <li 
+        className='editor__tag' 
+        style={ style }
+        children={ tag.name }
+      />
+    )
   }
 
   if (filteredTags.length < 1)

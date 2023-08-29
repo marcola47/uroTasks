@@ -35,7 +35,7 @@ function Tasks()
   return (
     <DragDropContext onDragEnd={ onDragEnd }>
       <DroppableList
-        droppableId="tasks"
+        droppableId={`list--tasks:${ activeProject.id }`}
         direction="horizontal"
         type="type-list"
         ListItem={ TaskList }
