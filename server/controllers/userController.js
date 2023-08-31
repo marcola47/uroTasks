@@ -9,10 +9,23 @@ const userController = {};
 
 userController.token = async (req, res) =>
 {
-  const user = await User.findOne({ id: req.body.userID });
+  try
+  {
+    const user = await User.findOne({ id: req.body.userID });
 
-  user.password = null;
-  res.status(200).json({ auth: true, accessToken: req.body.accessToken, result: user });
+    user.password = null;
+    res.status(200).json({ auth: true, accessToken: req.body.accessToken, result: user });
+  }
+
+  catch (error)
+  {
+    console.error(error);
+    res.status(500).json(
+    { 
+      header: "Failed to get user",
+      message: "Internal server error on getting user" 
+    });
+  }
 };
 
 userController.login = async (req, res) => 

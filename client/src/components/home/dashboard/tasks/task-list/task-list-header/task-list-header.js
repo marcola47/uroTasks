@@ -34,7 +34,7 @@ export default function TaskListHeader({ type })
     });
 
     setProjects(projectsCopy)
-    axios.post('/a/list/update/name', 
+    axios.patch('/a/list/update/name', 
     { 
       projectID: activeProject.id, 
       typeID: type.id, 

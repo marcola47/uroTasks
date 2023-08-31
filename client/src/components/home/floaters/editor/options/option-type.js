@@ -64,7 +64,7 @@ export default function OptionType({ task })
     })
 
     setProjects(projectsCopy);
-    axios.post('/a/task/update/type', 
+    axios.patch('/a/task/update/type', 
     {
       projectID: activeProject.id, 
       taskID: task.id, 

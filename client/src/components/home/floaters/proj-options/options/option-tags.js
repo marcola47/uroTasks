@@ -274,11 +274,7 @@ export function ProjTagsEditor()
     dispatch({ type: 'setProjTagsEditor', payload: null })
 
     setProjects(projectsCopy);
-    axios.post('/a/tag/delete',
-    {
-      projectID: activeProject.id,
-      tagID: state.projTagsEditor.id
-    })
+    axios.delete(`/a/tag/delete/${activeProject.id}/${state.projTagsEditor.id}`)
     .catch(err => 
     {
       setResponseError(err, dispatch);

@@ -238,7 +238,7 @@ listController.deleteList = async (req, res) =>
 
   try 
   {
-    const { projectID, typeID } = req.body;
+    const { projectID, typeID } = req.params;
     const taskIDs = (await Task.find({ type: typeID, project: projectID })).map(task => task.id);
     const typeList = (await Project.findOne({ id: projectID }).lean().select('types -_id')).types
     const type = typeList.find(listType => listType.id === typeID); 
@@ -282,7 +282,7 @@ listController.deleteTasks = async (req, res) =>
 
   try 
   {
-    const { projectID, typeID } = req.body;
+    const { projectID, typeID } = req.params;
     const taskIDs = (await Task.find({ type: typeID, project: projectID })).map(task => task.id);
 
     await Task.deleteMany({ id: { $in: taskIDs } });
