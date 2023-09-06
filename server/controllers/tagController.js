@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 
-const tagsController = {};
+const tagController = {};
 
 tagsController.create = async (req, res) =>
 {
@@ -177,4 +177,4 @@ tagsController.delete = async (req, res) =>
   }
 }
 
-export default tagsController;
+export default tagController;

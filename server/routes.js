@@ -4,7 +4,7 @@ import verifyToken from './middleware/verifyToken.js';
 
 import projectController from './controllers/projectController.js';
 import listController from './controllers/listController.js';
-import tagsController from './controllers/tagsController.js'
+import tagController from './controllers/tagController.js'
 import taskController from './controllers/taskController.js';
 import userController from './controllers/userController.js';
 
@@ -33,10 +33,10 @@ authRouter.post('/list/update/position', listController.updatePosition);
 authRouter.post('/list/delete/list', listController.deleteList);
 authRouter.post('/list/delete/tasks', listController.deleteTasks);
 
-authRouter.post('/tag/create', tagsController.create);
-authRouter.post('/tag/update/content', tagsController.updateContent);
-authRouter.post('/tag/update/position', tagsController.updatePosition);
-authRouter.post('/tag/delete', tagsController.delete);
+authRouter.post('/tag/create', tagController.create);
+authRouter.post('/tag/update/content', tagController.updateContent);
+authRouter.post('/tag/update/position', tagController.updatePosition);
+authRouter.post('/tag/delete', tagController.delete);
 
 authRouter.post('/task/get', taskController.get);
 authRouter.post('/task/create', taskController.create);
