@@ -43,12 +43,7 @@ export default function showConfirmation(projectsContext, userContext, reducerCo
 
     setProjects(projectsCopy);
     setUser(prevUser => ({ ...prevUser, activeProject: "0", projects: userProjectsCopy }));
-    axios.post(`/a/project/delete`, 
-    { 
-      userID: user.id, 
-      projectID: activeProject.id,
-      projectPosition: activeProject.position
-    })
+    axios.delete(`/a/project/delete/${user.id}/${activeProject.id}/${activeProject.position}`)
     .then(() => setResponseConfirmation("Succesfully deleted project", "", dispatch))
     .catch(err => 
     {

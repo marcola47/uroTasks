@@ -27,11 +27,7 @@ export default function OptionDeleteTasks({ type })
     });
 
     setProjects(projectsCopy);
-    axios.post('/a/list/delete/tasks', 
-    {
-      projectID: activeProject.id,
-      typeID: type.id
-    })
+    axios.delete(`/a/list/delete/tasks/${activeProject.id}/${type.id}`)
     .then(() => setResponseConfirmation("Successfully deleted tasks", "", dispatch))
     .catch(err => 
     {

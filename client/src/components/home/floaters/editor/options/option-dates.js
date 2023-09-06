@@ -65,7 +65,7 @@ export default function OptionDates({ task })
 
     toggleSubMenus();
     setProjects(projectsCopy);
-    axios.post('/a/task/update/dates', 
+    axios.patch('/a/task/update/dates', 
     {
       taskID: task.id,
       startDate: datesEnabled.start ? startDate : null,

@@ -138,7 +138,7 @@ tagsController.delete = async (req, res) =>
 
   try
   {
-    const { projectID, tagID } = req.body;
+    const { projectID, tagID } = req.params;
     
     await Task.updateMany
     (

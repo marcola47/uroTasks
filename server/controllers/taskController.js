@@ -34,13 +34,13 @@ taskController.create = async (req, res) =>
 
   try 
   {
-    const data = req.body;
-    const newTask = new Task(data.newTask);
+    const { projectID, newTaks } = req.body;
+    const newTask = new Task(newTask);
 
     await Task.create(newTask);
     await Project.updateOne
     (
-      { id: data.projectID }, 
+      { id: projectID }, 
       { 
         $push: { tasks: newTask.id }, 
         $set: { updated_at: Date.now() } 
@@ -51,7 +51,7 @@ taskController.create = async (req, res) =>
     await session.endSession();
 
     res.status(201).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully inserted task to project |${data.projectID}|`)
+    console.log(`${new Date()}: successfully inserted task to project |${projectID}|`)
   }
 
   catch (error)
@@ -75,12 +75,12 @@ taskController.order = async (req, res) =>
 
   try
   {
-    const data = req.body;
+    const { projectID, typeID, method } = req.body;
     const bulkOps = [];
   
-    const query = data.typeID === 'all'
-      ? { project: data.projectID }
-      : { project: data.projectID, type: data.typeID }
+    const query = typeID === 'all'
+      ? { project: projectID }
+      : { project: projectID, type: data.typeID }
 
 
     const sortMethods = 
@@ -97,7 +97,7 @@ taskController.order = async (req, res) =>
     
     const taskList = await Task
       .find(query).sort('type')
-      .sort(sortMethods[data.method] || sortMethods['alpha_asc'])
+      .sort(sortMethods[method] || sortMethods['alpha_asc'])
     
     let curPosition = 1;
     let curType = taskList[0].type;
@@ -129,7 +129,7 @@ taskController.order = async (req, res) =>
     await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully ordered task list |${data.typeID}|`);
+    console.log(`${new Date()}: successfully ordered task list |${typeID}|`);
   }
 
   catch (error)
@@ -153,17 +153,17 @@ taskController.updateContent = async (req, res) =>
 
   try
   {
-    const data = req.body;
+    const { projectID, taskID, newContent } = req.body;
   
     await Task.updateOne
     (
-      { id: data.taskID }, 
-      { $set: { content: data.newContent, updated_at: Date.now() } }
+      { id: taskID }, 
+      { $set: { content: newContent, updated_at: Date.now() } }
     );
   
     await Project.updateOne
     (
-      { id: data.projectID },
+      { id: projectID },
       { $set: { updated_at: Date.now() } }
     )
     
@@ -171,7 +171,7 @@ taskController.updateContent = async (req, res) =>
     await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully updated task |${data.taskID}|`);
+    console.log(`${new Date()}: successfully updated task |${taskID}|`);
   }
 
   catch (error)
@@ -195,15 +195,15 @@ taskController.updateType = async (req, res) =>
 
   try
   {
-    const data = req.body;
-    const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
+    const { projectID, taskID, types, positions } = req.body;
+    const project = await Project.findOne({ id: projectID }).lean().select('tasks -_id');
     const taskList = await Task.find({ id: { $in: project.tasks } });
   
     const bulkOps = [];
   
     taskList.forEach(task => 
     {
-      if (task.type === data.types.old && task.position > data.positions.old)
+      if (task.type === types.old && task.position > positions.old)
       {
         bulkOps.push(
         {
@@ -215,14 +215,14 @@ taskController.updateType = async (req, res) =>
         })
       }
   
-      else if (task.id === data.taskID)
+      else if (task.id === taskID)
       {
         bulkOps.push(
         {
           updateOne:
           {
             filter: { id: task.id },
-            update: { $set: { type: data.types.new, position: data.positions.new, updated_at: Date.now() } }
+            update: { $set: { type: types.new, position: positions.new, updated_at: Date.now() } }
           }
         })
       }
@@ -233,7 +233,7 @@ taskController.updateType = async (req, res) =>
   
     await Project.updateOne
     (
-      { id: data.projectID },
+      { id: projectID },
       { $set: { updated_at: Date.now() } }
     )
   
@@ -241,7 +241,7 @@ taskController.updateType = async (req, res) =>
     await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully moved task to |${data.types.new}|`);
+    console.log(`${new Date()}: successfully moved task to |${types.new}|`);
   }
 
   catch (error)
@@ -343,15 +343,15 @@ taskController.updateTags = async (req, res) =>
 
   try
   {
-    const data = req.body;
+    const { projectID, taskID, tagID } = req.body;
   
     if (req.query.method === 'push')
     {
       await Task.updateOne
       (
-        { id: data.taskID },
+        { id: taskID },
         { 
-          $push: { tags: data.tagID }, 
+          $push: { tags: tagID }, 
           $set: { updated_at: Date.now() } 
         }
       )
@@ -361,9 +361,9 @@ taskController.updateTags = async (req, res) =>
     {
       await Task.updateOne
       (
-        { id: data.taskID },
+        { id: taskID },
         { 
-          $pull: { tags: data.tagID }, 
+          $pull: { tags: tagID }, 
           $set: { updated_at: Date.now() } 
         }
       )
@@ -374,7 +374,7 @@ taskController.updateTags = async (req, res) =>
   
     await Project.updateOne
     (
-      { id: data.projectID },
+      { id: projectID },
       { $set: { updated_at: Date.now() } }
     )
   
@@ -406,14 +406,11 @@ taskController.updateDates = async (req, res) =>
 
   try
   {
-    const data = req.body;
-  
-    const startDate = data.startDate ? new Date(data.startDate) : null;
-    const dueDate = data.dueDate ? new Date(data.dueDate) : null;
+    const { taskID, startDate, dueDate } = req.body;
   
     await Task.updateOne
     (
-      { id: data.taskID },
+      { id: taskID },
       { $set: { start_date: startDate, due_date: dueDate } }
     )
   
@@ -445,12 +442,12 @@ taskController.updateStatus = async (req, res) =>
 
   try
   {
-    const data = req.body;
+    const { taskID, completed } = req.body;
   
     await Task.updateOne
     (
-      { id: data.taskID },
-      { $set: { completed: data.completed } }
+      { id: taskID },
+      { $set: { completed: completed } }
     )
   
     await session.commitTransaction();
@@ -482,16 +479,16 @@ taskController.delete = async (req, res) =>
   try
   {
 
-    const data = req.body;
-    const project = await Project.findOne({ id: data.projectID }).lean().select('tasks -_id');
-    project.tasks.splice(project.tasks.findIndex(task => task === data.taskID), 1);
+    const { projectID, taskID, type, position } = req.params;
+    const project = await Project.findOne({ id: projectID }).lean().select('tasks -_id');
+    project.tasks.splice(project.tasks.findIndex(task => task === taskID), 1);
     
     const taskList = await Task.find({ id: { $in: project.tasks } });
     const bulkOps = [];
 
     taskList.forEach(task =>
     {
-      if (task.type === data.taskType && task.position > data.position) 
+      if (task.type === type && task.position > position) 
       {
         bulkOps.push(
         {
@@ -503,7 +500,7 @@ taskController.delete = async (req, res) =>
         })
       }
 
-      else if (task.id === data.taskID)
+      else if (task.id === taskID)
         bulkOps.push({ deleteOne: { filter: { id: task.id } } })
     })
 
@@ -512,9 +509,9 @@ taskController.delete = async (req, res) =>
 
     await Project.updateOne
     (
-      { id: data.projectID }, 
+      { id: projectID }, 
       { 
-        $pull: { tasks: data.taskID }, 
+        $pull: { tasks: taskID }, 
         $set: { updated_at: Date.now() } 
       }
     );
@@ -523,7 +520,7 @@ taskController.delete = async (req, res) =>
     await session.endSession();
 
     res.status(200).send({ newAccessToken: req.newAccessToken });
-    console.log(`${new Date()}: successfully deleted task |${data.taskID}|`);
+    console.log(`${new Date()}: successfully deleted task |${taskID}|`);
   }
 
   catch (error)

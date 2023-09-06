@@ -43,7 +43,7 @@ export default function EditorText({ task })
     if (isNewContent)
     {
       setProjects(projectsCopy)
-      axios.post('/a/task/update/content', 
+      axios.patch('/a/task/update/content', 
       {
         projectID: activeProject.id,
         taskID: task.id, 

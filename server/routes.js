@@ -16,38 +16,38 @@ authRouter.use(verifyToken);
 guestRouter.post('/user/create', userController.create);
 guestRouter.post('/user/login', userController.login);
 guestRouter.post('/user/logout', userController.logout);
-authRouter.post('/user/update/activeProject', userController.updateActiveProject);
+authRouter.patch('/user/update/activeProject', userController.updateActiveProject);
 authRouter.post('/user/token', userController.token);
 
 authRouter.post('/project/get', projectController.get);
 authRouter.post('/project/create', projectController.create);
-authRouter.post('/project/update/name', projectController.updateName);
-authRouter.post('/project/update/color', projectController.updateColor);
-authRouter.post('/project/update/position', projectController.updatePosition);
-authRouter.post('/project/delete', projectController.delete);
+authRouter.patch('/project/update/name', projectController.updateName);
+authRouter.patch('/project/update/color', projectController.updateColor);
+authRouter.patch('/project/update/position', projectController.updatePosition);
+authRouter.delete('/project/delete/:userID/:projectID/:position', projectController.delete);
 
 authRouter.post('/list/create', listController.create);
 authRouter.post('/list/clone', listController.create);
-authRouter.post('/list/update/name', listController.updateName);
-authRouter.post('/list/update/position', listController.updatePosition);
-authRouter.post('/list/delete/list', listController.deleteList);
-authRouter.post('/list/delete/tasks', listController.deleteTasks);
+authRouter.patch('/list/update/name', listController.updateName);
+authRouter.patch('/list/update/position', listController.updatePosition);
+authRouter.delete('/list/delete/list/:projectID/:typeID', listController.deleteList);
+authRouter.delete('/list/delete/tasks/:projectID/:typeID', listController.deleteTasks);
 
 authRouter.post('/tag/create', tagController.create);
 authRouter.post('/tag/update/content', tagController.updateContent);
 authRouter.post('/tag/update/position', tagController.updatePosition);
-authRouter.post('/tag/delete', tagController.delete);
+authRouter.delete('/tag/delete/:projectID/:tagID', tagController.delete);
 
 authRouter.post('/task/get', taskController.get);
 authRouter.post('/task/create', taskController.create);
 authRouter.post('/task/order', taskController.order);
-authRouter.post('/task/update/content', taskController.updateContent);
-authRouter.post('/task/update/type', taskController.updateType);
-authRouter.post('/task/update/position', taskController.updatePosition);
-authRouter.post('/task/update/tags', taskController.updateTags);
-authRouter.post('/task/update/dates', taskController.updateDates);
-authRouter.post('/task/update/status', taskController.updateStatus);
-authRouter.post('/task/delete', taskController.delete);
+authRouter.patch('/task/update/content', taskController.updateContent);
+authRouter.patch('/task/update/type', taskController.updateType);
+authRouter.patch('/task/update/position', taskController.updatePosition);
+authRouter.patch('/task/update/tags', taskController.updateTags);
+authRouter.patch('/task/update/dates', taskController.updateDates);
+authRouter.patch('/task/update/status', taskController.updateStatus);
+authRouter.delete('/task/delete/:projectID/:taskID/:type/:position', taskController.delete);
 
 router.use('/a', authRouter);
 router.use('/g', guestRouter);
