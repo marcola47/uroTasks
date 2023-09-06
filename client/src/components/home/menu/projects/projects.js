@@ -21,7 +21,7 @@ function MenuProject({ itemData: project })
       if (window.innerWidth < 1337 && state.menuShown === true)
         dispatch({ type: 'menuShown', payload: false });
   
-      axios.post('/a/user/update/activeProject', 
+      axios.patch('/a/user/update/activeProject', 
       {
         userID: user.id, 
         projectID: project.id
@@ -110,7 +110,7 @@ export default function MenuProjects()
   
     setUser(prevUser => ({ ...prevUser, projects: userProjectsCopy }));
     setProjects(projectsCopy)
-    axios.post('/a/project/update/position', 
+    axios.patch('/a/project/update/position', 
     {
       projectID: project.id,
       userID: user.id,
