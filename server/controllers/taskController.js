@@ -34,15 +34,15 @@ taskController.create = async (req, res) =>
 
   try 
   {
-    const { projectID, newTaks } = req.body;
-    const newTask = new Task(newTask);
+    const { projectID, newTask } = req.body;
+    const task = new Task(newTask);
 
-    await Task.create(newTask);
+    await Task.create(task);
     await Project.updateOne
     (
       { id: projectID }, 
       { 
-        $push: { tasks: newTask.id }, 
+        $push: { tasks: task.id }, 
         $set: { updated_at: Date.now() } 
       }
     );
