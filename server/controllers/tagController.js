@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 
-const tagsController = {};
+const tagController = {};
 
-tagsController.create = async (req, res) =>
+tagController.create = async (req, res) =>
 {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -44,7 +44,7 @@ tagsController.create = async (req, res) =>
   }
 }
 
-tagsController.updateContent = async (req, res) =>
+tagController.updateContent = async (req, res) =>
 {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -80,7 +80,7 @@ tagsController.updateContent = async (req, res) =>
   }
 }
 
-tagsController.updatePosition = async (req, res) =>
+tagController.updatePosition = async (req, res) =>
 {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -131,14 +131,14 @@ tagsController.updatePosition = async (req, res) =>
   }
 }
 
-tagsController.delete = async (req, res) =>
+tagController.delete = async (req, res) =>
 {
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try
   {
-    const { projectID, tagID } = req.body;
+    const { projectID, tagID } = req.params;
     
     await Task.updateMany
     (
@@ -177,4 +177,4 @@ tagsController.delete = async (req, res) =>
   }
 }
 
-export default tagsController;
+export default tagController;

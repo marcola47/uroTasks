@@ -205,14 +205,14 @@ projectController.delete = async (req, res) =>
 
   try 
   {
-    const { userID, projectID, projectPosition } = req.body;
+    const { userID, projectID, position } = req.params;
     const taskIDs = (await Project.findOne({ id: projectID }).lean().select('tasks -_id')).tasks;
     const userProjects = (await User.findOne({ id: userID }).lean().select('projects -_id')).projects;
     
     const filteredUserProjects = userProjects.filter(project => project.id !== projectID);
     filteredUserProjects.map(project => 
     {
-      if (project.position > projectPosition)
+      if (project.position > position)
         project.position--;
 
       return project;

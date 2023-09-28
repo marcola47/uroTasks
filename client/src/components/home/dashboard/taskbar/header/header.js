@@ -39,7 +39,7 @@ export function HeaderColor()
     });
 
     setProjects(projectsCopy)
-    axios.post('/a/project/update/color', 
+    axios.patch('/a/project/update/color', 
     { 
       projectID: activeProject.id, 
       newColor: newColor 
@@ -110,7 +110,7 @@ export function HeaderTitle()
     });
 
     setProjects(projectsCopy)
-    axios.post('/a/project/update/name', 
+    axios.patch('/a/project/update/name', 
     { 
       projectID: activeProject.id, 
       newName: newName 
@@ -149,7 +149,8 @@ export function HeaderTitle()
         />
 
       : <div 
-          style={{ width: '100%' }} 
+          style={{ width: '100%' }}
+          onClick={ () => setEditing(true) } 
           children={ inputValue }
         />
     }

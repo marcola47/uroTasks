@@ -33,7 +33,7 @@ export default function repositionLists(projectsContext, opContext)
   })
 
   setProjects(projectsCopy);
-  axios.post('/a/list/update/position', 
+  axios.patch('/a/list/update/position', 
   {
     typeID: type.id,
     params: 

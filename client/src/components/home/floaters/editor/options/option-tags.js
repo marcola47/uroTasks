@@ -60,7 +60,7 @@ export default function OptionTags({ task })
 
     task.tags = tagsList;
     setProjects(projectsCopy)
-    axios.post(`/a/task/update/tags?method=${method}`,
+    axios.patch(`/a/task/update/tags?method=${method}`,
     {
       projectID: activeProject.id,
       taskID: task.id,

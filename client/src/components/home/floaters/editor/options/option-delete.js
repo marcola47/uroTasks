@@ -39,13 +39,7 @@ export default function OptionDelete({ task })
     })
 
     setProjects(projectsCopy);
-    axios.post('/a/task/delete', 
-    { 
-      projectID: activeProject.id, 
-      taskID: task.id, 
-      taskType: task.type, 
-      position: task.position
-    })
+    axios.delete(`/a/task/delete/${activeProject.id}/${task.id}/${task.type}/${task.position}`)
     .catch(err =>
     {
       setResponseError(err, dispatch);

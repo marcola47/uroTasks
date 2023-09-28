@@ -48,7 +48,7 @@ export default function MenuUser()
 
   return (
     <div className='user'>
-      <a className='user__data'>
+      <button className='user__data'>
         <img 
           className='user__img' 
           src='img/capybara.jpg' 
@@ -59,7 +59,7 @@ export default function MenuUser()
           className='user__name'
           children={ user?.name }
         />
-      </a>
+      </button>
 
       <ButtonGlow 
         onClick={ showConfirmation } 
